@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { View, StatusBar, Text } from 'react-native';
+import { View, StatusBar } from 'react-native';
 // Components
-// import {SAFEAREASTYLE, LOADERSTYLE} from './constants/theme';
-// import Loader from './components/Loader';
-// import AppStack from './AppStack';
-// import BarChart from './components/BarChart';
+import { SAFEAREASTYLE, LOADERSTYLE } from './constants/theme';
+import Loader from './components/Loader';
+import AppStack from './AppStack';
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -13,13 +12,9 @@ export default function App() {
   }, []);
 
   return (
-    <View>
+    <View style={loading ? LOADERSTYLE : SAFEAREASTYLE}>
       <StatusBar animated={true} barStyle="light-content" />
-      {/* <AppStack /> */}
-      {/* <BarChart /> */}
-      <Text>Hello</Text>
+      {loading ? <Loader /> : <AppStack />}
     </View>
   );
 }
-
-// {loading ? <Loader /> : <AppStack />}
