@@ -105,6 +105,9 @@ export default function Settings({ navigation }) {
   function handleLogOutButtonPress() {
     alert('User has been logged out!');
   }
+  function handleBackButtonPress() {
+    alert('Back Button Press handled!');
+  }
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
       <View style={POSITIONING.align}>
@@ -113,7 +116,7 @@ export default function Settings({ navigation }) {
             flexDirection: 'row',
             alignItems: 'center',
           }}>
-          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+          <TouchableOpacity onPress={handleBackButtonPress}>
             <Image
               source={blueChevronLeft}
               style={{

@@ -423,6 +423,8 @@ PODS:
     - React-jsi (= 0.66.3)
     - React-logger (= 0.66.3)
     - React-perflogger (= 0.66.3)
+  - ReactNativeART (1.2.0):
+    - React
   - RNAppleAuthentication (2.1.5):
     - React-Core
   - RNCAsyncStorage (1.12.1):
@@ -544,6 +546,7 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - "ReactNativeART (from `../node_modules/@react-native-community/art`)"
   - "RNAppleAuthentication (from `../node_modules/@invertase/react-native-apple-authentication`)"
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
@@ -658,6 +661,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/runtimeexecutor"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  ReactNativeART:
+    :path: "../node_modules/@react-native-community/art"
   RNAppleAuthentication:
     :path: "../node_modules/@invertase/react-native-apple-authentication"
   RNCAsyncStorage:
@@ -749,6 +754,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: 50cfe7049167cfc7e83ac5542c6fff0c76791a9b
   React-runtimeexecutor: bbbdb3d8fcf327c6e2249ee71b6ef1764b7dc266
   ReactCommon: 9bac022ab71596f2b0fde1268272543184c63971
+  ReactNativeART: 78edc68dd4a1e675338cd0cd113319cf3a65f2ab
   RNAppleAuthentication: 63c2127ace11985b94f852fc480eb84145653712
   RNCAsyncStorage: b03032fdbdb725bea0bd9e5ec5a7272865ae7398
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489

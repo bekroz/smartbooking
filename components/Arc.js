@@ -1,9 +1,12 @@
 import React from 'react';
 import { View } from 'react-native';
 import { MultiArcCircle } from 'react-native-circles';
-
+import { VictoryBar } from 'victory-native';
+import Pie from 'react-native-pie';
+import { COLORS } from '../constants/theme';
 export default class CircleExample extends React.Component {
   render() {
+    const data = { firstSource: 10, secondSource: 10 };
     return (
       <View
         style={{
@@ -11,14 +14,40 @@ export default class CircleExample extends React.Component {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <MultiArcCircle
-          radius={90}
-          intervals={[
-            { start: 0, end: 140 },
-            { start: 220, end: 360 },
+        <Pie
+          radius={60}
+          innerRadius={45}
+          sections={[
+            {
+              percentage: 60,
+              color: COLORS.blue,
+            },
+            {
+              percentage: 20,
+              color: COLORS.orange,
+            },
+            {
+              percentage: 5,
+              color: COLORS.yellow,
+            },
+            {
+              percentage: 5,
+              color: COLORS.greenCircle,
+            },
+            {
+              percentage: 5,
+              color: COLORS.pinkCircle,
+            },
+            {
+              percentage: 10,
+              color: COLORS.coral,
+            },
+            {
+              percentage: 10,
+              color: COLORS.grayCirclePart,
+            },
           ]}
-          color="#0ECC38"
-          width={10}
+          strokeCap={'butt'}
         />
       </View>
     );

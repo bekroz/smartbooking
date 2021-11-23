@@ -11,6 +11,7 @@ import { Card } from 'react-native-elements/dist/card/Card';
 import { Divider } from 'react-native-elements/dist/divider/Divider';
 import styled from 'styled-components/native';
 import { COLORS, SIZES } from '../../constants/theme';
+import Donut from '../Donut';
 
 export default function Details() {
   const currency = 'UZS';
@@ -37,7 +38,7 @@ export default function Details() {
               borderColor: '#5F85DB',
               minWidth: 55,
               height: 35,
-              marginRight: 5,
+              marginRight: 10,
             },
           ]}>
           <WhiteText style={[styles.topBarText, { fontSize: 13 }]}>
@@ -89,20 +90,13 @@ export default function Details() {
           </View>
           <View style={{ flexDirection: 'row' }}>
             {/* LEFT Donut View */}
-            <View
-              style={{
-                backgroundColor: 'green',
-                width: 180,
-                marginRight: 10,
-                height: 140,
-              }}>
-              <Text>Donut View</Text>
+            <View style={styles.donutBlock}>
+              <Donut />
             </View>
             {/* Color and Title */}
             <View>
               {/* TEXT COLOR */}
               {/* TEXT */}
-
               <View style={styles.dotBlock}>
                 <View
                   style={[
@@ -163,7 +157,7 @@ export default function Details() {
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
-              marginBottom: 10,
+              marginBottom: 15,
             }}>
             <View>
               <WhiteText
@@ -183,17 +177,13 @@ export default function Details() {
           </View>
           <View style={{ flexDirection: 'row' }}>
             {/* LEFT Donut View */}
-            <View
-              style={{
-                backgroundColor: 'green',
-                width: 180,
-                marginRight: 10,
-                height: 140,
-              }}>
-              <Text>Donut View</Text>
+            <View style={styles.donutBlock}>
+              <Donut />
             </View>
             {/* Color and Title */}
             <View>
+              {/* TEXT COLOR */}
+              {/* TEXT */}
               <View style={styles.dotBlock}>
                 <View
                   style={[
@@ -451,7 +441,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.grayPlaceholder,
     borderColor: COLORS.grayPlaceholder,
     borderRadius: 6,
-    height: 200,
+    height: 210,
   },
   chosenCardStyle: {
     borderColor: COLORS.blue,
@@ -487,6 +477,13 @@ const styles = StyleSheet.create({
   },
   thirdCardDotMargin: {
     marginBottom: 10,
+  },
+  donutBlock: {
+    width: 140,
+    marginRight: 50,
+    height: 120,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

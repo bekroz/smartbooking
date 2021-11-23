@@ -76,7 +76,7 @@ export default function Dashboard() {
           flexDirection: 'row',
         }}>
         {/* FIRST ARC circle */}
-        <View style={styles.arcBlock}>
+        <TouchableOpacity style={styles.arcBlock}>
           <MultiArcCircle
             radius={50}
             intervals={[
@@ -104,9 +104,9 @@ export default function Dashboard() {
             }}>
             Заезд
           </Text>
-        </View>
+        </TouchableOpacity>
         {/* SECOND ARC circle */}
-        <View style={styles.arcBlock}>
+        <TouchableOpacity style={styles.arcBlock}>
           <MultiArcCircle
             radius={50}
             intervals={[
@@ -135,9 +135,9 @@ export default function Dashboard() {
             }}>
             Выезд
           </Text>
-        </View>
+        </TouchableOpacity>
         {/* THIRD ARC circle */}
-        <View style={styles.arcBlock}>
+        <TouchableOpacity style={styles.arcBlock}>
           <MultiArcCircle
             radius={50}
             intervals={[
@@ -165,7 +165,7 @@ export default function Dashboard() {
             }}>
             Проживают
           </Text>
-        </View>
+        </TouchableOpacity>
       </View>
       <View
         style={[styles.circleBottomTitles, { backgroundColor: 'red' }]}></View>
@@ -285,7 +285,6 @@ export default function Dashboard() {
             flexDirection: 'row',
             alignItems: 'center',
             zIndex: 999,
-
             width: SIZES.width / 1.5,
           }}
           onPress={handleViewChange}>
