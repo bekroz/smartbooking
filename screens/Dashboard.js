@@ -73,7 +73,6 @@ export default function Dashboard() {
         style={{
           width: SIZES.width,
           height: 170,
-          backgroundColor: 'green',
           flexDirection: 'row',
         }}>
         {/* FIRST ARC circle */}
@@ -95,6 +94,16 @@ export default function Dashboard() {
             }}>
             {comingGuests}
           </Text>
+          <Text
+            style={{
+              color: COLORS.white,
+              fontSize: SIZES.body5,
+              fontWeight: SIZES.fontWeight0,
+              position: 'absolute',
+              bottom: 10,
+            }}>
+            Заезд
+          </Text>
         </View>
         {/* SECOND ARC circle */}
         <View style={styles.arcBlock}>
@@ -115,6 +124,17 @@ export default function Dashboard() {
             }}>
             {comingGuests}
           </Text>
+
+          <Text
+            style={{
+              color: COLORS.white,
+              fontSize: SIZES.body5,
+              fontWeight: SIZES.fontWeight0,
+              position: 'absolute',
+              bottom: 10,
+            }}>
+            Выезд
+          </Text>
         </View>
         {/* THIRD ARC circle */}
         <View style={styles.arcBlock}>
@@ -134,6 +154,16 @@ export default function Dashboard() {
               fontWeight: SIZES.fontWeight1,
             }}>
             {comingGuests}
+          </Text>
+          <Text
+            style={{
+              color: COLORS.white,
+              fontSize: SIZES.body5,
+              fontWeight: SIZES.fontWeight0,
+              position: 'absolute',
+              bottom: 10,
+            }}>
+            Проживают
           </Text>
         </View>
       </View>
@@ -176,7 +206,6 @@ export default function Dashboard() {
             </TouchableOpacity>
           </View>
         </View>
-
 
         {/* SECOND GRAY BOX starts here */}
         <View style={styles.grayBlock}>
@@ -380,7 +409,6 @@ const styles = StyleSheet.create({
   arcBlock: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'red',
     width: SIZES.width / 3,
     height: '100%',
   },
