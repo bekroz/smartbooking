@@ -1,14 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-  ScrollView,
-  SafeAreaView,
-} from 'react-native';
-import { Card } from 'react-native-elements/dist/card/Card';
+import React, { useState } from 'react';
+import { View, StyleSheet, SafeAreaView } from 'react-native';
 import { Divider } from 'react-native-elements/dist/divider/Divider';
 import styled from 'styled-components/native';
 import SegmentedControl from 'rn-segmented-control';

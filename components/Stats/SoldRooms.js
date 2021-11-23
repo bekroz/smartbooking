@@ -11,6 +11,7 @@ import { Card } from 'react-native-elements/dist/card/Card';
 import { Divider } from 'react-native-elements/dist/divider/Divider';
 import styled from 'styled-components/native';
 import { COLORS, SIZES } from '../../constants/theme';
+import BlueColumns from '../BlueColumns';
 import LineChartData from '../LineChartData';
 
 export default function SoldRooms() {
@@ -72,7 +73,7 @@ export default function SoldRooms() {
         leftWidth={1}
         color={COLORS.grayPlaceholderBorder}
       />
-      <View style={{ alignSelf: 'flex-start' }}>
+      <View style={{}}>
         <WhiteText
           style={{
             margin: 15,
@@ -86,11 +87,11 @@ export default function SoldRooms() {
       {/* Chart and Line Graph View */}
       <View
         style={{
-          marginBottom: 10,
+          marginBottom: 15,
           width: SIZES.width,
-          height: 180,
+          height: 140,
         }}>
-        <LineChartData />
+        <BlueColumns />
       </View>
       <Divider
         orientation="horizontal"
