@@ -81,6 +81,7 @@ export default function LineChartData() {
         count: 20,
         // top padding from the chart top edge
         paddingTop: 20,
+        
       }}
     />
   );

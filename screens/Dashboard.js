@@ -18,6 +18,7 @@ import addButton from '../images/addButton.png';
 import CircleBar from '../components/CircleBar';
 import DayPick from '../components/DayPick';
 import GuestCircleBar from '../components/GuestCircleBar';
+import { MultiArcCircle } from 'react-native-circles';
 
 export default function Dashboard() {
   function dropdownClickHandler() {
@@ -31,6 +32,8 @@ export default function Dashboard() {
   function handleAddButtonPress() {
     alert('Add button has been fired!');
   }
+
+  const comingGuests = 115;
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
@@ -71,31 +74,74 @@ export default function Dashboard() {
           width: SIZES.width,
           height: 170,
           backgroundColor: 'green',
+          flexDirection: 'row',
         }}>
-        <View
-          style={{
-            flexDirection: 'column',
-          }}>
-          {/* GREEN ARC Bar (COMING GUESTS */}
-          <View>
-            <Text>Заезд</Text>
-          </View>
-          {/* YELLOW ARC Bar (LEAVING GUESTS) */}
-          <View>
-            <Text>Выезд</Text>
-          </View>
-          {/* Cicle Bar (LIVING GUESTS*/}
-          <View>
-            <Text>Donut 3</Text>
-          </View>
-          <Text>Проживают</Text>
+        {/* FIRST ARC circle */}
+        <View style={styles.arcBlock}>
+          <MultiArcCircle
+            radius={50}
+            intervals={[
+              { start: 0, end: 140 },
+              { start: 220, end: 360 },
+            ]}
+            color="#0ECC38"
+            width={10}
+          />
+          <Text
+            style={{
+              color: COLORS.white,
+              fontSize: SIZES.body2,
+              fontWeight: SIZES.fontWeight1,
+            }}>
+            {comingGuests}
+          </Text>
+        </View>
+        {/* SECOND ARC circle */}
+        <View style={styles.arcBlock}>
+          <MultiArcCircle
+            radius={50}
+            intervals={[
+              { start: 0, end: 140 },
+              { start: 220, end: 360 },
+            ]}
+            color={COLORS.yellow}
+            width={10}
+          />
+          <Text
+            style={{
+              color: COLORS.white,
+              fontSize: SIZES.body2,
+              fontWeight: SIZES.fontWeight1,
+            }}>
+            {comingGuests}
+          </Text>
+        </View>
+        {/* THIRD ARC circle */}
+        <View style={styles.arcBlock}>
+          <MultiArcCircle
+            radius={50}
+            intervals={[
+              { start: 0, end: 140 },
+              { start: 220, end: 360 },
+            ]}
+            color={COLORS.blue}
+            width={10}
+          />
+          <Text
+            style={{
+              color: COLORS.white,
+              fontSize: SIZES.body2,
+              fontWeight: SIZES.fontWeight1,
+            }}>
+            {comingGuests}
+          </Text>
         </View>
       </View>
       <View
         style={[styles.circleBottomTitles, { backgroundColor: 'red' }]}></View>
       {/* GRAY Boxes container */}
       <View style={{ marginBottom: 5 }}>
-        {/* FIST GRAY BOX starts here */}
+        {/* FIRST GRAY BOX starts here */}
         <View style={styles.grayBlock}>
           <View
             style={{
@@ -130,6 +176,8 @@ export default function Dashboard() {
             </TouchableOpacity>
           </View>
         </View>
+
+
         {/* SECOND GRAY BOX starts here */}
         <View style={styles.grayBlock}>
           <View
@@ -328,6 +376,13 @@ const styles = StyleSheet.create({
   blueText: {
     fontWeight: SIZES.fontWeight2,
     color: COLORS.blue,
+  },
+  arcBlock: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'red',
+    width: SIZES.width / 3,
+    height: '100%',
   },
 });
 

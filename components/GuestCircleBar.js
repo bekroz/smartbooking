@@ -1,29 +1,32 @@
 import React, { useState } from 'react';
-import { View, TouchableOpacity } from 'react-native';
-import CircularProgress from 'react-native-circular-progress-indicator';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import CircularProgress from '../circleanimator';
 
 import { COLORS, SIZES } from '../constants/theme';
 
 export default function GuestCircleBar() {
   const [value, setValue] = useState(0);
+  const totalRooms = 1000;
+  const occupiedRooms = 750;
+  const emptyRooms = totalRooms - occupiedRooms;
+
   return (
-    <View
-      style={{
-        alignItems: 'center',
-      }}>
+    <TouchableOpacity>
       <CircularProgress
         radius={45}
-        value={3}
+        value={emptyRooms}
+        valuePrefix={emptyRooms}
         fontSize={SIZES.body3}
-        maxValue={100}
+        maxValue={totalRooms}
         textColor="#FFF"
-        activeStrokeColor={COLORS.grayCirclePart}
-        inActiveStrokeColor={COLORS.purple}
+        activeStrokeColor={COLORS.purple}
+        inActiveStrokeColor={COLORS.grayCirclePart}
         inActiveStrokeWidth={10}
         inActiveStrokeOpacity={1}
-        duration={500}
+        duration={1500}
+        clockwise={true}
         textStyle={{ fontWeight: SIZES.fontWeight1, fontSize: SIZES.body2 }}
       />
-    </View>
+    </TouchableOpacity>
   );
 }
