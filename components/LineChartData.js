@@ -1,37 +1,28 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { COLORS, POSITIONING, SIZES } from '../constants/theme';
 import { LineChart } from 'react-native-chart-kit';
-import ColumnChart from '../components/ColumnChart';
 
-const LineChartData = () => {
+export default function LineChartData() {
   const [redDotClicked, setRedDotClicked] = React.useState(false);
   // Style for LineChart
   const chartConfig = {
     backgroundGradientFromOpacity: 0,
     backgroundGradientToOpacity: 0,
     color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
-    strokeWidth: 2, // optional, default 3
+    strokeWidth: 2,
     barPercentage: 0.5,
-    useShadowColorFromDataset: false, // optional
+    useShadowColorFromDataset: false,
     propsForDots: {
-      r: '5',
+      r: '4',
       strokeWidth: '3',
-      stroke: `white`,
+      stroke: '#EB6161',
     },
     decimalPlaces: 0,
     color: (opacity = 0) => `rgba(235, 97, 97)`,
     scrollableDotStrokeColor: 'white',
     labelColor: (opacity = 0) => `rgba(255, 255, 255)`,
   };
-
-  // const chartConfig = {
-
-  //   decimalPlaces: 0, // optional, defaults to 2dp
-  //   color: (opacity = 0) => `rgba(235, 97, 97)`,
-  //   scrollableDotStrokeColor: 'white',
-  //   labelColor: (opacity = 0) => `rgba(255, 255, 255)`,
-  // };
 
   // Data Position for LineChart
   const lineChartDataSet = {
@@ -51,85 +42,67 @@ const LineChartData = () => {
     // ],
     datasets: [
       {
-        data: [
-          Math.random() * 1300,
-          Math.random() * 200,
-          Math.random() * 1300,
-          Math.random() * 1400,
-          Math.random() * 1500,
-          Math.random() * 1600,
-          Math.random() * 700,
-          Math.random() * 1800,
-          Math.random() * 1900,
-          Math.random() * 1000,
-          Math.random() * 1100,
-          Math.random() * 1200,
-        ],
+        data: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
       },
     ],
   };
 
   const handleRedDotClick = () => {
     setRedDotClicked(!redDotClicked);
+    alert('Red Dot is clicked!');
   };
+  const [clickedDot, setClickedDot] = useState(1);
 
   return (
-    <View
-      style={{
-        width: SIZES.width,
-        position: 'absolute',
-        zIndex: -1,
-      }}>
-      <LineChart
-        data={lineChartDataSet}
-        width={SIZES.width}
-        height={180}
-        withHorizontalLabels={false}
-        verticalLabelRotation={0}
-        chartConfig={chartConfig}
-        withInnerLines={false}
-        withOuterLines={false}
-        bezier
-        onDataPointClick={handleRedDotClick}
-      />
-
-      {/* {!redDotClicked ? (
-          <TouchableOpacity style={styles.redDotDataView}>
-            <Text style={styles.redDotDataViewText}>ANOTHER VIEW</Text>
-          </TouchableOpacity>
-        ) : ( */}
-
-      {/* <View style={styles.redDotDataView}>
-        <Text style={styles.redDotDataViewText}>364 000 123 UZS</Text>
-        <Text style={styles.redText}>10 номеров</Text>
-      </View> */}
-    </View>
+    <LineChart
+      data={lineChartDataSet}
+      width={SIZES.width}
+      height={140}
+      withHorizontalLabels={false}
+      verticalLabelRotation={0}
+      chartConfig={chartConfig}
+      withInnerLines={false}
+      withOuterLines={false}
+      bezier
+      onDataPointClick={handleRedDotClick}
+      style={styles.chartContainer}
+      getDotColor={(dataPoint, dataPointIndex) => {
+        if (dataPointIndex === null) {
+          return 'transparent';
+        }
+        return COLORS.white;
+      }}
+      renderHorizontalLines={{
+        // width of your chart
+        width: 20,
+        // height of your chart
+        height: 20,
+        // how many lines to render
+        count: 20,
+        // top padding from the chart top edge
+        paddingTop: 20,
+      }}
+    />
   );
-};
-
-export default LineChartData;
+}
 
 const styles = StyleSheet.create({
-  redDotDataView: {
-    backgroundColor: COLORS.white,
-    width: 115,
-    right: 10,
-    height: 45,
-    borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#212831',
+  chartContainer: {
     position: 'absolute',
-    top: 0,
-  },
-  redDotDataViewText: {
-    color: COLORS.blue,
-    fontSize: 12,
-    fontWeight: '500',
-  },
-  redText: {
-    fontSize: 12,
-    color: '#EB6161',
-    top: 3,
+    marginVertical: -10,
+    left: -10,
+    top: -5,
+    zIndex: 10,
   },
 });
+
+// {/* {!redDotClicked ? (
+//   <TouchableOpacity style={styles.redDotDataView}>
+//     <Text style={styles.redDotDataViewText}>ANOTHER VIEW</Text>
+//   </TouchableOpacity>
+// ) : (
+//   <View style={styles.redDotDataView}>
+//     <Text style={styles.redDotDataViewText}>364 000 123 UZS</Text>
+//     <Text style={styles.redText}>10 номеров</Text>
+//   </View>
+// )} */}

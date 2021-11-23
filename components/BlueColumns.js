@@ -1,12 +1,6 @@
 import { months } from 'moment';
 import React from 'react';
-import {
-  View,
-  Text,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { COLORS } from '../constants/theme';
 
 export default function BlueColumns() {
@@ -95,7 +89,10 @@ export default function BlueColumns() {
   }
 
   return (
-    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+    <View
+      style={{
+        flexDirection: 'row',
+      }}>
       {/* Empty Space */}
       <View style={styles.emptySpaceForScroll} />
       {/* Jan */}
@@ -182,7 +179,7 @@ export default function BlueColumns() {
       </TouchableOpacity>
       {/* Empty Space */}
       <View style={styles.emptySpaceForScroll} />
-    </ScrollView>
+    </View>
   );
 }
 

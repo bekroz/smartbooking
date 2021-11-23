@@ -88,13 +88,19 @@ export default function SoldRooms() {
       <View
         style={{
           marginBottom: 15,
-          width: SIZES.width,
+          maxWidth: SIZES.width,
           height: 140,
-          alignItems: 'center',
-          justifyContent: 'center',
         }}>
-        <BlueColumns />
-        <LineChartData />
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          containerStyle={{
+            justifyContent: 'center',
+          }}
+          contentContainerStyle={{}}>
+          <BlueColumns />
+          <LineChartData />
+        </ScrollView>
       </View>
       <Divider
         orientation="horizontal"
