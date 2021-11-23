@@ -11,6 +11,7 @@
     "build:assets": "fc-build-assets --fc-template ./assets/fusioncharts-tpl.html --fc-library ./assets/fusioncharts"
   },
   "dependencies": {
+    "@callstack/reanimated-arc": "^0.1.0-alpha.3",
     "@invertase/react-native-apple-authentication": "^2.1.5",
     "@rainbow-me/animated-charts": "^1.0.0-alpha.6",
     "@react-native-community/async-storage": "^1.12.1",

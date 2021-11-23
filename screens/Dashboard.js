@@ -170,7 +170,7 @@ export default function Dashboard() {
       <View
         style={[styles.circleBottomTitles, { backgroundColor: 'red' }]}></View>
       {/* GRAY Boxes container */}
-      <View style={{ marginBottom: 5 }}>
+      <View style={{ marginBottom: 25 }}>
         {/* FIRST GRAY BOX starts here */}
         <View style={styles.grayBlock}>
           <View
@@ -259,14 +259,9 @@ export default function Dashboard() {
                 Сообщения
               </WhiteText>
             </TouchableOpacity>
-            <View
-              style={{
-                left: 145,
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}>
-              <GrayText style={{ fontSize: 18 }}>0000</GrayText>
-            </View>
+
+            <GrayText style={{ fontSize: 18, left: 140 }}>0000</GrayText>
+
             <TouchableOpacity
               style={{ padding: 10, right: 5, position: 'absolute' }}>
               <Image
@@ -289,15 +284,14 @@ export default function Dashboard() {
           style={{
             flexDirection: 'row',
             alignItems: 'center',
-            paddingRight: 20,
             zIndex: 999,
+
+            width: SIZES.width / 1.5,
           }}
           onPress={handleViewChange}>
           <View
             style={{
-              marginLeft: 10,
               marginRight: 25,
-              alignItems: 'center',
               width: 150,
             }}>
             <>
@@ -375,7 +369,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     marginTop: 15,
-    marginBottom: 45,
+    marginBottom: 10,
   },
   grayBlock: {
     backgroundColor: '#212831',
