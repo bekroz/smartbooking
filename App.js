@@ -4,6 +4,8 @@ import { View, StatusBar } from 'react-native';
 import { SAFEAREASTYLE, LOADERSTYLE } from './constants/theme';
 import Loader from './components/Loader';
 import AppStack from './AppStack';
+import ArcCircle from './removables/ArcCircle';
+import BlueColumns from './removables/BlueColumns';
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -14,7 +16,9 @@ export default function App() {
   return (
     <View style={loading ? LOADERSTYLE : SAFEAREASTYLE}>
       <StatusBar animated={true} barStyle="light-content" />
-      {loading ? <Loader /> : <AppStack />}
+      {/* <AppStack /> */}
+      {/* <ArcCircle /> */}
+      <BlueColumns />
     </View>
   );
 }

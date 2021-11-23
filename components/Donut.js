@@ -1,115 +1,93 @@
-import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
-import Svg, { G, Circle } from 'react-native-svg';
+import React, { Component } from 'react';
+import { AppRegistry, StyleSheet, Text, View, Platform } from 'react-native';
+import FusionCharts from 'react-native-fusioncharts';
 
-const App = () => {
-  const radius = 70;
-  const circleCircumference = 2 * Math.PI * radius;
-
-  const groceries = 241;
-  const bills = 372;
-  const regular = 188;
-  const total = groceries + bills + regular;
-
-  const groceriesPercentage = (groceries / total) * 100;
-  const billsPercentage = (bills / total) * 100;
-  const regularPercentage = (regular / total) * 100;
-
-  const groceriesStrokeDashoffset =
-    circleCircumference - (circleCircumference * groceriesPercentage) / 100;
-  const billsStrokeDashoffset =
-    circleCircumference - (circleCircumference * billsPercentage) / 100;
-  const regularStrokeDashoffset =
-    circleCircumference - (circleCircumference * regularPercentage) / 100;
-
-  const groceriesAngle = (groceries / total) * 360;
-  const billsAngle = (bills / total) * 360;
-  const regularAngle = groceriesAngle + billsAngle;
-
-  return (
-    <View style={styles.container}>
-      <View style={styles.graphWrapper}>
-        <Svg height="160" width="160" viewBox="0 0 180 180">
-          <G rotation={-90} originX="90" originY="90">
-            {total === 0 ? (
-              <Circle
-                cx="50%"
-                cy="50%"
-                r={radius}
-                stroke="#F1F6F9"
-                fill="transparent"
-                strokeWidth="40"
-              />
-            ) : (
-              <>
-                <Circle
-                  cx="50%"
-                  cy="50%"
-                  r={radius}
-                  stroke="#F05454"
-                  fill="transparent"
-                  strokeWidth="40"
-                  strokeDasharray={circleCircumference}
-                  strokeDashoffset={groceriesStrokeDashoffset}
-                  rotation={0}
-                  originX="90"
-                  originY="90"
-                  strokeLinecap="round"
-                />
-                <Circle
-                  cx="50%"
-                  cy="50%"
-                  r={radius}
-                  stroke="#30475E"
-                  fill="transparent"
-                  strokeWidth="40"
-                  strokeDasharray={circleCircumference}
-                  strokeDashoffset={billsStrokeDashoffset}
-                  rotation={groceriesAngle}
-                  originX="90"
-                  originY="90"
-                  strokeLinecap="round"
-                />
-                <Circle
-                  cx="50%"
-                  cy="50%"
-                  r={radius}
-                  stroke="#222831"
-                  fill="transparent"
-                  strokeWidth="40"
-                  strokeDasharray={circleCircumference}
-                  strokeDashoffset={regularStrokeDashoffset}
-                  rotation={regularAngle}
-                  originX="90"
-                  originY="90"
-                  strokeLinecap="round"
-                />
-              </>
-            )}
-          </G>
-        </Svg>
-        <Text style={styles.label}>{total}€</Text>
-      </View>
-    </View>
-  );
+const dataSource = {
+  chart: {
+    caption: 'Android Distribution for our app',
+    subcaption: 'For all users in 2017',
+    showpercentvalues: '1',
+    defaultcenterlabel: 'Android Distribution',
+    aligncaptionwithcanvas: '0',
+    captionpadding: '0',
+    decimals: '1',
+    plottooltext:
+      '<b>$percentValue</b> of our Android users are on <b>$label</b>',
+    centerlabel: '# Users: $value',
+    theme: 'fusion',
+  },
+  data: [
+    {
+      label: 'Ice Cream Sandwich',
+      value: '1000',
+    },
+    {
+      label: 'Jelly Bean',
+      value: '5300',
+    },
+    {
+      label: 'Kitkat',
+      value: '10500',
+    },
+    {
+      label: 'Lollipop',
+      value: '18900',
+    },
+    {
+      label: 'Marshmallow',
+      value: '17904',
+    },
+  ],
 };
 
-export default App;
+export default class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = dataSource;
+
+    this.libraryPath = Platform.select({
+      // Specify fusioncharts.html file location
+      ios: require('./assets/fusioncharts.html'),
+      android: { uri: 'file:///android_asset/fusioncharts.html' },
+    });
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.heading}>
+          FusionCharts Integration with React Native
+        </Text>
+        <View style={styles.chartContainer}>
+          <FusionCharts
+            type={this.state.type}
+            width={this.state.width}
+            height={this.state.height}
+            dataFormat={this.state.dataFormat}
+            dataSource={this.state.dataSource}
+            libraryPath={this.libraryPath} // set the libraryPath property
+          />
+        </View>
+      </View>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    padding: 10,
   },
-  graphWrapper: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  label: {
-    position: 'absolute',
+  heading: {
+    fontSize: 20,
     textAlign: 'center',
-    fontWeight: '700',
-    fontSize: 24,
+    marginBottom: 10,
+  },
+  chartContainer: {
+    height: 200,
   },
 });
+
+// skip this line if using Create React Native App
+AppRegistry.registerComponent('ReactNativeFusionCharts', () => App);

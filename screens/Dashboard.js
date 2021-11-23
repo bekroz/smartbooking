@@ -78,7 +78,6 @@ export default function Dashboard() {
           }}>
           {/* GREEN ARC Bar (COMING GUESTS */}
           <View>
-            <Text>Donut 1</Text>
             <Text>Заезд</Text>
           </View>
           {/* YELLOW ARC Bar (LEAVING GUESTS) */}
