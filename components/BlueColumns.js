@@ -7,8 +7,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
-
-import { COLORS, SIZES } from '../constants/theme';
+import { COLORS } from '../constants/theme';
 
 export default function BlueColumns() {
   const data = {
@@ -91,74 +90,100 @@ export default function BlueColumns() {
     'Дек',
   ];
 
+  function handleColumnPress() {
+    alert('Column Bar DATA is shown!');
+  }
+
   return (
     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
       {/* Empty Space */}
       <View style={styles.emptySpaceForScroll} />
       {/* Jan */}
-      <TouchableOpacity style={styles.columnBlockView}>
+      <TouchableOpacity
+        onPress={handleColumnPress}
+        style={styles.columnBlockView}>
         <View style={styles.blueColumnStyle}></View>
-        <Text style={{ color: COLORS.white, top: 10 }}>{monthsRu[0]}</Text>
+        <Text style={styles.columnText}>{monthsRu[0]}</Text>
       </TouchableOpacity>
       {/* Feb */}
-      <TouchableOpacity style={styles.columnBlockView}>
+      <TouchableOpacity
+        onPress={handleColumnPress}
+        style={styles.columnBlockView}>
         <View style={styles.blueColumnStyle}></View>
-        <Text style={{ color: COLORS.white, top: 10 }}>{monthsRu[1]}</Text>
+        <Text style={styles.columnText}>{monthsRu[1]}</Text>
       </TouchableOpacity>
       {/* Mar */}
-      <TouchableOpacity style={styles.columnBlockView}>
+      <TouchableOpacity
+        onPress={handleColumnPress}
+        style={styles.columnBlockView}>
         <View style={styles.blueColumnStyle}></View>
-        <Text style={{ color: COLORS.white, top: 10 }}>{monthsRu[2]}</Text>
+        <Text style={styles.columnText}>{monthsRu[2]}</Text>
       </TouchableOpacity>
       {/* Apr */}
-      <TouchableOpacity style={styles.columnBlockView}>
+      <TouchableOpacity
+        onPress={handleColumnPress}
+        style={styles.columnBlockView}>
         <View style={styles.blueColumnStyle}></View>
-        <Text style={{ color: COLORS.white, top: 10 }}>{monthsRu[3]}</Text>
+        <Text style={styles.columnText}>{monthsRu[3]}</Text>
       </TouchableOpacity>
       {/* May */}
-      <TouchableOpacity style={styles.columnBlockView}>
+      <TouchableOpacity
+        onPress={handleColumnPress}
+        style={styles.columnBlockView}>
         <View style={styles.blueColumnStyle}></View>
-        <Text style={{ color: COLORS.white, top: 10 }}>{monthsRu[4]}</Text>
+        <Text style={styles.columnText}>{monthsRu[4]}</Text>
       </TouchableOpacity>
       {/* Jun */}
-      <TouchableOpacity style={styles.columnBlockView}>
+      <TouchableOpacity
+        onPress={handleColumnPress}
+        style={styles.columnBlockView}>
         <View style={styles.blueColumnStyle}></View>
-        <Text style={{ color: COLORS.white, top: 10 }}>{monthsRu[5]}</Text>
+        <Text style={styles.columnText}>{monthsRu[5]}</Text>
       </TouchableOpacity>
       {/* Jul */}
-      <TouchableOpacity style={styles.columnBlockView}>
+      <TouchableOpacity
+        onPress={handleColumnPress}
+        style={styles.columnBlockView}>
         <View style={styles.blueColumnStyle}></View>
-        <Text style={{ color: COLORS.white, top: 10 }}>{monthsRu[6]}</Text>
+        <Text style={styles.columnText}>{monthsRu[6]}</Text>
       </TouchableOpacity>
       {/* Aug */}
-      <TouchableOpacity style={styles.columnBlockView}>
+      <TouchableOpacity
+        onPress={handleColumnPress}
+        style={styles.columnBlockView}>
         <View style={styles.blueColumnStyle}></View>
-        <Text style={{ color: COLORS.white, top: 10 }}>{monthsRu[7]}</Text>
+        <Text style={styles.columnText}>{monthsRu[7]}</Text>
       </TouchableOpacity>
       {/* Sep */}
-      <TouchableOpacity style={styles.columnBlockView}>
+      <TouchableOpacity
+        onPress={handleColumnPress}
+        style={styles.columnBlockView}>
         <View style={styles.blueColumnStyle}></View>
-        <Text style={{ color: COLORS.white, top: 10 }}>{monthsRu[8]}</Text>
+        <Text style={styles.columnText}>{monthsRu[8]}</Text>
       </TouchableOpacity>
       {/* Oct */}
-      <TouchableOpacity style={styles.columnBlockView}>
+      <TouchableOpacity
+        onPress={handleColumnPress}
+        style={styles.columnBlockView}>
         <View style={styles.blueColumnStyle}></View>
-        <Text style={{ color: COLORS.white, top: 10 }}>{monthsRu[9]}</Text>
+        <Text style={styles.columnText}>{monthsRu[9]}</Text>
       </TouchableOpacity>
       {/* Nov */}
-      <TouchableOpacity style={styles.columnBlockView}>
+      <TouchableOpacity
+        onPress={handleColumnPress}
+        style={styles.columnBlockView}>
         <View style={styles.blueColumnStyle}></View>
-        <Text style={{ color: COLORS.white, top: 10 }}>{monthsRu[10]}</Text>
+        <Text style={styles.columnText}>{monthsRu[10]}</Text>
       </TouchableOpacity>
       {/* Dec */}
       <TouchableOpacity style={styles.columnBlockView}>
         <View style={styles.blueColumnStyle}></View>
-        <Text style={{ color: COLORS.white, top: 10 }}>{monthsRu[11]}</Text>
+        <Text style={styles.columnText}>{monthsRu[11]}</Text>
       </TouchableOpacity>
       {/* Empty Space */}
       <View style={styles.emptySpaceForScroll} />
     </ScrollView>
-);
+  );
 }
 
 const styles = StyleSheet.create({
@@ -182,5 +207,9 @@ const styles = StyleSheet.create({
   },
   emptySpaceForScroll: {
     paddingRight: 30,
+  },
+  columnText: {
+    color: COLORS.white,
+    top: 10,
   },
 });

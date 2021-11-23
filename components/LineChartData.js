@@ -75,34 +75,24 @@ const LineChartData = () => {
 
   return (
     <View
-      style={[
-        {
-          width: SIZES.width,
-          height: '100%',
-          alignContent: 'center',
-          justifyContent: 'center',
-        },
-      ]}>
-      <View style={{}}>
-        <ColumnChart />
-      </View>
-      <View
-        style={{
-          position: 'absolute',
-        }}>
-        <LineChart
-          data={lineChartDataSet}
-          width={SIZES.width}
-          height={180}
-          withHorizontalLabels={false}
-          verticalLabelRotation={0}
-          chartConfig={chartConfig}
-          withInnerLines={false}
-          withOuterLines={false}
-          bezier
-          onDataPointClick={handleRedDotClick}
-        />
-      </View>
+      style={{
+        width: SIZES.width,
+        position: 'absolute',
+        zIndex: -1,
+      }}>
+      <LineChart
+        data={lineChartDataSet}
+        width={SIZES.width}
+        height={180}
+        withHorizontalLabels={false}
+        verticalLabelRotation={0}
+        chartConfig={chartConfig}
+        withInnerLines={false}
+        withOuterLines={false}
+        bezier
+        onDataPointClick={handleRedDotClick}
+      />
+
       {/* {!redDotClicked ? (
           <TouchableOpacity style={styles.redDotDataView}>
             <Text style={styles.redDotDataViewText}>ANOTHER VIEW</Text>

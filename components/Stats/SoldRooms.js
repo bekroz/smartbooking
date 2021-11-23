@@ -90,8 +90,11 @@ export default function SoldRooms() {
           marginBottom: 15,
           width: SIZES.width,
           height: 140,
+          alignItems: 'center',
+          justifyContent: 'center',
         }}>
         <BlueColumns />
+        <LineChartData />
       </View>
       <Divider
         orientation="horizontal"
