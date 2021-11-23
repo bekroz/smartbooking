@@ -33,6 +33,10 @@ export default function Dashboard() {
     alert('Add button has been fired!');
   }
 
+  function handleArcBarPress() {
+    alert('Arc Bar has been fired!');
+  }
+
   const comingGuests = 115;
 
   return (
@@ -76,7 +80,7 @@ export default function Dashboard() {
           flexDirection: 'row',
         }}>
         {/* FIRST ARC circle */}
-        <TouchableOpacity style={styles.arcBlock}>
+        <TouchableOpacity onPress={handleArcBarPress} style={styles.arcBlock}>
           <MultiArcCircle
             radius={50}
             intervals={[
@@ -106,7 +110,7 @@ export default function Dashboard() {
           </Text>
         </TouchableOpacity>
         {/* SECOND ARC circle */}
-        <TouchableOpacity style={styles.arcBlock}>
+        <TouchableOpacity onPress={handleArcBarPress} style={styles.arcBlock}>
           <MultiArcCircle
             radius={50}
             intervals={[
@@ -137,7 +141,7 @@ export default function Dashboard() {
           </Text>
         </TouchableOpacity>
         {/* THIRD ARC circle */}
-        <TouchableOpacity style={styles.arcBlock}>
+        <TouchableOpacity onPress={handleArcBarPress} style={styles.arcBlock}>
           <MultiArcCircle
             radius={50}
             intervals={[
