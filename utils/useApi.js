@@ -1,22 +1,22 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { BASE_API_URL } from '../../../frontend/src/constants';
+import base64 from 'react-native-base64';
 
 const useApi = () => {
-  // API url
-  const API_URL = 'https://seatquestbackend.veprof.com';
+  const base64iosCode = base64.encode(
+    process.env.iosISS + ':' + process.env.iosSECRET,
+  );
 
-  // #1 API => getEventsList
-  const getEventsList = async ({ keyword, source, startDateTime, token }) => {
+  const base64androidCode = base64.encode(
+    process.env.androidISS + ':' + process.env.androidSECRET,
+  );
+
+  // #1 API => Authentification the user
+  const authenticateIOSApp = async ({ base64iosCode }) => {
     try {
-      return await axios.get(`${API_URL}/api/v1/events/`, {
-        params: {
-          keyword: keyword,
-          source: source,
-          startDateTime: startDateTime,
-        },
+      return await axios.get(`${process.env.API_URL}/auth/app`, {
         headers: {
-          Authorization: `JWT ${token}`,
+          Authorization: `Basic ${base64iosCode}`,
           'Content-Type': 'application/json',
         },
       });
@@ -25,10 +25,41 @@ const useApi = () => {
     }
   };
 
-  // #2 API => getSuggestionsList
-  const getSuggestionsList = async () => {
+  const authenticateANDROIDApp = async ({ base64iosCode }) => {
     try {
-      return await axios.get(`${API_URL}/api/v1/suggestions/`);
+      return await axios.put(`${process.env.API_URL}/mobile/auth/login`, {
+        headers: {
+          Authorization: `Basic ${base64androidCode}`,
+          'Content-Type': 'application/json',
+        },
+      });
+    } catch (e) {
+      alert(e);
+    }
+  };
+
+  // #2 API => Authorization the user
+  const authorizeIOSApp = async ({ base64iosCode }) => {
+    try {
+      await axios.put(`${process.env.API_URL}/auth/app`, {
+        headers: {
+          Authorization: `Bearer`,
+          token_type: 'Bearer',
+          'Content-Type': 'application/json',
+        },
+      });
+      await AsyncStorage.setItem('user', JSON.stringify(data));
+    } catch (e) {
+      alert(e);
+    }
+  };
+
+  // return await AsyncStorage.setItem('user', JSON.stringify(data));
+
+  // #3 API => Get the hotel property data
+  const getHotelPropertyData = async () => {
+    try {
+      return await axios.get(`${process.env.API_URL}/mobile/properties`);
     } catch (e) {
       alert(e);
       console.log(e);

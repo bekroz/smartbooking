@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>SmartBooking.ipa</key>
+	<array>
+		<dict>
+			<key>architectures</key>
+			<array>
+				<string>arm64</string>
+			</array>
+			<key>buildNumber</key>
+			<string>23</string>
+			<key>certificate</key>
+			<dict>
+				<key>SHA1</key>
+				<string>737BCBAD5E79FEE22910C6435A7A70F9506C1185</string>
+				<key>dateExpires</key>
+				<string>18/11/22</string>
+				<key>type</key>
+				<string>Cloud Managed Apple Distribution</string>
+			</dict>
+			<key>embeddedBinaries</key>
+			<array>
+				<dict>
+					<key>architectures</key>
+					<array>
+						<string>arm64</string>
+					</array>
+					<key>buildNumber</key>
+					<string>1</string>
+					<key>certificate</key>
+					<dict>
+						<key>SHA1</key>
+						<string>737BCBAD5E79FEE22910C6435A7A70F9506C1185</string>
+						<key>dateExpires</key>
+						<string>18/11/22</string>
+						<key>type</key>
+						<string>Cloud Managed Apple Distribution</string>
+					</dict>
+					<key>name</key>
+					<string>OpenSSL.framework</string>
+					<key>team</key>
+					<dict>
+						<key>id</key>
+						<string>Y4HXQGGZ2J</string>
+						<key>name</key>
+						<string>OVERTURE TECHNOLOGIES, MChJ</string>
+					</dict>
+					<key>versionNumber</key>
+					<string>1.1.180</string>
+				</dict>
+			</array>
+			<key>entitlements</key>
+			<dict>
+				<key>application-identifier</key>
+				<string>Y4HXQGGZ2J.com.smartbooking.drivers</string>
+				<key>com.apple.developer.team-identifier</key>
+				<string>Y4HXQGGZ2J</string>
+				<key>get-task-allow</key>
+				<false/>
+				<key>keychain-access-groups</key>
+				<array>
+					<string>Y4HXQGGZ2J.com.smartbooking.drivers</string>
+				</array>
+			</dict>
+			<key>name</key>
+			<string>SmartBooking.app</string>
+			<key>profile</key>
+			<dict>
+				<key>UUID</key>
+				<string>138d60fe-54ee-4726-a469-2b4b9fb605ae</string>
+				<key>dateExpires</key>
+				<string>18/11/22</string>
+				<key>name</key>
+				<string>iOS Team Ad Hoc Provisioning Profile: com.smartbooking.drivers</string>
+			</dict>
+			<key>team</key>
+			<dict>
+				<key>id</key>
+				<string>Y4HXQGGZ2J</string>
+				<key>name</key>
+				<string>OVERTURE TECHNOLOGIES, MChJ</string>
+			</dict>
+			<key>versionNumber</key>
+			<string>3.0.3</string>
+		</dict>
+	</array>
+</dict>
+</plist>

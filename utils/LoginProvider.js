@@ -5,7 +5,7 @@ import React, {
   useRef,
   useContext,
 } from 'react';
-import auth from '@react-native-firebase/auth';
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -19,8 +19,10 @@ const LoginProvider = props => {
   const [user, setUser] = useState(null);
   const [initializing, setInitializing] = useState(true);
 
-  const mountedRef = useRef(true);
-
+  const mountedRef = useRef(true);  
+  firebase.onAuthStateChanged(user => {
+    if (mountedRef.current) {
+      setUser(user);
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(data => {
       setUser(data);

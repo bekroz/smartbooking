@@ -1,0 +1,204 @@
+
+App Thinning Size Report for All Variants of SmartBooking
+
+Variant: SmartBooking-087EBC56-5081-4CAF-99F2-9B3F4884BB8A.ipa
+Supported variant descriptors: [device: iPhone8,2, os-version: 12.0], [device: iPhone7,1, os-version: 11.0], [device: iPhone8,2, os-version: 11.0], and [device: iPhone7,1, os-version: 12.0]
+App + On Demand Resources size: 8 MB compressed, 22,3 MB uncompressed
+App size: 8 MB compressed, 22,3 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SmartBooking-0F69D994-C8CA-4C00-9167-AD51D5DCC12E.ipa
+Supported variant descriptors: [device: iPod7,1, os-version: 12.0], [device: iPod7,1, os-version: 11.0], [device: iPhone8,1, os-version: 11.0], [device: iPhone6,2, os-version: 11.0], [device: iPhone6,1, os-version: 12.0], [device: iPhone8,4, os-version: 12.0], [device: iPhone7,2, os-version: 12.0], [device: iPhone6,2, os-version: 12.0], [device: iPhone8,4, os-version: 11.0], [device: iPhone6,1, os-version: 11.0], [device: iPhone7,2, os-version: 11.0], and [device: iPhone8,1, os-version: 12.0]
+App + On Demand Resources size: 8 MB compressed, 22,3 MB uncompressed
+App size: 8 MB compressed, 22,3 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SmartBooking-1149684B-17B0-47F9-B023-62165B9F04C7.ipa
+Supported variant descriptors: [device: iPhone8,1, os-version: 12.2], [device: iPhone6,1, os-version: 12.2], [device: iPhone6,2, os-version: 12.2], [device: iPhone8,4, os-version: 12.2], [device: iPhone7,2, os-version: 12.2], [device: iPod7,1, os-version: 12.2], and [device: iPod9,1, os-version: 12.2]
+App + On Demand Resources size: 5,6 MB compressed, 15,3 MB uncompressed
+App size: 5,6 MB compressed, 15,3 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SmartBooking-16C28144-50EC-4327-9619-780F0484AF2B.ipa
+Supported variant descriptors: [device: iPhone8,2, os-version: 13.0] and [device: iPhone8,2, os-version: 14.0]
+App + On Demand Resources size: 5,6 MB compressed, 15,3 MB uncompressed
+App size: 5,6 MB compressed, 15,3 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SmartBooking-1F22F546-44AF-4AF5-B2F1-1EDD203D4F58.ipa
+Supported variant descriptors: [device: iPhone8,1, os-version: 15.0], [device: iPhone8,4, os-version: 15.0], and [device: iPod9,1, os-version: 15.0]
+App + On Demand Resources size: 5,6 MB compressed, 15,3 MB uncompressed
+App size: 5,6 MB compressed, 15,3 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SmartBooking-1FC27D52-1692-44E9-BB0F-F51CD8182C02.ipa
+Supported variant descriptors: [device: iPhone10,4, os-version: 12.0], [device: iPhone9,1, os-version: 11.0], [device: iPhone10,1, os-version: 11.0], [device: iPhone10,4, os-version: 11.0], [device: iPhone9,1, os-version: 12.0], [device: iPhone10,1, os-version: 12.0], [device: iPhone9,3, os-version: 11.0], and [device: iPhone9,3, os-version: 12.0]
+App + On Demand Resources size: 8 MB compressed, 22,3 MB uncompressed
+App size: 8 MB compressed, 22,3 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SmartBooking-2D57F341-179C-40BD-A94A-5ACBA20F25E9.ipa
+Supported variant descriptors: [device: iPad11,2, os-version: 12.2], [device: iPad11,1, os-version: 12.2], [device: iPad7,1, os-version: 12.2], [device: iPad7,2, os-version: 12.2], [device: iPad8,6, os-version: 12.2], [device: iPad6,3, os-version: 12.2], [device: iPad8,3, os-version: 12.2], [device: iPad8,4, os-version: 12.2], [device: iPad8,5, os-version: 12.2], [device: iPad7,4, os-version: 12.2], [device: iPad8,7, os-version: 12.2], [device: iPad8,2, os-version: 12.2], [device: iPad11,3, os-version: 12.2], [device: iPad8,8, os-version: 12.2], [device: iPad6,4, os-version: 12.2], [device: iPad11,4, os-version: 12.2], [device: iPad8,1, os-version: 12.2], and [device: iPad7,3, os-version: 12.2]
+App + On Demand Resources size: 5,6 MB compressed, 15,3 MB uncompressed
+App size: 5,6 MB compressed, 15,3 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SmartBooking-2EACDBC0-2046-4935-9289-F60BD34F7706.ipa
+Supported variant descriptors: [device: iPhone12,1, os-version: 14.0], [device: iPhone11,8, os-version: 13.0], [device: iPhone12,1, os-version: 13.0], and [device: iPhone11,8, os-version: 14.0]
+App + On Demand Resources size: 5,6 MB compressed, 15,3 MB uncompressed
+App size: 5,6 MB compressed, 15,3 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SmartBooking-5E2005F1-E1F9-4F04-8B4E-04A520BAE520.ipa
+Supported variant descriptors: [device: iPhone10,5, os-version: 11.0], [device: iPhone10,2, os-version: 12.0], [device: iPhone10,5, os-version: 12.0], [device: iPhone10,2, os-version: 11.0], [device: iPhone11,6, os-version: 12.0], [device: iPhone10,3, os-version: 11.0], [device: iPhone10,6, os-version: 12.0], [device: iPhone9,2, os-version: 12.0], [device: iPhone10,3, os-version: 12.0], [device: iPhone11,2, os-version: 12.0], [device: iPhone9,2, os-version: 11.0], [device: iPhone10,6, os-version: 11.0], [device: iPhone9,4, os-version: 11.0], [device: iPhone9,4, os-version: 12.0], and [device: iPhone11,4, os-version: 12.0]
+App + On Demand Resources size: 8 MB compressed, 22,3 MB uncompressed
+App size: 8 MB compressed, 22,3 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SmartBooking-681C7E7A-EC58-4B83-962F-88CCF8171B5E.ipa
+Supported variant descriptors: [device: iPhone9,1, os-version: 12.2], [device: iPhone10,1, os-version: 12.2], [device: iPhone9,3, os-version: 12.2], and [device: iPhone10,4, os-version: 12.2]
+App + On Demand Resources size: 5,6 MB compressed, 15,3 MB uncompressed
+App size: 5,6 MB compressed, 15,3 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SmartBooking-68323722-0383-4389-803F-3D7442C8305A.ipa
+Supported variant descriptors: [device: iPad4,4, os-version: 12.0], [device: iPad6,7, os-version: 12.0], [device: iPad6,8, os-version: 12.0], [device: iPad4,4, os-version: 11.0], [device: iPad5,2, os-version: 11.0], [device: iPad6,11, os-version: 11.0], [device: iPad7,6, os-version: 11.0], [device: iPad7,6, os-version: 12.0], [device: iPad4,2, os-version: 11.0], [device: iPad4,1, os-version: 11.0], [device: iPad6,11, os-version: 12.0], [device: iPad4,8, os-version: 11.0], [device: iPad4,9, os-version: 11.0], [device: iPad4,5, os-version: 11.0], [device: iPad5,2, os-version: 12.0], [device: iPad4,2, os-version: 12.0], [device: iPad7,5, os-version: 11.0], [device: iPad4,7, os-version: 11.0], [device: iPad4,9, os-version: 12.0], [device: iPad5,1, os-version: 11.0], [device: iPad6,8, os-version: 11.0], [device: iPad4,5, os-version: 12.0], [device: iPad5,3, os-version: 11.0], [device: iPad4,1, os-version: 12.0], [device: iPad5,4, os-version: 11.0], [device: iPad5,4, os-version: 12.0], [device: iPad4,3, os-version: 12.0], [device: iPad6,12, os-version: 11.0], [device: iPad4,7, os-version: 12.0], [device: iPad4,8, os-version: 12.0], [device: iPad4,6, os-version: 11.0], [device: iPad5,3, os-version: 12.0], [device: iPad4,3, os-version: 11.0], [device: iPad4,6, os-version: 12.0], [device: iPad6,12, os-version: 12.0], [device: iPad7,5, os-version: 12.0], [device: iPad5,1, os-version: 12.0], and [device: iPad6,7, os-version: 11.0]
+App + On Demand Resources size: 8 MB compressed, 22,3 MB uncompressed
+App size: 8 MB compressed, 22,3 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SmartBooking-82688CBA-5715-41DB-A194-80B67292A87B.ipa
+Supported variant descriptors: [device: iPhone13,3, os-version: 14.0], [device: iPhone10,5, os-version: 14.0], [device: iPhone9,4, os-version: 14.0], [device: iPhone9,2, os-version: 14.0], [device: iPhone12,5, os-version: 13.0], [device: iPhone11,4, os-version: 14.0], [device: iPhone11,4, os-version: 13.0], [device: iPhone10,3, os-version: 13.0], [device: iPhone11,2, os-version: 13.0], [device: iPhone10,5, os-version: 13.0], [device: iPhone13,4, os-version: 14.0], [device: iPhone10,6, os-version: 14.0], [device: iPhone10,2, os-version: 14.0], [device: iPhone11,2, os-version: 14.0], [device: iPhone13,1, os-version: 14.0], [device: iPhone11,6, os-version: 14.0], [device: iPhone9,4, os-version: 13.0], [device: iPhone10,3, os-version: 14.0], [device: iPhone12,5, os-version: 14.0], [device: iPhone9,2, os-version: 13.0], [device: iPhone12,3, os-version: 13.0], [device: iPhone10,2, os-version: 13.0], [device: iPhone10,6, os-version: 13.0], [device: iPhone11,6, os-version: 13.0], [device: iPhone13,2, os-version: 14.0], and [device: iPhone12,3, os-version: 14.0]
+App + On Demand Resources size: 5,6 MB compressed, 15,3 MB uncompressed
+App size: 5,6 MB compressed, 15,3 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SmartBooking-8611F195-E2C0-489D-AF70-0991B5C793A1.ipa
+Supported variant descriptors: [device: iPad11,4, os-version: 13.0], [device: iPad13,7, os-version: 14.0], [device: iPad8,9, os-version: 14.0], [device: iPad8,12, os-version: 14.0], [device: iPad8,4, os-version: 14.0], [device: iPad8,12, os-version: 13.0], [device: iPad8,1, os-version: 13.0], [device: iPad11,2, os-version: 13.0], [device: iPad7,1, os-version: 13.0], [device: iPad8,5, os-version: 13.0], [device: iPad8,6, os-version: 13.0], [device: iPad8,11, os-version: 14.0], [device: iPad8,7, os-version: 13.0], [device: iPad6,3, os-version: 14.0], [device: iPad11,1, os-version: 13.0], [device: iPad11,4, os-version: 14.0], [device: iPad8,11, os-version: 13.0], [device: iPad13,8, os-version: 14.0], [device: iPad8,2, os-version: 13.0], [device: iPad8,8, os-version: 13.0], [device: iPad11,3, os-version: 13.0], [device: iPad11,2, os-version: 14.0], [device: iPad7,1, os-version: 14.0], [device: iPad13,1, os-version: 14.0], [device: iPad13,6, os-version: 14.0], [device: iPad11,1, os-version: 14.0], [device: iPad13,4, os-version: 14.0], [device: iPad8,5, os-version: 14.0], [device: MacFamily20,1, os-version: 14.0], [device: iPad13,9, os-version: 14.0], [device: iPad6,4, os-version: 13.0], [device: iPad8,10, os-version: 14.0], [device: iPad7,4, os-version: 13.0], [device: iPad7,2, os-version: 13.0], [device: iPad6,4, os-version: 14.0], [device: iPad8,3, os-version: 13.0], [device: iPad7,4, os-version: 14.0], [device: iPad8,2, os-version: 14.0], [device: iPad7,3, os-version: 13.0], [device: iPad8,3, os-version: 14.0], [device: iPad6,3, os-version: 13.0], [device: iPad7,2, os-version: 14.0], [device: iPad8,4, os-version: 13.0], [device: iPad13,10, os-version: 14.0], [device: iPad8,7, os-version: 14.0], [device: iPad8,8, os-version: 14.0], [device: iPad13,5, os-version: 14.0], [device: iPad8,1, os-version: 14.0], [device: iPad13,11, os-version: 14.0], [device: iPad7,3, os-version: 14.0], [device: iPad13,2, os-version: 14.0], [device: iPad8,6, os-version: 14.0], [device: iPad8,9, os-version: 13.0], [device: iPad11,3, os-version: 14.0], and [device: iPad8,10, os-version: 13.0]
+App + On Demand Resources size: 5,6 MB compressed, 15,3 MB uncompressed
+App size: 5,6 MB compressed, 15,3 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SmartBooking-8D22EAC5-CC01-489A-B4D7-6C8A7B843F08.ipa
+Supported variant descriptors: [device: iPhone12,1, os-version: 15.0] and [device: iPhone11,8, os-version: 15.0]
+App + On Demand Resources size: 5,6 MB compressed, 15,3 MB uncompressed
+App size: 5,6 MB compressed, 15,3 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SmartBooking-9443AF1A-28F7-4AA3-8A75-6F9DFB630365.ipa
+Supported variant descriptors: [device: iPad5,2, os-version: 15.0], [device: iPad12,2, os-version: 15.0], [device: iPad7,6, os-version: 15.0], [device: iPad6,7, os-version: 15.0], [device: iPad5,1, os-version: 15.0], [device: iPad5,4, os-version: 15.0], [device: iPad7,12, os-version: 15.0], [device: iPad7,11, os-version: 15.0], [device: iPad7,5, os-version: 15.0], [device: iPad11,6, os-version: 15.0], [device: iPad6,8, os-version: 15.0], [device: iPad6,12, os-version: 15.0], [device: iPad12,1, os-version: 15.0], [device: iPad5,3, os-version: 15.0], [device: iPad6,11, os-version: 15.0], and [device: iPad11,7, os-version: 15.0]
+App + On Demand Resources size: 5,6 MB compressed, 15,3 MB uncompressed
+App size: 5,6 MB compressed, 15,3 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SmartBooking-A4D46B67-12F7-45A0-A246-779162FEA54E.ipa
+Supported variant descriptors: [device: iPhone7,1, os-version: 12.2] and [device: iPhone8,2, os-version: 12.2]
+App + On Demand Resources size: 5,6 MB compressed, 15,3 MB uncompressed
+App size: 5,6 MB compressed, 15,3 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SmartBooking-AC287709-EC42-4E8E-A006-CF6ACC1CB2B4.ipa
+Supported variant descriptors: [device: iPad7,6, os-version: 14.0], [device: iPad7,11, os-version: 13.0], [device: iPad5,2, os-version: 14.0], [device: iPad6,11, os-version: 14.0], [device: iPad7,5, os-version: 14.0], [device: iPad6,8, os-version: 13.0], [device: iPad7,11, os-version: 14.0], [device: iPad7,12, os-version: 14.0], [device: iPad5,3, os-version: 14.0], [device: iPad5,3, os-version: 13.0], [device: iPad5,4, os-version: 13.0], [device: iPad11,6, os-version: 14.0], [device: iPad6,12, os-version: 14.0], [device: iPad6,8, os-version: 14.0], [device: iPad6,7, os-version: 14.0], [device: iPad5,2, os-version: 13.0], [device: iPad7,5, os-version: 13.0], [device: iPad6,12, os-version: 13.0], [device: iPad5,4, os-version: 14.0], [device: iPad11,7, os-version: 14.0], [device: iPad5,1, os-version: 14.0], [device: iPad6,7, os-version: 13.0], [device: iPad5,1, os-version: 13.0], [device: iPad7,12, os-version: 13.0], [device: iPad6,11, os-version: 13.0], and [device: iPad7,6, os-version: 13.0]
+App + On Demand Resources size: 5,6 MB compressed, 15,3 MB uncompressed
+App size: 5,6 MB compressed, 15,3 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SmartBooking-C4567EBC-3772-45C3-A64C-5B5B08526370.ipa
+Supported variant descriptors: [device: iPhone10,1, os-version: 14.0], [device: iPhone10,4, os-version: 14.0], [device: iPhone9,1, os-version: 14.0], [device: iPhone12,8, os-version: 13.0], [device: iPhone9,3, os-version: 13.0], [device: iPhone9,1, os-version: 13.0], [device: iPhone9,3, os-version: 14.0], [device: iPhone12,8, os-version: 14.0], [device: iPhone10,4, os-version: 13.0], and [device: iPhone10,1, os-version: 13.0]
+App + On Demand Resources size: 5,6 MB compressed, 15,3 MB uncompressed
+App size: 5,6 MB compressed, 15,3 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SmartBooking-D058B608-DF4E-4014-B990-5CCA30F66594.ipa
+Supported variant descriptors: [device: iPhone11,8, os-version: 12.2]
+App + On Demand Resources size: 5,6 MB compressed, 15,3 MB uncompressed
+App size: 5,6 MB compressed, 15,3 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SmartBooking-D3366EEF-B7AF-4733-9E0D-CA5E0406AA03.ipa
+Supported variant descriptors: [device: iPad6,3, os-version: 15.0], [device: iPad6,4, os-version: 15.0], [device: iPad13,4, os-version: 15.0], [device: iPad8,1, os-version: 15.0], [device: iPad8,7, os-version: 15.0], [device: iPad8,4, os-version: 15.0], [device: iPad11,4, os-version: 15.0], [device: iPad11,2, os-version: 15.0], [device: iPad13,2, os-version: 15.0], [device: iPad8,11, os-version: 15.0], [device: iPad8,12, os-version: 15.0], [device: iPad8,8, os-version: 15.0], [device: iPad8,10, os-version: 15.0], [device: iPad11,3, os-version: 15.0], [device: iPad8,9, os-version: 15.0], [device: iPad13,11, os-version: 15.0], [device: iPad8,5, os-version: 15.0], [device: iPad13,6, os-version: 15.0], [device: iPad7,3, os-version: 15.0], [device: iPad11,1, os-version: 15.0], [device: iPad13,1, os-version: 15.0], [device: iPad13,7, os-version: 15.0], [device: iPad13,9, os-version: 15.0], [device: iPad13,10, os-version: 15.0], [device: iPad14,1, os-version: 15.0], [device: iPad7,2, os-version: 15.0], [device: iPad13,8, os-version: 15.0], [device: MacFamily20,1, os-version: 15.0], [device: iPad7,4, os-version: 15.0], [device: iPad7,1, os-version: 15.0], [device: iPad8,2, os-version: 15.0], [device: iPad8,3, os-version: 15.0], [device: iPad14,2, os-version: 15.0], [device: iPad8,6, os-version: 15.0], and [device: iPad13,5, os-version: 15.0]
+App + On Demand Resources size: 5,6 MB compressed, 15,3 MB uncompressed
+App size: 5,6 MB compressed, 15,3 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SmartBooking-D6CFA928-6EEC-4F15-93CB-A25A562811DB.ipa
+Supported variant descriptors: [device: iPhone8,1, os-version: 14.0], [device: iPhone8,4, os-version: 13.0], [device: iPod9,1, os-version: 14.0], [device: iPod9,1, os-version: 13.0], [device: iPhone8,4, os-version: 14.0], and [device: iPhone8,1, os-version: 13.0]
+App + On Demand Resources size: 5,6 MB compressed, 15,3 MB uncompressed
+App size: 5,6 MB compressed, 15,3 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SmartBooking-DB621AE2-6A15-4916-8E90-E9CBD0AA4FE0.ipa
+Supported variant descriptors: [device: iPhone11,2, os-version: 12.2], [device: iPhone9,2, os-version: 12.2], [device: iPhone9,4, os-version: 12.2], [device: iPhone10,2, os-version: 12.2], [device: iPhone10,5, os-version: 12.2], [device: iPhone10,6, os-version: 12.2], [device: iPhone10,3, os-version: 12.2], [device: iPhone11,4, os-version: 12.2], and [device: iPhone11,6, os-version: 12.2]
+App + On Demand Resources size: 5,6 MB compressed, 15,3 MB uncompressed
+App size: 5,6 MB compressed, 15,3 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SmartBooking-E1DE07B9-D21E-4AF7-9C13-F0B2386F87F1.ipa
+Supported variant descriptors: [device: iPhone10,3, os-version: 15.0], [device: iPhone14,4, os-version: 15.0], [device: iPhone13,3, os-version: 15.0], [device: iPhone12,3, os-version: 15.0], [device: iPhone14,2, os-version: 15.0], [device: iPhone14,3, os-version: 15.0], [device: iPhone9,2, os-version: 15.0], [device: iPhone10,2, os-version: 15.0], [device: iPhone13,2, os-version: 15.0], [device: iPhone11,4, os-version: 15.0], [device: iPhone13,4, os-version: 15.0], [device: iPhone13,1, os-version: 15.0], [device: iPhone10,6, os-version: 15.0], [device: iPhone14,5, os-version: 15.0], [device: iPhone12,5, os-version: 15.0], [device: iPhone9,4, os-version: 15.0], [device: iPhone10,5, os-version: 15.0], [device: iPhone11,2, os-version: 15.0], and [device: iPhone11,6, os-version: 15.0]
+App + On Demand Resources size: 5,6 MB compressed, 15,3 MB uncompressed
+App size: 5,6 MB compressed, 15,3 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SmartBooking-E885062B-CD51-4B6A-A410-C46D07572472.ipa
+Supported variant descriptors: [device: iPhone9,3, os-version: 15.0], [device: iPhone9,1, os-version: 15.0], [device: iPhone10,4, os-version: 15.0], [device: iPhone12,8, os-version: 15.0], and [device: iPhone10,1, os-version: 15.0]
+App + On Demand Resources size: 5,6 MB compressed, 15,3 MB uncompressed
+App size: 5,6 MB compressed, 15,3 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SmartBooking-E9F99711-833B-4EB0-B291-AD152ED2438E.ipa
+Supported variant descriptors: [device: iPhone11,8, os-version: 12.0]
+App + On Demand Resources size: 8 MB compressed, 22,3 MB uncompressed
+App size: 8 MB compressed, 22,3 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SmartBooking-EED95B63-35DE-4C51-8D41-5911D78953FC.ipa
+Supported variant descriptors: [device: iPad4,4, os-version: 12.2], [device: iPad6,8, os-version: 12.2], [device: iPad4,9, os-version: 12.2], [device: iPad5,1, os-version: 12.2], [device: iPad6,11, os-version: 12.2], [device: iPad4,3, os-version: 12.2], [device: iPad5,2, os-version: 12.2], [device: iPad5,4, os-version: 12.2], [device: iPad5,3, os-version: 12.2], [device: iPad7,6, os-version: 12.2], [device: iPad6,12, os-version: 12.2], [device: iPad6,7, os-version: 12.2], [device: iPad4,5, os-version: 12.2], [device: iPad4,8, os-version: 12.2], [device: iPad4,2, os-version: 12.2], [device: iPad4,7, os-version: 12.2], [device: iPad7,5, os-version: 12.2], [device: iPad4,6, os-version: 12.2], and [device: iPad4,1, os-version: 12.2]
+App + On Demand Resources size: 5,6 MB compressed, 15,3 MB uncompressed
+App size: 5,6 MB compressed, 15,3 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SmartBooking-EF4421F7-BC6A-4921-B2FC-55C996AAF7F0.ipa
+Supported variant descriptors: [device: iPhone8,2, os-version: 15.0]
+App + On Demand Resources size: 5,6 MB compressed, 15,3 MB uncompressed
+App size: 5,6 MB compressed, 15,3 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SmartBooking-F3327B77-6345-4127-8516-5E6E21F9A80F.ipa
+Supported variant descriptors: [device: iPad8,4, os-version: 12.0], [device: iPad7,2, os-version: 11.0], [device: iPad7,3, os-version: 12.0], [device: iPad8,1, os-version: 12.0], [device: iPad8,2, os-version: 12.0], [device: iPad8,3, os-version: 12.0], [device: iPad6,3, os-version: 12.0], [device: iPad7,4, os-version: 12.0], [device: iPad8,5, os-version: 12.0], [device: iPad6,4, os-version: 12.0], [device: iPad8,8, os-version: 12.0], [device: iPad8,7, os-version: 12.0], [device: iPad7,4, os-version: 11.0], [device: iPad7,3, os-version: 11.0], [device: iPad7,1, os-version: 12.0], [device: iPad7,2, os-version: 12.0], [device: iPad6,4, os-version: 11.0], [device: iPad8,6, os-version: 12.0], [device: iPad6,3, os-version: 11.0], and [device: iPad7,1, os-version: 11.0]
+App + On Demand Resources size: 8 MB compressed, 22,3 MB uncompressed
+App size: 8 MB compressed, 22,3 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SmartBooking.ipa
+Supported variant descriptors: Universal
+App + On Demand Resources size: 8,1 MB compressed, 22,4 MB uncompressed
+App size: 8,1 MB compressed, 22,4 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
