@@ -315,12 +315,13 @@ export default function APITESTING() {
   // #11 API => GET Property Sources Data
 
   const [sourcesData, setSourcesData] = useState(null);
-
+  const TOKEN =
+    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJUcWVueHZOYUxNTjVLeDJYcEN2YnN3YUtUYXE4Mm1ncENKQnJOaEw0U1lIVkpQZ2tBeERzREU0bzN6QjYiLCJzdWIiOjY1LCJpYXQiOjE2Mzc4Njk5MjcsImp0aSI6IjBmOGU0MDZlOTU1NjJkNjgzZWZhZDNjYzJlNmFmNzgxZjM3NmY3ZjEifQ.zIs06sjp6iz6RL9qu87Iak402GJO5ut0sqogFD9MYU4';
   const eleventhAPIconfig = {
     url: `${BASE_API_URL}/mobile/48/sources`,
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${authorizationToken}`,
+      Authorization: `Bearer ${TOKEN}`,
       'Content-Type': 'application/json',
     },
   };
@@ -338,6 +339,17 @@ export default function APITESTING() {
       console.log(e);
     }
   };
+
+  const [refresh, setRefresh] = useState(false);
+
+  function handleRefresh() {
+    setRefresh(true);
+  }
+
+  useEffect(() => {
+    getSourcesData();
+  }, [refresh]);
+
   return (
     <SafeAreaView
       style={{
@@ -417,6 +429,12 @@ export default function APITESTING() {
           onPress={getSourcesData}
           style={{ backgroundColor: COLORS.blue, padding: 15, marginTop: 20 }}>
           <Text style={{ color: 'white' }}>11. GET SOURCES DATA</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={handleRefresh}
+          style={{ backgroundColor: COLORS.blue, padding: 15, marginTop: 20 }}>
+          <Text style={{ color: 'white' }}>REFRESHING DATA</Text>
         </TouchableOpacity>
 
         <View style={{ backgroundColor: COLORS.blue, padding: 10, margin: 10 }}>
