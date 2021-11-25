@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-  Modal,
   View,
   Text,
   StyleSheet,
@@ -8,7 +7,7 @@ import {
   Image,
   SafeAreaView,
 } from 'react-native';
-import styled from 'styled-components/native';
+
 // Components
 import { COLORS, POSITIONING, SIZES } from '../constants/theme';
 import leftArrow from '../images/leftArrow.png';
@@ -37,15 +36,18 @@ export default function DashboardScreen() {
     alert('Arc Bar has been fired!');
   }
 
-  const comingGuests = 115;
+  const hoteldata = {
+    name: 'Kukaldosh Hotel',
+    comingGuests: 115,
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
       <View style={[styles.hotelBar, POSITIONING.center]}>
-        <Text style={styles.hotelBarText}>Kukaldosh Hotel</Text>
         <TouchableOpacity
           style={styles.dropdownIconStyle}
           onClick={dropdownClickHandler}>
+          <Text style={styles.hotelBarText}>{hoteldata.name}</Text>
           <Image source={dropdown} />
         </TouchableOpacity>
       </View>
@@ -59,9 +61,14 @@ export default function DashboardScreen() {
         </TouchableOpacity>
       </View>
       <View style={{ alignItems: 'center', padding: 5, marginBottom: 0 }}>
-        <WhiteText style={{ fontSize: 16, fontWeight: SIZES.fontWeight0 }}>
+        <Text
+          style={{
+            fontSize: 16,
+            fontWeight: SIZES.fontWeight0,
+            color: COLORS.white,
+          }}>
           Вторник
-        </WhiteText>
+        </Text>
       </View>
       {/* Horizontal Calendar Day Picker */}
       <View
@@ -96,7 +103,7 @@ export default function DashboardScreen() {
               fontSize: SIZES.body2,
               fontWeight: SIZES.fontWeight1,
             }}>
-            {comingGuests}
+            {hoteldata.comingGuests}
           </Text>
           <Text
             style={{
@@ -126,7 +133,7 @@ export default function DashboardScreen() {
               fontSize: SIZES.body2,
               fontWeight: SIZES.fontWeight1,
             }}>
-            {comingGuests}
+            {hoteldata.comingGuests}
           </Text>
 
           <Text
@@ -157,7 +164,7 @@ export default function DashboardScreen() {
               fontSize: SIZES.body2,
               fontWeight: SIZES.fontWeight1,
             }}>
-            {comingGuests}
+            {hoteldata.comingGuests}
           </Text>
           <Text
             style={{
@@ -183,15 +190,20 @@ export default function DashboardScreen() {
               alignItems: 'center',
             }}>
             <View style={styles.blueBox}>
-              <WhiteText style={{ fontWeight: SIZES.fontWeight2 }}>
+              <Text
+                style={{ fontWeight: SIZES.fontWeight2, color: COLORS.white }}>
                 123
-              </WhiteText>
+              </Text>
             </View>
             <TouchableOpacity>
-              <WhiteText
-                style={{ fontSize: 18, fontWeight: SIZES.fontWeight2 }}>
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontWeight: SIZES.fontWeight2,
+                  color: COLORS.white,
+                }}>
                 Новые
-              </WhiteText>
+              </Text>
             </TouchableOpacity>
             <View
               style={{
@@ -199,7 +211,14 @@ export default function DashboardScreen() {
                 flexDirection: 'row',
                 alignItems: 'center',
               }}>
-              <GrayText style={{ fontSize: 18 }}>123 000 000 UZS</GrayText>
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontWeight: SIZES.fontWeight0,
+                  color: COLORS.grayText,
+                }}>
+                123 000 000 UZS
+              </Text>
             </View>
             <TouchableOpacity
               style={{ padding: 10, right: 5, position: 'absolute' }}>
@@ -225,10 +244,14 @@ export default function DashboardScreen() {
               </Text>
             </View>
             <TouchableOpacity>
-              <WhiteText
-                style={{ fontSize: 18, fontWeight: SIZES.fontWeight2 }}>
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontWeight: SIZES.fontWeight2,
+                  color: COLORS.white,
+                }}>
                 Отмена
-              </WhiteText>
+              </Text>
             </TouchableOpacity>
             <View
               style={{
@@ -236,7 +259,14 @@ export default function DashboardScreen() {
                 flexDirection: 'row',
                 alignItems: 'center',
               }}>
-              <GrayText style={{ fontSize: 18 }}>2 1231$</GrayText>
+              <Text
+                style={{
+                  fontSize: 18,
+                  color: COLORS.grayText,
+                  fontWeight: SIZES.fontWeight0,
+                }}>
+                2 1231$
+              </Text>
             </View>
             <TouchableOpacity
               style={{ padding: 10, right: 5, position: 'absolute' }}>
@@ -258,13 +288,25 @@ export default function DashboardScreen() {
               <Text style={styles.blueText}>0</Text>
             </View>
             <TouchableOpacity>
-              <WhiteText
-                style={{ fontSize: 18, fontWeight: SIZES.fontWeight2 }}>
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontWeight: SIZES.fontWeight2,
+                  color: COLORS.white,
+                }}>
                 Сообщения
-              </WhiteText>
+              </Text>
             </TouchableOpacity>
 
-            <GrayText style={{ fontSize: 18, left: 140 }}>0000</GrayText>
+            <Text
+              style={{
+                fontSize: 18,
+                fontWeight: SIZES.fontWeight0,
+                color: COLORS.grayText,
+                left: 140,
+              }}>
+              0000
+            </Text>
 
             <TouchableOpacity
               style={{ padding: 10, right: 5, position: 'absolute' }}>
@@ -298,17 +340,23 @@ export default function DashboardScreen() {
               width: 150,
             }}>
             <>
-              <WhiteText
+              <Text
                 style={{
                   fontWeight: SIZES.fontWeight2,
                   fontSize: SIZES.body2,
+                  color: COLORS.white,
                 }}>
                 {firstView ? 'Загрузка' : 'Свободна'}
-              </WhiteText>
+              </Text>
 
-              <WhiteText style={{ fontSize: SIZES.body6, marginTop: 5 }}>
+              <Text
+                style={{
+                  fontSize: SIZES.body6,
+                  marginTop: 5,
+                  color: COLORS.white,
+                }}>
                 на сегодня
-              </WhiteText>
+              </Text>
             </>
           </View>
           {/* Middle Circle */}
@@ -341,8 +389,6 @@ const styles = StyleSheet.create({
     top: 61,
     background: '#FFFFFF',
     borderRadius: 0.5,
-    // rotation: '180',
-    // transform: rotate('180deg'),
   },
   dateBlock: {
     alignItems: 'center',
@@ -360,7 +406,8 @@ const styles = StyleSheet.create({
   },
   dropdownIconStyle: {
     padding: 5,
-    left: -5,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   calendarText: {
     fontSize: 40,
@@ -410,11 +457,3 @@ const styles = StyleSheet.create({
     height: '100%',
   },
 });
-
-const WhiteText = styled.Text`
-  color: white;
-`;
-
-const GrayText = styled.Text`
-  color: gray;
-`;
