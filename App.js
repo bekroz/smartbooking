@@ -4,6 +4,7 @@ import { View, StatusBar } from 'react-native';
 import { SAFEAREASTYLE, LOADERSTYLE } from './constants/theme';
 import Loader from './components/Loader';
 import AppStack from './AppStack';
+import APITESTING from './utils/apiTESTER';
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -14,7 +15,8 @@ export default function App() {
   return (
     <View style={loading ? LOADERSTYLE : SAFEAREASTYLE}>
       <StatusBar animated={true} barStyle="light-content" />
-      <AppStack />
+      {/* <AppStack /> */}
+      <APITESTING />
     </View>
   );
 }

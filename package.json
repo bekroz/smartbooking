@@ -29,6 +29,7 @@
     "buffer": "^6.0.3",
     "d3": "^7.1.1",
     "eject": "^0.0.4",
+    "env": "^0.0.2",
     "lottie-ios": "^3.2.3",
     "lottie-react-native": "^5.0.0",
     "moment": "^2.29.1",

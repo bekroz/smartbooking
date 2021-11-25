@@ -4,31 +4,30 @@ import { createStackNavigator } from '@react-navigation/stack';
 // Tabs
 import TabNavigator from './navigation/TabNavigator';
 // Screens
-import Registration from './screens/Registration';
-import Reservation from './screens/Reservation';
+import RegistrationScreen from './screens/RegistrationScreen';
+import ReservationScreen from './screens/ReservationScreen';
 import TermsLoader from './components/TermsLoader';
-import Dashboard from './screens/Dashboard';
+import DashboardScreen from './screens/DashboardScreen';
 import Calendar from './components/Calendar';
-import Settings from './screens/Settings';
+import SettingsScreen from './screens/SettingsScreen';
 
 const Stack = createStackNavigator();
 
 export default function AppStack() {
   return (
     <NavigationContainer>
-    
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
         }}
         initialRouteName={'Home'}>
         <Stack.Screen name="Home" component={TabNavigator} />
-        <Stack.Screen name="Registration" component={Registration} />
+        <Stack.Screen name="Registration" component={RegistrationScreen} />
         <Stack.Screen name="TermsLoader" component={TermsLoader} />
-        <Stack.Screen name="Dashboard" component={Dashboard} />
-        <Stack.Screen name="Reservation" component={Reservation} />
+        <Stack.Screen name="Dashboard" component={DashboardScreen} />
+        <Stack.Screen name="Reservation" component={ReservationScreen} />
         <Stack.Screen name="Calendar" component={Calendar} />
-        <Stack.Screen name="Settings" component={Settings} />
+        <Stack.Screen name="Settings" component={SettingsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

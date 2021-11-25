@@ -13,7 +13,7 @@ import {
 } from '@invertase/react-native-apple-authentication';
 import { COLORS, POSITIONING, SIZES } from '../constants/theme';
 
-export default function Registration({ navigation }) {
+export default function RegistrationScreen({ navigation }) {
   function onAppleButtonPress() {
     alert('Sign In With Apple Button is fired');
     navigation.navigate('Home');

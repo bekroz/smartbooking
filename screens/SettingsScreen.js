@@ -101,7 +101,7 @@ import blueChevronLeft from '../images/blueChevronLeft.png';
 import whiteChevronRight from '../images/whiteChevronRight.png';
 import { Divider } from 'react-native-elements';
 
-export default function Settings({ navigation }) {
+export default function SettingsScreen({ navigation }) {
   function handleLogOutButtonPress() {
     alert('User has been logged out!');
   }

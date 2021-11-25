@@ -16,7 +16,7 @@ import personIcon from '../images/person.png/';
 import { COLORS, SIZES } from '../constants/theme';
 import { SOURCES } from '../constants/source';
 
-export default function Reservation() {
+export default function ReservationScreen() {
   const handleSearchButton = () => {
     console.log('handleSearchButton is fired!');
   };

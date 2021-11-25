@@ -7,7 +7,7 @@ import Details from '../components/Stats/Details';
 import SoldRooms from '../components/Stats/SoldRooms';
 import { COLORS, SIZES } from '../constants/theme';
 
-export default function Stats() {
+export default function StatsScreen() {
   const tabs = ['Обзор', 'Занятость'];
   const [tabIndex, setTabIndex] = useState(0);
   const handleTabsChange = index => {

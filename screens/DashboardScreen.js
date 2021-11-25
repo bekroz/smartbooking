@@ -20,7 +20,7 @@ import DayPick from '../components/DayPick';
 import GuestCircleBar from '../components/GuestCircleBar';
 import { MultiArcCircle } from 'react-native-circles';
 
-export default function Dashboard() {
+export default function DashboardScreen() {
   function dropdownClickHandler() {
     console.log('Clicked dropdown');
   }

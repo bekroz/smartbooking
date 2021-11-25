@@ -4,12 +4,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // Components
 import { COLORS, SIZES } from '../constants/theme';
 // Screens
-import Registration from '../screens/Registration';
-import Dashboard from '../screens/Dashboard';
-import Reservation from '../screens/Reservation';
+import RegistrationScreen from '../screens/RegistrationScreen';
+import DashboardScreen from '../screens/DashboardScreen';
+import ReservationScreen from '../screens/ReservationScreen';
 import Calendar from '../components/Calendar';
-import Stats from '../screens/Stats';
-import Settings from '../screens/Settings';
+import StatsScreen from '../screens/StatsScreen';
+import SettingsScreen from '../screens/SettingsScreen';
 // Icons
 import dashboardIcon from '../images/dashboard.png';
 import registrationIcon from '../images/registration.png';
@@ -46,7 +46,7 @@ export default function TabNavigator() {
       }}>
       <Tab.Screen
         name="Дашборд"
-        component={Dashboard}
+        component={DashboardScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <Image
@@ -62,7 +62,7 @@ export default function TabNavigator() {
       />
       <Tab.Screen
         name="Брони"
-        component={Reservation}
+        component={ReservationScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <Image
@@ -94,7 +94,7 @@ export default function TabNavigator() {
       />
       <Tab.Screen
         name="Статистика"
-        component={Stats}
+        component={StatsScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <Image
@@ -110,7 +110,7 @@ export default function TabNavigator() {
       />
       <Tab.Screen
         name="Ещё"
-        component={Settings}
+        component={SettingsScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <Image

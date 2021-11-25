@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>767046406592-6k28ag38pbo725qaqqpp058gbuk1q3ch.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.767046406592-6k28ag38pbo725qaqqpp058gbuk1q3ch</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDlIF9KcXUN4gtjt3VHBDDIQhgSLFkVNAY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>767046406592</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.smartbooking.drivers</string>
+	<key>PROJECT_ID</key>
+	<string>smartbooking-uz</string>
+	<key>STORAGE_BUCKET</key>
+	<string>smartbooking-uz.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:767046406592:ios:0f61b9ad084d0c3ebd3825</string>
+</dict>
+</plist>
