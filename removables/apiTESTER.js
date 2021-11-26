@@ -1,8 +1,28 @@
+import React, { useState, useEffect } from 'react';
+import {
+  SafeAreaView,
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ActivityIndicator,
+  FlatList,
+  RefreshControl,
+} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { COLORS } from '../constants/theme';
+import base64 from 'react-native-base64';
 import axios from 'axios';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
-// import base64 from 'react-native-base64';
+import { ScrollView } from 'react-native-gesture-handler';
 
-const useApi = () => {
+export default function APITESTING() {
+  const [refreshing, setRefreshing] = useState(true);
+  const [userData, setUserData] = useState([]);
+
+  useEffect(() => {
+    getSourcesData();
+  }, []);
+
   const BASE_API_URL = 'https://api.dev.smartbooking.uz';
 
   // #1 API => GET IOS User authentication token
@@ -10,14 +30,13 @@ const useApi = () => {
     process.env.iosISS + ':' + process.env.iosSECRET,
   );
 
-  const encoded_ios_code =
+  const encoded_base64_code =
     'VHFlbnh2TmFMTU41S3gyWHBDdmJzd2FLVGFxODJtZ3BDSkJyTmhMNFNZSFZKUGdrQXhEc0RFNG8zekI2Olc4VVJUbHJuM1laZjNwQ292UzE0eFF2OWJSUWUzMm5ZdVNuY1NERWJXcUtMTVV4Z0ZPSFkwYlFPdXdEQg==';
-    
   const firstAPIconfig = {
     method: 'POST',
     url: `${BASE_API_URL}/auth/app`,
     headers: {
-      Authorization: `Basic ${encoded_ios_code}`,
+      Authorization: `Basic ${encoded_base64_code}`,
     },
   };
 
@@ -312,12 +331,13 @@ const useApi = () => {
   // #11 API => GET Property Sources Data
 
   const [sourcesData, setSourcesData] = useState(null);
-
+  const TOKEN =
+    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJUcWVueHZOYUxNTjVLeDJYcEN2YnN3YUtUYXE4Mm1ncENKQnJOaEw0U1lIVkpQZ2tBeERzREU0bzN6QjYiLCJzdWIiOjY1LCJpYXQiOjE2Mzc4Njk5MjcsImp0aSI6IjBmOGU0MDZlOTU1NjJkNjgzZWZhZDNjYzJlNmFmNzgxZjM3NmY3ZjEifQ.zIs06sjp6iz6RL9qu87Iak402GJO5ut0sqogFD9MYU4';
   const eleventhAPIconfig = {
     url: `${BASE_API_URL}/mobile/48/sources`,
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${authorizationToken}`,
+      Authorization: `Bearer ${TOKEN}`,
       'Content-Type': 'application/json',
     },
   };
@@ -336,30 +356,116 @@ const useApi = () => {
     }
   };
 
-  return {
-    // #1
-    handleIOSAuthentication,
-    // #2
-    handleIOSAuthorization,
-    // #3
-    getAllHotelPropertiesData,
-    // #4
-    getSingleHotelData,
-    // #5
-    getDashboardData,
-    // #6
-    getHotelReservationsData,
-    // #7
-    getHotelSingleReservationData,
-    // #8
-    getStatisticsByYear,
-    // #9
-    getStatisticsByCategory,
-    // #10
-    getPropertiesComparisonData,
-    // #11
-    getSourcesData,
+  const ItemView = ({ item }) => {
+    return (
+      <Text
+        style={{
+          fontSize: 20,
+          padding: 10,
+        }}>
+        {item.name.first} {item.name.last}
+      </Text>
+    );
   };
-};
 
-export default useApi;
+  const ItemSeparatorView = () => {
+    return (
+      <View
+        style={{
+          height: 1,
+          width: '100%',
+          backgroundColor: '#C8C8C8',
+        }}
+      />
+    );
+  };
+
+  return (
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: 'black',
+      }}>
+      <ScrollView
+        contentContainerStyle={{
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <TouchableOpacity
+          onPress={handleIOSAuthentication}
+          style={{ backgroundColor: COLORS.blue, padding: 10 }}>
+          <Text style={{ color: 'white' }}>1. GET AUTHENTICATION TOKEN</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={handleIOSAuthorization}
+          style={{ backgroundColor: COLORS.blue, padding: 10, marginTop: 20 }}>
+          <Text style={{ color: 'white' }}>2. GET AUTHORIZATION TOKEN</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={getAllHotelPropertiesData}
+          style={{ backgroundColor: COLORS.blue, padding: 10, marginTop: 20 }}>
+          <Text style={{ color: 'white' }}>
+            3. GET ALL HOTEL PROPERTIES DATA
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={getSingleHotelData}
+          style={{ backgroundColor: COLORS.blue, padding: 15, marginTop: 20 }}>
+          <Text style={{ color: 'white' }}>4. GET SINGLE HOTEL DATA </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={getDashboardData}
+          style={{ backgroundColor: COLORS.blue, padding: 15, marginTop: 20 }}>
+          <Text style={{ color: 'white' }}>5. GET DASHBOARD DATA</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={getHotelReservationsData}
+          style={{ backgroundColor: COLORS.blue, padding: 15, marginTop: 20 }}>
+          <Text style={{ color: 'white' }}>
+            6. GET HOTEL ALL RESERVATIONS DATA
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={getHotelSingleReservationData}
+          style={{ backgroundColor: COLORS.blue, padding: 15, marginTop: 20 }}>
+          <Text style={{ color: 'white' }}>7. GET SINGLE RESERVATION DATA</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={getStatisticsByYear}
+          style={{ backgroundColor: COLORS.blue, padding: 15, marginTop: 20 }}>
+          <Text style={{ color: 'white' }}>8. GET STATISTICS BY YEAR</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={getStatisticsByCategory}
+          style={{ backgroundColor: COLORS.blue, padding: 15, marginTop: 20 }}>
+          <Text style={{ color: 'white' }}>9. GET STATISTICS BY CATEGORY</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={getPropertiesComparisonData}
+          style={{ backgroundColor: COLORS.blue, padding: 15, marginTop: 20 }}>
+          <Text style={{ color: 'white' }}>10. GET COMPARISON DATA</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={getSourcesData}
+          style={{ backgroundColor: COLORS.blue, padding: 15, marginTop: 20 }}>
+          <Text style={{ color: 'white' }}>11. GET SOURCES DATA</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={{ backgroundColor: COLORS.blue, padding: 15, marginTop: 20 }}>
+          <Text style={{ color: 'white' }}>REFRESHING DATA</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </SafeAreaView>
+  );
+}

@@ -11,7 +11,7 @@ import { Card } from 'react-native-elements/dist/card/Card';
 import { Divider } from 'react-native-elements/dist/divider/Divider';
 import styled from 'styled-components/native';
 import { COLORS, SIZES } from '../../constants/theme';
-import Donut from '../Donut';
+import Donut from './Donut';
 
 export default function Details() {
   const currency = 'UZS';
