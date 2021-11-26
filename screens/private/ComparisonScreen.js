@@ -29,6 +29,8 @@ export default function ComparisonScreen() {
         style={{
           flexDirection: 'row',
           justifyContent: 'center',
+          paddingBottom: 15,
+          // backgroundColor: 'red',
         }}>
         <TouchableOpacity
           style={[
@@ -71,7 +73,7 @@ export default function ComparisonScreen() {
                 fontSize: SIZES.body5,
                 color: COLORS.white,
               }}>
-              Kukaldosh hotel Boutique In The Pa...
+              Kukaldosh Boutique Hotel
             </Text>
           </View>
           {/* Content */}
@@ -541,6 +543,8 @@ const styles = StyleSheet.create({
     height: 180,
     width: 355,
     borderRadius: 6,
+    marginTop: 0,
+    marginBottom: 10,
   },
   equalBottomMargin: {
     marginBottom: 8,

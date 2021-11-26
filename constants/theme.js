@@ -87,12 +87,12 @@ export const FONTS = {
     lineHeight: 22,
   },
   body4: {
-    fontFamily: 'SF Pro Displa',
+    fontFamily: 'SF Pro Display',
     fontSize: SIZES.body4,
     lineHeight: 22,
   },
   body5: {
-    fontFamily: 'SF Pro Displa',
+    fontFamily: 'SF Pro Display',
     fontSize: SIZES.body5,
     lineHeight: 22,
   },

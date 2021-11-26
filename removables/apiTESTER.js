@@ -10,7 +10,7 @@ import {
   RefreshControl,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { COLORS } from '../constants/theme';
+import { COLORS, SIZES } from '../constants/theme';
 import base64 from 'react-native-base64';
 import axios from 'axios';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -56,7 +56,9 @@ export default function APITESTING() {
 
   // #2 API => GET IOS User authorization token
 
-  const [authorizationToken, setAuthorizationToken] = useState(null);
+  // const [authorizationToken, setAuthorizationToken] = useState(null);
+  const authorizationToken =
+    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJUcWVueHZOYUxNTjVLeDJYcEN2YnN3YUtUYXE4Mm1ncENKQnJOaEw0U1lIVkpQZ2tBeERzREU0bzN6QjYiLCJzdWIiOjY1LCJpYXQiOjE2Mzc4Njk5MjcsImp0aSI6IjBmOGU0MDZlOTU1NjJkNjgzZWZhZDNjYzJlNmFmNzgxZjM3NmY3ZjEifQ.zIs06sjp6iz6RL9qu87Iak402GJO5ut0sqogFD9MYU4';
 
   const user_secret_outgoing_data = {
     username: 'test@smartbooking.uz',
@@ -77,7 +79,7 @@ export default function APITESTING() {
       return await axios(secondAPIconfig).then(response => {
         console.log('AUTHORIZATION TOKEN ===>>>');
         console.log(response.data.access_token);
-        setAuthorizationToken(response.data.access_token);
+        // setAuthorizationToken(response.data.access_token);
       });
     } catch (e) {
       console.log(e);
@@ -238,11 +240,14 @@ export default function APITESTING() {
   const stat_by_year_outgoing_data = {
     year: '2015',
   };
+  const TOKEN_EIGHT =
+    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJUcWVueHZOYUxNTjVLeDJYcEN2YnN3YUtUYXE4Mm1ncENKQnJOaEw0U1lIVkpQZ2tBeERzREU0bzN6QjYiLCJzdWIiOjY1LCJpYXQiOjE2Mzc4Njk5MjcsImp0aSI6IjBmOGU0MDZlOTU1NjJkNjgzZWZhZDNjYzJlNmFmNzgxZjM3NmY3ZjEifQ.zIs06sjp6iz6RL9qu87Iak402GJO5ut0sqogFD9MYU4';
+
   const eighthAPIconfig = {
     url: `${BASE_API_URL}/mobile/48/statistics-by-year`,
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${authorizationToken}`,
+      Authorization: `Bearer ${TOKEN_EIGHT}`,
       'Content-Type': 'application/json',
     },
     data: stat_by_year_outgoing_data,
@@ -271,11 +276,13 @@ export default function APITESTING() {
     start_date: '2020-11-01',
     end_date: '2021-11-30',
   };
+  const TOKEN_NINE =
+    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJUcWVueHZOYUxNTjVLeDJYcEN2YnN3YUtUYXE4Mm1ncENKQnJOaEw0U1lIVkpQZ2tBeERzREU0bzN6QjYiLCJzdWIiOjY1LCJpYXQiOjE2Mzc4Njk5MjcsImp0aSI6IjBmOGU0MDZlOTU1NjJkNjgzZWZhZDNjYzJlNmFmNzgxZjM3NmY3ZjEifQ.zIs06sjp6iz6RL9qu87Iak402GJO5ut0sqogFD9MYU4';
   const ninthAPIconfig = {
     url: `${BASE_API_URL}/mobile/48/statistics-by-group`,
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${authorizationToken}`,
+      Authorization: `Bearer ${TOKEN_NINE}`,
       'Content-Type': 'application/json',
     },
     data: stat_by_group_outgoing_data,
@@ -304,11 +311,14 @@ export default function APITESTING() {
     year: '2021',
     month: '11',
   };
+  const TOKEN_TEN =
+    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJUcWVueHZOYUxNTjVLeDJYcEN2YnN3YUtUYXE4Mm1ncENKQnJOaEw0U1lIVkpQZ2tBeERzREU0bzN6QjYiLCJzdWIiOjY1LCJpYXQiOjE2Mzc4Njk5MjcsImp0aSI6IjBmOGU0MDZlOTU1NjJkNjgzZWZhZDNjYzJlNmFmNzgxZjM3NmY3ZjEifQ.zIs06sjp6iz6RL9qu87Iak402GJO5ut0sqogFD9MYU4';
+
   const tenthAPIconfig = {
     url: `${BASE_API_URL}/mobile/compare-properties`,
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${authorizationToken}`,
+      Authorization: `Bearer ${TOKEN_TEN}`,
       'Content-Type': 'application/json',
     },
     data: comparison_outgoing_data,
@@ -331,13 +341,13 @@ export default function APITESTING() {
   // #11 API => GET Property Sources Data
 
   const [sourcesData, setSourcesData] = useState(null);
-  const TOKEN =
+  const TOKEN_ELEVEN =
     'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJUcWVueHZOYUxNTjVLeDJYcEN2YnN3YUtUYXE4Mm1ncENKQnJOaEw0U1lIVkpQZ2tBeERzREU0bzN6QjYiLCJzdWIiOjY1LCJpYXQiOjE2Mzc4Njk5MjcsImp0aSI6IjBmOGU0MDZlOTU1NjJkNjgzZWZhZDNjYzJlNmFmNzgxZjM3NmY3ZjEifQ.zIs06sjp6iz6RL9qu87Iak402GJO5ut0sqogFD9MYU4';
   const eleventhAPIconfig = {
     url: `${BASE_API_URL}/mobile/48/sources`,
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${TOKEN}`,
+      Authorization: `Bearer ${TOKEN_ELEVEN}`,
       'Content-Type': 'application/json',
     },
   };
@@ -425,8 +435,12 @@ export default function APITESTING() {
 
         <TouchableOpacity
           onPress={getHotelReservationsData}
-          style={{ backgroundColor: COLORS.blue, padding: 15, marginTop: 20 }}>
-          <Text style={{ color: 'white' }}>
+          style={{
+            backgroundColor: COLORS.blue,
+            padding: 15,
+            marginTop: 20,
+          }}>
+          <Text style={{ color: 'white', fontSize: 14, fontWeight: '600' }}>
             6. GET HOTEL ALL RESERVATIONS DATA
           </Text>
         </TouchableOpacity>

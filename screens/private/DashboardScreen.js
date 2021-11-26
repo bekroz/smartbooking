@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -19,8 +19,14 @@ import addButton from '../../images/addButton.png';
 import DayPick from '../../components/Dashboard/DayPick';
 import PercentageCircle from '../../components/Dashboard/PercentageCircle';
 import EmptyRoomsCircle from '../../components/Dashboard/EmptyRoomsCircle';
+import useApi from '../../utils/useApi';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function DashboardScreen() {
+  // API HANDLERS
+  const { getAllHotelPropertiesData } = useApi();
+
+  // BUTTON HANDLERS
   function dropdownClickHandler() {
     console.log('Clicked dropdown');
   }
@@ -34,13 +40,43 @@ export default function DashboardScreen() {
   }
 
   function handleArcBarPress() {
+    const token = AsyncStorage.getItem('token');
     alert('Arc Bar has been fired!');
+    getAllHotelPropertiesData(token);
   }
 
   const hoteldata = {
     name: 'Kukaldosh Hotel',
     comingGuests: 115,
   };
+
+  const calendar = {
+    date: 'Avgust 2021',
+    day: 'Вторник',
+  };
+
+  const [userRefresh, setUserRefresh] = useState(false);
+  const [hotelPropertiesData, setAllHotelPropertiesData] = useState(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await getAllHotelPropertiesData();
+      const { received_data } = response;
+      setAllHotelPropertiesData(received_data);
+      console.log(`THIS IS RECEIVED DATA =>>>> :`);
+      console.log(received_data);
+    }
+    fetchData();
+    setUserRefresh(false);
+  }, []);
+
+  // useEffect(() => {
+  //   getAllHotelPropertiesData({ token }).then(res => {
+  //     const { received_data } = res;
+  //     setAllHotelPropertiesData(received_data);
+  //     console.log(`THIS IS RECEIVED DATA =>>>> :`);
+  //     console.log(received_data);
+  // }, []);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
@@ -56,7 +92,7 @@ export default function DashboardScreen() {
         <TouchableOpacity style={styles.ArrowIconStyle}>
           <Image source={leftArrow} />
         </TouchableOpacity>
-        <Text style={styles.dateText}>Avgust 2021</Text>
+        <Text style={styles.dateText}>{calendar.date}</Text>
         <TouchableOpacity style={styles.ArrowIconStyle}>
           <Image source={rightArrow} />
         </TouchableOpacity>
@@ -68,7 +104,7 @@ export default function DashboardScreen() {
             fontWeight: SIZES.fontWeight0,
             color: COLORS.white,
           }}>
-          Вторник
+          {calendar.day}
         </Text>
       </View>
       {/* Horizontal Calendar Day Picker */}

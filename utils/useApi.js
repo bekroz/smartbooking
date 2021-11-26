@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import axios from 'axios';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 // import base64 from 'react-native-base64';
@@ -6,13 +7,13 @@ const useApi = () => {
   const BASE_API_URL = 'https://api.dev.smartbooking.uz';
 
   // #1 API => GET IOS User authentication token
-  const base64iosCode = base64.encode(
-    process.env.iosISS + ':' + process.env.iosSECRET,
-  );
+  // const base64iosCode = base64.encode(
+  //   process.env.iosISS + ':' + process.env.iosSECRET,
+  // );
 
   const encoded_ios_code =
     'VHFlbnh2TmFMTU41S3gyWHBDdmJzd2FLVGFxODJtZ3BDSkJyTmhMNFNZSFZKUGdrQXhEc0RFNG8zekI2Olc4VVJUbHJuM1laZjNwQ292UzE0eFF2OWJSUWUzMm5ZdVNuY1NERWJXcUtMTVV4Z0ZPSFkwYlFPdXdEQg==';
-    
+
   const firstAPIconfig = {
     method: 'POST',
     url: `${BASE_API_URL}/auth/app`,
@@ -59,6 +60,7 @@ const useApi = () => {
         console.log('AUTHORIZATION TOKEN ===>>>');
         console.log(response.data.access_token);
         setAuthorizationToken(response.data.access_token);
+        // AsyncStorage.setItem('token', response.data.access_token);
       });
     } catch (e) {
       console.log(e);
@@ -68,22 +70,28 @@ const useApi = () => {
   // #3 API => GET All Hotel Properties Data of the user
 
   const [allHotelData, setAllHotelData] = useState(null);
-  const thirdAPIconfig = {
-    url: `${BASE_API_URL}/mobile/properties`,
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${authorizationToken}`,
-      'Content-Type': 'application/json',
-    },
-  };
+  // const thirdAPIconfig = {
+  //   url: `${BASE_API_URL}/mobile/properties`,
+  //   method: 'POST',
+  //   headers: {
+  //     Authorization: `Bearer ${{ token }}`,
+  //     'Content-Type': 'application/json',
+  //   },
+  // };
 
-  const getAllHotelPropertiesData = async () => {
+  const getAllHotelPropertiesData = async ({ token }) => {
     try {
-      return await axios(thirdAPIconfig)
+      return await axios({
+        url: `${BASE_API_URL}/mobile/properties`,
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${{ token }}`,
+          'Content-Type': 'application/json',
+        },
+      })
         .then(response => {
           console.log('ALL HOTEL PROPERTIES DATA ===>>>');
           console.log(response.data);
-          setAllHotelData(response.data);
         })
         .catch(e => console.log(e));
     } catch (e) {

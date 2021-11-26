@@ -14,7 +14,8 @@ export default function App() {
   return (
     <View style={loading ? LOADERSTYLE : SAFEAREASTYLE}>
       <StatusBar animated={true} barStyle="light-content" />
-      {loading ? <Loader /> : <AppStack />}
+      <AppStack />
+      {/* <Testing /> */}
     </View>
   );
 }

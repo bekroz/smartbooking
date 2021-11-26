@@ -16,6 +16,8 @@ import reservationIcon from '../images/reservation.png';
 import calendarIcon from '../images/calendar.png';
 import statsIcon from '../images/stats.png';
 import moreIcon from '../images/more.png';
+// REMOVE THIS
+import APITESTER from '../removables/APITESTER';
 
 const Tab = createBottomTabNavigator();
 
