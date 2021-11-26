@@ -1,18 +1,17 @@
 import React from 'react';
 import { Image, PixelRatio } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-// Components
+// Theme
 import { COLORS, SIZES } from '../constants/theme';
 // Screens
-import RegistrationScreen from '../screens/RegistrationScreen';
-import DashboardScreen from '../screens/DashboardScreen';
-import ReservationScreen from '../screens/ReservationScreen';
-import Calendar from '../components/Calendar';
-import StatsScreen from '../screens/StatsScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import LoginScreen from '../screens/public/LoginScreen';
+import DashboardScreen from '../screens/private/DashboardScreen';
+import ReservationScreen from '../screens/private/ReservationScreen';
+import ComparisonScreen from '../screens/private/ComparisonScreen';
+import StatsScreen from '../screens/private/StatsScreen';
+import SettingsScreen from '../screens/private/SettingsScreen';
 // Icons
 import dashboardIcon from '../images/dashboard.png';
-import registrationIcon from '../images/registration.png';
 import reservationIcon from '../images/reservation.png';
 import calendarIcon from '../images/calendar.png';
 import statsIcon from '../images/stats.png';
@@ -78,7 +77,7 @@ export default function TabNavigator() {
       />
       <Tab.Screen
         name="Календарь"
-        component={Calendar}
+        component={ComparisonScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <Image

@@ -1,18 +1,19 @@
 import React from 'react';
 import {
   View,
-  Text,
   TouchableOpacity,
-  StyleSheet,
+  Text,
   ScrollView,
+  StyleSheet,
 } from 'react-native';
-import { LineChart } from 'react-native-chart-kit';
 import { Card } from 'react-native-elements/dist/card/Card';
 import { Divider } from 'react-native-elements/dist/divider/Divider';
 import styled from 'styled-components/native';
+// Theme
 import { COLORS, SIZES } from '../../constants/theme';
-import BlueColumns from '../BlueColumns';
-import LineChartData from '../LineChartData';
+// Components
+import BlueColumns from './BlueColumns';
+import LineChartData from './LineChartData';
 
 export default function SoldRooms() {
   return (
@@ -30,9 +31,10 @@ export default function SoldRooms() {
               marginLeft: 0,
             },
           ]}>
-          <WhiteText style={[styles.topBarText, { fontSize: 13 }]}>
+          <Text
+            style={[styles.topBarText, { fontSize: 13, color: COLORS.white }]}>
             2021
-          </WhiteText>
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[
@@ -46,9 +48,10 @@ export default function SoldRooms() {
               marginLeft: 0,
             },
           ]}>
-          <WhiteText style={[styles.topBarText, { fontSize: 13 }]}>
+          <Text
+            style={[styles.topBarText, { fontSize: 13, color: COLORS.white }]}>
             booking.com
-          </WhiteText>
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[
@@ -63,9 +66,10 @@ export default function SoldRooms() {
               marginLeft: 0,
             },
           ]}>
-          <WhiteText style={[styles.topBarText, { fontSize: 13 }]}>
+          <Text
+            style={[styles.topBarText, { fontSize: 13, color: COLORS.white }]}>
             Августа
-          </WhiteText>
+          </Text>
         </TouchableOpacity>
       </View>
       <Divider
@@ -73,16 +77,17 @@ export default function SoldRooms() {
         leftWidth={1}
         color={COLORS.grayPlaceholderBorder}
       />
-      <View style={{}}>
-        <WhiteText
+      <View>
+        <Text
           style={{
             margin: 15,
             marginLeft: 30,
             fontSize: 16,
             fontWeight: '500',
+            color: COLORS.white,
           }}>
           Количество проданных ночей
-        </WhiteText>
+        </Text>
       </View>
       {/* Chart and Line Graph View */}
       <View
@@ -96,8 +101,7 @@ export default function SoldRooms() {
           showsHorizontalScrollIndicator={false}
           containerStyle={{
             justifyContent: 'center',
-          }}
-          contentContainerStyle={{}}>
+          }}>
           <BlueColumns />
           <LineChartData />
         </ScrollView>
@@ -108,15 +112,16 @@ export default function SoldRooms() {
         color={COLORS.grayPlaceholderBorder}
       />
       <View style={{ alignSelf: 'flex-start' }}>
-        <WhiteText
+        <Text
           style={{
             margin: 15,
             marginBottom: 10,
             fontSize: 16,
             fontWeight: '500',
+            color: COLORS.white,
           }}>
           Количество проданных ночей
-        </WhiteText>
+        </Text>
       </View>
       <ScrollView>
         <Card
@@ -127,54 +132,31 @@ export default function SoldRooms() {
             {/* LEFT-Side context */}
             <View style={{ paddingRight: 20 }}>
               <View style={{ marginBottom: 15 }}>
-                <GrayText>Дата:</GrayText>
-                <WhiteText style={{ paddingTop: 5 }}>
+                <Text style={{ color: COLORS.grayText }}>Дата:</Text>
+                <Text style={{ paddingTop: 5, color: COLORS.white }}>
                   01 января - 03 декабря
-                </WhiteText>
+                </Text>
               </View>
               <View style={{ marginBottom: 15 }}>
-                <GrayText>Проданных номеров</GrayText>
+                <Text style={{ color: COLORS.grayText }}>
+                  Проданных номеров
+                </Text>
                 <WhiteText style={{ paddingTop: 5 }}>2</WhiteText>
               </View>
             </View>
             {/* RIGHT-Side context */}
             <View>
               <View style={{ marginBottom: 15 }}>
-                <GrayText>Занято номеров:</GrayText>
-                <WhiteText style={{ paddingTop: 5 }}>0.29%</WhiteText>
+                <Text style={{ color: COLORS.grayText }}>Занято номеров:</Text>
+                <Text style={{ paddingTop: 5, color: COLORS.white }}>
+                  0.29%
+                </Text>
               </View>
               <View style={{ marginBottom: 15 }}>
-                <GrayText>Доход UZS</GrayText>
-                <WhiteText style={{ paddingTop: 5 }}>10 277 000</WhiteText>
-              </View>
-            </View>
-          </View>
-        </Card>
-        <Card containerStyle={styles.card} title="SoldRooms">
-          {/* Card Context View */}
-          <View style={{ flexDirection: 'row' }}>
-            {/* LEFT-Side context */}
-            <View style={{ paddingRight: 20 }}>
-              <View style={{ marginBottom: 15 }}>
-                <GrayText>Дата:</GrayText>
-                <WhiteText style={{ paddingTop: 5 }}>
-                  01 января - 03 декабря
-                </WhiteText>
-              </View>
-              <View style={{ marginBottom: 15 }}>
-                <GrayText>Проданных номеров</GrayText>
-                <WhiteText style={{ paddingTop: 5 }}>2</WhiteText>
-              </View>
-            </View>
-            {/* RIGHT-Side context */}
-            <View>
-              <View style={{ marginBottom: 15 }}>
-                <GrayText>Занято номеров:</GrayText>
-                <WhiteText style={{ paddingTop: 5 }}>0.29%</WhiteText>
-              </View>
-              <View style={{ marginBottom: 15 }}>
-                <GrayText>Доход UZS</GrayText>
-                <WhiteText style={{ paddingTop: 5 }}>10 277 000</WhiteText>
+                <Text style={{ color: COLORS.grayText }}>Доход UZS</Text>
+                <Text style={{ paddingTop: 5, color: COLORS.white }}>
+                  10 277 000
+                </Text>
               </View>
             </View>
           </View>
@@ -186,88 +168,36 @@ export default function SoldRooms() {
             {/* LEFT-Side context */}
             <View style={{ paddingRight: 20 }}>
               <View style={{ marginBottom: 15 }}>
-                <GrayText>Дата:</GrayText>
-                <WhiteText style={{ paddingTop: 5 }}>
+                <Text style={{ color: COLORS.grayText }}>Дата:</Text>
+                <Text style={{ paddingTop: 5, color: COLORS.white }}>
                   01 января - 03 декабря
-                </WhiteText>
+                </Text>
               </View>
               <View style={{ marginBottom: 15 }}>
-                <GrayText>Проданных номеров</GrayText>
-                <WhiteText style={{ paddingTop: 5 }}>2</WhiteText>
+                <Text style={{ color: COLORS.grayText }}>
+                  Проданных номеров
+                </Text>
+                <Text style={{ paddingTop: 5, color: COLORS.white }}>2</Text>
               </View>
             </View>
             {/* RIGHT-Side context */}
             <View>
               <View style={{ marginBottom: 15 }}>
-                <GrayText>Занято номеров:</GrayText>
-                <WhiteText style={{ paddingTop: 5 }}>0.29%</WhiteText>
+                <Text style={{ color: COLORS.grayText }}>Занято номеров:</Text>
+                <Text style={{ paddingTop: 5, color: COLORS.white }}>
+                  0.29%
+                </Text>
               </View>
               <View style={{ marginBottom: 15 }}>
-                <GrayText>Доход UZS</GrayText>
-                <WhiteText style={{ paddingTop: 5 }}>10 277 000</WhiteText>
-              </View>
-            </View>
-          </View>
-        </Card>
-        <Card containerStyle={styles.card} title="SoldRooms">
-          {/* Card Context View */}
-          <View style={{ flexDirection: 'row' }}>
-            {/* LEFT-Side context */}
-            <View style={{ paddingRight: 20 }}>
-              <View style={{ marginBottom: 15 }}>
-                <GrayText>Дата:</GrayText>
-                <WhiteText style={{ paddingTop: 5 }}>
-                  01 января - 03 декабря
-                </WhiteText>
-              </View>
-              <View style={{ marginBottom: 15 }}>
-                <GrayText>Проданных номеров</GrayText>
-                <WhiteText style={{ paddingTop: 5 }}>2</WhiteText>
-              </View>
-            </View>
-            {/* RIGHT-Side context */}
-            <View>
-              <View style={{ marginBottom: 15 }}>
-                <GrayText>Занято номеров:</GrayText>
-                <WhiteText style={{ paddingTop: 5 }}>0.29%</WhiteText>
-              </View>
-              <View style={{ marginBottom: 15 }}>
-                <GrayText>Доход UZS</GrayText>
-                <WhiteText style={{ paddingTop: 5 }}>10 277 000</WhiteText>
+                <Text style={{ color: COLORS.grayText }}>Доход UZS</Text>
+                <Text style={{ paddingTop: 5, color: COLORS.white }}>
+                  10 277 000
+                </Text>
               </View>
             </View>
           </View>
         </Card>
 
-        <Card containerStyle={styles.card} title="SoldRooms">
-          {/* Card Context View */}
-          <View style={{ flexDirection: 'row' }}>
-            {/* LEFT-Side context */}
-            <View style={{ paddingRight: 20 }}>
-              <View style={{ marginBottom: 15 }}>
-                <GrayText>Дата:</GrayText>
-                <WhiteText style={{ paddingTop: 5 }}>
-                  01 января - 03 декабря
-                </WhiteText>
-              </View>
-              <View style={{ marginBottom: 15 }}>
-                <GrayText>Проданных номеров</GrayText>
-                <WhiteText style={{ paddingTop: 5 }}>2</WhiteText>
-              </View>
-            </View>
-            {/* RIGHT-Side context */}
-            <View>
-              <View style={{ marginBottom: 15 }}>
-                <GrayText>Занято номеров:</GrayText>
-                <WhiteText style={{ paddingTop: 5 }}>0.29%</WhiteText>
-              </View>
-              <View style={{ marginBottom: 15 }}>
-                <GrayText>Доход UZS</GrayText>
-                <WhiteText style={{ paddingTop: 5 }}>10 277 000</WhiteText>
-              </View>
-            </View>
-          </View>
-        </Card>
         <View style={{ paddingBottom: 100 }} />
       </ScrollView>
     </>
