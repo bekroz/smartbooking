@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Outset } from 'react-native';
+import { View, Text, Outset, TouchableOpacity } from 'react-native';
 import Picker from 'react-native-picker-horizontal';
 import { COLORS, SIZES } from '../../constants/theme';
 
@@ -26,7 +26,7 @@ export default function DayPick() {
 }
 
 const renderItem = (item, index) => (
-  <View index>
+  <TouchableOpacity>
     <Text
       style={{
         width: dayWidth,
@@ -37,5 +37,5 @@ const renderItem = (item, index) => (
       }}>
       {item}
     </Text>
-  </View>
+  </TouchableOpacity>
 );

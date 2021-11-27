@@ -4,50 +4,60 @@ import {
   View,
   Text,
   TouchableOpacity,
-  StyleSheet,
-  ActivityIndicator,
-  FlatList,
-  RefreshControl,
+  ScrollView,
 } from 'react-native';
 import { COLORS, SIZES } from '../constants/theme';
-import base64 from 'react-native-base64';
 import axios from 'axios';
-import { ScrollView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function APITESTING() {
-  const [refreshing, setRefreshing] = useState(true);
-  const [userData, setUserData] = useState([]);
-
-  useEffect(() => {
-    getSourcesData();
-  }, []);
+export default function ApiScreen() {
+  const [dataToShow, setDataToShow] = useState(null);
 
   const BASE_API_URL = 'https://api.dev.smartbooking.uz';
 
   // #1 API => GET IOS User authentication token
-  const base64iosCode = base64.encode(
-    process.env.iosISS + ':' + process.env.iosSECRET,
-  );
 
+  // STORE THEM in AsyncStorage
   const encoded_base64_code =
     'VHFlbnh2TmFMTU41S3gyWHBDdmJzd2FLVGFxODJtZ3BDSkJyTmhMNFNZSFZKUGdrQXhEc0RFNG8zekI2Olc4VVJUbHJuM1laZjNwQ292UzE0eFF2OWJSUWUzMm5ZdVNuY1NERWJXcUtMTVV4Z0ZPSFkwYlFPdXdEQg==';
-  const firstAPIconfig = {
-    method: 'POST',
-    url: `${BASE_API_URL}/auth/app`,
-    headers: {
-      Authorization: `Basic ${encoded_base64_code}`,
-    },
-  };
+  const USER_TOKEN =
+    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJUcWVueHZOYUxNTjVLeDJYcEN2YnN3YUtUYXE4Mm1ncENKQnJOaEw0U1lIVkpQZ2tBeERzREU0bzN6QjYiLCJzdWIiOjY1LCJpYXQiOjE2MzgwMDk4NTQsImp0aSI6IjhkZWJlNzcwY2U1MjlkY2UwYzAzZmE5NmMyOWUzNGEzNTYxNWI1YmQifQ.7VaqjZnjedP9ul50Z40OaePdFraQAhTmS_3EhPGkT2M';
 
-  const [authenticationToken, setAuthenticationToken] = useState(null);
+  const [asyncStorageData, setAsyncStorageData] = useState(null);
+
+  const showAsyncStorageData = async () => {
+    console.log('ASYNC STORAGE DATA =>>>> :');
+    try {
+      const asynctoken = await AsyncStorage.getItem('USERTOKEN');
+      console.log('ASYNC TOKEN IN STATE NOW');
+      console.log(asynctoken);
+      setAsyncStorageData(asynctoken);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  // STORE THEM in AsyncStorage
+
+  const [USER_TEMPORARY_TOKEN, setUSER_TEMPORARY_TOKEN] = useState(null);
+  const ASYNC_TEMPORARY_TOKEN = AsyncStorage.getItem('token');
+  // console.log(`ASYNC_TEMPORARY_TOKEN =>>>>>>`);
+  console.log(ASYNC_TEMPORARY_TOKEN);
+  console.log(JSON.stringify(ASYNC_TEMPORARY_TOKEN));
+
+  const [APP_TOKEN, setAPP_TOKEN] = useState(null);
 
   const handleIOSAuthentication = async () => {
     try {
-      return await axios(firstAPIconfig).then(response => {
+      return await axios({
+        method: 'POST',
+        url: `${BASE_API_URL}/auth/app`,
+        headers: {
+          Authorization: `Basic ${encoded_base64_code}`,
+        },
+      }).then(response => {
         console.log('AUTHENTICATION TOKEN ===>>>');
         console.log(response.data.access_token);
-        setAuthenticationToken(response.data.access_token);
+        setAPP_TOKEN(response.data.access_token);
       });
     } catch (e) {
       alert(e);
@@ -55,10 +65,6 @@ export default function APITESTING() {
   };
 
   // #2 API => GET IOS User authorization token
-
-  // const [authorizationToken, setAuthorizationToken] = useState(null);
-  const authorizationToken =
-    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJUcWVueHZOYUxNTjVLeDJYcEN2YnN3YUtUYXE4Mm1ncENKQnJOaEw0U1lIVkpQZ2tBeERzREU0bzN6QjYiLCJzdWIiOjY1LCJpYXQiOjE2Mzc4Njk5MjcsImp0aSI6IjBmOGU0MDZlOTU1NjJkNjgzZWZhZDNjYzJlNmFmNzgxZjM3NmY3ZjEifQ.zIs06sjp6iz6RL9qu87Iak402GJO5ut0sqogFD9MYU4';
 
   const user_secret_outgoing_data = {
     username: 'test@smartbooking.uz',
@@ -68,7 +74,7 @@ export default function APITESTING() {
     url: `${BASE_API_URL}/mobile/auth/login`,
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${authenticationToken}`,
+      Authorization: `Bearer ${APP_TOKEN}`,
       'Content-Type': 'application/json',
     },
     data: user_secret_outgoing_data,
@@ -77,9 +83,12 @@ export default function APITESTING() {
   const handleIOSAuthorization = async () => {
     try {
       return await axios(secondAPIconfig).then(response => {
-        console.log('AUTHORIZATION TOKEN ===>>>');
+        console.log('USER TOKEN ===>>>');
         console.log(response.data.access_token);
         // setAuthorizationToken(response.data.access_token);
+        setUSER_TEMPORARY_TOKEN(response.data.access_token);
+        AsyncStorage.setItem('USERTOKEN', response.data.access_token);
+        console.log('THIS IS REAL ASYNC TOKEN ===>>>');
       });
     } catch (e) {
       console.log(e);
@@ -93,7 +102,7 @@ export default function APITESTING() {
     url: `${BASE_API_URL}/mobile/properties`,
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${authorizationToken}`,
+      Authorization: `Bearer ${USER_TOKEN}`,
       'Content-Type': 'application/json',
     },
   };
@@ -120,7 +129,7 @@ export default function APITESTING() {
     url: `${BASE_API_URL}/mobile/properties/5`,
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${authorizationToken}`,
+      Authorization: `Bearer ${USER_TOKEN}`,
       'Content-Type': 'application/json',
     },
   };
@@ -149,7 +158,7 @@ export default function APITESTING() {
     url: `${BASE_API_URL}/mobile/48/dashboard`,
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${authorizationToken}`,
+      Authorization: `Bearer ${USER_TOKEN}`,
       'Content-Type': 'application/json',
     },
     data: dashboard_outgoing_data,
@@ -183,7 +192,7 @@ export default function APITESTING() {
     url: `${BASE_API_URL}/mobile/48/reservations`,
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${authorizationToken}`,
+      Authorization: `Bearer ${USER_TOKEN}`,
       'Content-Type': 'application/json',
     },
     data: reservations_outgoing_data,
@@ -214,7 +223,7 @@ export default function APITESTING() {
     url: `${BASE_API_URL}/mobile/48/reservations/${reservationID}`,
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${authorizationToken}`,
+      Authorization: `Bearer ${USER_TOKEN}`,
       'Content-Type': 'application/json',
     },
   };
@@ -240,14 +249,12 @@ export default function APITESTING() {
   const stat_by_year_outgoing_data = {
     year: '2015',
   };
-  const TOKEN_EIGHT =
-    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJUcWVueHZOYUxNTjVLeDJYcEN2YnN3YUtUYXE4Mm1ncENKQnJOaEw0U1lIVkpQZ2tBeERzREU0bzN6QjYiLCJzdWIiOjY1LCJpYXQiOjE2Mzc4Njk5MjcsImp0aSI6IjBmOGU0MDZlOTU1NjJkNjgzZWZhZDNjYzJlNmFmNzgxZjM3NmY3ZjEifQ.zIs06sjp6iz6RL9qu87Iak402GJO5ut0sqogFD9MYU4';
 
   const eighthAPIconfig = {
     url: `${BASE_API_URL}/mobile/48/statistics-by-year`,
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${TOKEN_EIGHT}`,
+      Authorization: `Bearer ${USER_TOKEN}`,
       'Content-Type': 'application/json',
     },
     data: stat_by_year_outgoing_data,
@@ -276,13 +283,12 @@ export default function APITESTING() {
     start_date: '2020-11-01',
     end_date: '2021-11-30',
   };
-  const TOKEN_NINE =
-    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJUcWVueHZOYUxNTjVLeDJYcEN2YnN3YUtUYXE4Mm1ncENKQnJOaEw0U1lIVkpQZ2tBeERzREU0bzN6QjYiLCJzdWIiOjY1LCJpYXQiOjE2Mzc4Njk5MjcsImp0aSI6IjBmOGU0MDZlOTU1NjJkNjgzZWZhZDNjYzJlNmFmNzgxZjM3NmY3ZjEifQ.zIs06sjp6iz6RL9qu87Iak402GJO5ut0sqogFD9MYU4';
+
   const ninthAPIconfig = {
     url: `${BASE_API_URL}/mobile/48/statistics-by-group`,
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${TOKEN_NINE}`,
+      Authorization: `Bearer ${USER_TOKEN}`,
       'Content-Type': 'application/json',
     },
     data: stat_by_group_outgoing_data,
@@ -311,14 +317,12 @@ export default function APITESTING() {
     year: '2021',
     month: '11',
   };
-  const TOKEN_TEN =
-    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJUcWVueHZOYUxNTjVLeDJYcEN2YnN3YUtUYXE4Mm1ncENKQnJOaEw0U1lIVkpQZ2tBeERzREU0bzN6QjYiLCJzdWIiOjY1LCJpYXQiOjE2Mzc4Njk5MjcsImp0aSI6IjBmOGU0MDZlOTU1NjJkNjgzZWZhZDNjYzJlNmFmNzgxZjM3NmY3ZjEifQ.zIs06sjp6iz6RL9qu87Iak402GJO5ut0sqogFD9MYU4';
 
   const tenthAPIconfig = {
     url: `${BASE_API_URL}/mobile/compare-properties`,
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${TOKEN_TEN}`,
+      Authorization: `Bearer ${USER_TOKEN}`,
       'Content-Type': 'application/json',
     },
     data: comparison_outgoing_data,
@@ -410,7 +414,7 @@ export default function APITESTING() {
         <TouchableOpacity
           onPress={handleIOSAuthorization}
           style={{ backgroundColor: COLORS.blue, padding: 10, marginTop: 20 }}>
-          <Text style={{ color: 'white' }}>2. GET AUTHORIZATION TOKEN</Text>
+          <Text style={{ color: 'white' }}>2. GET USER TOKEN</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -433,7 +437,7 @@ export default function APITESTING() {
           <Text style={{ color: 'white' }}>5. GET DASHBOARD DATA</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={getHotelReservationsData}
           style={{
             backgroundColor: COLORS.blue,
@@ -443,8 +447,8 @@ export default function APITESTING() {
           <Text style={{ color: 'white', fontSize: 14, fontWeight: '600' }}>
             6. GET HOTEL ALL RESERVATIONS DATA
           </Text>
-        </TouchableOpacity>
-
+        </TouchableOpacity> */}
+        {/* 
         <TouchableOpacity
           onPress={getHotelSingleReservationData}
           style={{ backgroundColor: COLORS.blue, padding: 15, marginTop: 20 }}>
@@ -455,15 +459,15 @@ export default function APITESTING() {
           onPress={getStatisticsByYear}
           style={{ backgroundColor: COLORS.blue, padding: 15, marginTop: 20 }}>
           <Text style={{ color: 'white' }}>8. GET STATISTICS BY YEAR</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={getStatisticsByCategory}
           style={{ backgroundColor: COLORS.blue, padding: 15, marginTop: 20 }}>
           <Text style={{ color: 'white' }}>9. GET STATISTICS BY CATEGORY</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={getPropertiesComparisonData}
           style={{ backgroundColor: COLORS.blue, padding: 15, marginTop: 20 }}>
           <Text style={{ color: 'white' }}>10. GET COMPARISON DATA</Text>
@@ -473,11 +477,31 @@ export default function APITESTING() {
           onPress={getSourcesData}
           style={{ backgroundColor: COLORS.blue, padding: 15, marginTop: 20 }}>
           <Text style={{ color: 'white' }}>11. GET SOURCES DATA</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         <TouchableOpacity
           style={{ backgroundColor: COLORS.blue, padding: 15, marginTop: 20 }}>
-          <Text style={{ color: 'white' }}>REFRESHING DATA</Text>
+          <Text style={{ color: 'white', textAlign: 'center' }}>
+            IN STATE DATA :{' '}
+          </Text>
+          <Text
+            style={{
+              color: 'white',
+              textAligna: 'center',
+            }}>{`${USER_TEMPORARY_TOKEN}`}</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={showAsyncStorageData}
+          style={{ backgroundColor: COLORS.blue, padding: 15, marginTop: 20 }}>
+          <Text style={{ color: 'white', textAlign: 'center' }}>
+            ASYNC STORAGE DATA:
+          </Text>
+          <Text
+            style={{
+              color: 'white',
+              textAlign: 'center',
+            }}>{`${asyncStorageData}`}</Text>
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>

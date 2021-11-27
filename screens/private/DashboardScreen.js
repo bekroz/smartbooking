@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
   SafeAreaView,
+  ScrollView,
 } from 'react-native';
 import { MultiArcCircle } from 'react-native-circles';
 // Theme
@@ -22,7 +23,7 @@ import EmptyRoomsCircle from '../../components/Dashboard/EmptyRoomsCircle';
 import useApi from '../../utils/useApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function DashboardScreen() {
+export default function DashboardScreen({ navigation }) {
   // API HANDLERS
   const {
     getAllHotelPropertiesData,
@@ -49,9 +50,6 @@ export default function DashboardScreen() {
   } = useApi();
 
   // BUTTON HANDLERS
-  function dropdownClickHandler() {
-    console.log('Clicked dropdown');
-  }
   const [firstView, setFirstView] = useState(true);
   function handleViewChange() {
     setFirstView(!firstView);
@@ -106,337 +104,354 @@ export default function DashboardScreen() {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
-      <View style={[styles.hotelBar, POSITIONING.center]}>
-        <TouchableOpacity
-          style={styles.dropdownIconStyle}
-          onClick={dropdownClickHandler}>
-          <Text style={styles.hotelBarText}>{hoteldata.name}</Text>
-          <Image source={dropdown} />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.dateBlock}>
-        <TouchableOpacity style={styles.arrowIconStyle}>
-          <Image source={leftArrow} />
-        </TouchableOpacity>
-        <Text style={styles.dateText}>{calendar.date}</Text>
-        <TouchableOpacity style={styles.arrowIconStyle}>
-          <Image source={rightArrow} />
-        </TouchableOpacity>
-      </View>
-      <View style={{ alignItems: 'center', padding: 5, marginBottom: 0 }}>
-        <Text
+      <ScrollView>
+        <View style={[styles.hotelBar, POSITIONING.center]}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Comparison')}
+            style={styles.dropdownIconStyle}>
+            <Text style={styles.hotelBarText}>{hoteldata.name}</Text>
+            <Image source={dropdown} />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.dateBlock}>
+          <TouchableOpacity style={styles.arrowIconStyle}>
+            <Image source={leftArrow} />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Text style={styles.dateText}>{calendar.date}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.arrowIconStyle}>
+            <Image source={rightArrow} />
+          </TouchableOpacity>
+        </View>
+        <View
           style={{
-            fontSize: 16,
-            fontWeight: SIZES.fontWeight0,
-            color: COLORS.white,
+            alignItems: 'center',
+            padding: 5,
+            marginBottom: 0,
           }}>
-          {calendar.day}
-        </Text>
-      </View>
-      {/* Horizontal Calendar Day Picker */}
-      <View
-        style={{
-          alignItems: 'center',
-          width: '100%',
-          height: 60,
-        }}>
-        <DayPick />
-      </View>
-      {/* SemiCircle View goes here */}
-      <View
-        style={{
-          width: SIZES.width,
-          height: 170,
-          flexDirection: 'row',
-        }}>
-        {/* FIRST ARC circle */}
-        <TouchableOpacity onPress={handleArcBarPress} style={styles.arcBlock}>
-          <MultiArcCircle
-            radius={50}
-            intervals={[
-              { start: 0, end: 140 },
-              { start: 220, end: 360 },
-            ]}
-            color="#0ECC38"
-            width={10}
-          />
-          <Text
-            style={{
-              color: COLORS.white,
-              fontSize: SIZES.body2,
-              fontWeight: SIZES.fontWeight1,
-            }}>
-            {hoteldata.comingGuests}
-          </Text>
-          <Text
-            style={{
-              color: COLORS.white,
-              fontSize: SIZES.body5,
-              fontWeight: SIZES.fontWeight0,
-              position: 'absolute',
-              bottom: 10,
-            }}>
-            Заезд
-          </Text>
-        </TouchableOpacity>
-        {/* SECOND ARC circle */}
-        <TouchableOpacity onPress={handleArcBarPress} style={styles.arcBlock}>
-          <MultiArcCircle
-            radius={50}
-            intervals={[
-              { start: 0, end: 140 },
-              { start: 220, end: 360 },
-            ]}
-            color={COLORS.yellow}
-            width={10}
-          />
-          <Text
-            style={{
-              color: COLORS.white,
-              fontSize: SIZES.body2,
-              fontWeight: SIZES.fontWeight1,
-            }}>
-            {hoteldata.comingGuests}
-          </Text>
-
-          <Text
-            style={{
-              color: COLORS.white,
-              fontSize: SIZES.body5,
-              fontWeight: SIZES.fontWeight0,
-              position: 'absolute',
-              bottom: 10,
-            }}>
-            Выезд
-          </Text>
-        </TouchableOpacity>
-        {/* THIRD ARC circle */}
-        <TouchableOpacity onPress={handleArcBarPress} style={styles.arcBlock}>
-          <MultiArcCircle
-            radius={50}
-            intervals={[
-              { start: 0, end: 140 },
-              { start: 220, end: 360 },
-            ]}
-            color={COLORS.blue}
-            width={10}
-          />
-          <Text
-            style={{
-              color: COLORS.white,
-              fontSize: SIZES.body2,
-              fontWeight: SIZES.fontWeight1,
-            }}>
-            {hoteldata.comingGuests}
-          </Text>
-          <Text
-            style={{
-              color: COLORS.white,
-              fontSize: SIZES.body5,
-              fontWeight: SIZES.fontWeight0,
-              position: 'absolute',
-              bottom: 10,
-            }}>
-            Проживают
-          </Text>
-        </TouchableOpacity>
-      </View>
-      <View
-        style={[styles.circleBottomTitles, { backgroundColor: 'red' }]}></View>
-      {/* GRAY Boxes container */}
-      <View style={{ marginBottom: 25 }}>
-        {/* FIRST GRAY BOX starts here */}
-        <TouchableOpacity style={styles.grayBlock}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}>
-            <View style={styles.blueBox}>
-              <Text
-                style={{ fontWeight: SIZES.fontWeight2, color: COLORS.white }}>
-                {
-                  'dashboardData.today_data.confirmed_reservations_data.quantity'
-                }
-              </Text>
-            </View>
-            <View>
-              <Text
-                style={{
-                  fontSize: 18,
-                  fontWeight: SIZES.fontWeight2,
-                  color: COLORS.white,
-                }}>
-                Новые
-              </Text>
-            </View>
-            <View
+          <TouchableOpacity style={{}}>
+            <Text
               style={{
-                left: 80,
-                flexDirection: 'row',
-                alignItems: 'center',
+                fontSize: 16,
+                fontWeight: SIZES.fontWeight0,
+                color: COLORS.white,
               }}>
-              <Text
-                style={{
-                  fontSize: 18,
-                  fontWeight: SIZES.fontWeight0,
-                  color: COLORS.grayText,
-                }}>
-                2132131232 UZS
-              </Text>
-            </View>
-            <View
+              {calendar.day}
+            </Text>
+          </TouchableOpacity>
+        </View>
+        {/* Horizontal Calendar Day Picker */}
+        <View
+          style={{
+            alignItems: 'center',
+            width: '100%',
+            height: 60,
+          }}>
+          <DayPick />
+        </View>
+        {/* SemiCircle View goes here */}
+        <View
+          style={{
+            width: SIZES.width,
+            height: 170,
+            flexDirection: 'row',
+          }}>
+          {/* FIRST ARC circle */}
+          <TouchableOpacity onPress={handleArcBarPress} style={styles.arcBlock}>
+            <MultiArcCircle
+              radius={50}
+              intervals={[
+                { start: 0, end: 140 },
+                { start: 220, end: 360 },
+              ]}
+              color="#0ECC38"
+              width={10}
+            />
+            <Text
               style={{
-                padding: 10,
-                right: 5,
+                color: COLORS.white,
+                fontSize: SIZES.body2,
+                fontWeight: SIZES.fontWeight1,
+              }}>
+              {hoteldata.comingGuests}
+            </Text>
+            <Text
+              style={{
+                color: COLORS.white,
+                fontSize: SIZES.body5,
+                fontWeight: SIZES.fontWeight0,
                 position: 'absolute',
-                zIndex: 10,
-                marginLeft: 5,
-                backgroundColor: '#212831',
+                bottom: 10,
               }}>
-              <Image
-                style={{ tintColor: COLORS.grayText, marginLeft: 5 }}
-                source={rightArrow}
-              />
-            </View>
-          </View>
-        </TouchableOpacity>
-
-        {/* SECOND GRAY BOX starts here */}
-        <TouchableOpacity style={styles.grayBlock}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}>
-            <View style={styles.blueTextBlock}>
-              <Text
-                style={{ fontWeight: SIZES.fontWeight2, color: COLORS.blue }}>
-                {'dashboardData.confirmed_reservations_data.quantity'}
-              </Text>
-            </View>
-            <View>
-              <Text
-                style={{
-                  fontSize: 18,
-                  fontWeight: SIZES.fontWeight2,
-                  color: COLORS.white,
-                }}>
-                Отмена
-              </Text>
-            </View>
-            <View
+              Заезд
+            </Text>
+          </TouchableOpacity>
+          {/* SECOND ARC circle */}
+          <TouchableOpacity onPress={handleArcBarPress} style={styles.arcBlock}>
+            <MultiArcCircle
+              radius={50}
+              intervals={[
+                { start: 0, end: 140 },
+                { start: 220, end: 360 },
+              ]}
+              color={COLORS.yellow}
+              width={10}
+            />
+            <Text
               style={{
-                left: 145,
-                flexDirection: 'row',
-                alignItems: 'center',
+                color: COLORS.white,
+                fontSize: SIZES.body2,
+                fontWeight: SIZES.fontWeight1,
               }}>
-              <Text
-                style={{
-                  fontSize: 18,
-                  color: COLORS.grayText,
-                  fontWeight: SIZES.fontWeight0,
-                }}>
-                2 1231$
-              </Text>
-            </View>
-            <View style={{ padding: 10, right: 5, position: 'absolute' }}>
-              <Image
-                style={{ tintColor: COLORS.grayText }}
-                source={rightArrow}
-              />
-            </View>
-          </View>
-        </TouchableOpacity>
-        {/* THIRD GRAY BOX starts here */}
-        <TouchableOpacity style={styles.grayBlock}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}>
-            <View style={styles.blueTextBlock}>
-              <Text style={styles.blueText}>0</Text>
-            </View>
-            <View>
-              <Text
-                style={{
-                  fontSize: 18,
-                  fontWeight: SIZES.fontWeight2,
-                  color: COLORS.white,
-                }}>
-                Сообщения
-              </Text>
-            </View>
+              {hoteldata.comingGuests}
+            </Text>
 
             <Text
               style={{
-                fontSize: 18,
+                color: COLORS.white,
+                fontSize: SIZES.body5,
                 fontWeight: SIZES.fontWeight0,
-                color: COLORS.grayText,
-                left: 140,
+                position: 'absolute',
+                bottom: 10,
               }}>
-              0000
+              Выезд
             </Text>
-
-            <View style={{ padding: 10, right: 5, position: 'absolute' }}>
-              <Image
-                style={{ tintColor: COLORS.grayText }}
-                source={rightArrow}
-              />
+          </TouchableOpacity>
+          {/* THIRD ARC circle */}
+          <TouchableOpacity onPress={handleArcBarPress} style={styles.arcBlock}>
+            <MultiArcCircle
+              radius={50}
+              intervals={[
+                { start: 0, end: 140 },
+                { start: 220, end: 360 },
+              ]}
+              color={COLORS.blue}
+              width={10}
+            />
+            <Text
+              style={{
+                color: COLORS.white,
+                fontSize: SIZES.body2,
+                fontWeight: SIZES.fontWeight1,
+              }}>
+              {hoteldata.comingGuests}
+            </Text>
+            <Text
+              style={{
+                color: COLORS.white,
+                fontSize: SIZES.body5,
+                fontWeight: SIZES.fontWeight0,
+                position: 'absolute',
+                bottom: 10,
+              }}>
+              Проживают
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View
+          style={[
+            styles.circleBottomTitles,
+            { backgroundColor: 'red' },
+          ]}></View>
+        {/* GRAY Boxes container */}
+        <View style={{ marginBottom: 25 }}>
+          {/* FIRST GRAY BOX starts here */}
+          <TouchableOpacity style={styles.grayBlock}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
+              <View style={styles.blueBox}>
+                <Text
+                  style={{
+                    fontWeight: SIZES.fontWeight2,
+                    color: COLORS.white,
+                  }}>
+                  {
+                    'dashboardData.today_data.confirmed_reservations_data.quantity'
+                  }
+                </Text>
+              </View>
+              <View>
+                <Text
+                  style={{
+                    fontSize: 18,
+                    fontWeight: SIZES.fontWeight2,
+                    color: COLORS.white,
+                  }}>
+                  Новые
+                </Text>
+              </View>
+              <View
+                style={{
+                  left: 80,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}>
+                <Text
+                  style={{
+                    fontSize: 18,
+                    fontWeight: SIZES.fontWeight0,
+                    color: COLORS.grayText,
+                  }}>
+                  2132131232 UZS
+                </Text>
+              </View>
+              <View
+                style={{
+                  padding: 10,
+                  right: 5,
+                  position: 'absolute',
+                  zIndex: 10,
+                  marginLeft: 5,
+                  backgroundColor: '#212831',
+                }}>
+                <Image
+                  style={{ tintColor: COLORS.grayText, marginLeft: 5 }}
+                  source={rightArrow}
+                />
+              </View>
             </View>
-          </View>
-        </TouchableOpacity>
-      </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          margin: 15,
-        }}>
-        {/* Left Text */}
-        <TouchableOpacity
+          </TouchableOpacity>
+
+          {/* SECOND GRAY BOX starts here */}
+          <TouchableOpacity style={styles.grayBlock}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
+              <View style={styles.blueTextBlock}>
+                <Text
+                  style={{ fontWeight: SIZES.fontWeight2, color: COLORS.blue }}>
+                  {'dashboardData.confirmed_reservations_data.quantity'}
+                </Text>
+              </View>
+              <View>
+                <Text
+                  style={{
+                    fontSize: 18,
+                    fontWeight: SIZES.fontWeight2,
+                    color: COLORS.white,
+                  }}>
+                  Отмена
+                </Text>
+              </View>
+              <View
+                style={{
+                  left: 145,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}>
+                <Text
+                  style={{
+                    fontSize: 18,
+                    color: COLORS.grayText,
+                    fontWeight: SIZES.fontWeight0,
+                  }}>
+                  2 1231$
+                </Text>
+              </View>
+              <View style={{ padding: 10, right: 5, position: 'absolute' }}>
+                <Image
+                  style={{ tintColor: COLORS.grayText }}
+                  source={rightArrow}
+                />
+              </View>
+            </View>
+          </TouchableOpacity>
+          {/* THIRD GRAY BOX starts here */}
+          <TouchableOpacity style={styles.grayBlock}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
+              <View style={styles.blueTextBlock}>
+                <Text style={styles.blueText}>0</Text>
+              </View>
+              <View>
+                <Text
+                  style={{
+                    fontSize: 18,
+                    fontWeight: SIZES.fontWeight2,
+                    color: COLORS.white,
+                  }}>
+                  Сообщения
+                </Text>
+              </View>
+
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontWeight: SIZES.fontWeight0,
+                  color: COLORS.grayText,
+                  left: 140,
+                }}>
+                0000
+              </Text>
+
+              <View style={{ padding: 10, right: 5, position: 'absolute' }}>
+                <Image
+                  style={{ tintColor: COLORS.grayText }}
+                  source={rightArrow}
+                />
+              </View>
+            </View>
+          </TouchableOpacity>
+        </View>
+        <View
           style={{
             flexDirection: 'row',
+            justifyContent: 'space-between',
             alignItems: 'center',
-            zIndex: 999,
-            width: SIZES.width / 1.5,
-          }}
-          onPress={handleViewChange}>
-          <View
+            margin: 15,
+          }}>
+          {/* Left Text */}
+          <TouchableOpacity
             style={{
-              marginRight: 25,
-              width: 150,
-            }}>
-            <>
-              <Text
-                style={{
-                  fontWeight: SIZES.fontWeight2,
-                  fontSize: SIZES.body2,
-                  color: COLORS.white,
-                }}>
-                {firstView ? 'Загрузка' : 'Свободна'}
-              </Text>
+              flexDirection: 'row',
+              alignItems: 'center',
+              zIndex: 999,
+              width: SIZES.width / 1.5,
+            }}
+            onPress={handleViewChange}>
+            <View
+              style={{
+                marginRight: 25,
+                width: 150,
+              }}>
+              <>
+                <Text
+                  style={{
+                    fontWeight: SIZES.fontWeight2,
+                    fontSize: SIZES.body2,
+                    color: COLORS.white,
+                  }}>
+                  {firstView ? 'Загрузка' : 'Свободна'}
+                </Text>
 
-              <Text
-                style={{
-                  fontSize: SIZES.body6,
-                  marginTop: 5,
-                  color: COLORS.white,
-                }}>
-                на сегодня
-              </Text>
-            </>
-          </View>
-          {/* Middle Circle */}
-          {firstView ? <PercentageCircle /> : <EmptyRoomsCircle />}
-        </TouchableOpacity>
-        {/* Plus Button */}
-        <TouchableOpacity onPress={handleAddButtonPress}>
-          <Image source={addButton} style={{ width: 48, height: 48 }} />
-        </TouchableOpacity>
-      </View>
+                <Text
+                  style={{
+                    fontSize: SIZES.body6,
+                    marginTop: 5,
+                    color: COLORS.white,
+                  }}>
+                  на сегодня
+                </Text>
+              </>
+            </View>
+            {/* Middle Circle */}
+            {firstView ? <PercentageCircle /> : <EmptyRoomsCircle />}
+          </TouchableOpacity>
+          {/* Plus Button */}
+          <TouchableOpacity onPress={handleAddButtonPress}>
+            <Image source={addButton} style={{ width: 48, height: 48 }} />
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }

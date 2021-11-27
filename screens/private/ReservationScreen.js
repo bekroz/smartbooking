@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
   SafeAreaView,
+  ScrollView,
 } from 'react-native';
 import { Card } from 'react-native-elements/dist/card/Card';
 import { Divider } from 'react-native-elements/dist/divider/Divider';
@@ -35,261 +36,271 @@ export default function ReservationScreen() {
   const guestStatus = ['В номере', 'Подтверждено'];
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
-      <View style={styles.titleContainer}>
-        <Text style={[styles.headerTitle, { color: COLORS.white }]}>
-          Бронирования
-        </Text>
-        <TouchableOpacity style={styles.search} onPress={handleSearchButton}>
-          <View>
-            <Image source={searchIcon} />
-          </View>
-        </TouchableOpacity>
-      </View>
-      <View>
-        <View style={styles.topBarButtonsContainer}>
-          <TouchableOpacity style={styles.topBarBtn}>
-            <Text style={styles.topBarText}>Подтверждено</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.topBarBtn}>
-            <Text style={styles.topBarText}>01 Sep - 30 Sep</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.topBarBtn, { backgroundColor: 'black' }]}>
-            <Text style={styles.topBarText}>01 Sep - 30 Sep</Text>
+      <ScrollView>
+        <View style={styles.titleContainer}>
+          <Text style={[styles.headerTitle, { color: COLORS.white }]}>
+            Бронирования
+          </Text>
+          <TouchableOpacity style={styles.search} onPress={handleSearchButton}>
+            <View>
+              <Image source={searchIcon} />
+            </View>
           </TouchableOpacity>
         </View>
-        <View style={{ marginTop: 10, marginBottom: 5, alignItems: 'center' }}>
-          <Text style={{ color: COLORS.grayText }}>22 бронирования</Text>
-        </View>
-      </View>
-      {/* CARDS */}
-      <View style={{ justifyContent: 'center' }}>
-        {/* FIRST Card */}
-        <Card containerStyle={styles.card} title="Guests">
-          {/* Left-side content */}
-          <View
-            style={{
-              alignItems: 'center',
-            }}>
-            <View style={{ marginBottom: 15, alignItems: 'center' }}>
-              <Text style={{ color: COLORS.grayText }}>Дата заезда:</Text>
-              <Text style={{ color: COLORS.white }}>{comingDateData}</Text>
-            </View>
-
-            {/* Small Vertical Divider */}
-            <Divider
-              orientation="vertical"
-              width={0.5}
-              left={45}
-              top={42}
-              height={12}
-              color={COLORS.blue}
-              position="absolute"
-            />
-            <View
-              style={{ marginBottom: 15, marginTop: 10, alignItems: 'center' }}>
-              <Text style={{ color: COLORS.grayText }}>Дата выезда:</Text>
-              <Text style={{ paddingTop: 5, color: COLORS.white }}>
-                {leavingDateData}
-              </Text>
-            </View>
-
-            <View
-              style={{
-                flexDirection: 'row',
-              }}>
-              <Image source={moonIcon} />
-              <Text style={{ color: COLORS.white }}> {stayNumbers}</Text>
-              <Image style={{ marginLeft: 10 }} source={personIcon} />
-              <Text style={{ color: COLORS.white }}> {guestNumbers}</Text>
-            </View>
+        <View>
+          <View style={styles.topBarButtonsContainer}>
+            <TouchableOpacity style={styles.topBarBtn}>
+              <Text style={styles.topBarText}>Подтверждено</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.topBarBtn}>
+              <Text style={styles.topBarText}>01 Sep - 30 Sep</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.topBarBtn, { backgroundColor: 'black' }]}>
+              <Text style={styles.topBarText}>01 Sep - 30 Sep</Text>
+            </TouchableOpacity>
           </View>
-
-          <Divider
-            orientation="vertical"
-            leftWidth={1}
-            left={115}
-            height={130}
-            color="#404040"
-            position="absolute"
-          />
-
-          {/* LEFT-SIDE content */}
           <View
-            style={{
-              position: 'absolute',
-              flexDirection: 'row',
-              position: 'absolute',
-              left: 110,
-              flexDirection: 'row',
-              marginLeft: 20,
-            }}>
-            {/* GuestDetailsView */}
+            style={{ marginTop: 10, marginBottom: 5, alignItems: 'center' }}>
+            <Text style={{ color: COLORS.grayText }}>22 бронирования</Text>
+          </View>
+        </View>
+        {/* CARDS */}
+        <View style={{ justifyContent: 'center' }}>
+          {/* FIRST Card */}
+          <Card containerStyle={styles.card} title="Guests">
+            {/* Left-side content */}
             <View
               style={{
-                height: 150,
-                width: 140,
-              }}>
-              <Text style={styles.guestName}>{guestFullName}</Text>
-              <View>
-                <Text style={[styles.equalMargin, { color: COLORS.white }]}>
-                  {reservedRoomQuantity} номера
-                </Text>
-                <Text style={[styles.equalMargin, { color: COLORS.white }]}>
-                  {endingDate}
-                </Text>
-                <Text
-                  style={[
-                    styles.equalMargin,
-                    { fontSize: 16, color: COLORS.white },
-                  ]}>
-                  booking.com
-                </Text>
-                <Text style={[styles.greenPriceText, styles.equalMargin]}>
-                  {roomPrice} {currency}
-                </Text>
-              </View>
-            </View>
-            <View
-              style={{
-                height: 21,
-                borderRadius: 4,
-                width: 80,
                 alignItems: 'center',
-                justifyContent: 'center',
-                left: 15,
-                backgroundColor: '#2C384E',
-                flexWrap: 'wrap',
-                alignContent: 'center',
               }}>
-              <Text
-                style={{
-                  fontWeight: SIZES.fontWeight1,
-                  color: COLORS.greenProgress,
-                  fontSize: 13,
-                }}>
-                {guestStatus[0]}
-              </Text>
-            </View>
-          </View>
-        </Card>
-
-        {/* ADDITION */}
-        <Card containerStyle={styles.card} title="Guests">
-          {/* Left-side content */}
-          <View
-            style={{
-              alignItems: 'center',
-            }}>
-            <View style={{ marginBottom: 15, alignItems: 'center' }}>
-              <Text style={{ color: COLORS.grayText }}>Дата заезда:</Text>
-              <Text style={{ color: COLORS.white }}>01.02.2021</Text>
-            </View>
-
-            {/* Small Vertical Divider */}
-            <Divider
-              orientation="vertical"
-              width={0.5}
-              left={45}
-              top={42}
-              height={12}
-              color={COLORS.blue}
-              position="absolute"
-            />
-            <View
-              style={{ marginBottom: 15, marginTop: 10, alignItems: 'center' }}>
-              <Text style={{ color: COLORS.grayText }}>Дата выезда:</Text>
-              <Text style={{ paddingTop: 5, color: COLORS.white }}>
-                {leavingDateData}
-              </Text>
-            </View>
-
-            <View
-              style={{
-                flexDirection: 'row',
-              }}>
-              <Image source={moonIcon} />
-              <Text style={{ color: COLORS.white }}> {stayNumbers}</Text>
-              <Image style={{ marginLeft: 10 }} source={personIcon} />
-              <Text style={{ color: COLORS.white }}> {guestNumbers}</Text>
-            </View>
-          </View>
-          <Divider
-            orientation="vertical"
-            leftWidth={1}
-            left={115}
-            height={130}
-            color="#404040"
-            position="absolute"
-          />
-          {/* LEFT-SIDE content */}
-          <View
-            style={{
-              position: 'absolute',
-              flexDirection: 'row',
-              position: 'absolute',
-              left: 110,
-              flexDirection: 'row',
-              marginLeft: 20,
-            }}>
-            {/* GuestDetailsView */}
-            <View
-              style={{
-                height: 150,
-                width: 140,
-              }}>
-              <Text style={styles.guestName}>{guestFullName}</Text>
-              <View>
-                <Text style={[styles.equalMargin, { color: COLORS.white }]}>
-                  {reservedRoomQuantity} номера
-                </Text>
-                <Text style={[styles.equalMargin, { color: COLORS.white }]}>
-                  {endingDate}
-                </Text>
-                <Text
-                  style={[
-                    styles.equalMargin,
-                    { fontSize: 16, color: COLORS.white },
-                  ]}>
-                  {SOURCES.dolores}
-                </Text>
-                <Text style={[styles.greenPriceText, styles.equalMargin]}>
-                  {roomPrice} {currency}
-                </Text>
+              <View style={{ marginBottom: 15, alignItems: 'center' }}>
+                <Text style={{ color: COLORS.grayText }}>Дата заезда:</Text>
+                <Text style={{ color: COLORS.white }}>{comingDateData}</Text>
               </View>
-            </View>
-            <View
-              style={{
-                width: '100%',
-                height: '90%',
-                justifyContent: 'flex-start',
-              }}>
+
+              {/* Small Vertical Divider */}
+              <Divider
+                orientation="vertical"
+                width={0.5}
+                left={45}
+                top={42}
+                height={12}
+                color={COLORS.blue}
+                position="absolute"
+              />
               <View
                 style={{
+                  marginBottom: 15,
+                  marginTop: 10,
+                  alignItems: 'center',
+                }}>
+                <Text style={{ color: COLORS.grayText }}>Дата выезда:</Text>
+                <Text style={{ paddingTop: 5, color: COLORS.white }}>
+                  {leavingDateData}
+                </Text>
+              </View>
+
+              <View
+                style={{
+                  flexDirection: 'row',
+                }}>
+                <Image source={moonIcon} />
+                <Text style={{ color: COLORS.white }}> {stayNumbers}</Text>
+                <Image style={{ marginLeft: 10 }} source={personIcon} />
+                <Text style={{ color: COLORS.white }}> {guestNumbers}</Text>
+              </View>
+            </View>
+
+            <Divider
+              orientation="vertical"
+              leftWidth={1}
+              left={115}
+              height={130}
+              color="#404040"
+              position="absolute"
+            />
+
+            {/* LEFT-SIDE content */}
+            <View
+              style={{
+                position: 'absolute',
+                flexDirection: 'row',
+                position: 'absolute',
+                left: 110,
+                flexDirection: 'row',
+                marginLeft: 20,
+              }}>
+              {/* GuestDetailsView */}
+              <View
+                style={{
+                  height: 150,
+                  width: 140,
+                }}>
+                <Text style={styles.guestName}>{guestFullName}</Text>
+                <View>
+                  <Text style={[styles.equalMargin, { color: COLORS.white }]}>
+                    {reservedRoomQuantity} номера
+                  </Text>
+                  <Text style={[styles.equalMargin, { color: COLORS.white }]}>
+                    {endingDate}
+                  </Text>
+                  <Text
+                    style={[
+                      styles.equalMargin,
+                      { fontSize: 16, color: COLORS.white },
+                    ]}>
+                    booking.com
+                  </Text>
+                  <Text style={[styles.greenPriceText, styles.equalMargin]}>
+                    {roomPrice} {currency}
+                  </Text>
+                </View>
+              </View>
+              <View
+                style={{
+                  height: 21,
                   borderRadius: 4,
+                  width: 80,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  left: 15,
                   backgroundColor: '#2C384E',
                   flexWrap: 'wrap',
-                  alignItems: 'center',
                   alignContent: 'center',
-                  justifyContent: 'center',
-                  right: 25,
-                  width: 120,
-                  height: 25,
                 }}>
                 <Text
                   style={{
                     fontWeight: SIZES.fontWeight1,
-                    color: COLORS.blue,
+                    color: COLORS.greenProgress,
                     fontSize: 13,
                   }}>
-                  {guestStatus[1]}
+                  {guestStatus[0]}
                 </Text>
               </View>
             </View>
-          </View>
-        </Card>
-        {/* SECOND Card */}
-      </View>
+          </Card>
+
+          {/* ADDITION */}
+          <Card containerStyle={styles.card} title="Guests">
+            {/* Left-side content */}
+            <View
+              style={{
+                alignItems: 'center',
+              }}>
+              <View style={{ marginBottom: 15, alignItems: 'center' }}>
+                <Text style={{ color: COLORS.grayText }}>Дата заезда:</Text>
+                <Text style={{ color: COLORS.white }}>01.02.2021</Text>
+              </View>
+
+              {/* Small Vertical Divider */}
+              <Divider
+                orientation="vertical"
+                width={0.5}
+                left={45}
+                top={42}
+                height={12}
+                color={COLORS.blue}
+                position="absolute"
+              />
+              <View
+                style={{
+                  marginBottom: 15,
+                  marginTop: 10,
+                  alignItems: 'center',
+                }}>
+                <Text style={{ color: COLORS.grayText }}>Дата выезда:</Text>
+                <Text style={{ paddingTop: 5, color: COLORS.white }}>
+                  {leavingDateData}
+                </Text>
+              </View>
+
+              <View
+                style={{
+                  flexDirection: 'row',
+                }}>
+                <Image source={moonIcon} />
+                <Text style={{ color: COLORS.white }}> {stayNumbers}</Text>
+                <Image style={{ marginLeft: 10 }} source={personIcon} />
+                <Text style={{ color: COLORS.white }}> {guestNumbers}</Text>
+              </View>
+            </View>
+            <Divider
+              orientation="vertical"
+              leftWidth={1}
+              left={115}
+              height={130}
+              color="#404040"
+              position="absolute"
+            />
+            {/* LEFT-SIDE content */}
+            <View
+              style={{
+                position: 'absolute',
+                flexDirection: 'row',
+                position: 'absolute',
+                left: 110,
+                flexDirection: 'row',
+                marginLeft: 20,
+              }}>
+              {/* GuestDetailsView */}
+              <View
+                style={{
+                  height: 150,
+                  width: 140,
+                }}>
+                <Text style={styles.guestName}>{guestFullName}</Text>
+                <View>
+                  <Text style={[styles.equalMargin, { color: COLORS.white }]}>
+                    {reservedRoomQuantity} номера
+                  </Text>
+                  <Text style={[styles.equalMargin, { color: COLORS.white }]}>
+                    {endingDate}
+                  </Text>
+                  <Text
+                    style={[
+                      styles.equalMargin,
+                      { fontSize: 16, color: COLORS.white },
+                    ]}>
+                    {SOURCES.dolores}
+                  </Text>
+                  <Text style={[styles.greenPriceText, styles.equalMargin]}>
+                    {roomPrice} {currency}
+                  </Text>
+                </View>
+              </View>
+              <View
+                style={{
+                  width: '100%',
+                  height: '90%',
+                  justifyContent: 'flex-start',
+                }}>
+                <View
+                  style={{
+                    borderRadius: 4,
+                    backgroundColor: '#2C384E',
+                    flexWrap: 'wrap',
+                    alignItems: 'center',
+                    alignContent: 'center',
+                    justifyContent: 'center',
+                    right: 25,
+                    width: 120,
+                    height: 25,
+                  }}>
+                  <Text
+                    style={{
+                      fontWeight: SIZES.fontWeight1,
+                      color: COLORS.blue,
+                      fontSize: 13,
+                    }}>
+                    {guestStatus[1]}
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </Card>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }

@@ -21,6 +21,7 @@ export default function SettingsScreen({ navigation }) {
   }
   function handleBackButtonPress() {
     alert('Back Button Press handled!');
+    navigation.navigate('Home');
   }
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
@@ -30,15 +31,6 @@ export default function SettingsScreen({ navigation }) {
             flexDirection: 'row',
             alignItems: 'center',
           }}>
-          <TouchableOpacity onPress={handleBackButtonPress}>
-            <Image
-              source={blueChevronLeft}
-              style={{
-                right: 70,
-              }}
-            />
-          </TouchableOpacity>
-
           <Text style={styles.topTitle}>Настройки</Text>
         </View>
         <Card
@@ -53,7 +45,8 @@ export default function SettingsScreen({ navigation }) {
                 style={{
                   marginBottom: 20,
                   height: 20,
-                }}>
+                }}
+                onPress={() => navigation.navigate('Comparison')}>
                 <Text style={styles.menuOptionStyle}>Мои гостиницы</Text>
 
                 <Divider
@@ -190,7 +183,7 @@ export default function SettingsScreen({ navigation }) {
             borderWidth: 0.5,
             borderColor: '#404040',
             height: 140,
-            width: 325,
+            width: 355,
             height: 48,
             justifyContent: 'center',
             alignItems: 'center',
@@ -225,7 +218,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: '#404040',
     height: 140,
-    width: 325,
+    width: 355,
     height: 368,
   },
   logOutButton: {

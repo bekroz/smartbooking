@@ -27,7 +27,7 @@ export default function AppStack() {
         <Stack.Screen name="TermsLoader" component={TermsLoader} />
         <Stack.Screen name="Dashboard" component={DashboardScreen} />
         <Stack.Screen name="Reservation" component={ReservationScreen} />
-        <Stack.Screen name="Calendar" component={ComparisonScreen} />
+        <Stack.Screen name="Comparison" component={ComparisonScreen} />
         <Stack.Screen name="Settings" component={SettingsScreen} />
       </Stack.Navigator>
     </NavigationContainer>

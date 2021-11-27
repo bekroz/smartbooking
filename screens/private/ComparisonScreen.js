@@ -5,17 +5,38 @@ import {
   SafeAreaView,
   StyleSheet,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import { COLORS, SIZES } from '../../constants/theme';
 import { Card } from 'react-native-elements/dist/card/Card';
 import styled from 'styled-components/native';
 import { ScrollView } from 'react-native-gesture-handler';
+import blueChevronLeft from '../../images/blueChevronLeft.png';
 
-export default function ComparisonScreen() {
+export default function ComparisonScreen({ navigation }) {
+  function handleBackButtonPress() {
+    navigation.navigate('Home');
+  }
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
       {/* TOP Title */}
-      <View style={{ alignItems: 'center' }}>
+      <View style={{ alignItems: 'center' }}></View>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: SIZES.width,
+        }}>
+        <TouchableOpacity
+          onPress={handleBackButtonPress}
+          style={{
+            left: 15,
+            padding: 10,
+            position: 'absolute',
+          }}>
+          <Image source={blueChevronLeft} />
+        </TouchableOpacity>
         <Text
           style={{
             fontWeight: SIZES.fontWeight3,
