@@ -71,11 +71,10 @@ export default function DashboardScreen({ navigation }) {
   };
 
   const calendar = {
-    date: 'Avgust 2021',
+    date: 'Август 2021',
     day: 'Вторник',
   };
 
-  const [userRefresh, setUserRefresh] = useState(false);
   const [hotelPropertiesData, setAllHotelPropertiesData] = useState(null);
 
   useEffect(() => {
@@ -87,16 +86,7 @@ export default function DashboardScreen({ navigation }) {
       console.log(received_data);
     }
     fetchData();
-    setUserRefresh(false);
   }, []);
-
-  // useEffect(() => {
-  //   getAllHotelPropertiesData({ token }).then(res => {
-  //     const { received_data } = res;
-  //     setAllHotelPropertiesData(received_data);
-  //     console.log(`THIS IS RECEIVED DATA =>>>> :`);
-  //     console.log(received_data);
-  // }, []);
 
   const circleData = {
     data: 'dashboardData.today_data.confirmed_reservations_data.quantity',
@@ -390,7 +380,7 @@ export default function DashboardScreen({ navigation }) {
                   color: COLORS.grayText,
                   left: 140,
                 }}>
-                0000
+                {'     0'}
               </Text>
 
               <View style={{ padding: 10, right: 5, position: 'absolute' }}>
@@ -430,7 +420,7 @@ export default function DashboardScreen({ navigation }) {
                     fontSize: SIZES.body2,
                     color: COLORS.white,
                   }}>
-                  {firstView ? 'Загрузка' : 'Свободна'}
+                  {firstView ? 'Загрузка' : 'Свободно'}
                 </Text>
 
                 <Text
