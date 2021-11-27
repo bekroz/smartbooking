@@ -150,7 +150,7 @@ export default function ReservationScreen() {
                 </Text>
               </View>
             </View>
-            <TouchableOpacity
+            <View
               style={{
                 height: 21,
                 borderRadius: 4,
@@ -170,7 +170,7 @@ export default function ReservationScreen() {
                 }}>
                 {guestStatus[0]}
               </Text>
-            </TouchableOpacity>
+            </View>
           </View>
         </Card>
 
@@ -264,7 +264,7 @@ export default function ReservationScreen() {
                 height: '90%',
                 justifyContent: 'flex-start',
               }}>
-              <TouchableOpacity
+              <View
                 style={{
                   borderRadius: 4,
                   backgroundColor: '#2C384E',
@@ -284,7 +284,7 @@ export default function ReservationScreen() {
                   }}>
                   {guestStatus[1]}
                 </Text>
-              </TouchableOpacity>
+              </View>
             </View>
           </View>
         </Card>

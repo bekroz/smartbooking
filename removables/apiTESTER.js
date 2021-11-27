@@ -9,11 +9,11 @@ import {
   FlatList,
   RefreshControl,
 } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { COLORS, SIZES } from '../constants/theme';
 import base64 from 'react-native-base64';
 import axios from 'axios';
 import { ScrollView } from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function APITESTING() {
   const [refreshing, setRefreshing] = useState(true);

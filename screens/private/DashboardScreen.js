@@ -24,7 +24,29 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function DashboardScreen() {
   // API HANDLERS
-  const { getAllHotelPropertiesData } = useApi();
+  const {
+    getAllHotelPropertiesData,
+    handleIOSAuthentication,
+    // #2
+    handleIOSAuthorization,
+    // #3
+    // #4
+    getSingleHotelData,
+    // #5
+    getDashboardData,
+    // #6
+    getHotelReservationsData,
+    // #7
+    getHotelSingleReservationData,
+    // #8
+    getStatisticsByYear,
+    // #9
+    getStatisticsByCategory,
+    // #10
+    getPropertiesComparisonData,
+    // #11
+    getSourcesData,
+  } = useApi();
 
   // BUTTON HANDLERS
   function dropdownClickHandler() {
@@ -78,6 +100,10 @@ export default function DashboardScreen() {
   //     console.log(received_data);
   // }, []);
 
+  const circleData = {
+    data: 'dashboardData.today_data.confirmed_reservations_data.quantity',
+  };
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
       <View style={[styles.hotelBar, POSITIONING.center]}>
@@ -89,11 +115,11 @@ export default function DashboardScreen() {
         </TouchableOpacity>
       </View>
       <View style={styles.dateBlock}>
-        <TouchableOpacity style={styles.ArrowIconStyle}>
+        <TouchableOpacity style={styles.arrowIconStyle}>
           <Image source={leftArrow} />
         </TouchableOpacity>
         <Text style={styles.dateText}>{calendar.date}</Text>
-        <TouchableOpacity style={styles.ArrowIconStyle}>
+        <TouchableOpacity style={styles.arrowIconStyle}>
           <Image source={rightArrow} />
         </TouchableOpacity>
       </View>
@@ -220,7 +246,7 @@ export default function DashboardScreen() {
       {/* GRAY Boxes container */}
       <View style={{ marginBottom: 25 }}>
         {/* FIRST GRAY BOX starts here */}
-        <View style={styles.grayBlock}>
+        <TouchableOpacity style={styles.grayBlock}>
           <View
             style={{
               flexDirection: 'row',
@@ -229,10 +255,12 @@ export default function DashboardScreen() {
             <View style={styles.blueBox}>
               <Text
                 style={{ fontWeight: SIZES.fontWeight2, color: COLORS.white }}>
-                123
+                {
+                  'dashboardData.today_data.confirmed_reservations_data.quantity'
+                }
               </Text>
             </View>
-            <TouchableOpacity>
+            <View>
               <Text
                 style={{
                   fontSize: 18,
@@ -241,7 +269,7 @@ export default function DashboardScreen() {
                 }}>
                 Новые
               </Text>
-            </TouchableOpacity>
+            </View>
             <View
               style={{
                 left: 80,
@@ -254,21 +282,28 @@ export default function DashboardScreen() {
                   fontWeight: SIZES.fontWeight0,
                   color: COLORS.grayText,
                 }}>
-                123 000 000 UZS
+                2132131232 UZS
               </Text>
             </View>
-            <TouchableOpacity
-              style={{ padding: 10, right: 5, position: 'absolute' }}>
+            <View
+              style={{
+                padding: 10,
+                right: 5,
+                position: 'absolute',
+                zIndex: 10,
+                marginLeft: 5,
+                backgroundColor: '#212831',
+              }}>
               <Image
-                style={{ tintColor: COLORS.grayText }}
+                style={{ tintColor: COLORS.grayText, marginLeft: 5 }}
                 source={rightArrow}
               />
-            </TouchableOpacity>
+            </View>
           </View>
-        </View>
+        </TouchableOpacity>
 
         {/* SECOND GRAY BOX starts here */}
-        <View style={styles.grayBlock}>
+        <TouchableOpacity style={styles.grayBlock}>
           <View
             style={{
               flexDirection: 'row',
@@ -277,10 +312,10 @@ export default function DashboardScreen() {
             <View style={styles.blueTextBlock}>
               <Text
                 style={{ fontWeight: SIZES.fontWeight2, color: COLORS.blue }}>
-                23
+                {'dashboardData.confirmed_reservations_data.quantity'}
               </Text>
             </View>
-            <TouchableOpacity>
+            <View>
               <Text
                 style={{
                   fontSize: 18,
@@ -289,7 +324,7 @@ export default function DashboardScreen() {
                 }}>
                 Отмена
               </Text>
-            </TouchableOpacity>
+            </View>
             <View
               style={{
                 left: 145,
@@ -305,17 +340,16 @@ export default function DashboardScreen() {
                 2 1231$
               </Text>
             </View>
-            <TouchableOpacity
-              style={{ padding: 10, right: 5, position: 'absolute' }}>
+            <View style={{ padding: 10, right: 5, position: 'absolute' }}>
               <Image
                 style={{ tintColor: COLORS.grayText }}
                 source={rightArrow}
               />
-            </TouchableOpacity>
+            </View>
           </View>
-        </View>
+        </TouchableOpacity>
         {/* THIRD GRAY BOX starts here */}
-        <View style={styles.grayBlock}>
+        <TouchableOpacity style={styles.grayBlock}>
           <View
             style={{
               flexDirection: 'row',
@@ -324,7 +358,7 @@ export default function DashboardScreen() {
             <View style={styles.blueTextBlock}>
               <Text style={styles.blueText}>0</Text>
             </View>
-            <TouchableOpacity>
+            <View>
               <Text
                 style={{
                   fontSize: 18,
@@ -333,7 +367,7 @@ export default function DashboardScreen() {
                 }}>
                 Сообщения
               </Text>
-            </TouchableOpacity>
+            </View>
 
             <Text
               style={{
@@ -345,15 +379,14 @@ export default function DashboardScreen() {
               0000
             </Text>
 
-            <TouchableOpacity
-              style={{ padding: 10, right: 5, position: 'absolute' }}>
+            <View style={{ padding: 10, right: 5, position: 'absolute' }}>
               <Image
                 style={{ tintColor: COLORS.grayText }}
                 source={rightArrow}
               />
-            </TouchableOpacity>
+            </View>
           </View>
-        </View>
+        </TouchableOpacity>
       </View>
       <View
         style={{
@@ -419,14 +452,6 @@ const styles = StyleSheet.create({
     padding: SIZES.base,
     // fontFamily: 'SF Pro Display',
   },
-  dropdownIcon: {
-    width: 11,
-    height: 7,
-    left: 244,
-    top: 61,
-    background: '#FFFFFF',
-    borderRadius: 0.5,
-  },
   dateBlock: {
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -437,9 +462,8 @@ const styles = StyleSheet.create({
     color: COLORS.white,
     fontWeight: SIZES.fontWeight1,
   },
-  ArrowIconStyle: {
-    padding: 10,
-    margin: 5,
+  arrowIconStyle: {
+    padding: 15,
   },
   dropdownIconStyle: {
     padding: 5,
