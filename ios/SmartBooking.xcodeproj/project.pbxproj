@@ -12,11 +12,7 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		1B202D92274E17980031CFC3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		1B202D93274E179B0031CFC3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		1B202D94274E179E0031CFC3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		1B202D95274E17A00031CFC3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		1B202D97274E17A10031CFC3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		1B3D6869275386FB0005504F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1B3D6868275386FB0005504F /* LaunchScreen.storyboard */; };
 		1B567B95274BEB00004F4C73 /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B567B94274BEB00004F4C73 /* Tests_iOS.swift */; };
 		1B567B97274BEB00004F4C73 /* Tests_iOSLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B567B96274BEB00004F4C73 /* Tests_iOSLaunchTests.swift */; };
 		1B567BA1274BEB01004F4C73 /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B567BA0274BEB01004F4C73 /* Tests_macOS.swift */; };
@@ -32,7 +28,6 @@
 		1B567BAC274BEB01004F4C73 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B567B7F274BEB00004F4C73 /* Assets.xcassets */; };
 		1B567BAD274BEB01004F4C73 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B567B7F274BEB00004F4C73 /* Assets.xcassets */; };
 		6B57330666D4C9E2CD7B58EF /* libPods-SmartBooking-SmartBookingTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AD6FD3A678AB8EAE5530284 /* libPods-SmartBooking-SmartBookingTests.a */; };
-		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +65,7 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = SmartBooking/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = SmartBooking/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = SmartBooking/main.m; sourceTree = "<group>"; };
+		1B3D6868275386FB0005504F /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1B567B7B274BEAFE004F4C73 /* Shared.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Shared.xcdatamodel; sourceTree = "<group>"; };
 		1B567B7C274BEAFE004F4C73 /* SmartBooking_AppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartBooking_AppApp.swift; sourceTree = "<group>"; };
 		1B567B7D274BEAFE004F4C73 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -86,7 +82,6 @@
 		1B567BA2274BEB01004F4C73 /* Tests_macOSLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOSLaunchTests.swift; sourceTree = "<group>"; };
 		3AE380C8686B80AECF2CFFF2 /* Pods-SmartBooking-SmartBookingTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartBooking-SmartBookingTests.debug.xcconfig"; path = "Target Support Files/Pods-SmartBooking-SmartBookingTests/Pods-SmartBooking-SmartBookingTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5AD6FD3A678AB8EAE5530284 /* libPods-SmartBooking-SmartBookingTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SmartBooking-SmartBookingTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = SmartBooking/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B3E9AF7B9BD15BBB26A860E2 /* Pods-SmartBooking-SmartBookingTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartBooking-SmartBookingTests.release.xcconfig"; path = "Target Support Files/Pods-SmartBooking-SmartBookingTests/Pods-SmartBooking-SmartBookingTests.release.xcconfig"; sourceTree = "<group>"; };
 		E4D84F4D6E196CC1EE0899EC /* Pods-SmartBooking.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartBooking.debug.xcconfig"; path = "Target Support Files/Pods-SmartBooking/Pods-SmartBooking.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -176,7 +171,7 @@
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
+				1B3D6868275386FB0005504F /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
 			name = SmartBooking;
@@ -447,7 +442,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1B202D97274E17A10031CFC3 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -455,7 +449,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				1B3D6869275386FB0005504F /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -465,7 +459,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B567BAC274BEB01004F4C73 /* Assets.xcassets in Resources */,
-				1B202D92274E17980031CFC3 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -474,7 +467,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B567BAD274BEB01004F4C73 /* Assets.xcassets in Resources */,
-				1B202D93274E179B0031CFC3 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -482,7 +474,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1B202D94274E179E0031CFC3 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -490,7 +481,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1B202D95274E17A00031CFC3 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -5,7 +5,7 @@ import { COLORS, SIZES } from '../../constants/theme';
 // Changed NPM Component
 import CircularProgress from '../Additionals/circleanimator';
 
-export default function EmptyRoomsCircle() {
+export default function EmptyRoomsCircle({ initialvalue, availableRooms }) {
   const [value, setValue] = useState(0);
   const totalRooms = 1000;
   const occupiedRooms = 750;
@@ -14,9 +14,10 @@ export default function EmptyRoomsCircle() {
   return (
     <TouchableOpacity>
       <CircularProgress
+        initialValue={initialvalue}
         radius={45}
-        value={emptyRooms}
-        valuePrefix={emptyRooms}
+        value={availableRooms}
+        valuePrefix={availableRooms}
         fontSize={SIZES.body3}
         maxValue={totalRooms}
         textColor="#FFF"

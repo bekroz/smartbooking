@@ -1,66 +1,80 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
-// import base64 from 'react-native-base64';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Config from '../config';
 
 const useApi = () => {
-  const BASE_API_URL = 'https://api.dev.smartbooking.uz';
+  // #1 API => GET iOS APP token
 
-  // #1 API => GET IOS User authentication token
-  // const base64iosCode = base64.encode(
-  //   process.env.iosISS + ':' + process.env.iosSECRET,
-  // );
+  // STORE THEM in AsyncStorage
+  const [appTokenData, setAppTokenData] = useState(null);
+  const [userTokenData, setUserTokenData] = useState(null);
 
-  const encoded_ios_code =
-    'VHFlbnh2TmFMTU41S3gyWHBDdmJzd2FLVGFxODJtZ3BDSkJyTmhMNFNZSFZKUGdrQXhEc0RFNG8zekI2Olc4VVJUbHJuM1laZjNwQ292UzE0eFF2OWJSUWUzMm5ZdVNuY1NERWJXcUtMTVV4Z0ZPSFkwYlFPdXdEQg==';
+  // APP TOKEN DATA TESTER
 
-  const firstAPIconfig = {
-    method: 'POST',
-    url: `${BASE_API_URL}/auth/app`,
-    headers: {
-      Authorization: `Basic ${encoded_ios_code}`,
-    },
+  const showAppTokenData = async () => {
+    const data = await AsyncStorage.getItem('APP_TOKEN');
+    try {
+      console.log(`THIS IS APP TOKEN TO SHOW =>>>> : ${data}`);
+      setAppTokenData(data);
+    } catch (error) {
+      console.error(error);
+    }
+    return;
   };
 
-  const [authenticationToken, setAuthenticationToken] = useState(null);
+  // USER TOKEN DATA TESTER
+  const showUserTokenData = async () => {
+    const data = await AsyncStorage.getItem('USER_TOKEN');
+    try {
+      console.log(`THIS IS USER TOKEN TO SHOW =>>>> : ${data}`);
+      setUserTokenData(data);
+    } catch (error) {
+      console.error(error);
+    }
+    return;
+  };
 
   const handleIOSAuthentication = async () => {
     try {
-      return await axios(firstAPIconfig).then(response => {
-        console.log('AUTHENTICATION TOKEN ===>>>');
+      return await axios({
+        method: 'POST',
+        url: `${Config.BASE_API_URL}/auth/app`,
+        headers: {
+          Authorization: `Basic ${Config.IOS_BASE64_CODE}`,
+        },
+      }).then(response => {
+        console.log('1. APP TOKEN ===>>>');
         console.log(response.data.access_token);
-        setAuthenticationToken(response.data.access_token);
+        AsyncStorage.setItem('APP_TOKEN', response.data.access_token);
       });
     } catch (e) {
       alert(e);
     }
   };
 
-  // #2 API => GET IOS User authorization token
-
-  const [authorizationToken, setAuthorizationToken] = useState(null);
+  // #2 API => GET iOS USER token
 
   const user_secret_outgoing_data = {
     username: 'test@smartbooking.uz',
     password: '12345678',
   };
-  const secondAPIconfig = {
-    url: `${BASE_API_URL}/mobile/auth/login`,
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${authenticationToken}`,
-      'Content-Type': 'application/json',
-    },
-    data: user_secret_outgoing_data,
-  };
 
   const handleIOSAuthorization = async () => {
+    const app_token_to_send = await AsyncStorage.getItem('APP_TOKEN');
     try {
-      return await axios(secondAPIconfig).then(response => {
-        console.log('AUTHORIZATION TOKEN ===>>>');
+      return await axios({
+        url: `${Config.BASE_API_URL}/mobile/auth/login`,
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${app_token_to_send}`,
+          'Content-Type': 'application/json',
+        },
+        data: user_secret_outgoing_data,
+      }).then(response => {
+        console.log('2. USER TOKEN ===>>>');
         console.log(response.data.access_token);
-        setAuthorizationToken(response.data.access_token);
-        // AsyncStorage.setItem('token', response.data.access_token);
+        AsyncStorage.setItem('USER_TOKEN', response.data.access_token);
       });
     } catch (e) {
       console.log(e);
@@ -70,30 +84,18 @@ const useApi = () => {
   // #3 API => GET All Hotel Properties Data of the user
 
   const [allHotelData, setAllHotelData] = useState(null);
-  // const thirdAPIconfig = {
-  //   url: `${BASE_API_URL}/mobile/properties`,
-  //   method: 'POST',
-  //   headers: {
-  //     Authorization: `Bearer ${{ token }}`,
-  //     'Content-Type': 'application/json',
-  //   },
-  // };
 
-  const getAllHotelPropertiesData = async ({ token }) => {
+  const getAllHotelPropertiesData = async () => {
+    const user_token_to_send = await AsyncStorage.getItem('USER_TOKEN');
     try {
       return await axios({
-        url: `${BASE_API_URL}/mobile/properties`,
+        url: `${Config.BASE_API_URL}/mobile/properties`,
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${{ token }}`,
+          Authorization: `Bearer ${user_token_to_send}`,
           'Content-Type': 'application/json',
         },
-      })
-        .then(response => {
-          console.log('ALL HOTEL PROPERTIES DATA ===>>>');
-          console.log(response.data);
-        })
-        .catch(e => console.log(e));
+      });
     } catch (e) {
       console.log(e);
     }
@@ -103,24 +105,17 @@ const useApi = () => {
 
   const [singleHotelData, setSingleHotelData] = useState(null);
 
-  const fourthAPIconfig = {
-    url: `${BASE_API_URL}/mobile/properties/5`,
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${authorizationToken}`,
-      'Content-Type': 'application/json',
-    },
-  };
-
   const getSingleHotelData = async () => {
+    const user_token_to_send = await AsyncStorage.getItem('USER_TOKEN');
     try {
-      return await axios(fourthAPIconfig)
-        .then(response => {
-          console.log('SINGLE HOTEL DATA ===>>>');
-          console.log(response.data);
-          setSingleHotelData(response.data);
-        })
-        .catch(e => console.log(e));
+      return await axios({
+        url: `${Config.BASE_API_URL}/mobile/properties/5`,
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${user_token_to_send}`,
+          'Content-Type': 'application/json',
+        },
+      });
     } catch (e) {
       console.log(e);
     }
@@ -132,25 +127,19 @@ const useApi = () => {
   const dashboard_outgoing_data = {
     date: '2021-11-11',
   };
-  const fifthAPIconfig = {
-    url: `${BASE_API_URL}/mobile/48/dashboard`,
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${authorizationToken}`,
-      'Content-Type': 'application/json',
-    },
-    data: dashboard_outgoing_data,
-  };
 
   const getDashboardData = async () => {
+    const user_token_to_send = await AsyncStorage.getItem('USER_TOKEN');
     try {
-      return await axios(fifthAPIconfig)
-        .then(response => {
-          console.log('DASHBOARD DATA ===>>>');
-          console.log(response.data);
-          setDashboardData(response.data);
-        })
-        .catch(e => console.log(e));
+      return await axios({
+        url: `${Config.BASE_API_URL}/mobile/48/dashboard`,
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${user_token_to_send}`,
+          'Content-Type': 'application/json',
+        },
+        data: dashboard_outgoing_data,
+      });
     } catch (e) {
       console.log(e);
     }
@@ -166,21 +155,21 @@ const useApi = () => {
     end_date: '2021-11-05',
     status: 'confirmed',
   };
-  const sixAPIconfig = {
-    url: `${BASE_API_URL}/mobile/48/reservations`,
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${authorizationToken}`,
-      'Content-Type': 'application/json',
-    },
-    data: reservations_outgoing_data,
-  };
 
   const getHotelReservationsData = async () => {
+    const user_token_to_send = await AsyncStorage.getItem('USER_TOKEN');
     try {
-      return await axios(sixAPIconfig)
+      return await axios({
+        url: `${Config.BASE_API_URL}/mobile/48/reservations`,
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${user_token_to_send}`,
+          'Content-Type': 'application/json',
+        },
+        data: reservations_outgoing_data,
+      })
         .then(response => {
-          console.log('ALL RESERVATIONS DATA ===>>>');
+          console.log('6. ALL RESERVATIONS DATA ===>>>');
           console.log(response.data);
           setHotelAllReservationsData(response.data.data);
         })
@@ -192,29 +181,17 @@ const useApi = () => {
 
   // #7 API => GET Hotel Single Reservation Data
 
-  const [hotelSingleReservationData, setHotelSingleReservationData] =
-    useState(null);
-
-  const reservationID = '7470654901';
-
-  const seventhAPIconfig = {
-    url: `${BASE_API_URL}/mobile/48/reservations/${reservationID}`,
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${authorizationToken}`,
-      'Content-Type': 'application/json',
-    },
-  };
-
-  const getHotelSingleReservationData = async () => {
+  const getHotelSingleReservationData = async reservationID => {
+    const user_token_to_send = await AsyncStorage.getItem('USER_TOKEN');
     try {
-      return await axios(seventhAPIconfig)
-        .then(response => {
-          console.log('SINGLE RESERVATION DATA ===>>>');
-          console.log(response.data);
-          setHotelSingleReservationData(response.data.data);
-        })
-        .catch(e => console.log(e));
+      return await axios({
+        url: `${Config.BASE_API_URL}/mobile/48/reservations/${reservationID}`,
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${user_token_to_send}`,
+          'Content-Type': 'application/json',
+        },
+      });
     } catch (e) {
       console.log(e);
     }
@@ -227,21 +204,21 @@ const useApi = () => {
   const stat_by_year_outgoing_data = {
     year: '2015',
   };
-  const eighthAPIconfig = {
-    url: `${BASE_API_URL}/mobile/48/statistics-by-year`,
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${authorizationToken}`,
-      'Content-Type': 'application/json',
-    },
-    data: stat_by_year_outgoing_data,
-  };
 
   const getStatisticsByYear = async () => {
+    const user_token_to_send = await AsyncStorage.getItem('USER_TOKEN');
     try {
-      return await axios(eighthAPIconfig)
+      return await axios({
+        url: `${Config.BASE_API_URL}/mobile/48/statistics-by-year`,
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${user_token_to_send}`,
+          'Content-Type': 'application/json',
+        },
+        data: stat_by_year_outgoing_data,
+      })
         .then(response => {
-          console.log('STATISTICS BY <<< YEAR >>> DATA===>>>');
+          console.log('8. STATISTICS BY <<< YEAR >>> DATA===>>>');
           console.log(response.data);
           setHotelStatisticsByYear(response.data.data);
         })
@@ -260,21 +237,21 @@ const useApi = () => {
     start_date: '2020-11-01',
     end_date: '2021-11-30',
   };
-  const ninthAPIconfig = {
-    url: `${BASE_API_URL}/mobile/48/statistics-by-group`,
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${authorizationToken}`,
-      'Content-Type': 'application/json',
-    },
-    data: stat_by_group_outgoing_data,
-  };
 
   const getStatisticsByCategory = async () => {
+    const user_token_to_send = await AsyncStorage.getItem('USER_TOKEN');
     try {
-      return await axios(ninthAPIconfig)
+      return await axios({
+        url: `${Config.BASE_API_URL}/mobile/48/statistics-by-group`,
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${user_token_to_send}`,
+          'Content-Type': 'application/json',
+        },
+        data: stat_by_group_outgoing_data,
+      })
         .then(response => {
-          console.log('STATISTICS BY <<< GROUP >>> DATA ===>>>');
+          console.log('9. STATISTICS BY <<< GROUP >>> DATA ===>>>');
           console.log(response.data);
           setHotelStatisticsByCategory(response.data.data);
         })
@@ -293,21 +270,21 @@ const useApi = () => {
     year: '2021',
     month: '11',
   };
-  const tenthAPIconfig = {
-    url: `${BASE_API_URL}/mobile/compare-properties`,
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${authorizationToken}`,
-      'Content-Type': 'application/json',
-    },
-    data: comparison_outgoing_data,
-  };
 
   const getPropertiesComparisonData = async () => {
+    const user_token_to_send = await AsyncStorage.getItem('USER_TOKEN');
     try {
-      return await axios(tenthAPIconfig)
+      return await axios({
+        url: `${Config.BASE_API_URL}/mobile/compare-properties`,
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${user_token_to_send}`,
+          'Content-Type': 'application/json',
+        },
+        data: comparison_outgoing_data,
+      })
         .then(response => {
-          console.log('PROPERTIES COMPARISON DATA ===>>>');
+          console.log('10. PROPERTIES COMPARISON DATA ===>>>');
           console.log(response.data);
           setPropertiesComparisonData(response.data);
         })
@@ -321,20 +298,19 @@ const useApi = () => {
 
   const [sourcesData, setSourcesData] = useState(null);
 
-  const eleventhAPIconfig = {
-    url: `${BASE_API_URL}/mobile/48/sources`,
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${authorizationToken}`,
-      'Content-Type': 'application/json',
-    },
-  };
-
   const getSourcesData = async () => {
+    const user_token_to_send = await AsyncStorage.getItem('USER_TOKEN');
     try {
-      return await axios(eleventhAPIconfig)
+      return await axios({
+        url: `${Config.BASE_API_URL}/mobile/48/sources`,
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${user_token_to_send}`,
+          'Content-Type': 'application/json',
+        },
+      })
         .then(response => {
-          console.log('SOURCES DATA ===>>>');
+          console.log('11. SOURCES DATA ===>>>');
           console.log(response.data);
           setSourcesData(response.data);
         })

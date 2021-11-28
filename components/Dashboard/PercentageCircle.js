@@ -4,12 +4,11 @@ import CircularProgress from 'react-native-circular-progress-indicator';
 import { COLORS, SIZES } from '../../constants/theme';
 
 export default function PercentageCircle() {
-  const occupancyPercentage = 75;
   return (
     <TouchableOpacity>
       <CircularProgress
         radius={45}
-        value={occupancyPercentage}
+        value={75}
         fontSize={SIZES.body3}
         maxValue={100}
         valueSuffix={'%'}

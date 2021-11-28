@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -18,6 +18,7 @@ import moonIcon from '../../images/moon.png/';
 import personIcon from '../../images/person.png/';
 // Components
 import { SOURCES } from '../../constants/source';
+import useApi from '../../utils/useApi';
 
 export default function ReservationScreen() {
   const handleSearchButton = () => {
@@ -34,6 +35,31 @@ export default function ReservationScreen() {
   const currency = 'UZS';
   const endingDate = '22.02.2021';
   const guestStatus = ['В номере', 'Подтверждено'];
+
+  const [hotelSingleReservationData, setHotelSingleReservationData] =
+    useState(null);
+
+  const [reservationID, setReservationID] = useState('7470654901');
+
+  const { getHotelSingleReservationData } = useApi();
+  const [refreshed, setRefreshed] = useState(false);
+
+  const getUpdatedData = async () => {
+    try {
+      await getHotelSingleReservationData(reservationID).then(response => {
+        console.log('THIS IS RESERVATION DATA YOU WANT TO GET =>>> ');
+        console.log(response.data);
+        setRefreshed(false);
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getUpdatedData();
+  }, [getUpdatedData]);
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
       <ScrollView>
@@ -49,7 +75,7 @@ export default function ReservationScreen() {
         </View>
         <View>
           <View style={styles.topBarButtonsContainer}>
-            <TouchableOpacity style={styles.topBarBtn}>
+            <TouchableOpacity style={styles.topBarBtn} onPress={getUpdatedData}>
               <Text style={styles.topBarText}>Подтверждено</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.topBarBtn}>

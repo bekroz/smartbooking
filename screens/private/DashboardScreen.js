@@ -26,11 +26,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function DashboardScreen({ navigation }) {
   // API HANDLERS
   const {
-    getAllHotelPropertiesData,
     handleIOSAuthentication,
     // #2
     handleIOSAuthorization,
     // #3
+    getAllHotelPropertiesData,
     // #4
     getSingleHotelData,
     // #5
@@ -77,20 +77,75 @@ export default function DashboardScreen({ navigation }) {
 
   const [hotelPropertiesData, setAllHotelPropertiesData] = useState(null);
 
-  useEffect(() => {
-    async function fetchData() {
-      const response = await getAllHotelPropertiesData();
-      const { received_data } = response;
-      setAllHotelPropertiesData(received_data);
-      console.log(`THIS IS RECEIVED DATA =>>>> :`);
-      console.log(received_data);
-    }
-    fetchData();
-  }, []);
+  // useEffect(async () => {
+  //   try {
+  //     await getAllHotelPropertiesData().then(response => {
+  //       // const { data } = response.data;
+  //       // setAllHotelPropertiesData(data);
+  //       // console.log('THIS IS ON STATE =>>>>');
+  //       console.log(response.data.data[0].active);
+  //     });
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }, []);
 
-  const circleData = {
-    data: 'dashboardData.today_data.confirmed_reservations_data.quantity',
-  };
+  // console.log(hotelPropertiesData);
+
+  // console.log(hotelPropertiesData.data.active);
+
+  // useEffect(async () => {
+  //   try {
+  //     await getSingleHotelData().then(response => {
+  //       console.log(response);
+  //     });
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }, []);
+
+  // Fetch Dashboard Data
+
+  const [dashboardData, setDashboardData] = useState(null);
+  const [data, setData] = useState(null);
+  const [comingGuestsData, setcomingGuestsData] = useState(null);
+  const [refreshed, setRefreshed] = useState(false);
+
+  // useEffect(async () => {
+  //   try {
+  //     await getDashboardData().then(response => {
+  //       const incomingData = response.data.data;
+  //       // console.log(response.data);
+  //       // console.log('THIS IS DASHBOARD DATA =>>>>');
+  //       // console.log(incomingData);
+  //       setDashboardData(incomingData);
+  //       // console.log(incomingData);
+  //       // const {
+  //       //   available_rooms,
+  //       //   left_arrived,
+  //       //   left_checkout,
+  //       //   live,
+  //       //   max_rooms,
+  //       // } = incomingData.by_date_data;
+  //       // setData({
+  //       //   availableRooms: available_rooms,
+  //       //   leftCheckout: left_checkout,
+  //       //   leftArrived: left_arrived,
+  //       //   live: live,
+  //       //   maxRooms: max_rooms,
+  //       // });
+  //       // setcomingGuestsData(incomingData.by_date_data.left_arrived);
+  //       // console.log(
+  //       //   `THIS IS INCOMING GUESTS =>>>> ${incomingData.by_date_data.live}`,
+  //       // );
+  //       // setRefreshed(true);
+  //     });
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }, []);
+
+  // console.log(data);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
@@ -164,7 +219,7 @@ export default function DashboardScreen({ navigation }) {
                 fontSize: SIZES.body2,
                 fontWeight: SIZES.fontWeight1,
               }}>
-              {hoteldata.comingGuests}
+              {refreshed ? data?.leftArrived : '0'}
             </Text>
             <Text
               style={{
@@ -194,7 +249,7 @@ export default function DashboardScreen({ navigation }) {
                 fontSize: SIZES.body2,
                 fontWeight: SIZES.fontWeight1,
               }}>
-              {hoteldata.comingGuests}
+              {refreshed ? data?.leftCheckout : '0'}
             </Text>
 
             <Text
@@ -225,7 +280,7 @@ export default function DashboardScreen({ navigation }) {
                 fontSize: SIZES.body2,
                 fontWeight: SIZES.fontWeight1,
               }}>
-              {hoteldata.comingGuests}
+              {refreshed ? data?.live : '0'}
             </Text>
             <Text
               style={{
@@ -260,7 +315,8 @@ export default function DashboardScreen({ navigation }) {
                     color: COLORS.white,
                   }}>
                   {
-                    'dashboardData.today_data.confirmed_reservations_data.quantity'
+                    dashboardData?.today_data.confirmed_reservations_data
+                      .quantity
                   }
                 </Text>
               </View>
@@ -286,7 +342,11 @@ export default function DashboardScreen({ navigation }) {
                     fontWeight: SIZES.fontWeight0,
                     color: COLORS.grayText,
                   }}>
-                  2132131232 UZS
+                  {refreshed
+                    ? dashboardData?.today_data.confirmed_reservations_data
+                        .revenue
+                    : '0'}
+                  UZS
                 </Text>
               </View>
               <View
@@ -316,7 +376,10 @@ export default function DashboardScreen({ navigation }) {
               <View style={styles.blueTextBlock}>
                 <Text
                   style={{ fontWeight: SIZES.fontWeight2, color: COLORS.blue }}>
-                  {'dashboardData.confirmed_reservations_data.quantity'}
+                  {refreshed
+                    ? dashboardData?.today_data.canceled_reservations_data
+                        .quantity
+                    : '0'}
                 </Text>
               </View>
               <View>
@@ -341,7 +404,11 @@ export default function DashboardScreen({ navigation }) {
                     color: COLORS.grayText,
                     fontWeight: SIZES.fontWeight0,
                   }}>
-                  2 1231$
+                  {refreshed
+                    ? dashboardData?.today_data.canceled_reservations_data
+                        .revenue
+                    : '0'}{' '}
+                  $
                 </Text>
               </View>
               <View style={{ padding: 10, right: 5, position: 'absolute' }}>
@@ -434,7 +501,14 @@ export default function DashboardScreen({ navigation }) {
               </>
             </View>
             {/* Middle Circle */}
-            {firstView ? <PercentageCircle /> : <EmptyRoomsCircle />}
+            {firstView ? (
+              <PercentageCircle />
+            ) : (
+              <EmptyRoomsCircle
+                initialvalue={data?.maxRooms}
+                availableRooms={data?.availableRooms}
+              />
+            )}
           </TouchableOpacity>
           {/* Plus Button */}
           <TouchableOpacity onPress={handleAddButtonPress}>

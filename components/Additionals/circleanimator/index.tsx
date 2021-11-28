@@ -11,14 +11,12 @@ import Animated, {
 } from 'react-native-reanimated';
 import { CircularProgressProps } from './types';
 
-const data = 1000;
-
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 const AnimatedInput = Animated.createAnimatedComponent(TextInput);
 
 const CircularProgress: React.FC<CircularProgressProps> = ({
   value,
-  initialValue = data,
+  initialValue = '',
   title = '',
   titleStyle = {},
   titleColor,

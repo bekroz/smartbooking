@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Config from '../config';
 
 export default function ApiScreen() {
-  // #1 API => GET IOS User authentication token
+  // #1 API => GET iOS APP token
 
   // STORE THEM in AsyncStorage
   const [appTokenData, setAppTokenData] = useState(null);
@@ -55,7 +55,7 @@ export default function ApiScreen() {
     }
   };
 
-  // #2 API => GET IOS User authorization token
+  // #2 API => GET iOS USER token
 
   const user_secret_outgoing_data = {
     username: 'test@smartbooking.uz',
@@ -134,6 +134,12 @@ export default function ApiScreen() {
       console.log(e);
     }
   };
+
+  // useEffect(() => {
+  //   handleIOSAuthentication().then(response =>
+  //     handleIOSAuthorization(response),
+  //   );
+  // }, []);
 
   // #5 API => GET Dashboard Data of the user
 
