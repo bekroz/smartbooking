@@ -19,22 +19,12 @@ import personIcon from '../../images/person.png/';
 // Components
 import { SOURCES } from '../../constants/source';
 import useApi from '../../utils/useApi';
+import moment from 'moment';
 
 export default function ReservationScreen() {
   const handleSearchButton = () => {
     console.log('handleSearchButton is fired!');
   };
-
-  const comingDateData = '01.02.2021';
-  const leavingDateData = '04.02.2021';
-  const guestNumbers = '3';
-  const stayNumbers = '3';
-  const guestFullName = 'Olga Fedorak';
-  const reservedRoomQuantity = '2';
-  const roomPrice = '313 000 000';
-  const currency = 'UZS';
-  const endingDate = '22.02.2021';
-  const guestStatus = ['В номере', 'Подтверждено'];
 
   const [hotelSingleReservationData, setHotelSingleReservationData] =
     useState(null);
@@ -48,8 +38,24 @@ export default function ReservationScreen() {
     try {
       await getHotelSingleReservationData(reservationID).then(response => {
         console.log('THIS IS RESERVATION DATA YOU WANT TO GET =>>> ');
-        console.log(response.data);
-        setRefreshed(false);
+        console.log(response.data.data);
+        console.log(response.data.data.total_sum);
+        const incomingData = response.data.data;
+        setHotelSingleReservationData({
+          checkinDate: incomingData.checkin,
+          checkoutDate: incomingData.checkout,
+          totalNights: incomingData.nights,
+          totalGuests: incomingData.total_guests,
+          guestFirstName: incomingData.guest.last_name,
+          guestLastName: incomingData.guest.first_name,
+          totalRooms: incomingData.total_rooms,
+          createdDate: incomingData.created_at,
+          sourceName: incomingData.source_name,
+          totalSum: incomingData.total_sum,
+          currency: incomingData.currency,
+          status: incomingData.status,
+        });
+        setRefreshed(true);
       });
     } catch (error) {
       console.error(error);
@@ -58,7 +64,7 @@ export default function ReservationScreen() {
 
   useEffect(() => {
     getUpdatedData();
-  }, [getUpdatedData]);
+  }, []);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
@@ -102,7 +108,13 @@ export default function ReservationScreen() {
               }}>
               <View style={{ marginBottom: 15, alignItems: 'center' }}>
                 <Text style={{ color: COLORS.grayText }}>Дата заезда:</Text>
-                <Text style={{ color: COLORS.white }}>{comingDateData}</Text>
+                <Text style={{ color: COLORS.white }}>
+                  {refreshed
+                    ? moment(hotelSingleReservationData?.checkinDate).format(
+                        'YYYY.MM.DD',
+                      )
+                    : '----'}
+                </Text>
               </View>
 
               {/* Small Vertical Divider */}
@@ -123,7 +135,12 @@ export default function ReservationScreen() {
                 }}>
                 <Text style={{ color: COLORS.grayText }}>Дата выезда:</Text>
                 <Text style={{ paddingTop: 5, color: COLORS.white }}>
-                  {leavingDateData}
+                  {refreshed
+                    ? moment(hotelSingleReservationData?.checkoutDate).format(
+                        'YYYY.MM.DD',
+                      )
+                    : '----'}
+                  {/*  */}
                 </Text>
               </View>
 
@@ -132,9 +149,15 @@ export default function ReservationScreen() {
                   flexDirection: 'row',
                 }}>
                 <Image source={moonIcon} />
-                <Text style={{ color: COLORS.white }}> {stayNumbers}</Text>
+                <Text style={{ color: COLORS.white }}>
+                  {' '}
+                  {refreshed ? hotelSingleReservationData?.totalNights : '- -'}
+                </Text>
                 <Image style={{ marginLeft: 10 }} source={personIcon} />
-                <Text style={{ color: COLORS.white }}> {guestNumbers}</Text>
+                <Text style={{ color: COLORS.white }}>
+                  {' '}
+                  {refreshed ? hotelSingleReservationData?.totalGuests : '- -'}
+                </Text>
               </View>
             </View>
 
@@ -163,168 +186,66 @@ export default function ReservationScreen() {
                   height: 150,
                   width: 140,
                 }}>
-                <Text style={styles.guestName}>{guestFullName}</Text>
+                <Text style={styles.guestName}>
+                  {refreshed
+                    ? `${hotelSingleReservationData?.guestFirstName} ${hotelSingleReservationData?.guestLastName}`
+                    : '--------'}
+                </Text>
                 <View>
                   <Text style={[styles.equalMargin, { color: COLORS.white }]}>
-                    {reservedRoomQuantity} номера
+                    {refreshed ? hotelSingleReservationData?.totalRooms : '-'}{' '}
+                    номера
                   </Text>
                   <Text style={[styles.equalMargin, { color: COLORS.white }]}>
-                    {endingDate}
+                    {refreshed
+                      ? moment(hotelSingleReservationData?.createdDate).format(
+                          'YYYY.MM.DD',
+                        )
+                      : '---- -- --'}
                   </Text>
                   <Text
                     style={[
                       styles.equalMargin,
                       { fontSize: 16, color: COLORS.white },
                     ]}>
-                    booking.com
+                    {hotelSingleReservationData?.sourceName}
                   </Text>
                   <Text style={[styles.greenPriceText, styles.equalMargin]}>
-                    {roomPrice} {currency}
+                    {refreshed
+                      ? hotelSingleReservationData?.totalSum
+                      : '-------'}{' '}
+                    UZS
                   </Text>
                 </View>
               </View>
-              <View
-                style={{
-                  height: 21,
-                  borderRadius: 4,
-                  width: 80,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  left: 15,
-                  backgroundColor: '#2C384E',
-                  flexWrap: 'wrap',
-                  alignContent: 'center',
-                }}>
-                <Text
-                  style={{
-                    fontWeight: SIZES.fontWeight1,
-                    color: COLORS.greenProgress,
-                    fontSize: 13,
-                  }}>
-                  {guestStatus[0]}
-                </Text>
-              </View>
-            </View>
-          </Card>
-
-          {/* ADDITION */}
-          <Card containerStyle={styles.card} title="Guests">
-            {/* Left-side content */}
-            <View
-              style={{
-                alignItems: 'center',
-              }}>
-              <View style={{ marginBottom: 15, alignItems: 'center' }}>
-                <Text style={{ color: COLORS.grayText }}>Дата заезда:</Text>
-                <Text style={{ color: COLORS.white }}>01.02.2021</Text>
-              </View>
-
-              {/* Small Vertical Divider */}
-              <Divider
-                orientation="vertical"
-                width={0.5}
-                left={45}
-                top={42}
-                height={12}
-                color={COLORS.blue}
-                position="absolute"
-              />
-              <View
-                style={{
-                  marginBottom: 15,
-                  marginTop: 10,
-                  alignItems: 'center',
-                }}>
-                <Text style={{ color: COLORS.grayText }}>Дата выезда:</Text>
-                <Text style={{ paddingTop: 5, color: COLORS.white }}>
-                  {leavingDateData}
-                </Text>
-              </View>
-
-              <View
-                style={{
-                  flexDirection: 'row',
-                }}>
-                <Image source={moonIcon} />
-                <Text style={{ color: COLORS.white }}> {stayNumbers}</Text>
-                <Image style={{ marginLeft: 10 }} source={personIcon} />
-                <Text style={{ color: COLORS.white }}> {guestNumbers}</Text>
-              </View>
-            </View>
-            <Divider
-              orientation="vertical"
-              leftWidth={1}
-              left={115}
-              height={130}
-              color="#404040"
-              position="absolute"
-            />
-            {/* LEFT-SIDE content */}
-            <View
-              style={{
-                position: 'absolute',
-                flexDirection: 'row',
-                position: 'absolute',
-                left: 110,
-                flexDirection: 'row',
-                marginLeft: 20,
-              }}>
-              {/* GuestDetailsView */}
-              <View
-                style={{
-                  height: 150,
-                  width: 140,
-                }}>
-                <Text style={styles.guestName}>{guestFullName}</Text>
-                <View>
-                  <Text style={[styles.equalMargin, { color: COLORS.white }]}>
-                    {reservedRoomQuantity} номера
-                  </Text>
-                  <Text style={[styles.equalMargin, { color: COLORS.white }]}>
-                    {endingDate}
-                  </Text>
-                  <Text
-                    style={[
-                      styles.equalMargin,
-                      { fontSize: 16, color: COLORS.white },
-                    ]}>
-                    {SOURCES.dolores}
-                  </Text>
-                  <Text style={[styles.greenPriceText, styles.equalMargin]}>
-                    {roomPrice} {currency}
-                  </Text>
-                </View>
-              </View>
-              <View
-                style={{
-                  width: '100%',
-                  height: '90%',
-                  justifyContent: 'flex-start',
-                }}>
+              {hotelSingleReservationData?.status == 'confirmed' && (
                 <View
                   style={{
+                    height: 21,
                     borderRadius: 4,
+                    width: 80,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    left: 15,
                     backgroundColor: '#2C384E',
                     flexWrap: 'wrap',
-                    alignItems: 'center',
                     alignContent: 'center',
-                    justifyContent: 'center',
-                    right: 25,
-                    width: 120,
-                    height: 25,
                   }}>
                   <Text
                     style={{
                       fontWeight: SIZES.fontWeight1,
-                      color: COLORS.blue,
+                      color: COLORS.greenProgress,
                       fontSize: 13,
                     }}>
-                    {guestStatus[1]}
+                    {hotelSingleReservationData?.status == 'confirmed' &&
+                      'Подтверждено'}
                   </Text>
                 </View>
-              </View>
+              )}
             </View>
           </Card>
+
+          {/* ADDITION */}
         </View>
       </ScrollView>
     </SafeAreaView>
