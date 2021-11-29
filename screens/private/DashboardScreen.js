@@ -25,120 +25,53 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function DashboardScreen({ navigation }) {
   // API HANDLERS
-  const {
-    handleIOSAuthentication,
-    // #2
-    handleIOSAuthorization,
-    // #3
-    getAllHotelPropertiesData,
-    // #4
-    getSingleHotelData,
-    // #5
-    getDashboardData,
-    // #6
-    getHotelReservationsData,
-    // #7
-    getHotelSingleReservationData,
-    // #8
-    getStatisticsByYear,
-    // #9
-    getStatisticsByCategory,
-    // #10
-    getPropertiesComparisonData,
-    // #11
-    getSourcesData,
-  } = useApi();
+  const { getDashboardData } = useApi();
 
-  // BUTTON HANDLERS
+  // // BUTTON HANDLERS
   const [firstView, setFirstView] = useState(true);
-  function handleViewChange() {
+  const [refreshed, setRefreshed] = useState(false);
+  const [dashboardData, setDashboardData] = useState(null);
+
+  const handleViewChange = () => {
     setFirstView(!firstView);
-  }
+  };
 
-  function handleAddButtonPress() {
+  const handleAddButtonPress = () => {
     alert('Add button has been fired!');
-  }
+  };
 
-  function handleArcBarPress() {
+  const handleArcBarPress = () => {
     const token = AsyncStorage.getItem('token');
     alert('Arc Bar has been fired!');
     getAllHotelPropertiesData(token);
-  }
-
-  const hoteldata = {
-    name: 'Kukaldosh Hotel',
-    comingGuests: 115,
   };
-
-  const calendar = {
-    date: 'Август 2021',
-    day: 'Вторник',
-  };
-
-  const [hotelPropertiesData, setAllHotelPropertiesData] = useState(null);
-
-  // useEffect(async () => {
-  //   try {
-  //     await getAllHotelPropertiesData().then(response => {
-  //       // const { data } = response.data;
-  //       // setAllHotelPropertiesData(data);
-  //       // console.log('THIS IS ON STATE =>>>>');
-  //       console.log(response.data.data[0].active);
-  //     });
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }, []);
-
-  // console.log(hotelPropertiesData);
-
-  // console.log(hotelPropertiesData.data.active);
-
-  // useEffect(async () => {
-  //   try {
-  //     await getSingleHotelData().then(response => {
-  //       console.log(response);
-  //     });
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }, []);
-
-  // Fetch Dashboard Data
-
-  const [dashboardData, setDashboardData] = useState(null);
-  const [data, setData] = useState(null);
-  const [comingGuestsData, setcomingGuestsData] = useState(null);
-  const [refreshed, setRefreshed] = useState(false);
 
   // useEffect(async () => {
   //   try {
   //     await getDashboardData().then(response => {
   //       const incomingData = response.data.data;
-  //       // console.log(response.data);
+  //       console.log(response.data.data.by_date_data);
   //       // console.log('THIS IS DASHBOARD DATA =>>>>');
   //       // console.log(incomingData);
-  //       setDashboardData(incomingData);
-  //       // console.log(incomingData);
-  //       // const {
-  //       //   available_rooms,
-  //       //   left_arrived,
-  //       //   left_checkout,
-  //       //   live,
-  //       //   max_rooms,
-  //       // } = incomingData.by_date_data;
-  //       // setData({
+  //       console.log(incomingData);
+  //       const {
+  //         available_rooms,
+  //         left_arrived,
+  //         left_checkout,
+  //         live,
+  //         max_rooms,
+  //       } = incomingData;
+  //       // setDashboardData({
   //       //   availableRooms: available_rooms,
   //       //   leftCheckout: left_checkout,
   //       //   leftArrived: left_arrived,
   //       //   live: live,
   //       //   maxRooms: max_rooms,
   //       // });
-  //       // setcomingGuestsData(incomingData.by_date_data.left_arrived);
-  //       // console.log(
-  //       //   `THIS IS INCOMING GUESTS =>>>> ${incomingData.by_date_data.live}`,
-  //       // );
-  //       // setRefreshed(true);
+  //       console.log(
+  //         `THIS IS INCOMING GUESTS =>>>> ${incomingData.by_date_data.live}`,
+  //       );
+  //       setRefreshed(true);
   //     });
   //   } catch (error) {
   //     console.error(error);
@@ -147,6 +80,38 @@ export default function DashboardScreen({ navigation }) {
 
   // console.log(data);
 
+  const [chosenDate, setChosenDate] = useState('2021-11-11');
+  const [hotelID, setHotelID] = useState('48');
+
+  useEffect(async () => {
+    try {
+      await getDashboardData(hotelID, chosenDate).then(response => {
+        // console.log(response.data.data);
+        const byDateData = response.data.data.by_date_data;
+        const todayData = response.data.data.today_data;
+        setDashboardData({
+          availableRooms: byDateData.available_rooms,
+          currentLoad: Number.parseInt(byDateData.current_load),
+          leftArrived: byDateData.left_arrived,
+          leftCheckout: byDateData.left_checkout,
+          live: byDateData.live,
+          maxRooms: byDateData.max_rooms,
+          shouldArrived: byDateData.should_arrived,
+          shouldCheckout: byDateData.should_checkout,
+          confirmedQuantity: todayData.confirmed_reservations_data.quantity,
+          confirmedRevenue: todayData.confirmed_reservations_data.revenue,
+          canceledQuantity: todayData.canceled_reservations_data.quantity,
+          canceledRevenue: todayData.canceled_reservations_data.revenue,
+        });
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
+
+  // console.log(`THIS IS DASHBOARD DATA YOU SET, BRO :) ===>>>`);
+  console.log(dashboardData);
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
       <ScrollView>
@@ -154,7 +119,7 @@ export default function DashboardScreen({ navigation }) {
           <TouchableOpacity
             onPress={() => navigation.navigate('Comparison')}
             style={styles.dropdownIconStyle}>
-            <Text style={styles.hotelBarText}>{hoteldata.name}</Text>
+            <Text style={styles.hotelBarText}>{dashboardData?.name}</Text>
             <Image source={dropdown} />
           </TouchableOpacity>
         </View>
@@ -163,7 +128,7 @@ export default function DashboardScreen({ navigation }) {
             <Image source={leftArrow} />
           </TouchableOpacity>
           <TouchableOpacity>
-            <Text style={styles.dateText}>{calendar.date}</Text>
+            <Text style={styles.dateText}>{'calendar?.date'}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.arrowIconStyle}>
             <Image source={rightArrow} />
@@ -182,7 +147,7 @@ export default function DashboardScreen({ navigation }) {
                 fontWeight: SIZES.fontWeight0,
                 color: COLORS.white,
               }}>
-              {calendar.day}
+              {'calendar?.day'}
             </Text>
           </TouchableOpacity>
         </View>
@@ -203,7 +168,7 @@ export default function DashboardScreen({ navigation }) {
             flexDirection: 'row',
           }}>
           {/* FIRST ARC circle */}
-          <TouchableOpacity onPress={handleArcBarPress} style={styles.arcBlock}>
+          <TouchableOpacity onPress={{}} style={styles.arcBlock}>
             <MultiArcCircle
               radius={50}
               intervals={[
@@ -219,7 +184,7 @@ export default function DashboardScreen({ navigation }) {
                 fontSize: SIZES.body2,
                 fontWeight: SIZES.fontWeight1,
               }}>
-              {refreshed ? data?.leftArrived : '0'}
+              {dashboardData?.leftArrived}
             </Text>
             <Text
               style={{
@@ -233,7 +198,7 @@ export default function DashboardScreen({ navigation }) {
             </Text>
           </TouchableOpacity>
           {/* SECOND ARC circle */}
-          <TouchableOpacity onPress={handleArcBarPress} style={styles.arcBlock}>
+          <TouchableOpacity onPress={{}} style={styles.arcBlock}>
             <MultiArcCircle
               radius={50}
               intervals={[
@@ -249,7 +214,7 @@ export default function DashboardScreen({ navigation }) {
                 fontSize: SIZES.body2,
                 fontWeight: SIZES.fontWeight1,
               }}>
-              {refreshed ? data?.leftCheckout : '0'}
+              {dashboardData?.leftCheckout}
             </Text>
 
             <Text
@@ -264,7 +229,7 @@ export default function DashboardScreen({ navigation }) {
             </Text>
           </TouchableOpacity>
           {/* THIRD ARC circle */}
-          <TouchableOpacity onPress={handleArcBarPress} style={styles.arcBlock}>
+          <TouchableOpacity onPress={{}} style={styles.arcBlock}>
             <MultiArcCircle
               radius={50}
               intervals={[
@@ -280,7 +245,7 @@ export default function DashboardScreen({ navigation }) {
                 fontSize: SIZES.body2,
                 fontWeight: SIZES.fontWeight1,
               }}>
-              {refreshed ? data?.live : '0'}
+              {dashboardData?.live}
             </Text>
             <Text
               style={{
@@ -314,10 +279,7 @@ export default function DashboardScreen({ navigation }) {
                     fontWeight: SIZES.fontWeight2,
                     color: COLORS.white,
                   }}>
-                  {
-                    dashboardData?.today_data.confirmed_reservations_data
-                      .quantity
-                  }
+                  {dashboardData?.confirmedQuantity}
                 </Text>
               </View>
               <View>
@@ -342,11 +304,7 @@ export default function DashboardScreen({ navigation }) {
                     fontWeight: SIZES.fontWeight0,
                     color: COLORS.grayText,
                   }}>
-                  {refreshed
-                    ? dashboardData?.today_data.confirmed_reservations_data
-                        .revenue
-                    : '0'}
-                  UZS
+                  {dashboardData?.confirmedRevenue} UZS
                 </Text>
               </View>
               <View
@@ -376,10 +334,7 @@ export default function DashboardScreen({ navigation }) {
               <View style={styles.blueTextBlock}>
                 <Text
                   style={{ fontWeight: SIZES.fontWeight2, color: COLORS.blue }}>
-                  {refreshed
-                    ? dashboardData?.today_data.canceled_reservations_data
-                        .quantity
-                    : '0'}
+                  {dashboardData?.canceledQuantity}
                 </Text>
               </View>
               <View>
@@ -404,11 +359,7 @@ export default function DashboardScreen({ navigation }) {
                     color: COLORS.grayText,
                     fontWeight: SIZES.fontWeight0,
                   }}>
-                  {refreshed
-                    ? dashboardData?.today_data.canceled_reservations_data
-                        .revenue
-                    : '0'}{' '}
-                  $
+                  {dashboardData?.canceledRevenue} UZS
                 </Text>
               </View>
               <View style={{ padding: 10, right: 5, position: 'absolute' }}>
@@ -427,7 +378,7 @@ export default function DashboardScreen({ navigation }) {
                 alignItems: 'center',
               }}>
               <View style={styles.blueTextBlock}>
-                <Text style={styles.blueText}>0</Text>
+                <Text style={styles.blueText}>-</Text>
               </View>
               <View>
                 <Text
@@ -447,7 +398,7 @@ export default function DashboardScreen({ navigation }) {
                   color: COLORS.grayText,
                   left: 140,
                 }}>
-                {'     0'}
+                {'-'}
               </Text>
 
               <View style={{ padding: 10, right: 5, position: 'absolute' }}>
@@ -502,11 +453,13 @@ export default function DashboardScreen({ navigation }) {
             </View>
             {/* Middle Circle */}
             {firstView ? (
-              <PercentageCircle />
+              <PercentageCircle
+                currentPercentage={dashboardData?.currentLoad}
+              />
             ) : (
               <EmptyRoomsCircle
-                initialvalue={data?.maxRooms}
-                availableRooms={data?.availableRooms}
+                initialValue={dashboardData?.maxRooms}
+                value={dashboardData?.availableRooms}
               />
             )}
           </TouchableOpacity>

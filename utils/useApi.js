@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Config from '../config';
-
+import moment from 'moment';
 const useApi = () => {
   // #1 API => GET iOS APP token
 
@@ -123,22 +123,17 @@ const useApi = () => {
 
   // #5 API => GET Dashboard Data of the user
 
-  const [dashboardData, setDashboardData] = useState(null);
-  const dashboard_outgoing_data = {
-    date: '2021-11-11',
-  };
-
-  const getDashboardData = async () => {
+  const getDashboardData = async (hotelID, chosenDate) => {
     const user_token_to_send = await AsyncStorage.getItem('USER_TOKEN');
     try {
       return await axios({
-        url: `${Config.BASE_API_URL}/mobile/48/dashboard`,
+        url: `${Config.BASE_API_URL}/mobile/${hotelID}/dashboard`,
         method: 'POST',
         headers: {
           Authorization: `Bearer ${user_token_to_send}`,
           'Content-Type': 'application/json',
         },
-        data: dashboard_outgoing_data,
+        data: chosenDate,
       });
     } catch (e) {
       console.log(e);
@@ -147,33 +142,43 @@ const useApi = () => {
 
   // #6 API => GET Hotel All Reservations Data
 
-  const [hotelAllReservationsData, setHotelAllReservationsData] =
-    useState(null);
+  const date = new Date();
+  const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+  const lastDayOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+
+  // DEFAULT OUTGOING DATA TO SEND
   const reservations_outgoing_data = {
     date_range_type: 'type_stay_dates',
-    start_date: '2021-11-01',
-    end_date: '2021-11-05',
-    status: 'confirmed',
+    start_date: firstDayOfMonth,
+    end_date: lastDayOfMonth,
+    page: 2,
   };
 
-  const getHotelReservationsData = async () => {
+  // DEFAULT => type_booking_date
+  const date_range_type_array = [
+    'type_stay_dates',
+    'type_checkin',
+    'type_checkout',
+    'type_booking_date',
+  ];
+
+  const getHotelAllReservationsData = async hotelID => {
     const user_token_to_send = await AsyncStorage.getItem('USER_TOKEN');
+    console.log(reservations_outgoing_data);
     try {
       return await axios({
-        url: `${Config.BASE_API_URL}/mobile/48/reservations`,
+        url: `${Config.BASE_API_URL}/mobile/${hotelID}/reservations`,
         method: 'POST',
         headers: {
           Authorization: `Bearer ${user_token_to_send}`,
           'Content-Type': 'application/json',
         },
         data: reservations_outgoing_data,
-      })
-        .then(response => {
-          console.log('6. ALL RESERVATIONS DATA ===>>>');
-          console.log(response.data);
-          setHotelAllReservationsData(response.data.data);
-        })
-        .catch(e => console.log(e));
+      }).then(response => {
+        console.log('THIS IS FIRST DATA')
+        console.log(response.data.meta)
+        return response.data.data;
+      });
     } catch (e) {
       console.log(e);
     }
@@ -332,7 +337,7 @@ const useApi = () => {
     // #5
     getDashboardData,
     // #6
-    getHotelReservationsData,
+    getHotelAllReservationsData,
     // #7
     getHotelSingleReservationData,
     // #8
