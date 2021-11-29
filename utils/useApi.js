@@ -147,7 +147,8 @@ const useApi = () => {
   const lastDayOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
 
   // DEFAULT OUTGOING DATA TO SEND
-  const reservations_outgoing_data = {
+  let reservations_outgoing_data = {
+    hotelID: '48',
     date_range_type: 'type_stay_dates',
     start_date: firstDayOfMonth,
     end_date: lastDayOfMonth,
@@ -162,12 +163,12 @@ const useApi = () => {
     'type_booking_date',
   ];
 
-  const getHotelAllReservationsData = async hotelID => {
+  const getHotelAllReservationsData = async reservations_outgoing_data => {
     const user_token_to_send = await AsyncStorage.getItem('USER_TOKEN');
     console.log(reservations_outgoing_data);
     try {
       return await axios({
-        url: `${Config.BASE_API_URL}/mobile/${hotelID}/reservations`,
+        url: `${Config.BASE_API_URL}/mobile/${reservations_outgoing_data.hotelID}/reservations`,
         method: 'POST',
         headers: {
           Authorization: `Bearer ${user_token_to_send}`,
@@ -175,8 +176,7 @@ const useApi = () => {
         },
         data: reservations_outgoing_data,
       }).then(response => {
-        console.log('THIS IS FIRST DATA')
-        console.log(response.data.meta)
+        reservations_outgoing_data.page = response.data.meta.currentPage;
         return response.data.data;
       });
     } catch (e) {

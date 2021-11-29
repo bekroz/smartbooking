@@ -7,6 +7,7 @@ import {
   Image,
   SafeAreaView,
   ScrollView,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import { MultiArcCircle } from 'react-native-circles';
 // Theme
@@ -378,7 +379,7 @@ export default function DashboardScreen({ navigation }) {
                 alignItems: 'center',
               }}>
               <View style={styles.blueTextBlock}>
-                <Text style={styles.blueText}>-</Text>
+                <Text style={styles.blueText}>0</Text>
               </View>
               <View>
                 <Text
@@ -398,7 +399,7 @@ export default function DashboardScreen({ navigation }) {
                   color: COLORS.grayText,
                   left: 140,
                 }}>
-                {'-'}
+                0
               </Text>
 
               <View style={{ padding: 10, right: 5, position: 'absolute' }}>

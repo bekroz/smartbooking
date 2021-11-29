@@ -9385,7 +9385,7 @@ modal-react-native-web@0.2.0:
   dependencies:
     warning "^4.0.1"
 
-moment@>=2.10.3, moment@^2.29.1:
+moment@>=2.10.3, moment@^2.27.0, moment@^2.29.1:
   version "2.29.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
   integrity sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==
@@ -10428,6 +10428,11 @@ react-native-arc-progress@^0.0.6:
   dependencies:
     art "^0.10.0"
 
+react-native-awesome-loading@^1.0.15:
+  version "1.0.15"
+  resolved "https://registry.yarnpkg.com/react-native-awesome-loading/-/react-native-awesome-loading-1.0.15.tgz#9255ebe0be96af5268f6ad3490e5d866c91b9a2f"
+  integrity sha512-PkRtL3k/T2jqhiBsUl1Hls7HoNGpg5NS5Ro7RoBcbcR67KgJI7FxLeY+aOJzNZGTJvGTRznqtIsIG6dlGKXTHw==
+
 react-native-base64@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/react-native-base64/-/react-native-base64-0.2.1.tgz#3d0e73a649c4c0129f7b7695d3912456aebae847"
@@ -10509,6 +10514,14 @@ react-native-country-picker-modal@^2.0.0:
     prop-types "15.7.2"
     react-async-hook "3.6.1"
 
+react-native-daterange-picker@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/react-native-daterange-picker/-/react-native-daterange-picker-1.5.1.tgz#3f180e14c0c8089dd6fa88048ddee6d02d8abf29"
+  integrity sha512-Oq02ApRw4XTIo1Hyw3R5vKm7zyntRSqBvmOzlzXDUxS7K9GLstvTD8U3asj23ZmAGy6OR+Ye5mghnUpJoIrjfw==
+  dependencies:
+    lodash "^4.17.19"
+    moment "^2.27.0"
+
 react-native-dotenv@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/react-native-dotenv/-/react-native-dotenv-3.3.0.tgz#fb1f50347be6ac0714a5e4772fad538c01ffb423"
@@ -10539,6 +10552,11 @@ react-native-elements@^3.4.2:
     opencollective-postinstall "^2.0.3"
     react-native-ratings "8.0.4"
     react-native-size-matters "^0.3.1"
+
+react-native-fast-image@^8.5.11:
+  version "8.5.11"
+  resolved "https://registry.yarnpkg.com/react-native-fast-image/-/react-native-fast-image-8.5.11.tgz#e3dc969d0e4e8df026646bf18194465aa55cbc2b"
+  integrity sha512-cNW4bIJg3nvKaheG8vGMfqCt5LMWX9MS5+wMudgKIHbGO51spRr4sgnlhVgwHLcZ5aeNOVJ8CPRxDIWKRq/0QA==
 
 react-native-fusioncharts@^5.1.0:
   version "5.1.0"

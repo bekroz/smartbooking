@@ -5,13 +5,22 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
-  TouchableHighlight,
 } from 'react-native';
 import { Card } from 'react-native-elements/dist/card/Card';
-import { Divider } from 'react-native-elements/dist/divider/Divider';
 import styled from 'styled-components/native';
+// Theme
 import { COLORS, SIZES } from '../../constants/theme';
+// Components
 import Donut from './Donut';
+import {
+  ByUserDot,
+  SitesDot,
+  TelephoneDot,
+  BookingDot,
+  TraminaDot,
+  DoloresDot,
+  OtherDot,
+} from '../Reservations/StatusView/DotView';
 
 export default function Details() {
   const currency = 'UZS';
@@ -19,6 +28,7 @@ export default function Details() {
   const lineWidth = 250;
   const revenue = '123 000 312';
   const stays = '229';
+
   return (
     <>
       <View
@@ -45,6 +55,7 @@ export default function Details() {
             01 Sep - 30 Sep
           </WhiteText>
         </TouchableOpacity>
+
         <TouchableOpacity
           style={[
             styles.topBarBtn,
@@ -94,59 +105,15 @@ export default function Details() {
               <Donut />
             </View>
             {/* Color and Title */}
-            <View>
-              {/* TEXT COLOR */}
-              {/* TEXT */}
-              <View style={styles.dotBlock}>
-                <View
-                  style={[
-                    styles.dotStyle,
-                    { backgroundColor: COLORS.blueCircle },
-                  ]}
-                />
-                <WhiteText>От стойки</WhiteText>
-              </View>
-
-              <View style={styles.dotBlock}>
-                <View
-                  style={[styles.dotStyle, { backgroundColor: COLORS.orange }]}
-                />
-                <WhiteText>Телефон</WhiteText>
-              </View>
-
-              <View style={styles.dotBlock}>
-                <View
-                  style={[styles.dotStyle, { backgroundColor: COLORS.yellow }]}
-                />
-                <WhiteText>Сайт</WhiteText>
-              </View>
-
-              <View style={styles.dotBlock}>
-                <View
-                  style={[
-                    styles.dotStyle,
-                    { backgroundColor: COLORS.greenCircle },
-                  ]}
-                />
-                <WhiteText>Booking.Com</WhiteText>
-              </View>
-
-              <View style={styles.dotBlock}>
-                <View
-                  style={[
-                    styles.dotStyle,
-                    { backgroundColor: COLORS.pinkCircle },
-                  ]}
-                />
-                <WhiteText>Трамина</WhiteText>
-              </View>
-
-              <View style={styles.dotBlock}>
-                <View
-                  style={[styles.dotStyle, { backgroundColor: COLORS.coral }]}
-                />
-                <WhiteText>Dolores</WhiteText>
-              </View>
+            <View style={{ flex: 1, top: -15 }}>
+              {/* Dots */}
+              <ByUserDot />
+              <TelephoneDot />
+              <SitesDot />
+              <BookingDot />
+              <TraminaDot />
+              <DoloresDot />
+              <OtherDot />
             </View>
           </View>
         </Card>
@@ -181,59 +148,14 @@ export default function Details() {
               <Donut />
             </View>
             {/* Color and Title */}
-            <View>
-              {/* TEXT COLOR */}
-              {/* TEXT */}
-              <View style={styles.dotBlock}>
-                <View
-                  style={[
-                    styles.dotStyle,
-                    { backgroundColor: COLORS.blueCircle },
-                  ]}
-                />
-                <WhiteText>От стойки</WhiteText>
-              </View>
-
-              <View style={styles.dotBlock}>
-                <View
-                  style={[styles.dotStyle, { backgroundColor: COLORS.orange }]}
-                />
-                <WhiteText>Телефон</WhiteText>
-              </View>
-
-              <View style={styles.dotBlock}>
-                <View
-                  style={[styles.dotStyle, { backgroundColor: COLORS.yellow }]}
-                />
-                <WhiteText>Сайт</WhiteText>
-              </View>
-
-              <View style={styles.dotBlock}>
-                <View
-                  style={[
-                    styles.dotStyle,
-                    { backgroundColor: COLORS.greenCircle },
-                  ]}
-                />
-                <WhiteText>Booking.Com</WhiteText>
-              </View>
-
-              <View style={styles.dotBlock}>
-                <View
-                  style={[
-                    styles.dotStyle,
-                    { backgroundColor: COLORS.pinkCircle },
-                  ]}
-                />
-                <WhiteText>Трамина</WhiteText>
-              </View>
-
-              <View style={styles.dotBlock}>
-                <View
-                  style={[styles.dotStyle, { backgroundColor: COLORS.coral }]}
-                />
-                <WhiteText>Dolores</WhiteText>
-              </View>
+            <View style={{ flex: 1, top: -15 }}>
+              <ByUserDot />
+              <TelephoneDot />
+              <SitesDot />
+              <BookingDot />
+              <TraminaDot />
+              <DoloresDot />
+              <OtherDot />
             </View>
           </View>
         </Card>
@@ -442,6 +364,7 @@ const styles = StyleSheet.create({
     borderColor: COLORS.grayPlaceholder,
     borderRadius: 6,
     height: 210,
+    width: SIZES.width - 30,
   },
   chosenCardStyle: {
     borderColor: COLORS.blue,
@@ -463,18 +386,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 6,
   },
-  lineStyle: {
-    maxWidth: 222,
-    height: 10,
-    borderRadius: 50,
-    marginRight: 6,
-  },
   dotStyle: {
     width: 10,
     height: 10,
     borderRadius: 50,
     marginRight: 6,
   },
+  lineStyle: {
+    maxWidth: 222,
+    height: 10,
+    borderRadius: 50,
+    marginRight: 6,
+  },
+
   thirdCardDotMargin: {
     marginBottom: 10,
   },
