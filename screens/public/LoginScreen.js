@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,27 +12,43 @@ import {
   // appleAuth,
 } from '@invertase/react-native-apple-authentication';
 import { COLORS, POSITIONING, SIZES } from '../../constants/theme';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import useApi from '../../utils/useApi';
 
 export default function LoginScreen({ navigation }) {
-  function onAppleButtonPress() {
-    alert('Sign In With Apple Button is fired');
-    navigation.navigate('Home');
-  }
-  function loginWithEmailButtonPress() {
-    alert('Log In With Apple Button is fired');
-    navigation.navigate('Home');
-  }
-
   function registerButtonPress() {
-    alert('Log In With Apple Button is fired');
-    navigation.navigate('Home');
+    alert('Register Button is fired');
   }
 
   function forgotPasswordButtonPress() {
     alert('Forgot Password Button is fired');
-    navigation.navigate('Home');
   }
+  const { handleIOSAuthentication, handleIOSAuthorization } = useApi();
 
+  const [username, setUsername] = useState('test@smartbooking.uz');
+  const [password, setPassword] = useState('12345678');
+
+  const handleLogin = async () => {
+    const user_secret = {
+      username: username,
+      password: password,
+    };
+    await AsyncStorage.setItem('USER', JSON.stringify(user_secret))
+      .then(handleIOSAuthentication())
+      .then(
+        handleIOSAuthorization().then(userToken => {
+          if (userToken) {
+            navigation.navigate('Home');
+          } else {
+            alert('USER NOT FOUND!');
+          }
+        }),
+      );
+  };
+
+  useEffect(() => {
+    handleLogin();
+  }, []);
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
       <View style={[styles.titleBlock, POSITIONING.center]}>
@@ -41,11 +57,18 @@ export default function LoginScreen({ navigation }) {
         <View>
           <Text style={styles.email}>E-mail</Text>
           <View>
-            <TextInput style={styles.placeholder} />
+            <TextInput
+              style={styles.placeholder}
+              onChange={event => setUsername(event.target.value)}
+            />
           </View>
           <Text style={styles.password}>Password</Text>
           <View>
-            <TextInput secureTextEntry={true} style={styles.placeholder} />
+            <TextInput
+              secureTextEntry={true}
+              style={styles.placeholder}
+              onChange={event => setPassword(event.target.value)}
+            />
           </View>
         </View>
         <TouchableOpacity
@@ -57,14 +80,14 @@ export default function LoginScreen({ navigation }) {
       <View style={[styles.socialButtonsBlock, POSITIONING.center]}>
         <TouchableOpacity
           style={[styles.emailSignInButton, POSITIONING.center]}
-          onPress={loginWithEmailButtonPress}>
+          onPress={handleLogin}>
           <Text style={styles.loginText}>Войти</Text>
         </TouchableOpacity>
         <AppleButton
           buttonStyle={AppleButton.Style.WHITE}
           buttonType={AppleButton.Type.SIGN_IN}
           style={styles.appleButton}
-          onPress={onAppleButtonPress}
+          onPress={handleLogin}
         />
         <View style={styles.registerTextBlock}>
           <Text style={styles.registerTextBlock}>Нет аккаунта? </Text>

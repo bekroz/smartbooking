@@ -418,7 +418,7 @@ export default function ApiScreen() {
           <Text style={{ color: 'white' }}>7. GET SINGLE RESERVATION DATA</Text>
         </TouchableOpacity>
 
-        {/* <TouchableOpacity
+        <TouchableOpacity
           onPress={getStatisticsByYear}
           style={{ backgroundColor: COLORS.blue, padding: 15, marginTop: 20 }}>
           <Text style={{ color: 'white' }}>8. GET STATISTICS BY YEAR</Text>
@@ -428,7 +428,7 @@ export default function ApiScreen() {
           onPress={getStatisticsByCategory}
           style={{ backgroundColor: COLORS.blue, padding: 15, marginTop: 20 }}>
           <Text style={{ color: 'white' }}>9. GET STATISTICS BY CATEGORY</Text>
-        </TouchableOpacity> */}
+        </TouchableOpacity>
 
         {/* <TouchableOpacity
           onPress={getPropertiesComparisonData}

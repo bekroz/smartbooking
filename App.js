@@ -4,12 +4,24 @@ import { View, StatusBar } from 'react-native';
 import { SAFEAREASTYLE, LOADERSTYLE } from './constants/theme';
 import Loader from './components/Additionals/Loader';
 import AppStack from './AppStack';
+import useApi from './utils/useApi';
+// import Testing from './removables/Chart';
 
 export default function App() {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     setTimeout(() => setLoading(false), 500);
   }, []);
+
+  // const { handleIOSAuthentication, handleIOSAuthorization } = useApi();
+
+  // useEffect(async () => {
+  //   try {
+  //     await handleIOSAuthentication().then(handleIOSAuthorization());
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }, []);
 
   return (
     <View style={loading ? LOADERSTYLE : SAFEAREASTYLE}>

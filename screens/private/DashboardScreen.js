@@ -36,55 +36,19 @@ export default function DashboardScreen({ navigation }) {
   const handleViewChange = () => {
     setFirstView(!firstView);
   };
-
   const handleAddButtonPress = () => {
     alert('Add button has been fired!');
   };
-
   const handleArcBarPress = () => {
     const token = AsyncStorage.getItem('token');
     alert('Arc Bar has been fired!');
     getAllHotelPropertiesData(token);
   };
 
-  // useEffect(async () => {
-  //   try {
-  //     await getDashboardData().then(response => {
-  //       const incomingData = response.data.data;
-  //       console.log(response.data.data.by_date_data);
-  //       // console.log('THIS IS DASHBOARD DATA =>>>>');
-  //       // console.log(incomingData);
-  //       console.log(incomingData);
-  //       const {
-  //         available_rooms,
-  //         left_arrived,
-  //         left_checkout,
-  //         live,
-  //         max_rooms,
-  //       } = incomingData;
-  //       // setDashboardData({
-  //       //   availableRooms: available_rooms,
-  //       //   leftCheckout: left_checkout,
-  //       //   leftArrived: left_arrived,
-  //       //   live: live,
-  //       //   maxRooms: max_rooms,
-  //       // });
-  //       console.log(
-  //         `THIS IS INCOMING GUESTS =>>>> ${incomingData.by_date_data.live}`,
-  //       );
-  //       setRefreshed(true);
-  //     });
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }, []);
-
-  // console.log(data);
-
-  const [chosenDate, setChosenDate] = useState('2021-11-11');
+  const [chosenDate, setChosenDate] = useState('2021-11-21');
   const [hotelID, setHotelID] = useState('48');
 
-  useEffect(async () => {
+  const getUpdatedData = async () => {
     try {
       await getDashboardData(hotelID, chosenDate).then(response => {
         // console.log(response.data.data);
@@ -104,14 +68,31 @@ export default function DashboardScreen({ navigation }) {
           canceledQuantity: todayData.canceled_reservations_data.quantity,
           canceledRevenue: todayData.canceled_reservations_data.revenue,
         });
+        setRefreshed(true);
       });
     } catch (error) {
+      setRefreshed(false);
       console.error(error);
     }
+  };
+
+  useEffect(() => {
+    getUpdatedData();
   }, []);
 
-  // console.log(`THIS IS DASHBOARD DATA YOU SET, BRO :) ===>>>`);
+  console.log(`THIS IS DASHBOARD DATA YOU SET, BRO :) ===>>>`);
   console.log(dashboardData);
+  console.log(dashboardData?.canceledRevenue);
+
+  // RegExp to add space between numbers
+  function numberWithSpaces(x) {
+    var parts = x.toString().split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    return parts.join('.');
+  }
+  function truncate(string, n) {
+    return string?.length > n ? string.substr(0, n - 1) + '...' : string;
+  }
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
@@ -141,7 +122,7 @@ export default function DashboardScreen({ navigation }) {
             padding: 5,
             marginBottom: 0,
           }}>
-          <TouchableOpacity style={{}}>
+          <TouchableOpacity>
             <Text
               style={{
                 fontSize: 16,
@@ -185,7 +166,7 @@ export default function DashboardScreen({ navigation }) {
                 fontSize: SIZES.body2,
                 fontWeight: SIZES.fontWeight1,
               }}>
-              {dashboardData?.leftArrived}
+              {refreshed ? dashboardData?.leftArrived : '0'}
             </Text>
             <Text
               style={{
@@ -215,7 +196,7 @@ export default function DashboardScreen({ navigation }) {
                 fontSize: SIZES.body2,
                 fontWeight: SIZES.fontWeight1,
               }}>
-              {dashboardData?.leftCheckout}
+              {refreshed ? dashboardData?.leftCheckout : '0'}
             </Text>
 
             <Text
@@ -246,7 +227,7 @@ export default function DashboardScreen({ navigation }) {
                 fontSize: SIZES.body2,
                 fontWeight: SIZES.fontWeight1,
               }}>
-              {dashboardData?.live}
+              {refreshed ? dashboardData?.live : '0'}
             </Text>
             <Text
               style={{
@@ -260,11 +241,7 @@ export default function DashboardScreen({ navigation }) {
             </Text>
           </TouchableOpacity>
         </View>
-        <View
-          style={[
-            styles.circleBottomTitles,
-            { backgroundColor: 'red' },
-          ]}></View>
+        <View style={styles.circleBottomTitles}></View>
         {/* GRAY Boxes container */}
         <View style={{ marginBottom: 25 }}>
           {/* FIRST GRAY BOX starts here */}
@@ -273,140 +250,226 @@ export default function DashboardScreen({ navigation }) {
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
+                justifyContent: 'space-between',
               }}>
-              <View style={styles.blueBox}>
-                <Text
-                  style={{
-                    fontWeight: SIZES.fontWeight2,
-                    color: COLORS.white,
-                  }}>
-                  {dashboardData?.confirmedQuantity}
-                </Text>
-              </View>
-              <View>
-                <Text
-                  style={{
-                    fontSize: 18,
-                    fontWeight: SIZES.fontWeight2,
-                    color: COLORS.white,
-                  }}>
-                  Новые
-                </Text>
-              </View>
               <View
                 style={{
-                  left: 80,
                   flexDirection: 'row',
                   alignItems: 'center',
                 }}>
-                <Text
-                  style={{
-                    fontSize: 18,
-                    fontWeight: SIZES.fontWeight0,
-                    color: COLORS.grayText,
-                  }}>
-                  {dashboardData?.confirmedRevenue} UZS
-                </Text>
+                <View style={styles.blueBox}>
+                  <Text
+                    style={{
+                      fontWeight: SIZES.fontWeight2,
+                      color: COLORS.white,
+                    }}>
+                    {refreshed ? dashboardData?.confirmedQuantity : '0'}
+                  </Text>
+                </View>
+                <View>
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      fontWeight: SIZES.fontWeight2,
+                      color: COLORS.white,
+                    }}>
+                    Новые
+                  </Text>
+                </View>
               </View>
               <View
                 style={{
-                  padding: 10,
-                  right: 5,
-                  position: 'absolute',
-                  zIndex: 10,
-                  marginLeft: 5,
-                  backgroundColor: '#212831',
+                  flexDirection: 'row',
+                  justifyContent: 'flex-end',
+                  alignItems: 'center',
+                  width: 60,
+                  marginRight: 10,
+                  marginLeft: 20,
+                  flex: 1,
                 }}>
-                <Image
-                  style={{ tintColor: COLORS.grayText, marginLeft: 5 }}
-                  source={rightArrow}
-                />
+                <View style={{ marginRight: 10 }}>
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      fontWeight: SIZES.fontWeight0,
+                      color: COLORS.grayText,
+                    }}>
+                    {refreshed
+                      ? numberWithSpaces(dashboardData?.confirmedRevenue)
+                      : '0'}
+                  </Text>
+                </View>
+                <View style={{ right: 5 }}>
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      fontWeight: SIZES.fontWeight0,
+                      color: COLORS.grayText,
+                    }}>
+                    UZS
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    backgroundColor: '#212831',
+                  }}>
+                  <Image
+                    style={{ tintColor: COLORS.grayText, marginLeft: 5 }}
+                    source={rightArrow}
+                  />
+                </View>
               </View>
             </View>
           </TouchableOpacity>
 
-          {/* SECOND GRAY BOX starts here */}
+          {/* SECOND BOX starts here */}
           <TouchableOpacity style={styles.grayBlock}>
             <View
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
+                justifyContent: 'space-between',
               }}>
-              <View style={styles.blueTextBlock}>
-                <Text
-                  style={{ fontWeight: SIZES.fontWeight2, color: COLORS.blue }}>
-                  {dashboardData?.canceledQuantity}
-                </Text>
-              </View>
-              <View>
-                <Text
-                  style={{
-                    fontSize: 18,
-                    fontWeight: SIZES.fontWeight2,
-                    color: COLORS.white,
-                  }}>
-                  Отмена
-                </Text>
-              </View>
               <View
                 style={{
-                  left: 145,
                   flexDirection: 'row',
                   alignItems: 'center',
                 }}>
-                <Text
-                  style={{
-                    fontSize: 18,
-                    color: COLORS.grayText,
-                    fontWeight: SIZES.fontWeight0,
-                  }}>
-                  {dashboardData?.canceledRevenue} UZS
-                </Text>
+                <View style={styles.blueTextBlock}>
+                  <Text
+                    style={{
+                      fontWeight: SIZES.fontWeight2,
+                      color: COLORS.blue,
+                    }}>
+                    {refreshed ? dashboardData?.canceledQuantity : '0'}
+                  </Text>
+                </View>
+                <View>
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      fontWeight: SIZES.fontWeight2,
+                      color: COLORS.white,
+                    }}>
+                    Отмена
+                  </Text>
+                </View>
               </View>
-              <View style={{ padding: 10, right: 5, position: 'absolute' }}>
-                <Image
-                  style={{ tintColor: COLORS.grayText }}
-                  source={rightArrow}
-                />
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'flex-end',
+                  alignItems: 'center',
+                  width: 60,
+                  marginRight: 10,
+                  marginLeft: 20,
+                  flex: 1,
+                }}>
+                <View style={{ marginRight: 10 }}>
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      fontWeight: SIZES.fontWeight0,
+                      color: COLORS.grayText,
+                    }}>
+                    {refreshed
+                      ? numberWithSpaces(dashboardData?.canceledRevenue)
+                      : '0'}
+                  </Text>
+                </View>
+                <View style={{ right: 5 }}>
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      fontWeight: SIZES.fontWeight0,
+                      color: COLORS.grayText,
+                    }}>
+                    UZS
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    backgroundColor: '#212831',
+                  }}>
+                  <Image
+                    style={{ tintColor: COLORS.grayText, marginLeft: 5 }}
+                    source={rightArrow}
+                  />
+                </View>
               </View>
             </View>
           </TouchableOpacity>
-          {/* THIRD GRAY BOX starts here */}
+
+          {/* THIRD BOX starts here */}
           <TouchableOpacity style={styles.grayBlock}>
             <View
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
+                justifyContent: 'space-between',
               }}>
-              <View style={styles.blueTextBlock}>
-                <Text style={styles.blueText}>0</Text>
-              </View>
-              <View>
-                <Text
-                  style={{
-                    fontSize: 18,
-                    fontWeight: SIZES.fontWeight2,
-                    color: COLORS.white,
-                  }}>
-                  Сообщения
-                </Text>
-              </View>
-
-              <Text
+              <View
                 style={{
-                  fontSize: 18,
-                  fontWeight: SIZES.fontWeight0,
-                  color: COLORS.grayText,
-                  left: 140,
+                  flexDirection: 'row',
+                  alignItems: 'center',
                 }}>
-                0
-              </Text>
-
-              <View style={{ padding: 10, right: 5, position: 'absolute' }}>
-                <Image
-                  style={{ tintColor: COLORS.grayText }}
-                  source={rightArrow}
-                />
+                <View style={styles.blueTextBlock}>
+                  <Text
+                    style={{
+                      fontWeight: SIZES.fontWeight2,
+                      color: COLORS.blue,
+                    }}>
+                    0
+                  </Text>
+                </View>
+                <View style={{}}>
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      fontWeight: SIZES.fontWeight2,
+                      color: COLORS.white,
+                    }}>
+                    Сообщения
+                  </Text>
+                </View>
+              </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'flex-end',
+                  alignItems: 'center',
+                  width: 60,
+                  marginRight: 10,
+                  marginLeft: 20,
+                  flex: 1,
+                }}>
+                <View style={{ marginRight: 10 }}>
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      fontWeight: SIZES.fontWeight0,
+                      color: COLORS.grayText,
+                    }}>
+                    0
+                  </Text>
+                </View>
+                <View style={{ right: 5 }}>
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      fontWeight: SIZES.fontWeight0,
+                      color: COLORS.grayText,
+                    }}></Text>
+                </View>
+                <View
+                  style={{
+                    backgroundColor: '#212831',
+                  }}>
+                  <Image
+                    style={{ tintColor: COLORS.grayText, marginLeft: 5 }}
+                    source={rightArrow}
+                  />
+                </View>
               </View>
             </View>
           </TouchableOpacity>

@@ -21,14 +21,68 @@ import {
   DoloresDot,
   OtherDot,
 } from '../Reservations/StatusView/DotView';
+// Components
+import ByUserLine from '../Stats/Lines/ByUserLine';
+import TelephoneLine from '../Stats/Lines/TelephoneLine';
+import SitesLine from '../Stats/Lines/SitesLine';
+import BookingLine from '../Stats/Lines/BookingLine';
+import TraminaLine from '../Stats/Lines/TraminaLine';
+import DoloresLine from '../Stats/Lines/DoloresLine';
+import OtherLine from '../Stats/Lines/OtherLine';
+
+import useApi from '../../utils/useApi';
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 export default function Details() {
   const currency = 'UZS';
   const hotelRoomPrice = '235 000';
-  const lineWidth = 250;
-  const revenue = '123 000 312';
-  const stays = '229';
+  const maxWidth = 250;
 
+  // API
+  const { getStatisticsByCategory } = useApi();
+
+  const [statsData, setStatsData] = useState(null);
+  const [chosenDateRange, setChosenDateRange] = useState(null);
+
+  // Change this hardcoded date range to chosen calendar date
+  const dateRange = {
+    start_date: '2021-10-11',
+    end_date: '2021-11-30',
+  };
+
+  const getUpdatedData = async () => {
+    try {
+      await getStatisticsByCategory(dateRange).then(response => {
+        setStatsData(response);
+        console.log('====================================');
+        console.log(response);
+        console.log('====================================');
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getUpdatedData();
+  }, []);
+
+  // RegExp to add space between numbers
+  function numberWithSpaces(x) {
+    var parts = x.toString().split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    return parts.join('.');
+  }
+
+  const sourceNameArray = [
+    'От стойки',
+    'Телефон',
+    'Dolores',
+    'Сайт',
+    'Booking.com',
+    'Трамина',
+  ];
   return (
     <>
       <View
@@ -96,7 +150,8 @@ export default function Details() {
               </Text>
             </View>
             <GrayText>
-              Всего {revenue} {currency}
+              Всего UZS
+              {/* {revenue} {currency} */}
             </GrayText>
           </View>
           <View style={{ flexDirection: 'row' }}>
@@ -140,7 +195,7 @@ export default function Details() {
                 Room Nights
               </Text>
             </View>
-            <GrayText>{stays} ночей</GrayText>
+            <GrayText> ночей</GrayText>
           </View>
           <View style={{ flexDirection: 'row' }}>
             {/* LEFT Donut View */}
@@ -179,87 +234,44 @@ export default function Details() {
               </WhiteText>
             </View>
 
-            <GrayText>
-              Всего {revenue} {currency}
-            </GrayText>
+            <GrayText>Всего UZS</GrayText>
           </View>
 
           {/* Color Line and Title */}
+
           <View
             style={{
               marginBottom: 5,
             }}>
-            <View style={styles.dotBlock}>
-              <View
-                style={[
-                  styles.lineStyle,
-                  { backgroundColor: COLORS.blueCircle, width: lineWidth },
-                ]}
-              />
-              <WhiteText>
-                {hotelRoomPrice} {currency}
-              </WhiteText>
-            </View>
+            {statsData?.map((dot, index) => (
+              <View style={styles.dotBlock}>
+                {dot?.source_name === 'От стойки' && (
+                  <ByUserLine lineWidth={100} />
+                )}
 
-            <View style={styles.dotBlock}>
-              <View
-                style={[
-                  styles.dotStyle,
-                  { backgroundColor: COLORS.orange, width: 67 },
-                ]}
-              />
-              <WhiteText>
-                {hotelRoomPrice} {currency}
-              </WhiteText>
-            </View>
+                {dot?.source_name === 'Телефон' && (
+                  <TelephoneLine lineWidth={50} />
+                )}
 
-            <View style={styles.dotBlock}>
-              <View
-                style={[
-                  styles.lineStyle,
-                  { backgroundColor: COLORS.yellow, width: 130 },
-                ]}
-              />
-              <WhiteText>
-                {hotelRoomPrice} {currency}
-              </WhiteText>
-            </View>
+                {dot?.source_name === 'Dolores' && (
+                  <DoloresLine lineWidth={50} />
+                )}
 
-            <View style={styles.dotBlock}>
-              <View
-                style={[
-                  styles.lineStyle,
-                  { backgroundColor: COLORS.greenCircle, width: 130 },
-                ]}
-              />
-              <WhiteText>
-                {hotelRoomPrice} {currency}
-              </WhiteText>
-            </View>
+                {dot?.source_name === 'Сайт' && <SitesLine lineWidth={50} />}
+                {dot?.source_name === 'Booking.com' && (
+                  <BookingLine lineWidth={50} />
+                )}
 
-            <View style={styles.dotBlock}>
-              <View
-                style={[
-                  styles.lineStyle,
-                  { backgroundColor: COLORS.pinkCircle, width: 67 },
-                ]}
-              />
-              <WhiteText>
-                {hotelRoomPrice} {currency}
-              </WhiteText>
-            </View>
+                {dot?.source_name === 'Трамина' && (
+                  <TraminaLine lineWidth={50} />
+                )}
 
-            <View style={styles.dotBlock}>
-              <View
-                style={[
-                  styles.lineStyle,
-                  { backgroundColor: COLORS.coral, width: 130 },
-                ]}
-              />
-              <WhiteText>
-                {hotelRoomPrice} {currency}
-              </WhiteText>
-            </View>
+                <Text style={{ color: COLORS.white }}>
+                  {numberWithSpaces(dot?.average_revenue)} {dot?.source_name}
+                </Text>
+                {/* <BookingLine  */}
+              </View>
+            ))}
           </View>
 
           {/* DOTS */}
@@ -273,19 +285,11 @@ export default function Details() {
                 marginRight: 5,
               }}>
               <View style={[styles.dotBlock, styles.thirdCardDotMargin]}>
-                <View
-                  style={[
-                    styles.dotStyle,
-                    { backgroundColor: COLORS.blueCircle },
-                  ]}
-                />
-                <WhiteText>От стойки</WhiteText>
-              </View>
-              <View style={[styles.dotBlock]}>
-                <View
-                  style={[styles.dotStyle, { backgroundColor: COLORS.orange }]}
-                />
-                <WhiteText>Телефон</WhiteText>
+                {statsData?.source_name === 'От стойки' ? (
+                  <ByUserDot />
+                ) : (
+                  statsData?.source_name === 'Booking.com' && <BookingDot />
+                )}
               </View>
             </View>
             <View
@@ -333,7 +337,7 @@ export default function Details() {
         </Card>
         <View
           style={{
-            paddingBottom: 80,
+            paddingBottom: 180,
           }}
         />
       </ScrollView>
@@ -400,7 +404,7 @@ const styles = StyleSheet.create({
   },
 
   thirdCardDotMargin: {
-    marginBottom: 10,
+    marginBottom: 5,
   },
   donutBlock: {
     width: 140,

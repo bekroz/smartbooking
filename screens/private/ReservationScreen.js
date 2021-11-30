@@ -39,29 +39,35 @@ export default function ReservationScreen() {
   const [hotelID, setHotelID] = useState(48);
   const [pageIndex, setPageIndex] = useState(1);
   const [data, setData] = useState(null);
+  const [lastPage, setLastPage] = useState(false);
 
   const getUpdatedData = async (page = pageIndex) => {
+    setRefreshed(false);
     let params = {
-      hotelID: '48',
+      hotelID: hotelID,
       date_range_type: 'type_stay_dates',
       start_date: '2021-10-11',
       end_date: '2021-11-30',
       page: page,
     };
-    console.log('====================================');
-    console.log(params);
-    console.log('====================================');
     try {
       await getHotelAllReservationsData(params).then(response => {
-        // console.log('THIS IS RESERVATION DATA YOU WANT TO GET =>>> ');
-        // console.log(response);
-        // setData({ response });
+        console.log('====================================');
+        console.log(response.meta);
+        console.log('====================================');
+        const receivedData = response.data;
+        params.page = response.meta.currentPage;
         let existingReservations = hotelAllReservationsData;
-        response.forEach(element => {
+        receivedData.forEach(element => {
           existingReservations.push(element);
         });
         setHotelAllReservationsData(existingReservations);
         setRefreshed(true);
+        setPageIndex(pageIndex + 1);
+        if (response.meta.current_page === response.meta.last_page) {
+          setLastPage(true);
+          console.log('NO MORE DATA TO SHOW');
+        }
       });
     } catch (error) {
       console.error(error);
@@ -70,33 +76,27 @@ export default function ReservationScreen() {
 
   useEffect(() => {
     getUpdatedData();
-    // getHotelAllReservationsData();
-    // hotelAllReservationsData.push(data);
   }, []);
 
-  // console.log(hotelAllReservationsData);
-  // checkinDate: incomingData.checkin,
-  // checkoutDate: incomingData.checkout,
-  // totalNights: incomingData.nights,
-  // totalGuests: incomingData.total_guests,
-  // guestFirstName: incomingData.guest.last_name,
-  // guestLastName: incomingData.guest.first_name,
-  // totalRooms: incomingData.total_rooms,
-  // createdDate: incomingData.created_at,
-  // sourceName: incomingData.source_name,
-  // totalSum: incomingData.total_sum,
-  // currency: incomingData.currency,
-  // status: incomingData.status,  console.log(hotelAllReservationsData);
-
-  console.log(hotelAllReservationsData.length);
-
-  async function addPageIndex() {
-    setPageIndex(pageIndex + 1);
+  async function loadNewData() {
+    setRefreshed(false);
     try {
       await getUpdatedData(pageIndex);
+      setRefreshed(true);
     } catch (error) {
       console.error(error);
     }
+  }
+
+  console.log('====================================');
+  console.log(lastPage);
+  console.log('====================================');
+
+  // RegExp to add space between numbers
+  function numberWithSpaces(x) {
+    var parts = x.toString().split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    return parts.join('.');
   }
 
   return (
@@ -106,7 +106,7 @@ export default function ReservationScreen() {
           <Text style={[styles.headerTitle, { color: COLORS.white }]}>
             Бронирования
           </Text>
-          <TouchableOpacity style={styles.search} onPress={addPageIndex}>
+          <TouchableOpacity style={styles.search} onPress={() => loadNewData()}>
             <View>
               <Image source={searchIcon} />
             </View>
@@ -135,12 +135,9 @@ export default function ReservationScreen() {
         {/* CARDS */}
 
         <ScrollView>
-          {/* FIRST Card */}
-          {hotelAllReservationsData?.map(reservation => (
-            <Card
-              key={reservation.id}
-              containerStyle={styles.card}
-              title="Guests">
+          {/* All Card */}
+          {hotelAllReservationsData?.map((reservation, index) => (
+            <Card key={index} containerStyle={styles.card} title="Guests">
               {/* LEFT Side Content */}
               <View
                 style={{
@@ -257,7 +254,28 @@ export default function ReservationScreen() {
               </View>
             </Card>
           ))}
-          {refreshed && (
+          {lastPage ? (
+            <View
+              style={{
+                alignSelf: 'center',
+                backgroundColor: '#212831',
+                width: SIZES.width - 20,
+                height: 40,
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginTop: 15,
+                borderRadius: 6,
+              }}>
+              <Text
+                style={{
+                  color: COLORS.grayText,
+                  fontWeight: '500',
+                  fontSize: 16,
+                }}>
+                Все данные загружены :)
+              </Text>
+            </View>
+          ) : (
             <TouchableOpacity
               style={{
                 alignSelf: 'center',
@@ -269,7 +287,7 @@ export default function ReservationScreen() {
                 marginTop: 15,
                 borderRadius: 6,
               }}
-              onPress={addPageIndex}>
+              onPress={loadNewData}>
               <Text
                 style={{ color: COLORS.blue, fontWeight: '500', fontSize: 16 }}>
                 Показать ещё

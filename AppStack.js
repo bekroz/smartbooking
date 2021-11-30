@@ -11,6 +11,7 @@ import ComparisonScreen from './screens/private/ComparisonScreen';
 import SettingsScreen from './screens/private/SettingsScreen';
 // Public Screens
 import LoginScreen from './screens/public/LoginScreen';
+import StatsScreen from './screens/private/StatsScreen';
 
 const Stack = createStackNavigator();
 
@@ -22,13 +23,16 @@ export default function AppStack() {
           headerShown: false,
         }}
         initialRouteName={'Home'}>
-        <Stack.Screen name="Home" component={TabNavigator} />
+        {/* Public Routes */}
         <Stack.Screen name="Login" component={LoginScreen} />
+        {/* Private Routes */}
+        <Stack.Screen name="Home" component={TabNavigator} />
         <Stack.Screen name="TermsLoader" component={TermsLoader} />
         <Stack.Screen name="Dashboard" component={DashboardScreen} />
         <Stack.Screen name="Reservation" component={ReservationScreen} />
         <Stack.Screen name="Comparison" component={ComparisonScreen} />
         <Stack.Screen name="Settings" component={SettingsScreen} />
+        <Stack.Screen name="Stats" component={StatsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
