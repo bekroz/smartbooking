@@ -9,9 +9,11 @@ import TermsLoader from './components/Terms/TermsLoader';
 import DashboardScreen from './screens/private/DashboardScreen';
 import ComparisonScreen from './screens/private/ComparisonScreen';
 import SettingsScreen from './screens/private/SettingsScreen';
+import StatsScreen from './screens/private/StatsScreen';
 // Public Screens
 import LoginScreen from './screens/public/LoginScreen';
-import StatsScreen from './screens/private/StatsScreen';
+
+import NoFoundScreen from './screens/public/NoFoundScreen';
 
 const Stack = createStackNavigator();
 
@@ -25,6 +27,7 @@ export default function AppStack() {
         initialRouteName={'Login'}>
         {/* Public Routes */}
         <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="NoFoundScreen" component={NoFoundScreen} />
         {/* Private Routes */}
         <Stack.Screen name="Home" component={TabNavigator} />
         <Stack.Screen name="TermsLoader" component={TermsLoader} />

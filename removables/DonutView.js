@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import Svg, { G, Circle } from 'react-native-svg';
-import { COLORS } from '../constants/theme';
+import { COLORS, SIZES } from '../constants/theme';
 
 const DonutView = () => {
   const radius = 65;
@@ -170,7 +170,26 @@ const DonutView = () => {
             </>
           </G>
         </Svg>
-        <Text style={styles.label}>{totalAmount}</Text>
+        {/* <Text style={styles.label}>{totalAmount}</Text> */}
+        <View
+          style={{
+            alignItems: 'center',
+            position: 'absolute',
+            alignSelf: 'center',
+          }}>
+          <Text style={{ color: COLORS.white, fontWeight: SIZES.fontWeight0 }}>
+            Booking.com
+          </Text>
+          <Text
+            style={{
+              color: COLORS.white,
+              fontSize: SIZES.body5,
+              fontWeight: SIZES.fontWeight2,
+              bottom: -5,
+            }}>
+            28%
+          </Text>
+        </View>
       </View>
     </View>
   );

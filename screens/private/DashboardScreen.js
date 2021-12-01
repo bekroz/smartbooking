@@ -24,6 +24,7 @@ import PercentageCircle from '../../components/Dashboard/PercentageCircle';
 import EmptyRoomsCircle from '../../components/Dashboard/EmptyRoomsCircle';
 import useApi from '../../utils/useApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { wordTruncator, numberWithSpaces } from '../../helpers';
 
 export default function DashboardScreen({ navigation }) {
   // API HANDLERS
@@ -40,14 +41,12 @@ export default function DashboardScreen({ navigation }) {
   const handleAddButtonPress = () => {
     alert('Add Button pressed');
   };
-  
+
   const handleArcBarPress = () => {
-    const token = AsyncStorage.getItem('token');
     alert('Arc Bar has been fired!');
-    getAllHotelPropertiesData(token);
   };
 
-  const [chosenDate, setChosenDate] = useState('2021-11-21');
+  const [chosenDate, setChosenDate] = useState('2021-12-01');
   const [hotelID, setHotelID] = useState('48');
 
   const getUpdatedData = async () => {
@@ -86,16 +85,6 @@ export default function DashboardScreen({ navigation }) {
   console.log(dashboardData);
   console.log(dashboardData?.canceledRevenue);
 
-  // RegExp to add space between numbers
-  function numberWithSpaces(x) {
-    var parts = x.toString().split('.');
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
-    return parts.join('.');
-  }
-  function truncate(string, n) {
-    return string?.length > n ? string.substr(0, n - 1) + '...' : string;
-  }
-
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
       <ScrollView>
@@ -112,7 +101,7 @@ export default function DashboardScreen({ navigation }) {
             <Image source={leftArrow} />
           </TouchableOpacity>
           <TouchableOpacity>
-            <Text style={styles.dateText}>{'calendar?.date'}</Text>
+            <Text style={styles.dateText}>Декабрь 2021</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.arrowIconStyle}>
             <Image source={rightArrow} />
@@ -131,7 +120,7 @@ export default function DashboardScreen({ navigation }) {
                 fontWeight: SIZES.fontWeight0,
                 color: COLORS.white,
               }}>
-              {'calendar?.day'}
+              Вторник
             </Text>
           </TouchableOpacity>
         </View>
@@ -152,7 +141,7 @@ export default function DashboardScreen({ navigation }) {
             flexDirection: 'row',
           }}>
           {/* FIRST ARC circle */}
-          <TouchableOpacity onPress={{}} style={styles.arcBlock}>
+          <TouchableOpacity onPress={handleArcBarPress} style={styles.arcBlock}>
             <MultiArcCircle
               radius={50}
               intervals={[
@@ -182,7 +171,7 @@ export default function DashboardScreen({ navigation }) {
             </Text>
           </TouchableOpacity>
           {/* SECOND ARC circle */}
-          <TouchableOpacity onPress={{}} style={styles.arcBlock}>
+          <TouchableOpacity onPress={handleArcBarPress} style={styles.arcBlock}>
             <MultiArcCircle
               radius={50}
               intervals={[
@@ -213,7 +202,7 @@ export default function DashboardScreen({ navigation }) {
             </Text>
           </TouchableOpacity>
           {/* THIRD ARC circle */}
-          <TouchableOpacity onPress={{}} style={styles.arcBlock}>
+          <TouchableOpacity onPress={handleArcBarPress} style={styles.arcBlock}>
             <MultiArcCircle
               radius={50}
               intervals={[

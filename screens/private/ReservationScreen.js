@@ -27,6 +27,7 @@ import {
   CanceledStatus,
   NoShowStatus,
 } from '../../components/Reservations/StatusView';
+import { wordTruncator, numberWithSpaces } from '../../helpers';
 
 export default function ReservationScreen() {
   const handleSearchButton = () => {
@@ -46,7 +47,7 @@ export default function ReservationScreen() {
     let params = {
       hotelID: hotelID,
       date_range_type: 'type_stay_dates',
-      start_date: '2021-10-11',
+      start_date: '2021-08-11',
       end_date: '2021-11-30',
       page: page,
     };
@@ -91,13 +92,6 @@ export default function ReservationScreen() {
   console.log('====================================');
   console.log(lastPage);
   console.log('====================================');
-
-  // RegExp to add space between numbers
-  function numberWithSpaces(x) {
-    var parts = x.toString().split('.');
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
-    return parts.join('.');
-  }
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
@@ -146,10 +140,7 @@ export default function ReservationScreen() {
                 <View style={{ marginBottom: 15, alignItems: 'center' }}>
                   <Text style={{ color: COLORS.grayText }}>Дата заезда:</Text>
                   <Text style={{ color: COLORS.white }}>
-                    {' '}
-                    {refreshed
-                      ? moment(reservation.checkin).format('DD.MM.YYYY')
-                      : '----'}
+                    {moment(reservation.checkin).format('DD.MM.YYYY')}
                   </Text>
                 </View>
 
@@ -171,10 +162,7 @@ export default function ReservationScreen() {
                   }}>
                   <Text style={{ color: COLORS.grayText }}>Дата выезда:</Text>
                   <Text style={{ paddingTop: 5, color: COLORS.white }}>
-                    {refreshed
-                      ? moment(reservation?.checkout).format('DD.MM.YYYY')
-                      : '----'}
-                    {/*  */}
+                    {moment(reservation?.checkout).format('DD.MM.YYYY')}
                   </Text>
                 </View>
 
@@ -185,12 +173,12 @@ export default function ReservationScreen() {
                   <Image source={moonIcon} />
                   <Text style={{ color: COLORS.white }}>
                     {' '}
-                    {refreshed ? reservation?.nights : '- -'}
+                    {reservation?.nights}
                   </Text>
                   <Image style={{ marginLeft: 10 }} source={personIcon} />
                   <Text style={{ color: COLORS.white }}>
                     {' '}
-                    {refreshed ? reservation?.total_guests : '- -'}
+                    {reservation?.total_guests}
                   </Text>
                 </View>
               </View>
@@ -221,18 +209,17 @@ export default function ReservationScreen() {
                     width: 140,
                   }}>
                   <Text style={styles.guestName}>
-                    {refreshed
-                      ? `${reservation?.guest.first_name} ${reservation?.guest.last_name}`
-                      : '--------'}
+                    {wordTruncator(reservation?.guest.first_name, 8)}
+                  </Text>
+                  <Text style={styles.guestName}>
+                    {wordTruncator(reservation?.guest.last_name, 8)}
                   </Text>
                   <View>
                     <Text style={[styles.equalMargin, { color: COLORS.white }]}>
-                      {refreshed ? reservation?.total_rooms : '-'} номера
+                      {reservation?.total_rooms} номера
                     </Text>
                     <Text style={[styles.equalMargin, { color: COLORS.white }]}>
-                      {refreshed
-                        ? moment(reservation?.created_at).format('DD.MM.YYYY')
-                        : '---- -- --'}
+                      {moment(reservation?.created_at).format('DD.MM.YYYY')}
                     </Text>
                     <Text
                       style={[
@@ -242,7 +229,7 @@ export default function ReservationScreen() {
                       {reservation?.source_name}
                     </Text>
                     <Text style={[styles.greenPriceText, styles.equalMargin]}>
-                      {refreshed ? reservation?.total_sum : '-------'} UZS
+                      {numberWithSpaces(reservation?.total_sum)} UZS
                     </Text>
                   </View>
                 </View>
@@ -290,7 +277,7 @@ export default function ReservationScreen() {
               onPress={loadNewData}>
               <Text
                 style={{ color: COLORS.blue, fontWeight: '500', fontSize: 16 }}>
-                Показать ещё
+                {refreshed ? 'Показать ещё' : 'Загружается ...'}
               </Text>
             </TouchableOpacity>
           )}
@@ -380,8 +367,7 @@ const styles = StyleSheet.create({
   guestName: {
     color: COLORS.blue,
     fontSize: SIZES.body5,
-    width: 80,
+    width: 100,
     fontWeight: SIZES.fontWeight3,
-    height: 40,
   },
 });

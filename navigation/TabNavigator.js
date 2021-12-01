@@ -202,7 +202,6 @@ export default function TabNavigator() {
             ),
         }}
       />
-      <Tab.Screen name="API" component={APITESTER} />
     </Tab.Navigator>
   );
 }

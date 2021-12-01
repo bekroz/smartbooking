@@ -17,37 +17,51 @@ import { COLORS, POSITIONING, SIZES } from '../../constants/theme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useApi from '../../utils/useApi';
 import { emailValidator, passwordValidator } from '../../helpers';
+// Icons
+import showEye from '../../assets/icons/showEye.png';
+import noShowEye from '../../assets/icons/noShowEye.png';
+
+// Components
 
 export default function LoginScreen({ navigation }) {
   function registerButtonPress() {
-    alert('Register Button is fired');
-    // navigation.replace('RegisterScreen');
+    navigation.navigate('NoFoundScreen');
   }
 
   function resetPasswordButtonPress() {
-    alert('Forgot Password Button is fired');
-    navigation.navigate('ResetPasswordScreen');
+    navigation.navigate('NoFoundScreen');
   }
   const { handleIOSAuthentication, handleIOSAuthorization } = useApi();
 
   const [email, setEmail] = useState({ value: '', error: '' });
   const [password, setPassword] = useState({ value: '', error: '' });
   const [secureTextEntry, setSecureTextEntry] = useState(true);
+  const [user, setUser] = useState(null);
 
   const handleLogin = async () => {
-    // await AsyncStorage.setItem('USER', JSON.stringify(value));
-
     const emailError = emailValidator(email.value);
     const passwordError = passwordValidator(password.value);
+
     if (emailError || passwordError) {
       setEmail({ ...email, error: emailError });
       setPassword({ ...password, error: passwordError });
-      return;
+      Alert.alert(
+        'Неверные данные',
+        'Такого адреса нет или неправильный пароль',
+        [
+          {
+            text: 'Окей',
+            onPress: () => console.log('OK button Pressed'),
+            style: 'cancel',
+          },
+        ],
+      );
     }
     const userSecret = {
       email: email.value,
       password: password.value,
     };
+    await AsyncStorage.setItem('USER', JSON.stringify(userSecret));
     try {
       await handleIOSAuthentication().then(
         handleIOSAuthorization(userSecret).then(userToken => {
@@ -56,6 +70,7 @@ export default function LoginScreen({ navigation }) {
               index: 0,
               routes: [{ name: 'Home' }],
             });
+            setUser(true);
           } else {
             console.error(error);
           }
@@ -67,7 +82,7 @@ export default function LoginScreen({ navigation }) {
   };
 
   useEffect(() => {
-    handleLogin();
+    user ? handleLogin() : navigation.navigate('Login');
   }, []);
 
   function loginButtonPress() {
@@ -83,6 +98,7 @@ export default function LoginScreen({ navigation }) {
       ],
     );
   }
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
       <View style={[styles.titleBlock, POSITIONING.center]}>
@@ -105,7 +121,7 @@ export default function LoginScreen({ navigation }) {
             />
           </View>
           <Text style={styles.password}>Password</Text>
-          <View>
+          <View style={{ justifyContent: 'center' }}>
             <TextInput
               label="Password"
               secureTextEntry={secureTextEntry}
@@ -114,16 +130,28 @@ export default function LoginScreen({ navigation }) {
               onChangeText={text => setPassword({ value: text, error: '' })}
               returnKeyType="done"
             />
-            {/* <TouchableOpacity
-            onPress={() => {
-          setSecureTextEntry(!secureTextEntry)
-            })}
-            >
-              
-              <Image />
-            </TouchableOpacity> */}
+            <TouchableOpacity
+              style={{
+                position: 'absolute',
+                alignSelf: 'flex-end',
+              }}
+              onPress={() => setSecureTextEntry(!secureTextEntry)}>
+              <Image
+                source={secureTextEntry ? noShowEye : showEye}
+                style={{
+                  width: 25,
+                  height: 25,
+                  tintColor: COLORS.grayPlaceholderBorder,
+                  right: 0,
+                  marginRight: 10,
+                  top: 2,
+                }}
+                resizeMode="contain"
+              />
+            </TouchableOpacity>
           </View>
         </View>
+
         <TouchableOpacity
           style={POSITIONING.align}
           onPress={resetPasswordButtonPress}>
@@ -136,12 +164,12 @@ export default function LoginScreen({ navigation }) {
           onPress={handleLogin}>
           <Text style={styles.loginText}>Войти</Text>
         </TouchableOpacity>
-        <AppleButton
+        {/* <AppleButton
           buttonStyle={AppleButton.Style.WHITE}
           buttonType={AppleButton.Type.SIGN_IN}
           style={styles.appleButton}
           onPress={loginButtonPress}
-        />
+        /> */}
         <View style={styles.registerTextBlock}>
           <Text style={styles.registerTextBlock}>Нет аккаунта? </Text>
           <TouchableOpacity onPress={registerButtonPress}>
@@ -197,17 +225,17 @@ const styles = StyleSheet.create({
     fontSize: SIZES.body5,
   },
   socialButtonsBlock: {
-    top: -200,
+    top: -220,
     height: SIZES.blockHeight,
-    position: 'relative',
   },
   emailSignInButton: {
     backgroundColor: COLORS.blue,
     padding: 15,
-    marginBottom: 10,
+    marginBottom: 0,
     borderRadius: 5,
     width: SIZES.blockWidth,
     height: SIZES.blockHeight,
+    top: -50,
   },
   forgotPasswordText: {
     color: COLORS.blue,
@@ -228,10 +256,10 @@ const styles = StyleSheet.create({
   },
   registerTextBlock: {
     flexDirection: 'row',
-    marginTop: 10,
     fontSize: SIZES.body6,
     fontWeight: SIZES.fontWeight1,
     color: COLORS.white,
+    top: -15,
   },
   registerText: {
     color: COLORS.blue,

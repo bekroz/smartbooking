@@ -17,12 +17,9 @@ import whiteChevronRight from '../../images/whiteChevronRight.png';
 
 export default function SettingsScreen({ navigation }) {
   function handleLogOutButtonPress() {
-    alert('User has been logged out!');
+    navigation.replace('Login');
   }
-  function handleBackButtonPress() {
-    alert('Back Button Press handled!');
-    navigation.navigate('Home');
-  }
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
       <View style={POSITIONING.align}>

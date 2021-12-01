@@ -158,8 +158,8 @@ export default function Details() {
           <View style={{ flexDirection: 'row' }}>
             {/* LEFT Donut View */}
             <View style={styles.donutBlock}>
-              <Donut />
-              {/* <DonutView /> */}
+              {/* <Donut /> */}
+              <DonutView />
             </View>
             {/* Color and Title */}
             <View style={{ flex: 1, top: -15 }}>
@@ -202,8 +202,8 @@ export default function Details() {
           <View style={{ flexDirection: 'row' }}>
             {/* LEFT Donut View */}
             <View style={styles.donutBlock}>
-            {/* <Donut /> */}
-            <DonutView />
+              {/* <Donut /> */}
+              <DonutView />
             </View>
             {/* Color and Title */}
             <View style={{ flex: 1, top: -15 }}>
@@ -295,7 +295,7 @@ export default function Details() {
                 )}
               </View>
             </View>
-            <View
+            {/* <View
               style={{
                 width: 115,
                 marginRight: 15,
@@ -335,7 +335,9 @@ export default function Details() {
                 />
                 <WhiteText>Dolores</WhiteText>
               </View>
-            </View>
+            </View> */}
+            
+
           </View>
         </Card>
         <View
