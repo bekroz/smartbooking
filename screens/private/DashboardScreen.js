@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   ScrollView,
   TouchableWithoutFeedback,
+  Alert,
 } from 'react-native';
 import { MultiArcCircle } from 'react-native-circles';
 // Theme
@@ -37,8 +38,9 @@ export default function DashboardScreen({ navigation }) {
     setFirstView(!firstView);
   };
   const handleAddButtonPress = () => {
-    alert('Add button has been fired!');
+    alert('Add Button pressed');
   };
+  
   const handleArcBarPress = () => {
     const token = AsyncStorage.getItem('token');
     alert('Arc Bar has been fired!');

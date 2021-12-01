@@ -18,6 +18,7 @@ const useApi = () => {
         console.log('1. APP TOKEN ===>>>');
         console.log(response.data.access_token);
         AsyncStorage.setItem('APP_TOKEN', response.data.access_token);
+        return response.data.access_token;
       });
     } catch (e) {
       alert(e);
@@ -26,9 +27,9 @@ const useApi = () => {
 
   // #2 API => GET iOS USER token
 
-  const handleIOSAuthorization = async () => {
+  const handleIOSAuthorization = async userSecret => {
     const appToken = await AsyncStorage.getItem('APP_TOKEN');
-    const user = JSON.parse(await AsyncStorage.getItem('USER'));
+    // const user = JSON.parse(AsyncStorage.getItem('USER'));
     try {
       return await axios({
         url: `${Config.BASE_API_URL}/mobile/auth/login`,
@@ -37,7 +38,10 @@ const useApi = () => {
           Authorization: `Bearer ${appToken}`,
           'Content-Type': 'application/json',
         },
-        data: user,
+        data: {
+          username: userSecret.email,
+          password: userSecret.password,
+        },
       }).then(response => {
         console.log('2. USER TOKEN ===>>>');
         console.log(response.data.access_token);

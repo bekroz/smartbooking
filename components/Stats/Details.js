@@ -33,6 +33,7 @@ import OtherLine from '../Stats/Lines/OtherLine';
 import useApi from '../../utils/useApi';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import DonutView from '../../removables/DonutView';
 
 export default function Details() {
   const currency = 'UZS';
@@ -158,6 +159,7 @@ export default function Details() {
             {/* LEFT Donut View */}
             <View style={styles.donutBlock}>
               <Donut />
+              {/* <DonutView /> */}
             </View>
             {/* Color and Title */}
             <View style={{ flex: 1, top: -15 }}>
@@ -200,7 +202,8 @@ export default function Details() {
           <View style={{ flexDirection: 'row' }}>
             {/* LEFT Donut View */}
             <View style={styles.donutBlock}>
-              <Donut />
+            {/* <Donut /> */}
+            <DonutView />
             </View>
             {/* Color and Title */}
             <View style={{ flex: 1, top: -15 }}>
@@ -409,6 +412,7 @@ const styles = StyleSheet.create({
   donutBlock: {
     width: 140,
     marginRight: 50,
+    marginTop: 5,
     height: 120,
     justifyContent: 'center',
     alignItems: 'center',

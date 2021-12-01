@@ -6,6 +6,8 @@ import {
   View,
   TextInput,
   SafeAreaView,
+  Image,
+  Alert,
 } from 'react-native';
 import {
   AppleButton,
@@ -14,41 +16,73 @@ import {
 import { COLORS, POSITIONING, SIZES } from '../../constants/theme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useApi from '../../utils/useApi';
+import { emailValidator, passwordValidator } from '../../helpers';
 
 export default function LoginScreen({ navigation }) {
   function registerButtonPress() {
     alert('Register Button is fired');
+    // navigation.replace('RegisterScreen');
   }
 
-  function forgotPasswordButtonPress() {
+  function resetPasswordButtonPress() {
     alert('Forgot Password Button is fired');
+    navigation.navigate('ResetPasswordScreen');
   }
   const { handleIOSAuthentication, handleIOSAuthorization } = useApi();
 
-  const [username, setUsername] = useState('test@smartbooking.uz');
-  const [password, setPassword] = useState('12345678');
+  const [email, setEmail] = useState({ value: '', error: '' });
+  const [password, setPassword] = useState({ value: '', error: '' });
+  const [secureTextEntry, setSecureTextEntry] = useState(true);
 
   const handleLogin = async () => {
-    const user_secret = {
-      username: username,
-      password: password,
+    // await AsyncStorage.setItem('USER', JSON.stringify(value));
+
+    const emailError = emailValidator(email.value);
+    const passwordError = passwordValidator(password.value);
+    if (emailError || passwordError) {
+      setEmail({ ...email, error: emailError });
+      setPassword({ ...password, error: passwordError });
+      return;
+    }
+    const userSecret = {
+      email: email.value,
+      password: password.value,
     };
-    await AsyncStorage.setItem('USER', JSON.stringify(user_secret))
-      .then(handleIOSAuthentication())
-      .then(
-        handleIOSAuthorization().then(userToken => {
+    try {
+      await handleIOSAuthentication().then(
+        handleIOSAuthorization(userSecret).then(userToken => {
           if (userToken) {
-            navigation.navigate('Home');
+            navigation.reset({
+              index: 0,
+              routes: [{ name: 'Home' }],
+            });
           } else {
-            alert('USER NOT FOUND!');
+            console.error(error);
           }
         }),
       );
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
     handleLogin();
   }, []);
+
+  function loginButtonPress() {
+    Alert.alert(
+      'Неверные данные',
+      'Такого адреса нет или неправильный пароль',
+      [
+        {
+          text: 'Окей',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+      ],
+    );
+  }
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
       <View style={[styles.titleBlock, POSITIONING.center]}>
@@ -58,22 +92,41 @@ export default function LoginScreen({ navigation }) {
           <Text style={styles.email}>E-mail</Text>
           <View>
             <TextInput
+              returnKeyType="next"
+              label="E-mail"
               style={styles.placeholder}
-              onChange={event => setUsername(event.target.value)}
+              value={email}
+              onChangeText={text => setEmail({ value: text, error: '' })}
+              autoCapitalize="none"
+              autoCompleteType="email"
+              textContentType="emailAddress"
+              keyboardType="email-address"
+              es
             />
           </View>
           <Text style={styles.password}>Password</Text>
           <View>
             <TextInput
-              secureTextEntry={true}
+              label="Password"
+              secureTextEntry={secureTextEntry}
               style={styles.placeholder}
-              onChange={event => setPassword(event.target.value)}
+              value={password}
+              onChangeText={text => setPassword({ value: text, error: '' })}
+              returnKeyType="done"
             />
+            {/* <TouchableOpacity
+            onPress={() => {
+          setSecureTextEntry(!secureTextEntry)
+            })}
+            >
+              
+              <Image />
+            </TouchableOpacity> */}
           </View>
         </View>
         <TouchableOpacity
           style={POSITIONING.align}
-          onPress={forgotPasswordButtonPress}>
+          onPress={resetPasswordButtonPress}>
           <Text style={styles.forgotPasswordText}>Забыли пароль?</Text>
         </TouchableOpacity>
       </View>
@@ -87,7 +140,7 @@ export default function LoginScreen({ navigation }) {
           buttonStyle={AppleButton.Style.WHITE}
           buttonType={AppleButton.Type.SIGN_IN}
           style={styles.appleButton}
-          onPress={handleLogin}
+          onPress={loginButtonPress}
         />
         <View style={styles.registerTextBlock}>
           <Text style={styles.registerTextBlock}>Нет аккаунта? </Text>
