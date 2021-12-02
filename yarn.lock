@@ -6642,7 +6642,7 @@ fbjs@1.0.0, fbjs@^1.0.0:
     setimmediate "^1.0.5"
     ua-parser-js "^0.7.18"
 
-fbjs@^0.8.4:
+fbjs@^0.8.4, fbjs@^0.8.9:
   version "0.8.18"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.18.tgz#9835e0addb9aca2eff53295cd79ca1cfc7c9662a"
   integrity sha512-EQaWFK+fEPSoibjNy8IxUtaFOMXcWsY0JaVrQoZR9zC8N2Ygf9iDITPWjUTVIax95b6I742JFLqASHfsag/vKA==
@@ -8742,7 +8742,7 @@ lodash.clonedeep@^4.5.0:
   resolved "https://registry.yarnpkg.com/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz#e23f3f9c4f8fbdde872529c1071857a086e5ccef"
   integrity sha1-4j8/nE+Pvd6HJSnBBxhXoIblzO8=
 
-lodash.debounce@^4.0.8:
+lodash.debounce@4.0.8, lodash.debounce@^4.0.8:
   version "4.0.8"
   resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
   integrity sha1-gteb/zCmfEAF/9XiUVMArZyk168=
@@ -9400,7 +9400,12 @@ modal-react-native-web@0.2.0:
   dependencies:
     warning "^4.0.1"
 
-moment@>=2.10.3, moment@^2.19.2, moment@^2.22.0, moment@^2.24.0, moment@^2.27.0, moment@^2.29.1:
+moment-range@2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/moment-range/-/moment-range-2.2.0.tgz#b02575778a4ac50a65777939f5c5d757f83fcd85"
+  integrity sha1-sCV1d4pKxQpld3k59cXXV/g/zYU=
+
+moment@2.29.1, moment@>=2.10.3, moment@^2.17.1, moment@^2.19.2, moment@^2.22.0, moment@^2.22.1, moment@^2.24.0, moment@^2.27.0, moment@^2.29.1:
   version "2.29.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
   integrity sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==
@@ -9512,6 +9517,11 @@ node-fetch@^2.2.0, node-fetch@^2.6.0:
   integrity sha512-Z8/6vRlTUChSdIgMa51jxQ4lrw/Jy5SOW10ObaA47/RElsAN2c5Pn8bTgFGWn/ibwzXTE8qwr1Yzx28vsecXEA==
   dependencies:
     whatwg-url "^5.0.0"
+
+node-git-hooks@^1.0.1:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/node-git-hooks/-/node-git-hooks-1.0.6.tgz#9c7a18a8c8622c280f1e5049e3e83d32bc29d2ea"
+  integrity sha512-ZTiTpRm16kxZY3JQugqjtm1u6nRt0cF2IH8lTMbiyv1V0qUA6ao8yHBwu4p58s3Ry+DbrlXOgUR4b4o/KzjWAA==
 
 node-int64@^0.4.0:
   version "0.4.0"
@@ -10195,6 +10205,13 @@ prompts@^2.0.1, prompts@^2.4.0:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
+prop-types@15.5.8:
+  version "15.5.8"
+  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.8.tgz#6b7b2e141083be38c8595aa51fc55775c7199394"
+  integrity sha1-a3suFBCDvjjIWVqlH8VXdccZk5Q=
+  dependencies:
+    fbjs "^0.8.9"
+
 prop-types@15.6.2:
   version "15.6.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.2.tgz#05d5ca77b4453e985d60fc7ff8c859094a497102"
@@ -10203,7 +10220,7 @@ prop-types@15.6.2:
     loose-envify "^1.3.1"
     object-assign "^4.1.1"
 
-prop-types@15.7.2, prop-types@^15.5.10, prop-types@^15.5.7, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@latest:
+prop-types@15.7.2, prop-types@^15.5.10, prop-types@^15.5.7, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@latest:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -10453,12 +10470,39 @@ react-native-base64@^0.2.1:
   resolved "https://registry.yarnpkg.com/react-native-base64/-/react-native-base64-0.2.1.tgz#3d0e73a649c4c0129f7b7695d3912456aebae847"
   integrity sha512-eHgt/MA8y5ZF0aHfZ1aTPcIkDWxza9AaEk4GcpIX+ZYfZ04RcaNahO+527KR7J44/mD3efYfM23O2C1N44ByWA==
 
+react-native-calendar-picker@^7.1.2:
+  version "7.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-calendar-picker/-/react-native-calendar-picker-7.1.2.tgz#b3bf1ba1cc7b1177b2fac7937564ccf09643029f"
+  integrity sha512-n5ngdqbMIUeu2iHYxvKSX5u67wWqPYdhTx9sMjjQsjF6BrStxF65JCJSPaAORxD+wbFI5AK/xKDCFJfA0o1uFQ==
+  dependencies:
+    node-git-hooks "^1.0.1"
+    prop-types "^15.6.0"
+    recyclerlistview "^3.0.0"
+
+react-native-calendar-range-picker@^1.5.3:
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/react-native-calendar-range-picker/-/react-native-calendar-range-picker-1.5.3.tgz#9776af7a998413141af74a13ac4cd9e4e89b7ecc"
+  integrity sha512-Z1AGt5BE0kGJJhbPzk3WYkiNWLe8h8uU+B+NKlcPMLDk42iQ896+3xUWdrrT/L/tVgL6URp2toJpArhj/m3RTA==
+  dependencies:
+    moment "^2.29.1"
+    react "*"
+    react-native "*"
+
 react-native-calendar@^0.13.1:
   version "0.13.1"
   resolved "https://registry.yarnpkg.com/react-native-calendar/-/react-native-calendar-0.13.1.tgz#c3fb4b7dfb47adbf6f5f2d7313a88f99916b0fee"
   integrity sha1-w/tLfftHrb9vXy1zE6iPmZFrD+4=
   dependencies:
     moment ">=2.10.3"
+
+react-native-calendario@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-calendario/-/react-native-calendario-3.0.1.tgz#dabaeb23dbc818fef6fd9d61c6f4b5786123fb74"
+  integrity sha512-kVDmlrMS5/EkDUOeKGC51/59ctbqq7JmSv9gyRlMFe2aJrDdUUDwEuaEw0OFPIaTyDcyRl3u+Mnvz8xiTxec4g==
+  dependencies:
+    moment "2.29.1"
+    react-dom "16.13.1"
+    react-native-month "1.0.5"
 
 react-native-calendars@^1.1270.0:
   version "1.1270.0"
@@ -10558,6 +10602,16 @@ react-native-d3-charts@^0.0.1:
     prop-types latest
     react-native-svg "~5.5.1"
 
+react-native-date-ranges@^2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/react-native-date-ranges/-/react-native-date-ranges-2.5.0.tgz#aab58a3351606ce7a8a35a12e7d1c4e00db4a75d"
+  integrity sha512-ewQZ84eBtaF3joS7cP93ANGrE8puMbfbr6pSpfGG8B5j0w/or1k/Pi8ix2b45321ZFYj7s77LKcyDnTiGAQidw==
+  dependencies:
+    moment "^2.22.1"
+    moment-range "2.2.0"
+    prop-types "^15.6.1"
+    react ">=16.0.0-alpha.12"
+
 react-native-datepicker@^1.7.2:
   version "1.7.2"
   resolved "https://registry.yarnpkg.com/react-native-datepicker/-/react-native-datepicker-1.7.2.tgz#58d0822591a0ac9b32aba082650222a0ee29669d"
@@ -10572,6 +10626,14 @@ react-native-daterange-picker@^1.5.1:
   dependencies:
     lodash "^4.17.19"
     moment "^2.27.0"
+
+react-native-dates@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/react-native-dates/-/react-native-dates-2.0.4.tgz#155780ebdede82504ce42c14d5981219d434b181"
+  integrity sha1-FVeA697eglBM5CwU1ZgSGdQ0sYE=
+  dependencies:
+    moment "^2.17.1"
+    moment-range "2.2.0"
 
 react-native-dotenv@^3.3.0:
   version "3.3.0"
@@ -10672,6 +10734,11 @@ react-native-linear-gradient@^2.5.6:
   version "2.5.6"
   resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.5.6.tgz#96215cbc5ec7a01247a20890888aa75b834d44a0"
   integrity sha512-HDwEaXcQIuXXCV70O+bK1rizFong3wj+5Q/jSyifKFLg0VWF95xh8XQgfzXwtq0NggL9vNjPKXa016KuFu+VFg==
+
+react-native-month@1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/react-native-month/-/react-native-month-1.0.5.tgz#d39ad8d08485f03c21fb12bac818093120f3ee38"
+  integrity sha512-uWpCaxARPY0hSqz+Aty0Xk04wnCUEy4JhgieaL03wi7aTse4Bvt4+B7jWxREGC/ibDip40ZLeBqwXcVHGWgYbA==
 
 react-native-pathjs-charts@^0.0.34:
   version "0.0.34"
@@ -10955,7 +11022,7 @@ react-native-webview@^11.15.0:
     escape-string-regexp "2.0.0"
     invariant "2.2.4"
 
-react-native@^0.66.3:
+react-native@*, react-native@^0.66.3:
   version "0.66.3"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.66.3.tgz#25c7c4c7d81867326b3eb7a36f0fe6a61fa4104e"
   integrity sha512-B/dQpuvta9YvF5MihDWefoGlTvxzUHK5X5RjdrXHAu/ihTehJXxEA+m6z/tufp1ZUMDjU+tMZK6gnehzCuYfzw==
@@ -11109,7 +11176,7 @@ react-transition-group@2.9.0:
     prop-types "^15.6.2"
     react-lifecycles-compat "^3.0.4"
 
-react@^17.0.2:
+react@*, react@>=16.0.0-alpha.12, react@^17.0.2:
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/react/-/react-17.0.2.tgz#d0b5cc516d29eb3eee383f75b62864cfb6800037"
   integrity sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==
@@ -11180,6 +11247,15 @@ recharts@^2.1.6:
     react-smooth "^2.0.0"
     recharts-scale "^0.4.4"
     reduce-css-calc "^2.1.8"
+
+recyclerlistview@^3.0.0:
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/recyclerlistview/-/recyclerlistview-3.0.5.tgz#50bf5bcaa401d56bb6bb264354083f4d424408eb"
+  integrity sha512-JVHz13u520faEsbVqFrJOMuJjc4mJlOXODe5QdqAJHdl5/IpyYeo83uiHrpzxyLb8QtJ0889JMlDik+Z1Ed0QQ==
+  dependencies:
+    lodash.debounce "4.0.8"
+    prop-types "15.5.8"
+    ts-object-utils "0.0.5"
 
 reduce-css-calc@^2.1.8:
   version "2.1.8"
@@ -11445,6 +11521,11 @@ rimraf@~2.6.2:
   dependencies:
     glob "^7.1.3"
 
+rn-lightweight-date-picker@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/rn-lightweight-date-picker/-/rn-lightweight-date-picker-1.2.0.tgz#82dfb95c6238025474e30a452526b84286b13dc0"
+  integrity sha512-V4eWpMO1xjxOov3wze0gXl8ktMkT7IvDABU9tq9cMtLUxtWnwrA3smqB4qsaEBH8RrYuOL3qrBxSNaO3rpTyFA==
+
 rn-segmented-control@^0.2.8:
   version "0.2.8"
   resolved "https://registry.yarnpkg.com/rn-segmented-control/-/rn-segmented-control-0.2.8.tgz#dbf0b17d387248b947a76de9f4dc2f012b7534e0"
@@ -11453,6 +11534,13 @@ rn-segmented-control@^0.2.8:
     "@types/react-native" "^0.63.27"
     prop-types "^15.7.2"
     typescript next
+
+rn-select-date-range@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/rn-select-date-range/-/rn-select-date-range-3.0.1.tgz#9c0e6fae7ae06da3ef70b410d1a4fa5135647c22"
+  integrity sha512-wDCSVXSMjXldiV9qoCmIn8ohdZ9CoVzN8uU/u3oxDXjR+nEKGrMw8F4R1gUm2k7oRRTiDrzIvjI8Psr1jSI2tg==
+  dependencies:
+    moment "^2.29.1"
 
 robust-predicates@^3.0.0:
   version "3.0.1"
@@ -12346,6 +12434,11 @@ trim-right@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/trim-right/-/trim-right-1.0.1.tgz#cb2e1203067e0c8de1f614094b9fe45704ea6003"
   integrity sha1-yy4SAwZ+DI3h9hQJS5/kVwTqYAM=
+
+ts-object-utils@0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/ts-object-utils/-/ts-object-utils-0.0.5.tgz#95361cdecd7e52167cfc5e634c76345e90a26077"
+  integrity sha1-lTYc3s1+UhZ8/F5jTHY0XpCiYHc=
 
 tslib@^1.8.1:
   version "1.14.1"
