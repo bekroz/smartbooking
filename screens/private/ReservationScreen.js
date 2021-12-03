@@ -7,6 +7,7 @@ import {
   Image,
   SafeAreaView,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import { Card } from 'react-native-elements/dist/card/Card';
 import { Divider } from 'react-native-elements/dist/divider/Divider';
@@ -277,7 +278,15 @@ export default function ReservationScreen() {
               onPress={loadNewData}>
               <Text
                 style={{ color: COLORS.blue, fontWeight: '500', fontSize: 16 }}>
-                {refreshed ? 'Показать ещё' : 'Загружается ...'}
+                {refreshed ? (
+                  'Показать ещё'
+                ) : (
+                  <ActivityIndicator
+                    animating={true}
+                    color={COLORS.white}
+                    marginTop={5}
+                  />
+                )}
               </Text>
             </TouchableOpacity>
           )}

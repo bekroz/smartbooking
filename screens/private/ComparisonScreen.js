@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -12,11 +12,45 @@ import { Card } from 'react-native-elements/dist/card/Card';
 import styled from 'styled-components/native';
 import { ScrollView } from 'react-native-gesture-handler';
 import blueChevronLeft from '../../images/blueChevronLeft.png';
+import useApi from '../../utils/useApi';
+import { numberWithSpaces, getMonthName } from '../../helpers';
 
 export default function ComparisonScreen({ navigation }) {
   function handleBackButtonPress() {
     navigation.navigate('Home');
   }
+  const { getPropertiesComparisonData } = useApi();
+  const [comparisonData, setComparisonData] = useState(null);
+  const [date, setDate] = useState({
+    year: '2021',
+    month: '12',
+  });
+  const [refreshed, setRefreshed] = useState(false);
+
+  const getUpdatedData = async () => {
+    try {
+      await getPropertiesComparisonData(date).then(response => {
+        console.log('10. PROPERTIES COMPARISON DATA ===>>>');
+        console.log(response.data[0]);
+        setComparisonData(response.data[0]);
+        setRefreshed(true);
+      });
+    } catch (error) {
+      console.error(error);
+      setRefreshed(false);
+    }
+  };
+
+  useEffect(() => {
+    setRefreshed(false);
+    getUpdatedData();
+  }, []);
+
+  console
+    .log
+    // comparisonData?.revenue / comparisonData?.compare_revenue_percent,
+    ();
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
       {/* TOP Title */}
@@ -64,7 +98,7 @@ export default function ComparisonScreen({ navigation }) {
               marginBottom: 0,
             },
           ]}>
-          <WhiteText style={[styles.topBarText]}>2021</WhiteText>
+          <WhiteText style={[styles.topBarText]}>{date.year}</WhiteText>
         </TouchableOpacity>
         <TouchableOpacity
           style={[
@@ -78,7 +112,9 @@ export default function ComparisonScreen({ navigation }) {
               marginBottom: 0,
             },
           ]}>
-          <WhiteText style={[styles.topBarText]}>{'Августа'}</WhiteText>
+          <Text style={styles.topBarText}>
+            {getMonthName(date.month)}
+          </Text>
         </TouchableOpacity>
       </View>
       <ScrollView>
@@ -94,7 +130,7 @@ export default function ComparisonScreen({ navigation }) {
                 fontSize: SIZES.body5,
                 color: COLORS.white,
               }}>
-              Kukaldosh Boutique Hotel
+              {refreshed && numberWithSpaces(comparisonData?.name)}
             </Text>
           </View>
           {/* Content */}
@@ -138,19 +174,25 @@ export default function ComparisonScreen({ navigation }) {
                 height: 130,
               }}>
               <Text style={[styles.equalBottomMargin, { color: COLORS.white }]}>
-                65%
+                {refreshed && numberWithSpaces(comparisonData?.load)} %
               </Text>
               <Text style={[styles.equalBottomMargin, { color: COLORS.white }]}>
-                521 000 000
+                {/* {refreshed && numberWithSpaces(comparisonData?.reserved)} 0 */}
+                {refreshed && numberWithSpaces(comparisonData?.revenue)}
               </Text>
               <Text style={[styles.equalBottomMargin, { color: COLORS.white }]}>
-                245
+                {refreshed && numberWithSpaces(comparisonData?.reserved)}
               </Text>
               <Text style={[styles.equalBottomMargin, { color: COLORS.white }]}>
-                525 000
+                {refreshed && numberWithSpaces(comparisonData?.average_price)}
               </Text>
               <Text style={[styles.equalBottomMargin, { color: COLORS.white }]}>
-                125 000
+                {refreshed &&
+                  numberWithSpaces(
+                    Math.round(
+                      comparisonData?.revenue / comparisonData?.reserved,
+                    ),
+                  )}
               </Text>
             </View>
             {/* RIGHT Red-Green Percentages */}
@@ -161,368 +203,54 @@ export default function ComparisonScreen({ navigation }) {
                 height: 130,
               }}>
               <Text style={[styles.equalBottomMargin, { color: COLORS.red }]}>
-                -12%
+                {refreshed &&
+                  numberWithSpaces(comparisonData?.compare_load_percent)}{' '}
+                %
               </Text>
               <Text
                 style={[
                   styles.equalBottomMargin,
                   { color: COLORS.greenProgress },
                 ]}>
-                +13%
+                {refreshed &&
+                  numberWithSpaces(
+                    comparisonData?.compare_revenue_percent,
+                  )}{' '}
+                %
               </Text>
               <Text
                 style={[
                   styles.equalBottomMargin,
                   { color: COLORS.greenProgress },
                 ]}>
-                +13%
+                {refreshed &&
+                  numberWithSpaces(
+                    comparisonData?.compare_reserved_percent,
+                  )}{' '}
+                %
               </Text>
               <Text
                 style={[
                   styles.equalBottomMargin,
                   { color: COLORS.greenProgress },
                 ]}>
-                +1,5%
+                {refreshed &&
+                  numberWithSpaces(
+                    comparisonData?.compare_average_price_percent,
+                  )}{' '}
+                %
               </Text>
               <Text style={[styles.equalBottomMargin, { color: COLORS.red }]}>
-                -12%
+                {refreshed &&
+                  numberWithSpaces(
+                    comparisonData?.compare_revenue_percent,
+                  )}{' '}
+                %
               </Text>
             </View>
           </View>
         </Card>
         {/* Second Card */}
-        <Card containerStyle={styles.card} title="Revenue">
-          {/* Card Title */}
-          <View
-            style={{
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}>
-            <Text
-              style={{
-                fontWeight: SIZES.fontWeight3,
-                fontSize: SIZES.body5,
-                color: COLORS.white,
-              }}>
-              Asia Hotel Bukhara
-            </Text>
-          </View>
-          {/* Content */}
-          <View style={{ flexDirection: 'row', marginTop: 15 }}>
-            {/* LEFT Gray Title */}
-            <View
-              style={{
-                alignItems: 'flex-start',
-                marginRight: 25,
-
-                width: 140,
-                height: 130,
-              }}>
-              <Text
-                style={[styles.equalBottomMargin, { color: COLORS.grayText }]}>
-                Загрузка
-              </Text>
-              <Text
-                style={[styles.equalBottomMargin, { color: COLORS.grayText }]}>
-                Доход
-              </Text>
-              <Text
-                style={[styles.equalBottomMargin, { color: COLORS.grayText }]}>
-                Проданных номеров
-              </Text>
-              <Text
-                style={[styles.equalBottomMargin, { color: COLORS.grayText }]}>
-                Средний чек
-              </Text>
-              <Text
-                style={[styles.equalBottomMargin, { color: COLORS.grayText }]}>
-                RevPAR{' '}
-              </Text>
-            </View>
-            {/* MIDDLE White Numbers */}
-            <View
-              style={{
-                alignItems: 'flex-start',
-                marginRight: 25,
-
-                width: 90,
-                height: 130,
-              }}>
-              <Text style={[styles.equalBottomMargin, { color: COLORS.white }]}>
-                65%
-              </Text>
-              <Text style={[styles.equalBottomMargin, { color: COLORS.white }]}>
-                521 000 000
-              </Text>
-              <Text style={[styles.equalBottomMargin, { color: COLORS.white }]}>
-                245
-              </Text>
-              <Text style={[styles.equalBottomMargin, { color: COLORS.white }]}>
-                525 000
-              </Text>
-              <Text style={[styles.equalBottomMargin, { color: COLORS.white }]}>
-                125 000
-              </Text>
-            </View>
-            {/* RIGHT Red-Green Percentages */}
-            <View
-              style={{
-                alignItems: 'flex-start',
-                width: 60,
-                height: 130,
-              }}>
-              <Text style={[styles.equalBottomMargin, { color: COLORS.red }]}>
-                -12%
-              </Text>
-              <Text
-                style={[
-                  styles.equalBottomMargin,
-                  { color: COLORS.greenProgress },
-                ]}>
-                +13%
-              </Text>
-              <Text
-                style={[
-                  styles.equalBottomMargin,
-                  { color: COLORS.greenProgress },
-                ]}>
-                +13%
-              </Text>
-              <Text
-                style={[
-                  styles.equalBottomMargin,
-                  { color: COLORS.greenProgress },
-                ]}>
-                +1,5%
-              </Text>
-              <Text style={[styles.equalBottomMargin, { color: COLORS.red }]}>
-                -12%
-              </Text>
-            </View>
-          </View>
-        </Card>
-        {/* Third Card */}
-        <Card containerStyle={styles.card} title="Revenue">
-          {/* Card Title */}
-          <View
-            style={{
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}>
-            <Text
-              style={{
-                fontWeight: SIZES.fontWeight3,
-                fontSize: SIZES.body5,
-                color: COLORS.white,
-              }}>
-              Asia Hotel Bukhara
-            </Text>
-          </View>
-          {/* Content */}
-          <View style={{ flexDirection: 'row', marginTop: 15 }}>
-            {/* LEFT Gray Title */}
-            <View
-              style={{
-                alignItems: 'flex-start',
-                marginRight: 25,
-
-                width: 140,
-                height: 130,
-              }}>
-              <Text
-                style={[styles.equalBottomMargin, { color: COLORS.grayText }]}>
-                Загрузка
-              </Text>
-              <Text
-                style={[styles.equalBottomMargin, { color: COLORS.grayText }]}>
-                Доход
-              </Text>
-              <Text
-                style={[styles.equalBottomMargin, { color: COLORS.grayText }]}>
-                Проданных номеров
-              </Text>
-              <Text
-                style={[styles.equalBottomMargin, { color: COLORS.grayText }]}>
-                Средний чек
-              </Text>
-              <Text
-                style={[styles.equalBottomMargin, { color: COLORS.grayText }]}>
-                RevPAR{' '}
-              </Text>
-            </View>
-            {/* MIDDLE White Numbers */}
-            <View
-              style={{
-                alignItems: 'flex-start',
-                marginRight: 25,
-
-                width: 90,
-                height: 130,
-              }}>
-              <Text style={[styles.equalBottomMargin, { color: COLORS.white }]}>
-                65%
-              </Text>
-              <Text style={[styles.equalBottomMargin, { color: COLORS.white }]}>
-                521 000 000
-              </Text>
-              <Text style={[styles.equalBottomMargin, { color: COLORS.white }]}>
-                245
-              </Text>
-              <Text style={[styles.equalBottomMargin, { color: COLORS.white }]}>
-                525 000
-              </Text>
-              <Text style={[styles.equalBottomMargin, { color: COLORS.white }]}>
-                125 000
-              </Text>
-            </View>
-            {/* RIGHT Red-Green Percentages */}
-            <View
-              style={{
-                alignItems: 'flex-start',
-                width: 60,
-                height: 130,
-              }}>
-              <Text style={[styles.equalBottomMargin, { color: COLORS.red }]}>
-                -12%
-              </Text>
-              <Text
-                style={[
-                  styles.equalBottomMargin,
-                  { color: COLORS.greenProgress },
-                ]}>
-                +13%
-              </Text>
-              <Text
-                style={[
-                  styles.equalBottomMargin,
-                  { color: COLORS.greenProgress },
-                ]}>
-                +13%
-              </Text>
-              <Text
-                style={[
-                  styles.equalBottomMargin,
-                  { color: COLORS.greenProgress },
-                ]}>
-                +1,5%
-              </Text>
-              <Text style={[styles.equalBottomMargin, { color: COLORS.red }]}>
-                -12%
-              </Text>
-            </View>
-          </View>
-        </Card>
-        {/* Fourth Card */}
-        <Card containerStyle={styles.card} title="Revenue">
-          {/* Card Title */}
-          <View
-            style={{
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}>
-            <Text
-              style={{
-                fontWeight: SIZES.fontWeight3,
-                fontSize: SIZES.body5,
-                color: COLORS.white,
-              }}>
-              Asia Hotel Bukhara
-            </Text>
-          </View>
-          {/* Content */}
-          <View style={{ flexDirection: 'row', marginTop: 15 }}>
-            {/* LEFT Gray Title */}
-            <View
-              style={{
-                alignItems: 'flex-start',
-                marginRight: 25,
-
-                width: 140,
-                height: 130,
-              }}>
-              <Text
-                style={[styles.equalBottomMargin, { color: COLORS.grayText }]}>
-                Загрузка
-              </Text>
-              <Text
-                style={[styles.equalBottomMargin, { color: COLORS.grayText }]}>
-                Доход
-              </Text>
-              <Text
-                style={[styles.equalBottomMargin, { color: COLORS.grayText }]}>
-                Проданных номеров
-              </Text>
-              <Text
-                style={[styles.equalBottomMargin, { color: COLORS.grayText }]}>
-                Средний чек
-              </Text>
-              <Text
-                style={[styles.equalBottomMargin, { color: COLORS.grayText }]}>
-                RevPAR{' '}
-              </Text>
-            </View>
-            {/* MIDDLE White Numbers */}
-            <View
-              style={{
-                alignItems: 'flex-start',
-                marginRight: 25,
-
-                width: 90,
-                height: 130,
-              }}>
-              <Text style={[styles.equalBottomMargin, { color: COLORS.white }]}>
-                65%
-              </Text>
-              <Text style={[styles.equalBottomMargin, { color: COLORS.white }]}>
-                521 000 000
-              </Text>
-              <Text style={[styles.equalBottomMargin, { color: COLORS.white }]}>
-                245
-              </Text>
-              <Text style={[styles.equalBottomMargin, { color: COLORS.white }]}>
-                525 000
-              </Text>
-              <Text style={[styles.equalBottomMargin, { color: COLORS.white }]}>
-                125 000
-              </Text>
-            </View>
-            {/* RIGHT Red-Green Percentages */}
-            <View
-              style={{
-                alignItems: 'flex-start',
-                width: 60,
-                height: 130,
-              }}>
-              <Text style={[styles.equalBottomMargin, { color: COLORS.red }]}>
-                -12%
-              </Text>
-              <Text
-                style={[
-                  styles.equalBottomMargin,
-                  { color: COLORS.greenProgress },
-                ]}>
-                +13%
-              </Text>
-              <Text
-                style={[
-                  styles.equalBottomMargin,
-                  { color: COLORS.greenProgress },
-                ]}>
-                +13%
-              </Text>
-              <Text
-                style={[
-                  styles.equalBottomMargin,
-                  { color: COLORS.greenProgress },
-                ]}>
-                +1,5%
-              </Text>
-              <Text style={[styles.equalBottomMargin, { color: COLORS.red }]}>
-                -12%
-              </Text>
-            </View>
-          </View>
-        </Card>
         <View style={{ paddingBottom: 100 }}></View>
       </ScrollView>
     </SafeAreaView>

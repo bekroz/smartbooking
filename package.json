@@ -69,6 +69,8 @@
     "react-native-gifted-charts": "^0.2.0",
     "react-native-horizontal-picker": "^0.0.1",
     "react-native-hpicker": "^1.0.5",
+    "react-native-modal": "^13.0.0",
+    "react-native-modals": "^0.22.3",
     "react-native-pathjs-charts": "^0.0.34",
     "react-native-picker-horizontal": "^0.1.2",
     "react-native-pie": "^1.1.2",

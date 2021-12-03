@@ -11,6 +11,7 @@ import {
   Alert,
 } from 'react-native';
 import { MultiArcCircle } from 'react-native-circles';
+import { Overlay } from 'react-native-elements';
 // Theme
 import { COLORS, POSITIONING, SIZES } from '../../constants/theme';
 // Icons
@@ -25,6 +26,7 @@ import EmptyRoomsCircle from '../../components/Dashboard/EmptyRoomsCircle';
 import useApi from '../../utils/useApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { wordTruncator, numberWithSpaces } from '../../helpers';
+import Calendar from '../../components/Calendar/Calendar';
 
 export default function DashboardScreen({ navigation }) {
   // API HANDLERS
@@ -48,6 +50,13 @@ export default function DashboardScreen({ navigation }) {
 
   const [chosenDate, setChosenDate] = useState('2021-12-01');
   const [hotelID, setHotelID] = useState('48');
+
+  // Calendar Modal Opener
+  const [calendarModalVisible, setCalendarModalVisibleVisible] =
+    useState(false);
+  const toggleCalendarModal = () => {
+    setCalendarModalVisibleVisible(!calendarModalVisible);
+  };
 
   const getUpdatedData = async () => {
     try {
@@ -80,10 +89,8 @@ export default function DashboardScreen({ navigation }) {
   useEffect(() => {
     getUpdatedData();
   }, []);
-
   console.log(`THIS IS DASHBOARD DATA YOU SET, BRO :) ===>>>`);
   console.log(dashboardData);
-  console.log(dashboardData?.canceledRevenue);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
@@ -92,7 +99,10 @@ export default function DashboardScreen({ navigation }) {
           <TouchableOpacity
             onPress={() => navigation.navigate('Comparison')}
             style={styles.dropdownIconStyle}>
-            <Text style={styles.hotelBarText}>{dashboardData?.name}</Text>
+            <Text style={styles.hotelBarText}>
+              {/* {dashboardData?.name} */}
+              Kukaldosh Hotel
+            </Text>
             <Image source={dropdown} />
           </TouchableOpacity>
         </View>
@@ -100,7 +110,7 @@ export default function DashboardScreen({ navigation }) {
           <TouchableOpacity style={styles.arrowIconStyle}>
             <Image source={leftArrow} />
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={toggleCalendarModal}>
             <Text style={styles.dateText}>Декабрь 2021</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.arrowIconStyle}>
@@ -113,7 +123,7 @@ export default function DashboardScreen({ navigation }) {
             padding: 5,
             marginBottom: 0,
           }}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={toggleCalendarModal}>
             <Text
               style={{
                 fontSize: 16,
@@ -524,6 +534,15 @@ export default function DashboardScreen({ navigation }) {
           </TouchableOpacity>
         </View>
       </ScrollView>
+
+      {/* Calendar Modal View */}
+      {calendarModalVisible && (
+        <Overlay
+          isVisible={calendarModalVisible}
+          onBackdropPress={toggleCalendarModal}>
+          <Calendar handleAcceptButtonPress={toggleCalendarModal} />
+        </Overlay>
+      )}
     </SafeAreaView>
   );
 }

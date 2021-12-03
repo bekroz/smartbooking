@@ -199,7 +199,7 @@ const getStyles = (colors, sizes) => ({
     color: '#FFFFFF',
   },
   unavailableText: {
-    color: colors.unavailable,
+    color: '#5E6272',
   },
   initialDay: {
     borderBottomColor: colors.initialDay,

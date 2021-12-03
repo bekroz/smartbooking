@@ -8,6 +8,7 @@ import {
   Image,
 } from 'react-native';
 import { COLORS, POSITIONING, SIZES } from '../../constants/theme';
+import { Overlay } from 'react-native-elements';
 import quit from '../../images/quit.png';
 
 export default function DashboardModal() {

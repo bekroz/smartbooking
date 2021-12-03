@@ -73,8 +73,6 @@ const useApi = () => {
 
   // #4 API => GET All Hotel Properties Data of the user
 
-  const [singleHotelData, setSingleHotelData] = useState(null);
-
   const getSingleHotelData = async () => {
     const userToken = await AsyncStorage.getItem('USER_TOKEN');
     try {
@@ -105,6 +103,7 @@ const useApi = () => {
         },
         data: chosenDate,
       });
+      
     } catch (e) {
       console.log(e);
     }
@@ -212,12 +211,8 @@ const useApi = () => {
 
   // #10 API => GET Properties Comparison Data
 
-  const getPropertiesComparisonData = async () => {
+  const getPropertiesComparisonData = async (comparison_outgoing_data) => {
     const userToken = await AsyncStorage.getItem('USER_TOKEN');
-    const comparison_outgoing_data = {
-      year: '2021',
-      month: '11',
-    };
     try {
       return await axios({
         url: `${Config.BASE_API_URL}/mobile/compare-properties`,
@@ -228,8 +223,6 @@ const useApi = () => {
         },
         data: comparison_outgoing_data,
       }).then(response => {
-        console.log('10. PROPERTIES COMPARISON DATA ===>>>');
-        console.log(response.data);
         return response.data;
       });
     } catch (e) {

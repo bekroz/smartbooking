@@ -139,15 +139,19 @@ class Calendar extends PureComponent {
       <View style={styles.topBar}>
         <TouchableOpacity
           testID="leftController"
-          style={[styles.leftControl, styles.controls, { width: 50 }]}
-          onPress={() => this.prev()}>
-          {leftControl}
-        </TouchableOpacity>
-        <Animated.View
           style={[
-            styles.head,
-            { transform: [{ rotateX: fade.interpolate(rotateValues) }] },
-          ]}>
+            styles.leftControl,
+            styles.controls,
+            {
+              maxWidth: 50,
+              maxHeight: 50,
+              marginRight: 70,
+            },
+          ]}
+          onPress={() => this.prev()}>
+          <Image source={leftArrowControl} style={{ width: 50, height: 50 }} />
+        </TouchableOpacity>
+        <Animated.View style={[styles.head]}>
           <Text style={styles.subtitle}>{year}</Text>
           <Text style={styles.title}>{monthName}</Text>
         </Animated.View>
@@ -243,8 +247,10 @@ Calendar.defaultProps = {
   minDate: false,
   initialDate: new Date(),
   showControls: false,
-  leftControl: <Image source={leftArrowControl} />,
-  rightControl: <Image source={rightArrowControl} />,
+
+  rightControl: (
+    <Image source={rightArrowControl} style={{ width: 50, height: 50 }} />
+  ),
   rowHeight: 30,
   rowPadding: 7,
   highlightToday: true,
