@@ -24,7 +24,7 @@ export default function AppStack() {
         screenOptions={{
           headerShown: false,
         }}
-        initialRouteName={'Login'}>
+        initialRouteName={'Home'}>
         {/* Public Routes */}
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="NoFoundScreen" component={NoFoundScreen} />

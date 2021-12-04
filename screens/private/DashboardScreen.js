@@ -89,8 +89,8 @@ export default function DashboardScreen({ navigation }) {
   useEffect(() => {
     getUpdatedData();
   }, []);
-  console.log(`THIS IS DASHBOARD DATA YOU SET, BRO :) ===>>>`);
-  console.log(dashboardData);
+  // console.log(`THIS IS DASHBOARD DATA YOU SET, BRO :) ===>>>`);
+  // console.log(dashboardData);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>

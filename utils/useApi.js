@@ -103,7 +103,6 @@ const useApi = () => {
         },
         data: chosenDate,
       });
-      
     } catch (e) {
       console.log(e);
     }
@@ -164,20 +163,19 @@ const useApi = () => {
 
   // #8 API => GET Hotel Statistics By Year
 
-  const getStatisticsByYear = async () => {
+  const getStatisticsByYear = async ({ hotelID, chosenYear }) => {
     const userToken = await AsyncStorage.getItem('USER_TOKEN');
-    const stat_by_year_outgoing_data = {
-      year: '2015',
-    };
     try {
       return await axios({
-        url: `${Config.BASE_API_URL}/mobile/48/statistics-by-year`,
+        url: `${Config.BASE_API_URL}/mobile/${hotelID}/statistics-by-year`,
         method: 'POST',
         headers: {
           Authorization: `Bearer ${userToken}`,
           'Content-Type': 'application/json',
         },
-        data: stat_by_year_outgoing_data,
+        data: {
+          year: chosenYear,
+        },
       })
         .then(response => {
           return response.data.data;
@@ -202,7 +200,7 @@ const useApi = () => {
         },
         data: dateRange,
       }).then(response => {
-        return response.data.data;
+        return response;
       });
     } catch (e) {
       console.log(e);
@@ -211,7 +209,7 @@ const useApi = () => {
 
   // #10 API => GET Properties Comparison Data
 
-  const getPropertiesComparisonData = async (comparison_outgoing_data) => {
+  const getPropertiesComparisonData = async comparison_outgoing_data => {
     const userToken = await AsyncStorage.getItem('USER_TOKEN');
     try {
       return await axios({

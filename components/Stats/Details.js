@@ -7,11 +7,9 @@ import {
   ScrollView,
 } from 'react-native';
 import { Card } from 'react-native-elements/dist/card/Card';
-import styled from 'styled-components/native';
 // Theme
 import { COLORS, SIZES } from '../../constants/theme';
 // Components
-import Donut from './Donut';
 import {
   ByUserDot,
   SitesDot,
@@ -34,6 +32,7 @@ import useApi from '../../utils/useApi';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import DonutView from '../../removables/DonutView';
+import numberWithSpaces from '../../helpers/numberWithSpaces';
 
 export default function Details() {
   const currency = 'UZS';
@@ -45,8 +44,10 @@ export default function Details() {
 
   const [statsData, setStatsData] = useState(null);
   const [chosenDateRange, setChosenDateRange] = useState(null);
-
+  const [overallData, setOverallData] = useState(null);
   // Change this hardcoded date range to chosen calendar date
+  const [refreshed, setRefreshed] = useState(false);
+
   const dateRange = {
     start_date: '2021-10-11',
     end_date: '2021-11-30',
@@ -55,10 +56,13 @@ export default function Details() {
   const getUpdatedData = async () => {
     try {
       await getStatisticsByCategory(dateRange).then(response => {
-        setStatsData(response);
-        console.log('====================================');
-        console.log(response);
-        console.log('====================================');
+        setStatsData(response.data.data);
+        setOverallData({
+          totalRevenue: response.data.total_revenue,
+          totalSoldNights: response.data.total_sold_night,
+          totalAverageSum: response.data.total_average_sum,
+        });
+        setRefreshed(true);
       });
     } catch (error) {
       console.error(error);
@@ -66,6 +70,7 @@ export default function Details() {
   };
 
   useEffect(() => {
+    setRefreshed(false);
     getUpdatedData();
   }, []);
 
@@ -86,47 +91,31 @@ export default function Details() {
   ];
   return (
     <>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginTop: 5,
-          paddingBottom: 10,
-          paddingTop: 5,
-        }}>
-        <TouchableOpacity
-          style={[
-            styles.topBarBtn,
-            {
-              backgroundColor: '#292F3A',
-              borderColor: '#5F85DB',
-              minWidth: 55,
-              height: 35,
-              marginRight: 10,
-            },
-          ]}>
-          <WhiteText style={[styles.topBarText, { fontSize: 13 }]}>
-            01 Sep - 30 Sep
-          </WhiteText>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[
-            styles.topBarBtn,
-            {
-              backgroundColor: '#292F3A',
-              borderColor: '#5F85DB',
-              minWidth: 55,
-              height: 35,
-            },
-          ]}>
-          <WhiteText style={[styles.topBarText, { fontSize: 13 }]}>
-            От стойки
-          </WhiteText>
-        </TouchableOpacity>
-      </View>
       <ScrollView>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginTop: 5,
+            paddingBottom: 0,
+            paddingTop: 5,
+          }}>
+          <TouchableOpacity
+            style={[
+              styles.topBarBtn,
+              {
+                backgroundColor: '#292F3A',
+                borderColor: '#5F85DB',
+                width: SIZES.width - 30,
+                height: 35,
+              },
+            ]}>
+            <Text style={[styles.topBarText, { fontSize: 15 }]}>
+              01 Sep - 30 Sep
+            </Text>
+          </TouchableOpacity>
+        </View>
         {/* FIRST Card */}
         <Card containerStyle={styles.card} title="Revenue">
           {/* Card Context View */}
@@ -137,10 +126,14 @@ export default function Details() {
               marginBottom: 15,
             }}>
             <View>
-              <WhiteText
-                style={{ fontWeight: SIZES.fontWeight1, fontSize: 16 }}>
+              <Text
+                style={{
+                  fontWeight: SIZES.fontWeight1,
+                  fontSize: 16,
+                  color: COLORS.white,
+                }}>
                 Доход
-              </WhiteText>
+              </Text>
               <Text
                 style={{
                   fontWeight: SIZES.fontWeight1,
@@ -150,10 +143,11 @@ export default function Details() {
                 Revenue
               </Text>
             </View>
-            <GrayText>
-              Всего UZS
-              {/* {revenue} {currency} */}
-            </GrayText>
+            <Text style={{ color: COLORS.grayText }}>
+              Всего{' '}
+              {refreshed ? numberWithSpaces(overallData?.totalAverageSum) : '0'}{' '}
+              UZS
+            </Text>
           </View>
           <View style={{ flexDirection: 'row' }}>
             {/* LEFT Donut View */}
@@ -184,10 +178,14 @@ export default function Details() {
               marginBottom: 15,
             }}>
             <View>
-              <WhiteText
-                style={{ fontWeight: SIZES.fontWeight1, fontSize: 16 }}>
+              <Text
+                style={{
+                  fontWeight: SIZES.fontWeight1,
+                  fontSize: 16,
+                  color: COLORS.white,
+                }}>
                 К-ство проданных ночей
-              </WhiteText>
+              </Text>
               <Text
                 style={{
                   fontWeight: SIZES.fontWeight1,
@@ -197,7 +195,10 @@ export default function Details() {
                 Room Nights
               </Text>
             </View>
-            <GrayText> ночей</GrayText>
+            <Text style={{ color: COLORS.grayText }}>
+              {refreshed ? numberWithSpaces(overallData?.totalSoldNights) : '0'}{' '}
+              ночей
+            </Text>
           </View>
           <View style={{ flexDirection: 'row' }}>
             {/* LEFT Donut View */}
@@ -231,13 +232,21 @@ export default function Details() {
                 width: 167,
                 marginRight: 10,
               }}>
-              <WhiteText
-                style={{ fontWeight: SIZES.fontWeight1, fontSize: 16 }}>
+              <Text
+                style={{
+                  fontWeight: SIZES.fontWeight1,
+                  fontSize: 16,
+                  color: COLORS.white,
+                }}>
                 Средняя цена номера
-              </WhiteText>
+              </Text>
             </View>
 
-            <GrayText>Всего UZS</GrayText>
+            <Text style={{ color: COLORS.grayText }}>
+              Всего{' '}
+              {refreshed ? numberWithSpaces(overallData?.totalRevenue) : '0'}{' '}
+              UZS
+            </Text>
           </View>
 
           {/* Color Line and Title */}
@@ -295,49 +304,6 @@ export default function Details() {
                 )}
               </View>
             </View>
-            {/* <View
-              style={{
-                width: 115,
-                marginRight: 15,
-              }}>
-              <View style={[styles.dotBlock, styles.thirdCardDotMargin]}>
-                <View
-                  style={[styles.dotStyle, { backgroundColor: COLORS.yellow }]}
-                />
-                <WhiteText>Сайт</WhiteText>
-              </View>
-              <View style={[styles.dotBlock]}>
-                <View
-                  style={[
-                    styles.dotStyle,
-                    { backgroundColor: COLORS.greenCircle },
-                  ]}
-                />
-                <WhiteText>Booking.com</WhiteText>
-              </View>
-            </View>
-            <View
-              style={{
-                width: 100,
-              }}>
-              <View style={[styles.dotBlock, styles.thirdCardDotMargin]}>
-                <View
-                  style={[
-                    styles.dotStyle,
-                    { backgroundColor: COLORS.pinkCircle },
-                  ]}
-                />
-                <WhiteText>Трамина</WhiteText>
-              </View>
-              <View style={[styles.dotBlock]}>
-                <View
-                  style={[styles.dotStyle, { backgroundColor: COLORS.coral }]}
-                />
-                <WhiteText>Dolores</WhiteText>
-              </View>
-            </View> */}
-            
-
           </View>
         </Card>
         <View
@@ -420,21 +386,3 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-
-const WhiteText = styled.Text`
-  color: #ffffff;
-`;
-
-const GrayText = styled.Text`
-  color: #657282;
-`;
-
-const BlueText = styled.Text`
-  color: #5f85db;
-`;
-
-const GreenText = styled.Text`
-  color: #0ecc38;
-`;
-
-const GuestDetailsView = styled.View``;

@@ -94,6 +94,14 @@ export default function ReservationScreen() {
   console.log(lastPage);
   console.log('====================================');
 
+  const typeStayDates = ['Бронирование', 'Заезд', 'Выезд', 'Проживание'];
+  const statuses = [
+    'Подтверждено',
+    'Оплачено',
+    'В номере',
+    'Выехал',
+    'Не заезд',
+  ];
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
       <View>
@@ -110,14 +118,17 @@ export default function ReservationScreen() {
         <View>
           <View style={styles.topBarButtonsContainer}>
             <TouchableOpacity style={styles.topBarBtn} onPress={getUpdatedData}>
-              <Text style={styles.topBarText}>Подтверждено</Text>
+              <Text style={styles.topBarText}>{typeStayDates[0]}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.topBarBtn}>
               <Text style={styles.topBarText}>01 Sep - 30 Sep</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={[styles.topBarBtn, { backgroundColor: 'black' }]}>
-              <Text style={styles.topBarText}>01 Sep - 30 Sep</Text>
+              style={[styles.topBarBtn, { backgroundColor: '#15191E' }]}>
+              <Text style={styles.topBarText}>
+                Статус
+                {/* {statuses[0]} */}
+              </Text>
             </TouchableOpacity>
           </View>
           <View

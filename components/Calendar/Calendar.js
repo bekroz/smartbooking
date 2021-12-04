@@ -21,7 +21,7 @@ const App = ({ handleAcceptButtonPress }) => {
       {/* <View style={styles.container}>
         <DateRangePicker
           onSelectDateRange={range => {
-            setRange(range);
+            setDateRangeValue(range);
           }}
           blockSingleDateSelection={true}
           responseFormat="YYYY-MM-DD"
@@ -29,11 +29,14 @@ const App = ({ handleAcceptButtonPress }) => {
           selectedDateStyle={styles.selectedDateStyle}
         />
         <View style={styles.container}>
-          <Text>first date: {selectedRange.start}</Text>
-          <Text>second date: {selectedRange.end}</Text>
+          <Text>first date: {range.start}</Text>
+          <Text>second date: {range.end}</Text>
         </View>
       </View> */}
-      <View style={{ width: SIZES.width }}>
+      <View
+        style={{
+          width: SIZES.width,
+        }}>
         <Calendar
           format="YYYY-MM-DD"
           showControls={true}

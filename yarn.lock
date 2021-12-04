@@ -9415,7 +9415,7 @@ moment-range@2.2.0:
   resolved "https://registry.yarnpkg.com/moment-range/-/moment-range-2.2.0.tgz#b02575778a4ac50a65777939f5c5d757f83fcd85"
   integrity sha1-sCV1d4pKxQpld3k59cXXV/g/zYU=
 
-moment@2.29.1, moment@>=2.10.3, moment@^2.17.1, moment@^2.19.2, moment@^2.22.0, moment@^2.22.1, moment@^2.24.0, moment@^2.27.0, moment@^2.29.1:
+moment@2.29.1, moment@>=2.0.0, moment@>=2.10.3, moment@^2.17.1, moment@^2.19.2, moment@^2.22.0, moment@^2.22.1, moment@^2.24.0, moment@^2.27.0, moment@^2.29.1:
   version "2.29.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
   integrity sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==
@@ -10504,6 +10504,16 @@ react-native-calendar-range-picker@^1.5.3:
     moment "^2.29.1"
     react "*"
     react-native "*"
+
+react-native-calendar-strip@^2.2.5:
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/react-native-calendar-strip/-/react-native-calendar-strip-2.2.5.tgz#544d41784d93b455a886311de25c0d69935f369a"
+  integrity sha512-3DmHIJX+Uu9Nv2wNTViPOGBY7rvODaHl7xaaxuqDFTN4sCxeM+1ref8k5RE1PgyZ3Wqs4Z8XJoEyORQIc++VMA==
+  dependencies:
+    moment ">=2.0.0"
+    node-git-hooks "^1.0.1"
+    prop-types "^15.6.0"
+    recyclerlistview "^3.0.0"
 
 react-native-calendar@^0.13.1:
   version "0.13.1"

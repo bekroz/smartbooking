@@ -54,7 +54,7 @@ export default function DashboardModal() {
         <View style={POSITIONING.align}>
           <TouchableOpacity style={{ marginBottom: SIZES.base }}>
             <Text style={[styles.options, styles.chosenOptionStyle]}>
-              Kukaldosh Hotel
+              Bukhara Plaza
             </Text>
           </TouchableOpacity>
           <TouchableOpacity style={{ marginBottom: SIZES.base }}>
