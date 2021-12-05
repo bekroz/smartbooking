@@ -123,13 +123,6 @@ export default function ReservationScreen() {
             <TouchableOpacity style={styles.topBarBtn}>
               <Text style={styles.topBarText}>01 Sep - 30 Sep</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.topBarBtn, { backgroundColor: '#15191E' }]}>
-              <Text style={styles.topBarText}>
-                Статус
-                {/* {statuses[0]} */}
-              </Text>
-            </TouchableOpacity>
           </View>
           <View
             style={{ marginTop: 10, paddingBottom: 10, alignItems: 'center' }}>
@@ -139,8 +132,12 @@ export default function ReservationScreen() {
           </View>
         </View>
         {/* CARDS */}
-
-        <ScrollView>
+        <Divider
+          orientation="horizontal"
+          leftWidth={0.5}
+          color={COLORS.grayPlaceholderBorder}
+        />
+        <ScrollView showsVerticalScrollIndicator={false}>
           {/* All Card */}
           {hotelAllReservationsData?.map((reservation, index) => (
             <Card key={index} containerStyle={styles.card} title="Guests">
@@ -209,10 +206,12 @@ export default function ReservationScreen() {
                 style={{
                   position: 'absolute',
                   flexDirection: 'row',
-                  position: 'absolute',
                   left: 110,
                   flexDirection: 'row',
                   marginLeft: 20,
+
+                  flex: 1,
+                  marginRight: 10,
                 }}>
                 {/* GuestDetailsView */}
                 <View
@@ -245,11 +244,13 @@ export default function ReservationScreen() {
                     </Text>
                   </View>
                 </View>
-                {reservation?.status == 'confirmed' && <ConfirmedStatus />}
-                {reservation?.status == 'in_house' && <InHouseStatus />}
-                {reservation?.status == 'check_out' && <CheckOutStatus />}
-                {reservation?.status == 'canceled' && <CanceledStatus />}
-                {reservation?.status == 'no_show' && <NoShowStatus />}
+                <View style={{ paddingRight: 20, marginRight: 50, }}>
+                  {reservation?.status == 'confirmed' && <ConfirmedStatus />}
+                  {reservation?.status == 'in_house' && <InHouseStatus />}
+                  {reservation?.status == 'check_out' && <CheckOutStatus />}
+                  {reservation?.status == 'canceled' && <CanceledStatus />}
+                  {reservation?.status == 'no_show' && <NoShowStatus />}
+                </View>
               </View>
             </Card>
           ))}
@@ -335,9 +336,8 @@ const styles = StyleSheet.create({
   },
   topBarButtonsContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    justifyContent: 'center',
     margin: 10,
-    marginRight: 10,
     height: 50,
     width: SIZES.width,
   },
@@ -346,7 +346,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: '#5F85DB',
     borderWidth: 0.167,
-
     height: 40,
     width: 114,
     marginTop: 10,
@@ -370,6 +369,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginLeft: 0,
+    marginRight: 20,
   },
   greenPriceText: {
     fontSize: SIZES.body5,

@@ -36,6 +36,8 @@ export default function StatsScreen() {
               paddingVertical={6}
               width={220}
               activeSegmentStyle={{ borderRadius: 6 }}
+              textStyle={{ fontWeight: '500', fontSize: 14 }}
+              activeTextWeight="600"
             />
           </View>
         </View>
@@ -68,5 +70,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     margin: 10,
     justifyContent: 'center',
+    borderRadius: 6,
   },
 });

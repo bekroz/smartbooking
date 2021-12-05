@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
+  ActivityIndicator,
 } from 'react-native';
 import { COLORS, SIZES } from '../../constants/theme';
 import { Card } from 'react-native-elements/dist/card/Card';
@@ -112,146 +113,174 @@ export default function ComparisonScreen({ navigation }) {
               marginBottom: 0,
             },
           ]}>
-          <Text style={styles.topBarText}>
-            {getMonthName(date.month)}
-          </Text>
+          <Text style={styles.topBarText}>{getMonthName(date.month)}</Text>
         </TouchableOpacity>
       </View>
       <ScrollView>
         <Card containerStyle={styles.card} title="Revenue">
           {/* Card Title */}
-          <View
-            style={{
-              alignItems: 'center',
-            }}>
-            <Text
-              style={{
-                fontWeight: SIZES.fontWeight3,
-                fontSize: SIZES.body5,
-                color: COLORS.white,
-              }}>
-              {refreshed && numberWithSpaces(comparisonData?.name)}
-            </Text>
-          </View>
-          {/* Content */}
-          <View style={{ flexDirection: 'row', marginTop: 15 }}>
-            {/* LEFT Gray Title */}
-            <View
-              style={{
-                alignItems: 'flex-start',
-                marginRight: 25,
-                width: 140,
-                height: 130,
-              }}>
-              <Text
-                style={[styles.equalBottomMargin, { color: COLORS.grayText }]}>
-                Загрузка
-              </Text>
-              <Text
-                style={[styles.equalBottomMargin, { color: COLORS.grayText }]}>
-                Доход
-              </Text>
-              <Text
-                style={[styles.equalBottomMargin, { color: COLORS.grayText }]}>
-                Проданных номеров
-              </Text>
-              <Text
-                style={[styles.equalBottomMargin, { color: COLORS.grayText }]}>
-                Средний чек
-              </Text>
-              <Text
-                style={[styles.equalBottomMargin, { color: COLORS.grayText }]}>
-                RevPAR{' '}
-              </Text>
-            </View>
-            {/* MIDDLE White Numbers */}
-            <View
-              style={{
-                alignItems: 'flex-start',
-                marginRight: 25,
+          {refreshed ? (
+            <>
+              <View
+                style={{
+                  alignItems: 'center',
+                }}>
+                <Text
+                  style={{
+                    fontWeight: SIZES.fontWeight3,
+                    fontSize: SIZES.body5,
+                    color: COLORS.white,
+                  }}>
+                  {numberWithSpaces(comparisonData?.name)}
+                </Text>
+              </View>
+              {/* Content */}
+              <View style={{ flexDirection: 'row', marginTop: 15 }}>
+                {/* LEFT Gray Title */}
+                <View
+                  style={{
+                    alignItems: 'flex-start',
+                    marginRight: 25,
+                    width: 140,
+                    height: 130,
+                  }}>
+                  <Text
+                    style={[
+                      styles.equalBottomMargin,
+                      { color: COLORS.grayText },
+                    ]}>
+                    Загрузка
+                  </Text>
+                  <Text
+                    style={[
+                      styles.equalBottomMargin,
+                      { color: COLORS.grayText },
+                    ]}>
+                    Доход
+                  </Text>
+                  <Text
+                    style={[
+                      styles.equalBottomMargin,
+                      { color: COLORS.grayText },
+                    ]}>
+                    Проданных номеров
+                  </Text>
+                  <Text
+                    style={[
+                      styles.equalBottomMargin,
+                      { color: COLORS.grayText },
+                    ]}>
+                    Средний чек
+                  </Text>
+                  <Text
+                    style={[
+                      styles.equalBottomMargin,
+                      { color: COLORS.grayText },
+                    ]}>
+                    RevPAR{' '}
+                  </Text>
+                </View>
+                {/* MIDDLE White Numbers */}
+                <View
+                  style={{
+                    alignItems: 'flex-start',
+                    marginRight: 25,
 
-                width: 90,
-                height: 130,
-              }}>
-              <Text style={[styles.equalBottomMargin, { color: COLORS.white }]}>
-                {refreshed && numberWithSpaces(comparisonData?.load)} %
-              </Text>
-              <Text style={[styles.equalBottomMargin, { color: COLORS.white }]}>
-                {/* {refreshed && numberWithSpaces(comparisonData?.reserved)} 0 */}
-                {refreshed && numberWithSpaces(comparisonData?.revenue)}
-              </Text>
-              <Text style={[styles.equalBottomMargin, { color: COLORS.white }]}>
-                {refreshed && numberWithSpaces(comparisonData?.reserved)}
-              </Text>
-              <Text style={[styles.equalBottomMargin, { color: COLORS.white }]}>
-                {refreshed && numberWithSpaces(comparisonData?.average_price)}
-              </Text>
-              <Text style={[styles.equalBottomMargin, { color: COLORS.white }]}>
-                {refreshed &&
-                  numberWithSpaces(
-                    Math.round(
-                      comparisonData?.revenue / comparisonData?.reserved,
-                    ),
-                  )}
-              </Text>
-            </View>
-            {/* RIGHT Red-Green Percentages */}
-            <View
-              style={{
-                alignItems: 'flex-start',
-                width: 60,
-                height: 130,
-              }}>
-              <Text style={[styles.equalBottomMargin, { color: COLORS.red }]}>
-                {refreshed &&
-                  numberWithSpaces(comparisonData?.compare_load_percent)}{' '}
-                %
-              </Text>
-              <Text
-                style={[
-                  styles.equalBottomMargin,
-                  { color: COLORS.greenProgress },
-                ]}>
-                {refreshed &&
-                  numberWithSpaces(
-                    comparisonData?.compare_revenue_percent,
-                  )}{' '}
-                %
-              </Text>
-              <Text
-                style={[
-                  styles.equalBottomMargin,
-                  { color: COLORS.greenProgress },
-                ]}>
-                {refreshed &&
-                  numberWithSpaces(
-                    comparisonData?.compare_reserved_percent,
-                  )}{' '}
-                %
-              </Text>
-              <Text
-                style={[
-                  styles.equalBottomMargin,
-                  { color: COLORS.greenProgress },
-                ]}>
-                {refreshed &&
-                  numberWithSpaces(
-                    comparisonData?.compare_average_price_percent,
-                  )}{' '}
-                %
-              </Text>
-              <Text style={[styles.equalBottomMargin, { color: COLORS.red }]}>
-                {refreshed &&
-                  numberWithSpaces(
-                    comparisonData?.compare_revenue_percent,
-                  )}{' '}
-                %
-              </Text>
-            </View>
-          </View>
+                    width: 90,
+                    height: 130,
+                  }}>
+                  <Text
+                    style={[styles.equalBottomMargin, { color: COLORS.white }]}>
+                    {numberWithSpaces(comparisonData?.load)} %
+                  </Text>
+                  <Text
+                    style={[styles.equalBottomMargin, { color: COLORS.white }]}>
+                    {/* {refreshed && numberWithSpaces(comparisonData?.reserved)} 0 */}
+                    {numberWithSpaces(comparisonData?.revenue)}
+                  </Text>
+                  <Text
+                    style={[styles.equalBottomMargin, { color: COLORS.white }]}>
+                    {numberWithSpaces(comparisonData?.reserved)}
+                  </Text>
+                  <Text
+                    style={[styles.equalBottomMargin, { color: COLORS.white }]}>
+                    {refreshed &&
+                      numberWithSpaces(comparisonData?.average_price)}
+                  </Text>
+                  <Text
+                    style={[styles.equalBottomMargin, { color: COLORS.white }]}>
+                    {numberWithSpaces(comparisonData?.revpar)}
+                  </Text>
+                </View>
+                {/* RIGHT Red-Green Percentages */}
+                <View
+                  style={{
+                    alignItems: 'flex-start',
+                    width: 60,
+                    height: 130,
+                  }}>
+                  <Text
+                    style={[styles.equalBottomMargin, { color: COLORS.red }]}>
+                    {comparisonData?.compare_load_percent === '0'
+                      ? `${numberWithSpaces(
+                          comparisonData?.compare_load_percent,
+                        )} %`
+                      : null}
+                  </Text>
+                  <Text
+                    style={[
+                      styles.equalBottomMargin,
+                      { color: COLORS.greenProgress },
+                    ]}>
+                    {comparisonData?.compare_revenue_percent === '0'
+                      ? `${numberWithSpaces(
+                          comparisonData?.compare_revenue_percent,
+                        )} %`
+                      : null}
+                  </Text>
+                  <Text
+                    style={[
+                      styles.equalBottomMargin,
+                      { color: COLORS.greenProgress },
+                    ]}>
+                    {comparisonData?.compare_reserved_percent === '0'
+                      ? `${numberWithSpaces(
+                          comparisonData?.compare_reserved_percent,
+                        )} %`
+                      : null}
+                  </Text>
+                  <Text
+                    style={[
+                      styles.equalBottomMargin,
+                      { color: COLORS.greenProgress },
+                    ]}>
+                    {comparisonData?.compare_average_price_percent === '0'
+                      ? `${numberWithSpaces(
+                          comparisonData?.compare_average_price_percent,
+                        )} %`
+                      : null}
+                  </Text>
+                  <Text
+                    style={[styles.equalBottomMargin, { color: COLORS.red }]}>
+                    {comparisonData?.compare_revenue_percent === '0'
+                      ? `${numberWithSpaces(
+                          comparisonData?.compare_revenue_percent,
+                        )} %`
+                      : null}
+                  </Text>
+                </View>
+              </View>
+            </>
+          ) : (
+            <ActivityIndicator
+              animating={true}
+              color={COLORS.white}
+              marginTop={60}
+            />
+          )}
         </Card>
         {/* Second Card */}
-        <View style={{ paddingBottom: 100 }}></View>
+        <View style={{ paddingBottom: 100 }} />
       </ScrollView>
     </SafeAreaView>
   );

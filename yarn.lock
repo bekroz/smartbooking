@@ -10629,6 +10629,11 @@ react-native-d3-charts@^0.0.1:
     prop-types latest
     react-native-svg "~5.5.1"
 
+react-native-date-picker@^4.1.2:
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-date-picker/-/react-native-date-picker-4.1.2.tgz#10360c3eca4b05617f6592d9246638fa4c2a82ae"
+  integrity sha512-9l4JPGEr9+l6Tmq2JyPm4jdkJCfdz6rz5fBpvtiFA7Wps33W4cMkwboYVZE/2GOaCxSpzWyZD+9jj2987qnjpQ==
+
 react-native-date-ranges@^2.5.0:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/react-native-date-ranges/-/react-native-date-ranges-2.5.0.tgz#aab58a3351606ce7a8a35a12e7d1c4e00db4a75d"

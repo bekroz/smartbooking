@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     right: 15,
     backgroundColor: '#2C384E',
     alignContent: 'center',
-    marginRight: 10,
+    marginRight: 30,
   },
   statusConfirmedTextStyle: {
     fontWeight: SIZES.fontWeight1,

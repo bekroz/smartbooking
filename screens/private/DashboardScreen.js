@@ -529,9 +529,9 @@ export default function DashboardScreen({ navigation }) {
             )}
           </TouchableOpacity>
           {/* Plus Button */}
-          <TouchableOpacity onPress={handleAddButtonPress}>
+          {/* <TouchableOpacity onPress={handleAddButtonPress}>
             <Image source={addButton} style={{ width: 48, height: 48 }} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </ScrollView>
 
@@ -539,7 +539,8 @@ export default function DashboardScreen({ navigation }) {
       {calendarModalVisible && (
         <Overlay
           isVisible={calendarModalVisible}
-          onBackdropPress={toggleCalendarModal}>
+          onBackdropPress={toggleCalendarModal}
+          >
           <Calendar handleAcceptButtonPress={toggleCalendarModal} />
         </Overlay>
       )}

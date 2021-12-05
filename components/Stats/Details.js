@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import { Card } from 'react-native-elements/dist/card/Card';
 // Theme
@@ -91,7 +92,7 @@ export default function Details() {
   ];
   return (
     <>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View
           style={{
             flexDirection: 'row',
@@ -119,192 +120,222 @@ export default function Details() {
         {/* FIRST Card */}
         <Card containerStyle={styles.card} title="Revenue">
           {/* Card Context View */}
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginBottom: 15,
-            }}>
-            <View>
-              <Text
+
+          {refreshed ? (
+            <>
+              <View
                 style={{
-                  fontWeight: SIZES.fontWeight1,
-                  fontSize: 16,
-                  color: COLORS.white,
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  marginBottom: 15,
                 }}>
-                Доход
-              </Text>
-              <Text
-                style={{
-                  fontWeight: SIZES.fontWeight1,
-                  fontSize: 10,
-                  color: COLORS.grayText,
-                }}>
-                Revenue
-              </Text>
-            </View>
-            <Text style={{ color: COLORS.grayText }}>
-              Всего{' '}
-              {refreshed ? numberWithSpaces(overallData?.totalAverageSum) : '0'}{' '}
-              UZS
-            </Text>
-          </View>
-          <View style={{ flexDirection: 'row' }}>
-            {/* LEFT Donut View */}
-            <View style={styles.donutBlock}>
-              {/* <Donut /> */}
-              <DonutView />
-            </View>
-            {/* Color and Title */}
-            <View style={{ flex: 1, top: -15 }}>
-              {/* Dots */}
-              <ByUserDot />
-              <TelephoneDot />
-              <SitesDot />
-              <BookingDot />
-              <TraminaDot />
-              <DoloresDot />
-              <OtherDot />
-            </View>
-          </View>
+                <View>
+                  <Text
+                    style={{
+                      fontWeight: SIZES.fontWeight1,
+                      fontSize: 16,
+                      color: COLORS.white,
+                    }}>
+                    Доход
+                  </Text>
+                  <Text
+                    style={{
+                      fontWeight: SIZES.fontWeight1,
+                      fontSize: 10,
+                      color: COLORS.grayText,
+                    }}>
+                    Revenue
+                  </Text>
+                </View>
+                <Text style={{ color: COLORS.grayText }}>
+                  Всего {numberWithSpaces(overallData?.totalAverageSum)} UZS
+                </Text>
+              </View>
+
+              <View style={{ flexDirection: 'row' }}>
+                {/* LEFT Donut View */}
+                <View style={styles.donutBlock}>
+                  {/* <Donut /> */}
+                  <DonutView />
+                </View>
+                {/* Color and Title */}
+                <View style={{ flex: 1, top: -15 }}>
+                  {/* Dots */}
+                  <ByUserDot />
+                  <TelephoneDot />
+                  <SitesDot />
+                  <BookingDot />
+                  <TraminaDot />
+                  <DoloresDot />
+                  <OtherDot />
+                </View>
+              </View>
+            </>
+          ) : (
+            <ActivityIndicator
+              animating={true}
+              color={COLORS.white}
+              marginTop={70}
+            />
+          )}
         </Card>
         {/* SECOND Card */}
         <Card containerStyle={styles.card} title="Revenue">
           {/* Card Context View */}
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginBottom: 15,
-            }}>
-            <View>
-              <Text
+          {refreshed ? (
+            <>
+              <View
                 style={{
-                  fontWeight: SIZES.fontWeight1,
-                  fontSize: 16,
-                  color: COLORS.white,
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  marginBottom: 15,
                 }}>
-                К-ство проданных ночей
-              </Text>
-              <Text
-                style={{
-                  fontWeight: SIZES.fontWeight1,
-                  fontSize: 10,
-                  color: COLORS.grayText,
-                }}>
-                Room Nights
-              </Text>
-            </View>
-            <Text style={{ color: COLORS.grayText }}>
-              {refreshed ? numberWithSpaces(overallData?.totalSoldNights) : '0'}{' '}
-              ночей
-            </Text>
-          </View>
-          <View style={{ flexDirection: 'row' }}>
-            {/* LEFT Donut View */}
-            <View style={styles.donutBlock}>
-              {/* <Donut /> */}
-              <DonutView />
-            </View>
-            {/* Color and Title */}
-            <View style={{ flex: 1, top: -15 }}>
-              <ByUserDot />
-              <TelephoneDot />
-              <SitesDot />
-              <BookingDot />
-              <TraminaDot />
-              <DoloresDot />
-              <OtherDot />
-            </View>
-          </View>
+                <View>
+                  <Text
+                    style={{
+                      fontWeight: SIZES.fontWeight1,
+                      fontSize: 16,
+                      color: COLORS.white,
+                    }}>
+                    К-ство проданных ночей
+                  </Text>
+                  <Text
+                    style={{
+                      fontWeight: SIZES.fontWeight1,
+                      fontSize: 10,
+                      color: COLORS.grayText,
+                    }}>
+                    Room Nights
+                  </Text>
+                </View>
+                <Text style={{ color: COLORS.grayText }}>
+                  {numberWithSpaces(overallData?.totalSoldNights)} ночей
+                </Text>
+              </View>
+              <View style={{ flexDirection: 'row' }}>
+                {/* LEFT Donut View */}
+                <View style={styles.donutBlock}>
+                  {/* <Donut /> */}
+                  <DonutView />
+                </View>
+                {/* Color and Title */}
+                <View style={{ flex: 1, top: -15 }}>
+                  <ByUserDot />
+                  <TelephoneDot />
+                  <SitesDot />
+                  <BookingDot />
+                  <TraminaDot />
+                  <DoloresDot />
+                  <OtherDot />
+                </View>
+              </View>
+            </>
+          ) : (
+            <ActivityIndicator
+              animating={true}
+              color={COLORS.white}
+              marginTop={70}
+            />
+          )}
         </Card>
         {/* THIRD Card */}
         <Card containerStyle={[styles.card, { height: 280 }]} title="Revenue">
           {/* Card Context View */}
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginBottom: 15,
-            }}>
-            <View
-              style={{
-                width: 167,
-                marginRight: 10,
-              }}>
-              <Text
+          {refreshed ? (
+            <>
+              <View
                 style={{
-                  fontWeight: SIZES.fontWeight1,
-                  fontSize: 16,
-                  color: COLORS.white,
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  marginBottom: 15,
                 }}>
-                Средняя цена номера
-              </Text>
-            </View>
+                <View
+                  style={{
+                    width: 167,
+                    marginRight: 10,
+                  }}>
+                  <Text
+                    style={{
+                      fontWeight: SIZES.fontWeight1,
+                      fontSize: 16,
+                      color: COLORS.white,
+                    }}>
+                    Средняя цена номера
+                  </Text>
+                </View>
 
-            <Text style={{ color: COLORS.grayText }}>
-              Всего{' '}
-              {refreshed ? numberWithSpaces(overallData?.totalRevenue) : '0'}{' '}
-              UZS
-            </Text>
-          </View>
-
-          {/* Color Line and Title */}
-
-          <View
-            style={{
-              marginBottom: 5,
-            }}>
-            {statsData?.map((dot, index) => (
-              <View style={styles.dotBlock}>
-                {dot?.source_name === 'От стойки' && (
-                  <ByUserLine lineWidth={100} />
-                )}
-
-                {dot?.source_name === 'Телефон' && (
-                  <TelephoneLine lineWidth={50} />
-                )}
-
-                {dot?.source_name === 'Dolores' && (
-                  <DoloresLine lineWidth={50} />
-                )}
-
-                {dot?.source_name === 'Сайт' && <SitesLine lineWidth={50} />}
-                {dot?.source_name === 'Booking.com' && (
-                  <BookingLine lineWidth={50} />
-                )}
-
-                {dot?.source_name === 'Трамина' && (
-                  <TraminaLine lineWidth={50} />
-                )}
-
-                <Text style={{ color: COLORS.white }}>
-                  {numberWithSpaces(dot?.average_revenue)} {dot?.source_name}
+                <Text style={{ color: COLORS.grayText }}>
+                  Всего {numberWithSpaces(overallData?.totalRevenue)} UZS
                 </Text>
-                {/* <BookingLine  */}
               </View>
-            ))}
-          </View>
 
-          {/* DOTS */}
-          <View
-            style={{
-              flexDirection: 'row',
-            }}>
-            <View
-              style={{
-                width: 115,
-                marginRight: 5,
-              }}>
-              <View style={[styles.dotBlock, styles.thirdCardDotMargin]}>
-                {statsData?.source_name === 'От стойки' ? (
-                  <ByUserDot />
-                ) : (
-                  statsData?.source_name === 'Booking.com' && <BookingDot />
-                )}
+              {/* Color Line and Title */}
+
+              <View
+                style={{
+                  marginBottom: 5,
+                }}>
+                {statsData?.map((dot, index) => (
+                  <View style={styles.dotBlock}>
+                    {dot?.source_name === 'От стойки' && (
+                      <ByUserLine lineWidth={100} />
+                    )}
+
+                    {dot?.source_name === 'Телефон' && (
+                      <TelephoneLine lineWidth={50} />
+                    )}
+
+                    {dot?.source_name === 'Dolores' && (
+                      <DoloresLine lineWidth={50} />
+                    )}
+
+                    {dot?.source_name === 'Сайт' && (
+                      <SitesLine lineWidth={50} />
+                    )}
+                    {dot?.source_name === 'Booking.com' && (
+                      <BookingLine lineWidth={50} />
+                    )}
+
+                    {dot?.source_name === 'Трамина' && (
+                      <TraminaLine lineWidth={50} />
+                    )}
+
+                    <Text style={{ color: COLORS.white }}>
+                      {numberWithSpaces(dot?.average_revenue)}{' '}
+                      {dot?.source_name}
+                    </Text>
+                    {/* <BookingLine  */}
+                  </View>
+                ))}
               </View>
-            </View>
-          </View>
+
+              {/* DOTS */}
+              <View
+                style={{
+                  flexDirection: 'row',
+                }}>
+                <View
+                  style={{
+                    width: 115,
+                    marginRight: 5,
+                  }}>
+                  <View style={[styles.dotBlock, styles.thirdCardDotMargin]}>
+                    {statsData?.source_name === 'От стойки' ? (
+                      <ByUserDot />
+                    ) : (
+                      statsData?.source_name === 'Booking.com' && <BookingDot />
+                    )}
+                  </View>
+                </View>
+              </View>
+            </>
+          ) : (
+            <ActivityIndicator
+              animating={true}
+              color={COLORS.white}
+              marginTop={110}
+            />
+          )}
         </Card>
         <View
           style={{

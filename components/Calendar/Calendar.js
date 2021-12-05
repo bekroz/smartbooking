@@ -18,7 +18,9 @@ const App = ({ handleAcceptButtonPress }) => {
 
   return (
     <View style={{ backgroundColor: '#212831' }}>
-      {/* <View style={styles.container}>
+      {' '}
+      */}
+      <View style={styles.container}>
         <DateRangePicker
           onSelectDateRange={range => {
             setDateRangeValue(range);
@@ -32,10 +34,11 @@ const App = ({ handleAcceptButtonPress }) => {
           <Text>first date: {range.start}</Text>
           <Text>second date: {range.end}</Text>
         </View>
-      </View> */}
+      </View>
       <View
         style={{
           width: SIZES.width,
+          backgroundColor: 'red',
         }}>
         <Calendar
           format="YYYY-MM-DD"

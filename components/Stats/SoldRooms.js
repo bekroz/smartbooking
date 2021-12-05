@@ -49,7 +49,7 @@ export default function SoldRooms() {
   }, []);
 
   return (
-    <ScrollView style={{}}>
+    <ScrollView showsVerticalScrollIndicator={false}>
       <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
         {/* <TouchableOpacity
           style={[
@@ -81,7 +81,9 @@ export default function SoldRooms() {
           Количество проданных ночей
         </Text>
       </View>
+
       {/* Chart and Line Graph View */}
+
       <View
         style={{
           marginBottom: 15,
@@ -94,8 +96,18 @@ export default function SoldRooms() {
           containerStyle={{
             justifyContent: 'center',
           }}>
-          <BlueColumns />
-          <LineChartData />
+          {refreshed ? (
+            <>
+              <BlueColumns />
+              <LineChartData />
+            </>
+          ) : (
+            <ActivityIndicator
+              animating={true}
+              color={COLORS.white}
+              left={180}
+            />
+          )}
         </ScrollView>
       </View>
       <Divider
@@ -115,7 +127,7 @@ export default function SoldRooms() {
           Количество проданных ночей
         </Text>
       </View>
-      <ScrollView>
+      <ScrollView showsHorizontalScrollIndicator={false}>
         {refreshed ? (
           statisticsByYearData?.map((stat, index) => (
             <TouchableOpacity key={index}>
@@ -129,8 +141,8 @@ export default function SoldRooms() {
                     <View style={{ marginBottom: 15 }}>
                       <Text style={{ color: COLORS.grayText }}>Дата:</Text>
                       <Text style={{ paddingTop: 5, color: COLORS.white }}>
-                        {refreshed && moment(stat?.start_date).format('DD MMM')}{' '}
-                        - {refreshed && moment(stat?.end_date).format('DD MMM')}
+                        {moment(stat?.start_date).format('DD MMM')} -{' '}
+                        {moment(stat?.end_date).format('DD MMM')}
                       </Text>
                     </View>
                     <View style={{ marginBottom: 15 }}>
@@ -138,7 +150,7 @@ export default function SoldRooms() {
                         Проданных номеров
                       </Text>
                       <Text style={{ paddingTop: 5, color: COLORS.white }}>
-                        {refreshed && numberWithSpaces(stat?.reserved)}
+                        {numberWithSpaces(stat?.reserved)}
                       </Text>
                     </View>
                   </View>
@@ -149,14 +161,14 @@ export default function SoldRooms() {
                         Занято номеров:
                       </Text>
                       <Text style={{ paddingTop: 5, color: COLORS.white }}>
-                        {refreshed && stat?.load_by_period} %
+                        {stat?.load_by_period} %
                       </Text>
                     </View>
 
                     <View style={{ marginBottom: 15 }}>
                       <Text style={{ color: COLORS.grayText }}>Доход UZS</Text>
                       <Text style={{ paddingTop: 5, color: COLORS.white }}>
-                        {refreshed ? numberWithSpaces(stat?.revenue) : '0'}
+                        {numberWithSpaces(stat?.revenue)}
                       </Text>
                     </View>
                   </View>

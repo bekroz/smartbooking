@@ -5,7 +5,7 @@ import { SAFEAREASTYLE, LOADERSTYLE } from './constants/theme';
 import Loader from './components/Additionals/Loader';
 import AppStack from './AppStack';
 import useApi from './utils/useApi';
-// import Testing from './components/Dashboard/DashboardModal';
+// import Testing from './removables/YearPicker';
 
 export default function App() {
   const [loading, setLoading] = useState(true);
