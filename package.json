@@ -88,6 +88,7 @@
     "react-native-svg-transformer": "^0.14.3",
     "react-native-svg-uri": "^1.2.3",
     "react-native-vector-icons": "^9.0.0",
+    "react-native-web-refresh-control": "^1.1.0",
     "react-native-webview": "^11.15.0",
     "react-progressbar-semicircle": "^1.2.1",
     "react-redux": "^7.2.6",

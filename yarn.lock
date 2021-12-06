@@ -11026,6 +11026,11 @@ react-native-vector-icons@^9.0.0:
     prop-types "^15.7.2"
     yargs "^16.1.1"
 
+react-native-web-refresh-control@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-web-refresh-control/-/react-native-web-refresh-control-1.1.0.tgz#1db8fa744e88a8f6a171166d6743ea3ef1ec0d82"
+  integrity sha512-cOO5WKM7gYXPv9yBc8XXDoRSj/a7GEt0dJ0sOlpwbZyfAiLXA5pS+4XEh10cHG3J+S6yth4Oe5srsebsQTpe+A==
+
 react-native-web@^0.17.5:
   version "0.17.5"
   resolved "https://registry.yarnpkg.com/react-native-web/-/react-native-web-0.17.5.tgz#2c27452b4654fb098c3c412cb04c379add1015a6"

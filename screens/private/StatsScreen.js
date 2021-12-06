@@ -18,7 +18,7 @@ export default function StatsScreen() {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#111923' }}>
       <View style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
-        <View style={{ backgroundColor: '#111923', alignItems: 'center' }}>
+        <View>
           <View style={styles.titleContainer}>
             <Text style={styles.headerTitle}>Статистика</Text>
           </View>
@@ -54,16 +54,12 @@ export default function StatsScreen() {
 
 const styles = StyleSheet.create({
   titleContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
     marginTop: 10,
-    alignContent: 'center',
+    alignItems: 'center',
   },
   headerTitle: {
     fontSize: 30,
     fontWeight: '700',
-    left: 15,
     color: COLORS.white,
   },
   segmentControlTabsContainer: {

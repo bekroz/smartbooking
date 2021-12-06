@@ -24,9 +24,9 @@ import DayPick from '../../components/Dashboard/DayPick';
 import PercentageCircle from '../../components/Dashboard/PercentageCircle';
 import EmptyRoomsCircle from '../../components/Dashboard/EmptyRoomsCircle';
 import useApi from '../../utils/useApi';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { wordTruncator, numberWithSpaces } from '../../helpers';
 import Calendar from '../../components/Calendar/Calendar';
+// Helpers
+import { wordTruncator, numberWithSpaces } from '../../helpers';
 
 export default function DashboardScreen({ navigation }) {
   // API HANDLERS
@@ -539,8 +539,7 @@ export default function DashboardScreen({ navigation }) {
       {calendarModalVisible && (
         <Overlay
           isVisible={calendarModalVisible}
-          onBackdropPress={toggleCalendarModal}
-          >
+          onBackdropPress={toggleCalendarModal}>
           <Calendar handleAcceptButtonPress={toggleCalendarModal} />
         </Overlay>
       )}
