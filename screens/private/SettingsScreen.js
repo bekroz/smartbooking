@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { Card } from 'react-native-elements/dist/card/Card';
 import { Divider } from 'react-native-elements';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // Theme
 import { COLORS, POSITIONING, SIZES } from '../../constants/theme';
 // Icons
@@ -16,9 +17,14 @@ import blueChevronLeft from '../../images/blueChevronLeft.png';
 import whiteChevronRight from '../../images/whiteChevronRight.png';
 
 export default function SettingsScreen({ navigation }) {
-  function handleLogOutButtonPress() {
+  const handleLogOutButtonPress = async () => {
+    try {
+      await AsyncStorage.clear();
+    } catch (error) {
+      console.error(error);
+    }
     navigation.replace('Login');
-  }
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>

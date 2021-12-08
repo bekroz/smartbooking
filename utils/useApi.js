@@ -5,7 +5,6 @@ import Config from '../config';
 import moment from 'moment';
 const useApi = () => {
   // #1 API => GET iOS APP token
-
   const handleIOSAuthentication = async () => {
     try {
       await axios({
@@ -29,7 +28,7 @@ const useApi = () => {
 
   const handleIOSAuthorization = async userSecret => {
     const appToken = await AsyncStorage.getItem('APP_TOKEN');
-    // const user = JSON.parse(AsyncStorage.getItem('USER'));
+     // const user = JSON.parse(AsyncStorage.getItem('USER'));
     try {
       return await axios({
         url: `${Config.BASE_API_URL}/mobile/auth/login`,

@@ -1,0 +1,7 @@
+git_url "https://bekroz@bitbucket.org/bekroz/smartbooking.git"
+
+type "development"
+shallow_clone true
+
+app_identifier "com.smartbooking.drivers"
+username "umrozikov@icloud.com"  

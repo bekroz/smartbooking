@@ -100,7 +100,7 @@ export default function Details() {
             justifyContent: 'center',
             marginTop: 5,
             paddingBottom: 0,
-            paddingTop: 5,
+            paddingTop: 5
           }}>
           <TouchableOpacity
             style={[

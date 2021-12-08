@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   StyleSheet,
   Text,
@@ -20,10 +20,30 @@ import { emailValidator, passwordValidator } from '../../helpers';
 // Icons
 import showEye from '../../assets/icons/showEye.png';
 import noShowEye from '../../assets/icons/noShowEye.png';
-
 // Components
+import { AuthContext } from '../../contexts/AuthContext';
 
 export default function LoginScreen({ navigation }) {
+  // const {
+  //   authenticated,
+  //   setAuthenticated,
+  //   userLoggedIn,
+  //   setUserLoggedIn,
+  //   error,
+  //   setError,
+  //   hotelID,
+  //   setHotelID,
+  //   userToken,
+  //   setUserToken,
+  //   userLogInHandler,
+  //   userLogOutHandler,
+  // } = useContext(AuthContext);
+
+  const [email, setEmail] = useState({ value: '', error: '' });
+  const [password, setPassword] = useState({ value: '', error: '' });
+  const [secureTextEntry, setSecureTextEntry] = useState(true);
+  const [user, setUser] = useState(null);
+
   function registerButtonPress() {
     navigation.navigate('NoFoundScreen');
   }
@@ -32,11 +52,6 @@ export default function LoginScreen({ navigation }) {
     navigation.navigate('NoFoundScreen');
   }
   const { handleIOSAuthentication, handleIOSAuthorization } = useApi();
-
-  const [email, setEmail] = useState({ value: '', error: '' });
-  const [password, setPassword] = useState({ value: '', error: '' });
-  const [secureTextEntry, setSecureTextEntry] = useState(true);
-  const [user, setUser] = useState(null);
 
   const handleLogin = async () => {
     const emailError = emailValidator(email.value);
@@ -61,16 +76,14 @@ export default function LoginScreen({ navigation }) {
       email: email.value,
       password: password.value,
     };
+
     await AsyncStorage.setItem('USER', JSON.stringify(userSecret));
     try {
       await handleIOSAuthentication().then(
         handleIOSAuthorization(userSecret).then(userToken => {
           if (userToken) {
-            navigation.reset({
-              index: 0,
-              routes: [{ name: 'Home' }],
-            });
-            setUser(true);
+            navigation.replace('Home');
+            setUser(userToken);
           } else {
             console.error(error);
           }
@@ -81,23 +94,9 @@ export default function LoginScreen({ navigation }) {
     }
   };
 
-  useEffect(() => {
-    user ? handleLogin() : navigation.navigate('Login');
-  }, []);
-
-  function loginButtonPress() {
-    Alert.alert(
-      'Неверные данные',
-      'Такого адреса нет или неправильный пароль',
-      [
-        {
-          text: 'Окей',
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
-        },
-      ],
-    );
-  }
+  // useEffect(() => {
+  //   user ? handleLogin() : navigation.navigate('Login');
+  // }, []);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
