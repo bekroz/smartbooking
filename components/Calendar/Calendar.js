@@ -18,8 +18,6 @@ const App = ({ handleAcceptButtonPress }) => {
 
   return (
     <View style={{ backgroundColor: '#212831' }}>
-      {' '}
-      */}
       <View style={styles.container}>
         <DateRangePicker
           onSelectDateRange={range => {

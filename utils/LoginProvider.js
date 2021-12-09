@@ -1,51 +1,60 @@
-// import React, {
-//   useState,
-//   useEffect,
-//   createContext,
-//   useRef,
-//   useContext,
-// } from 'react';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
-// import useApi from './useApi';
+import React, {
+  useState,
+  useEffect,
+  createContext,
+  useRef,
+  useContext,
+} from 'react';
+// API
+import useApi from './useApi';
 
-// export const LoginContext = createContext({});
+export const LoginContext = createContext({});
 
-// export function useAuth() {
-//   return useContext(LoginContext);
-// }
+export function useAuth() {
+  return useContext(LoginContext);
+}
 
-// const LoginProvider = props => {
-//   const { handleIOSAuthentication, handleIOSAuthorization } = useApi();
-//   const [initializing, setInitializing] = useState(true);
-//   const mountedRef = useRef(true);
+const { handleIOSAuthentication, handleIOSAuthorization } = useApi();
 
-//   const authenticateUser = async () => {
-//     try {
-//       handleIOSAuthentication().then(handleIOSAuthorization({ user_secret }));
-//       setInitializing(false);
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   };
+const LoginProvider = props => {
+  const [user, setUser] = useState(null);
+  const [initializing, setInitializing] = useState(true);
 
-//   useEffect(() => {
-//     return () => {
-//       mountedRef.current = false;
-//       authenticateUser;
-//     };
-//   }, []);
+  const mountedRef = useRef(true);
 
-//   const value = {
-//     user,
-//     initializing,
-//     setUser,
-//     setInitializing,
-//   };
-//   return (
-//     <LoginContext.Provider value={value}>
-//       {props.children}
-//     </LoginContext.Provider>
-//   );
-// };
+  const authenticateUser = async () => {
+    try {
+      await handleIOSAuthentication().then(appToken =>
+        handleIOSAuthorization(appToken).then(userToken => {
+          setUser(userToken);
+          setInitializing(false);
+        }),
+      );
+    } catch (error) {
+      console.error(error);
+    }
+    return () => {
+      mountedRef.current = false;
+      authenticateUser;
+    };
+  };
 
-// export default LoginProvider;
+  useEffect(() => {
+    authenticateUser;
+  }, []);
+
+  const value = {
+    user,
+    initializing,
+    setUser,
+    setInitializing,
+  };
+
+  return (
+    <LoginContext.Provider value={value}>
+      {props.children}
+    </LoginContext.Provider>
+  );
+};
+
+export default LoginProvider;

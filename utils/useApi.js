@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
 import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Config from '../config';
-import moment from 'moment';
+import { useCustomAsyncStorage } from '../helpers';
+
+const { getAppToken, setAppToken, getUserToken, setUserToken, clearStorage } =
+  useCustomAsyncStorage();
+
 const useApi = () => {
   // #1 API => GET iOS APP token
-
   const handleIOSAuthentication = async () => {
     try {
       await axios({
@@ -17,7 +18,7 @@ const useApi = () => {
       }).then(response => {
         console.log('1. APP TOKEN ===>>>');
         console.log(response.data.access_token);
-        AsyncStorage.setItem('APP_TOKEN', response.data.access_token);
+        setAppToken(response.data.access_token);
         return response.data.access_token;
       });
     } catch (e) {
@@ -28,8 +29,7 @@ const useApi = () => {
   // #2 API => GET iOS USER token
 
   const handleIOSAuthorization = async userSecret => {
-    const appToken = await AsyncStorage.getItem('APP_TOKEN');
-    // const user = JSON.parse(AsyncStorage.getItem('USER'));
+    const appToken = await getAppToken();
     try {
       return await axios({
         url: `${Config.BASE_API_URL}/mobile/auth/login`,
@@ -45,7 +45,7 @@ const useApi = () => {
       }).then(response => {
         console.log('2. USER TOKEN ===>>>');
         console.log(response.data.access_token);
-        AsyncStorage.setItem('USER_TOKEN', response.data.access_token);
+        setUserToken(response.data.access_token);
         return response.data.access_token;
       });
     } catch (e) {
@@ -54,9 +54,8 @@ const useApi = () => {
   };
 
   // #3 API => GET All Hotel Properties Data of the user
-
   const getAllHotelPropertiesData = async () => {
-    const userToken = await AsyncStorage.getItem('USER_TOKEN');
+    const userToken = await getUserToken();
     try {
       return await axios({
         url: `${Config.BASE_API_URL}/mobile/properties`,
@@ -65,6 +64,10 @@ const useApi = () => {
           Authorization: `Bearer ${userToken}`,
           'Content-Type': 'application/json',
         },
+      }).then(response => {
+        console.log('3. ALL HOTEL PROPERTY LIST ===>>>');
+        console.log(response.data.data);
+        return response.data.data;
       });
     } catch (e) {
       console.log(e);
@@ -72,12 +75,11 @@ const useApi = () => {
   };
 
   // #4 API => GET All Hotel Properties Data of the user
-
   const getSingleHotelData = async () => {
-    const userToken = await AsyncStorage.getItem('USER_TOKEN');
+    const userToken = await getUserToken();
     try {
       return await axios({
-        url: `${Config.BASE_API_URL}/mobile/properties/5`,
+        url: `${Config.BASE_API_URL}/mobile/properties/48`,
         method: 'POST',
         headers: {
           Authorization: `Bearer ${userToken}`,
@@ -85,6 +87,7 @@ const useApi = () => {
         },
       });
     } catch (e) {
+      console.log('ERROR =>>>>');
       console.log(e);
     }
   };
@@ -92,10 +95,10 @@ const useApi = () => {
   // #5 API => GET Dashboard Data of the user
 
   const getDashboardData = async (hotelID, chosenDate) => {
-    const userToken = await AsyncStorage.getItem('USER_TOKEN');
+    const userToken = await getUserToken();
     try {
       return await axios({
-        url: `${Config.BASE_API_URL}/mobile/${hotelID}/dashboard`,
+        url: `${Config.BASE_API_URL}/mobile/48/dashboard`,
         method: 'POST',
         headers: {
           Authorization: `Bearer ${userToken}`,
@@ -124,8 +127,8 @@ const useApi = () => {
   };
 
   const getHotelAllReservationsData = async reservations_outgoing_data => {
-    const userToken = await AsyncStorage.getItem('USER_TOKEN');
-    console.log(reservations_outgoing_data);
+    const userToken = await getUserToken();
+  
     try {
       return await axios({
         url: `${Config.BASE_API_URL}/mobile/${reservations_outgoing_data.hotelID}/reservations`,
@@ -146,7 +149,7 @@ const useApi = () => {
   // #7 API => GET Hotel Single Reservation Data
 
   const getHotelSingleReservationData = async reservationID => {
-    const userToken = await AsyncStorage.getItem('USER_TOKEN');
+    const userToken = await getUserToken();
     try {
       return await axios({
         url: `${Config.BASE_API_URL}/mobile/48/reservations/${reservationID}`,
@@ -164,7 +167,7 @@ const useApi = () => {
   // #8 API => GET Hotel Statistics By Year
 
   const getStatisticsByYear = async ({ hotelID, chosenYear }) => {
-    const userToken = await AsyncStorage.getItem('USER_TOKEN');
+    const userToken = await getUserToken();
     try {
       return await axios({
         url: `${Config.BASE_API_URL}/mobile/${hotelID}/statistics-by-year`,
@@ -189,7 +192,7 @@ const useApi = () => {
   // #9 API => GET Hotel Statistics By Category
 
   const getStatisticsByCategory = async dateRange => {
-    const userToken = await AsyncStorage.getItem('USER_TOKEN');
+    const userToken = await getUserToken();
     try {
       return await axios({
         url: `${Config.BASE_API_URL}/mobile/48/statistics-by-group`,
@@ -210,7 +213,7 @@ const useApi = () => {
   // #10 API => GET Properties Comparison Data
 
   const getPropertiesComparisonData = async comparison_outgoing_data => {
-    const userToken = await AsyncStorage.getItem('USER_TOKEN');
+    const userToken = await getUserToken();
     try {
       return await axios({
         url: `${Config.BASE_API_URL}/mobile/compare-properties`,
@@ -231,7 +234,7 @@ const useApi = () => {
   // #11 API => GET Property Sources Data
 
   const getSourcesData = async () => {
-    const userToken = await AsyncStorage.getItem('USER_TOKEN');
+    const userToken = await getUserToken();
     try {
       return await axios({
         url: `${Config.BASE_API_URL}/mobile/48/sources`,

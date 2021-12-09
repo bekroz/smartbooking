@@ -4,7 +4,6 @@ import {
   Text,
   SafeAreaView,
   StyleSheet,
-  Image,
   TouchableOpacity,
 } from 'react-native';
 import { Card } from 'react-native-elements/dist/card/Card';
@@ -12,13 +11,19 @@ import { Divider } from 'react-native-elements';
 // Theme
 import { COLORS, POSITIONING, SIZES } from '../../constants/theme';
 // Icons
-import blueChevronLeft from '../../images/blueChevronLeft.png';
-import whiteChevronRight from '../../images/whiteChevronRight.png';
+import { useCustomAsyncStorage } from '../../helpers';
+
+const { clearStorage } = useCustomAsyncStorage();
 
 export default function SettingsScreen({ navigation }) {
-  function handleLogOutButtonPress() {
+  const handleLogOutButtonPress = async () => {
+    try {
+      clearStorage();
+    } catch (error) {
+      console.error(error);
+    }
     navigation.replace('Login');
-  }
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>

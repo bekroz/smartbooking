@@ -33,7 +33,7 @@ import useApi from '../../utils/useApi';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import DonutView from '../../removables/DonutView';
-import numberWithSpaces from '../../helpers/numberWithSpaces';
+import { numberWithSpaces } from '../../helpers';
 
 export default function Details() {
   const currency = 'UZS';
