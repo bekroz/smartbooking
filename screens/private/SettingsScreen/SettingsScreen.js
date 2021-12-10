@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { Card } from 'react-native-elements/dist/card/Card';
 import { Divider } from 'react-native-elements';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // Theme
 import { COLORS, POSITIONING, SIZES } from '../../../constants/theme';
 // Icons

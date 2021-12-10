@@ -28,7 +28,7 @@ export default function ApiScreen() {
   // USER TOKEN DATA TESTER
   const showUserTokenData = async () => {
     const data = await AsyncStorage.getItem('USER_TOKEN');
-    try {
+        try {
       console.log(`THIS IS USER TOKEN TO SHOW =>>>> : ${data}`);
       setUserTokenData(data);
     } catch (error) {

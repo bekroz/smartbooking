@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useContext } from 'react';
 import { NavigationContainer, DarkTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 // Tabs
-import TabNavigator from '../navigation/TabNavigator';
+import TabNavigator from './navigation/TabNavigator';
 // Private Screens
 import ReservationScreen from './screens/private/ReservationScreen';
 import TermsLoader from './components/Terms/TermsLoader';
@@ -55,11 +55,6 @@ const AppStack = ({ navigation }) => {
         <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
         <Stack.Screen name="RestoreScreen" component={RestoreScreen} />
         <Stack.Screen name="NoFoundScreen" component={NoFoundScreen} />
-<<<<<<< HEAD:removables/NEW.js
-=======
-        {/* Private Stack to switch user */}
-        <Stack.Screen name="Home" component={TabNavigator} />
->>>>>>> ed90bc7aca0907c77b57c71be38201cd4b8bde09:AppStack.js
       </Stack.Navigator>
     );
   };
