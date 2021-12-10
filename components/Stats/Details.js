@@ -29,7 +29,7 @@ import TraminaLine from '../Stats/Lines/TraminaLine';
 import DoloresLine from '../Stats/Lines/DoloresLine';
 import OtherLine from '../Stats/Lines/OtherLine';
 
-import useApi from '../../utils/useApi';
+import useApi from '../../utils/api/useApi';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import DonutView from '../../removables/DonutView';

@@ -3,10 +3,10 @@ import { SafeAreaView, View, Text, StyleSheet } from 'react-native';
 import { Divider } from 'react-native-elements/dist/divider/Divider';
 import SegmentedControl from 'rn-segmented-control';
 // Theme
-import { COLORS, SIZES } from '../../constants/theme';
+import { COLORS, SIZES } from '../../../constants/theme';
 // Components
-import Details from '../../components/Stats/Details';
-import SoldRooms from '../../components/Stats/SoldRooms';
+import Details from '../../../components/Stats/Details';
+import SoldRooms from '../../../components/Stats/SoldRooms';
 
 export default function StatsScreen() {
   const tabs = ['Обзор', 'Занятость'];

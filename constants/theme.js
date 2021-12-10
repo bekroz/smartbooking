@@ -111,16 +111,11 @@ export const POSITIONING = {
   },
 };
 
-export const SAFEAREASTYLE = {
+export const DarkTheme = {
   flex: 1,
   backgroundColor: COLORS.darkBackground,
 };
 
-export const LOADERSTYLE = {
-  flex: 1,
-  backgroundColor: COLORS.blackBackground,
-};
-
-const theme = { COLORS, SIZES, FONTS, SAFEAREASTYLE, LOADERSTYLE };
+const theme = { COLORS, SIZES, FONTS };
 
 export default theme;

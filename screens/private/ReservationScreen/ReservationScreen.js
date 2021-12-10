@@ -14,21 +14,21 @@ import { Divider } from 'react-native-elements/dist/divider/Divider';
 import AwesomeLoading from 'react-native-awesome-loading';
 import moment from 'moment';
 // Theme
-import { COLORS, SIZES } from '../../constants/theme';
+import { COLORS, SIZES } from '../../../constants/theme';
 // Icons
-import searchIcon from '../../images/search.png';
-import moonIcon from '../../images/moon.png/';
-import personIcon from '../../images/person.png/';
+import searchIcon from '../../../images/search.png';
+import moonIcon from '../../../images/moon.png/';
+import personIcon from '../../../images/person.png/';
 // Components
-import useApi from '../../utils/useApi';
+import useApi from '../../../utils/api/useApi';
 import {
   ConfirmedStatus,
   InHouseStatus,
   CheckOutStatus,
   CanceledStatus,
   NoShowStatus,
-} from '../../components/Reservations/StatusView';
-import { wordTruncator, numberWithSpaces } from '../../helpers';
+} from '../../../components/Reservations/StatusView';
+import { wordTruncator, numberWithSpaces } from '../../../helpers';
 
 export default function ReservationScreen() {
   const handleSearchButton = () => {
@@ -147,7 +147,9 @@ export default function ReservationScreen() {
                   alignItems: 'center',
                 }}>
                 <View style={{ marginBottom: 15, alignItems: 'center' }}>
-                  <Text style={{ color: COLORS.grayText }}>Дата заезда:</Text>
+                  <Text style={{ color: COLORS.grayText, marginBottom: 3 }}>
+                    Дата заезда:
+                  </Text>
                   <Text style={{ color: COLORS.white }}>
                     {moment(reservation.checkin).format('DD.MM.YYYY')}
                   </Text>
@@ -158,19 +160,21 @@ export default function ReservationScreen() {
                   orientation="vertical"
                   width={0.5}
                   left={45}
-                  top={42}
+                  top={45}
                   height={12}
                   color={COLORS.blue}
                   position="absolute"
                 />
                 <View
                   style={{
-                    marginBottom: 15,
+                    marginBottom: 20,
                     marginTop: 10,
                     alignItems: 'center',
                   }}>
-                  <Text style={{ color: COLORS.grayText }}>Дата выезда:</Text>
-                  <Text style={{ paddingTop: 5, color: COLORS.white }}>
+                  <Text style={{ color: COLORS.grayText, marginBottom: 3 }}>
+                    Дата выезда:
+                  </Text>
+                  <Text style={{ color: COLORS.white }}>
                     {moment(reservation?.checkout).format('DD.MM.YYYY')}
                   </Text>
                 </View>
@@ -244,7 +248,7 @@ export default function ReservationScreen() {
                     </Text>
                   </View>
                 </View>
-                <View style={{ paddingRight: 20, marginRight: 50, }}>
+                <View style={{ paddingRight: 20, marginRight: 50 }}>
                   {reservation?.status == 'confirmed' && <ConfirmedStatus />}
                   {reservation?.status == 'in_house' && <InHouseStatus />}
                   {reservation?.status == 'check_out' && <CheckOutStatus />}

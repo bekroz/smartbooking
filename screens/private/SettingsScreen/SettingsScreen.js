@@ -9,11 +9,9 @@ import {
 import { Card } from 'react-native-elements/dist/card/Card';
 import { Divider } from 'react-native-elements';
 // Theme
-import { COLORS, POSITIONING, SIZES } from '../../constants/theme';
+import { COLORS, POSITIONING, SIZES } from '../../../constants/theme';
 // Icons
-import { useCustomAsyncStorage } from '../../helpers';
-
-const { clearStorage } = useCustomAsyncStorage();
+import { clearStorage } from '../../../utils/api/useCustomAsyncStorage';
 
 export default function SettingsScreen({ navigation }) {
   const handleLogOutButtonPress = async () => {
@@ -22,7 +20,7 @@ export default function SettingsScreen({ navigation }) {
     } catch (error) {
       console.error(error);
     }
-    navigation.replace('Login');
+    navigation.replace('LoginScreen');
   };
 
   return (
@@ -48,7 +46,7 @@ export default function SettingsScreen({ navigation }) {
                   marginBottom: 20,
                   height: 20,
                 }}
-                onPress={() => navigation.navigate('Comparison')}>
+                onPress={() => navigation.navigate('ComparisonScreen')}>
                 <Text style={styles.menuOptionStyle}>Мои гостиницы</Text>
 
                 <Divider

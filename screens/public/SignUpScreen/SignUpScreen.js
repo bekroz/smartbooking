@@ -1,8 +1,15 @@
 import React from 'react';
-import { View, Text, SafeAreaView } from 'react-native';
-import { COLORS, SIZES } from '../../constants/theme';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  SafeAreaView,
+  StyleSheet,
+} from 'react-native';
+import { COLORS, SIZES } from '../../../constants/theme';
 import { SvgXml } from 'react-native-svg';
-export default function CalendarScreen() {
+
+export default function NoFoundScreen({ navigation }) {
   return (
     <SafeAreaView
       style={{
@@ -73,9 +80,9 @@ export default function CalendarScreen() {
             color: COLORS.white,
             textAlign: 'center',
             marginTop: 19,
-            marginBottom: 9,
+            marginBottom: 10,
           }}>
-          Проект в разработке
+          TODO: SIGN UP RESTORE SCREEN
         </Text>
         <Text
           style={{
@@ -83,11 +90,24 @@ export default function CalendarScreen() {
             fontWeight: SIZES.fontWeight0,
             color: COLORS.white,
             textAlign: 'center',
+            marginBottom: 20,
           }}>
           Cтраницы на данный момент не существует, но в скором времени её
           добавим
         </Text>
+
+        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+          <Text style={styles.backToLogin}>Вернуться на страницу входа</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  backToLogin: {
+    fontSize: SIZES.body6,
+    fontWeight: SIZES.fontWeight1,
+    color: COLORS.blue,
+  },
+});

@@ -8,13 +8,12 @@ import {
   Image,
   ActivityIndicator,
 } from 'react-native';
-import { COLORS, SIZES } from '../../constants/theme';
+import { COLORS, SIZES } from '../../../constants/theme';
 import { Card } from 'react-native-elements/dist/card/Card';
-import styled from 'styled-components/native';
 import { ScrollView } from 'react-native-gesture-handler';
-import blueChevronLeft from '../../images/blueChevronLeft.png';
-import useApi from '../../utils/useApi';
-import { numberWithSpaces, getMonthName } from '../../helpers';
+import blueChevronLeft from '../../../images/blueChevronLeft.png';
+import useApi from '../../../utils/api/useApi';
+import { numberWithSpaces, getMonthName } from '../../../helpers';
 
 export default function ComparisonScreen({ navigation }) {
   function handleBackButtonPress() {
@@ -99,7 +98,7 @@ export default function ComparisonScreen({ navigation }) {
               marginBottom: 0,
             },
           ]}>
-          <WhiteText style={[styles.topBarText]}>{date.year}</WhiteText>
+          <Text style={[styles.topBarText]}>{date.year}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[
@@ -328,19 +327,3 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
 });
-
-const WhiteText = styled.Text`
-  color: #ffffff;
-`;
-
-const GrayText = styled.Text`
-  color: #657282;
-`;
-
-const BlueText = styled.Text`
-  color: #5f85db;
-`;
-
-const GreenText = styled.Text`
-  color: #0ecc38;
-`;

@@ -2,11 +2,12 @@ import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { COLORS } from '../../constants/theme';
+import loader from '../../images/splash.json';
 
 export default function Loader({ navigation }) {
   return (
     <View style={styles.container}>
-      <LottieView source={require('../../images/splash.json')} autoPlay />
+      <LottieView source={loader} autoPlay />
       <Text style={styles.loaderBottomText}>Чудеса требуют времени ...</Text>
     </View>
   );

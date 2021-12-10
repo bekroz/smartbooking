@@ -17,8 +17,8 @@ const App = ({ handleAcceptButtonPress }) => {
   const [dateRangeValue, setDateRangeValue] = useState(null);
 
   return (
-    <View style={{ backgroundColor: '#212831' }}>
-      <View style={styles.container}>
+    <View style={{ backgroundColor: '#212831', borderRadius: 12 }}>
+      {/* <View style={styles.container}>
         <DateRangePicker
           onSelectDateRange={range => {
             setDateRangeValue(range);
@@ -32,11 +32,10 @@ const App = ({ handleAcceptButtonPress }) => {
           <Text>first date: {range.start}</Text>
           <Text>second date: {range.end}</Text>
         </View>
-      </View>
+      </View> */}
       <View
         style={{
           width: SIZES.width,
-          backgroundColor: 'red',
         }}>
         <Calendar
           format="YYYY-MM-DD"
@@ -77,26 +76,12 @@ const App = ({ handleAcceptButtonPress }) => {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={{
-            backgroundColor: COLORS.blue,
-            borderRadius: 6,
-            width: 108,
-            height: 36,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
+          style={styles.acceptButtonStyle}
           onPress={handleAcceptButtonPress}>
-          <Text
-            style={{
-              color: COLORS.white,
-              fontSize: 13,
-              fontWeight: SIZES.fontWeight3,
-            }}>
-            Подтвердить
-          </Text>
+          <Text style={styles.acceptTextstyle}>Подтвердить</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.container}>
+      {/* <View style={styles.container}>
         <Text
           style={{ color: COLORS.white, fontWeight: '500', marginBottom: 10 }}>
           FIRST date: {range.start}
@@ -104,7 +89,7 @@ const App = ({ handleAcceptButtonPress }) => {
         <Text style={{ color: COLORS.white, fontWeight: '500' }}>
           SECOND date: {range.end}
         </Text>
-      </View>
+      </View> */}
     </View>
   );
 };
@@ -123,6 +108,19 @@ const styles = StyleSheet.create({
   selectedDateStyle: {
     fontWeight: 'bold',
     color: 'white',
+  },
+  acceptButtonStyle: {
+    backgroundColor: '#5E85DB',
+    borderRadius: 6,
+    width: 108,
+    height: 36,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  acceptTextstyle: {
+    color: COLORS.white,
+    fontSize: 13,
+    fontWeight: SIZES.fontWeight3,
   },
 });
 

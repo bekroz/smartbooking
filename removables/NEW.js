@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useContext } from 'react';
 import { NavigationContainer, DarkTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 // Tabs
-import TabNavigator from './navigation/TabNavigator';
+import TabNavigator from '../navigation/TabNavigator';
 // Private Screens
 import ReservationScreen from './screens/private/ReservationScreen';
 import TermsLoader from './components/Terms/TermsLoader';
@@ -12,17 +12,16 @@ import SettingsScreen from './screens/private/SettingsScreen';
 import StatsScreen from './screens/private/StatsScreen';
 // Public Screens
 import LoginScreen from './screens/public/LoginScreen';
-import SignUpScreen from './screens/public/SignUpScreen';
-import RestoreScreen from './screens/public/RestoreScreen';
 import NoFoundScreen from './screens/public/NoFoundScreen';
+import SignUpScreen from './screens/public/SignUpScreen';
 // Context
-import { LoginContext } from './utils/LoginProvider';
+import LoginProvider from './utils/LoginProvider';
 
 const Stack = createStackNavigator();
 
-const AppStack = navigation => {
+const AppStack = ({ navigation }) => {
   const navigationRef = useRef();
-  const { user } = useContext(LoginContext);
+  const { user } = useContext(LoginProvider);
 
   // Public Stack for authenticated users
   const DashboardNavigator = () => {
@@ -38,8 +37,8 @@ const AppStack = navigation => {
         <Stack.Screen name="Dashboard" component={DashboardScreen} />
         <Stack.Screen name="Reservation" component={ReservationScreen} />
         <Stack.Screen name="Comparison" component={ComparisonScreen} />
-        <Stack.Screen name="Stats" component={StatsScreen} />
         <Stack.Screen name="Settings" component={SettingsScreen} />
+        <Stack.Screen name="Stats" component={StatsScreen} />
       </Stack.Navigator>
     );
   };
@@ -51,13 +50,11 @@ const AppStack = navigation => {
         screenOptions={{
           headerShown: false,
         }}
-        initialRouteName={'Home'}>
+        initialRouteName={'Login'}>
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
         <Stack.Screen name="RestoreScreen" component={RestoreScreen} />
         <Stack.Screen name="NoFoundScreen" component={NoFoundScreen} />
-        {/* Private Stack to switch user */}
-        <Stack.Screen name="Home" component={TabNavigator} />
       </Stack.Navigator>
     );
   };

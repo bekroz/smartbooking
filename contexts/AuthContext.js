@@ -1,6 +1,6 @@
 import React, { createContext, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import useApi from '../utils/useApi';
+import useApi from '../utils/api/useApi';
 
 export const AuthContext = createContext();
 

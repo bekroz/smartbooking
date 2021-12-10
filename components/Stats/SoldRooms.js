@@ -12,7 +12,7 @@ import { Divider } from 'react-native-elements/dist/divider/Divider';
 import moment from 'moment';
 // Theme
 import { COLORS, SIZES } from '../../constants/theme';
-import useApi from '../../utils/useApi';
+import useApi from '../../utils/api/useApi';
 // Components
 import BlueColumns from './BlueColumns';
 import LineChartData from './LineChartData';

@@ -1,9 +1,12 @@
 import axios from 'axios';
-import Config from '../config';
-import { useCustomAsyncStorage } from '../helpers';
-
-const { getAppToken, setAppToken, getUserToken, setUserToken, clearStorage } =
-  useCustomAsyncStorage();
+import Config from '../../config/config';
+import {
+  getAppToken,
+  setAppToken,
+  getUserToken,
+  setUserToken,
+  clearStorage,
+} from './useCustomAsyncStorage';
 
 const useApi = () => {
   // #1 API => GET iOS APP token
@@ -105,6 +108,8 @@ const useApi = () => {
           'Content-Type': 'application/json',
         },
         data: chosenDate,
+      }).then(response => {
+        return response.data.data;
       });
     } catch (e) {
       console.log(e);
@@ -128,7 +133,7 @@ const useApi = () => {
 
   const getHotelAllReservationsData = async reservations_outgoing_data => {
     const userToken = await getUserToken();
-  
+
     try {
       return await axios({
         url: `${Config.BASE_API_URL}/mobile/${reservations_outgoing_data.hotelID}/reservations`,

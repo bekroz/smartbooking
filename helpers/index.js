@@ -5,8 +5,6 @@ import numberWithSpaces from './validators/numberWithSpaces';
 import wordTruncator from './validators/wordTruncator';
 import capitalize from './validators/capitalize';
 import getMonthName from './validators/getMonthName';
-// AsyncStorage
-import useCustomAsyncStorage from './auth/useCustomAsyncStorage';
 
 export {
   emailValidator,
@@ -15,5 +13,4 @@ export {
   wordTruncator,
   capitalize,
   getMonthName,
-  useCustomAsyncStorage,
 };

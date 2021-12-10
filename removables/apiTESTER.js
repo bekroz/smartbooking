@@ -3,7 +3,7 @@ import { SafeAreaView, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { COLORS, SIZES } from '../constants/theme';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Config from '../config';
+import Config from '../config/config';
 
 export default function ApiScreen() {
   // #1 API => GET iOS APP token
@@ -28,7 +28,7 @@ export default function ApiScreen() {
   // USER TOKEN DATA TESTER
   const showUserTokenData = async () => {
     const data = await AsyncStorage.getItem('USER_TOKEN');
-        try {
+    try {
       console.log(`THIS IS USER TOKEN TO SHOW =>>>> : ${data}`);
       setUserTokenData(data);
     } catch (error) {

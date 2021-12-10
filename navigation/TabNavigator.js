@@ -5,19 +5,20 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // Theme
 import { COLORS, SIZES } from '../constants/theme';
 // Screens
-import LoginScreen from '../screens/public/LoginScreen';
-import DashboardScreen from '../screens/private/DashboardScreen';
-import ReservationScreen from '../screens/private/ReservationScreen';
-import ComparisonScreen from '../screens/private/ComparisonScreen';
-import StatsScreen from '../screens/private/StatsScreen';
-import SettingsScreen from '../screens/private/SettingsScreen';
+import {
+  DashboardScreen,
+  ReservationScreen,
+  ComparisonScreen,
+  StatsScreen,
+  SettingsScreen,
+  CalendarScreen,
+} from '../screens/private';
 // Icons
 // import dashboardIcon from '../constants/icons';
 import RESERVATIONICON from '../assets/icons/reservationsIcon.svg';
 // import calendarIcon from '../images/calendar.png';
 import StatsIcon from '../assets/icons/statsIcon.svg';
 import moreIcon from '../images/more.png';
-import CalendarScreen from '../screens/private/CalendarScreen';
 // REMOVE THIS
 import APITESTER from '../removables/APITESTER';
 

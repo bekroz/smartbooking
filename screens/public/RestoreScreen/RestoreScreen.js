@@ -6,7 +6,7 @@ import {
   SafeAreaView,
   StyleSheet,
 } from 'react-native';
-import { COLORS, SIZES } from '../../constants/theme';
+import { COLORS, SIZES } from '../../../constants/theme';
 import { SvgXml } from 'react-native-svg';
 
 export default function NoFoundScreen({ navigation }) {

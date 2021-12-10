@@ -13,15 +13,15 @@ import {
   AppleButton,
   // appleAuth,
 } from '@invertase/react-native-apple-authentication';
-import { COLORS, POSITIONING, SIZES } from '../../constants/theme';
+import { COLORS, POSITIONING, SIZES } from '../../../constants/theme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import useApi from '../../utils/useApi';
-import { emailValidator, passwordValidator } from '../../helpers';
+import useApi from '../../../utils/api/useApi';
+import { emailValidator, passwordValidator } from '../../../helpers';
 // Icons
-import showEye from '../../assets/icons/showEye.png';
-import noShowEye from '../../assets/icons/noShowEye.png';
+import showEye from '../../../assets/icons/showEye.png';
+import noShowEye from '../../../assets/icons/noShowEye.png';
 // Components
-import { AuthContext } from '../../contexts/AuthContext';
+import { AuthContext } from '../../../contexts/AuthContext';
 
 export default function LoginScreen({ navigation }) {
   // const {
@@ -82,7 +82,7 @@ export default function LoginScreen({ navigation }) {
       await handleIOSAuthentication().then(
         handleIOSAuthorization(userSecret).then(userToken => {
           if (userToken) {
-            navigation.replace('Home');
+            navigation.replace('HomeScreen');
             setUser(userToken);
           } else {
             console.error(error);

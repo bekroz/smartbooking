@@ -18,7 +18,7 @@ import quitIcon from '../../images/quit.png';
 const HotelModalBox = () => {
   const { getAllHotelPropertiesData } = useApi();
 
-  const [toggleHotelListModal, setToggleHotelListModal] = useState(false);
+  const [hotelListModalVisible, setHotelListModalVisible] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [hotelList, setHotelList] = useState(null);
   const [chosenHotelID, setChosenHotelID] = useState(null);
@@ -30,7 +30,7 @@ const HotelModalBox = () => {
         setHotelList(response);
         console.log(response[0].name);
         setLoaded(true);
-        setToggleHotelListModal(true);
+        setHotelListModalVisible(true);
       });
     } catch (error) {
       console.error(error);
@@ -38,13 +38,11 @@ const HotelModalBox = () => {
   };
 
   function handleChosenHotel(hotelID) {
-    // setToggleHotelListModal(!toggleHotelListModal);
-    // alert(`CHOSEN HOTEL => ${hotel}`);
     setChosenHotelID(hotelID);
     console.log(hotelID);
   }
 
-  useEffect(async () => {
+  useEffect(() => {
     getHotelList();
   }, []);
 
@@ -52,9 +50,9 @@ const HotelModalBox = () => {
     <>
       {loaded ? (
         <Modal
-          visible={toggleHotelListModal}
+          visible={hotelListModalVisible}
           style={{ backgroundColor: '#9d9ea3' }}
-          onTouchOutside={() => setToggleHotelListModal(false)}>
+          onTouchOutside={() => setHotelListModalVisible(false)}>
           <View style={{ backgroundColor: '#202020' }}>
             <LandingModalContent
               style={{
@@ -78,7 +76,7 @@ const HotelModalBox = () => {
                       padding: 5,
                       top: 5,
                     }}
-                    onPress={() => setToggleHotelListModal(false)}>
+                    onPress={() => setHotelListModalVisible(false)}>
                     <Image source={quitIcon} />
                   </TouchableOpacity>
                 </View>

@@ -47,6 +47,7 @@ export default function DashboardScreen({ navigation }) {
   const handleViewChange = () => {
     setFirstView(!firstView);
   };
+  
   const handleAddButtonPress = () => {
     alert('Add Button pressed');
   };

@@ -6,7 +6,7 @@ import {
   SafeAreaView,
   StyleSheet,
 } from 'react-native';
-import { COLORS, SIZES } from '../../constants/theme';
+import { COLORS, SIZES } from '../../../constants/theme';
 import { SvgXml } from 'react-native-svg';
 
 export default function NoFoundScreen({ navigation }) {
@@ -96,7 +96,7 @@ export default function NoFoundScreen({ navigation }) {
           добавим
         </Text>
 
-        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+        <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
           <Text style={styles.backToLogin}>Вернуться на страницу входа</Text>
         </TouchableOpacity>
       </View>

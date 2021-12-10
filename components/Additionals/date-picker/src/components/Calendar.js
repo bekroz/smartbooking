@@ -5,7 +5,7 @@ import DatePicker from '../../src/components/DatePicker';
 import helper from '../../src/helper';
 import leftArrowControl from '../../../../../assets/icons/leftArrowCal.png';
 import rightArrowControl from '../../../../../assets/icons/rightArrowCal.png';
-
+import { SIZES } from '../../../../../constants/theme';
 const rotateValues = {
   inputRange: [0, 360],
   outputRange: ['0deg', '360deg'],
@@ -294,12 +294,12 @@ const getStyles = (colors, sizes) => ({
   },
   topBar: {
     backgroundColor: colors.topBar,
-    justifyContent: 'space-around',
     marginLeft: 10,
     marginRight: 10,
     flexDirection: 'row',
     paddingTop: 10,
     paddingBottom: 10,
+    // width: SIZES.width,
   },
   title: {
     fontSize: 25,
@@ -312,7 +312,6 @@ const getStyles = (colors, sizes) => ({
   },
   head: {
     alignItems: 'center',
-    flexDirection: 'column',
   },
   dayOfTheWeekWrapper: {
     width: '14.2857142857%',

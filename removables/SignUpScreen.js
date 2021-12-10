@@ -11,7 +11,7 @@ import { Header } from 'react-native-elements';
 
 //import components
 import ModalWindow from '../../../components/Modal';
-import useApi from '../../utils/useApi';
+import useApi from '../utils/useApi';
 
 const SignUpScreen = ({ navigation }) => {
   const [username, setEmail] = useState('');

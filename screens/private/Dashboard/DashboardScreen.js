@@ -7,27 +7,26 @@ import {
   Image,
   SafeAreaView,
   ScrollView,
-  TouchableWithoutFeedback,
-  Alert,
   ActivityIndicator,
 } from 'react-native';
 import { MultiArcCircle } from 'react-native-circles';
 import { Overlay } from 'react-native-elements';
 // Theme
-import { COLORS, POSITIONING, SIZES } from '../../constants/theme';
+import { COLORS, POSITIONING, SIZES } from '../../../constants/theme';
 // Icons
-import leftArrow from '../../images/leftArrow.png';
-import rightArrow from '../../images/rightArrow.png';
-import dropdown from '../../images/dropdown.png';
-import addButton from '../../images/addButton.png';
+import leftArrow from '../../../images/leftArrow.png';
+import rightArrow from '../../../images/rightArrow.png';
+import dropdown from '../../../images/dropdown.png';
+// import addButton from '../../images/addButton.png';
 // Components
-import DayPick from '../../components/Dashboard/DayPick';
-import PercentageCircle from '../../components/Dashboard/PercentageCircle';
-import EmptyRoomsCircle from '../../components/Dashboard/EmptyRoomsCircle';
-import useApi from '../../utils/useApi';
-import Calendar from '../../components/Calendar/Calendar';
+import DayPick from '../../../components/Dashboard/DayPick';
+import PercentageCircle from '../../../components/Dashboard/PercentageCircle';
+import EmptyRoomsCircle from '../../../components/Dashboard/EmptyRoomsCircle';
+import useApi from '../../../utils/api/useApi';
+import Calendar from '../../../components/Calendar/Calendar';
 // Helpers
-import { wordTruncator, numberWithSpaces } from '../../helpers';
+import { numberWithSpaces } from '../../../helpers';
+import HotelModalBox from '../../../components/Dashboard/Modals/HotelModalBox';
 
 export default function DashboardScreen({ navigation }) {
   // API HANDLERS
@@ -41,47 +40,57 @@ export default function DashboardScreen({ navigation }) {
   const handleViewChange = () => {
     setFirstView(!firstView);
   };
-  const handleAddButtonPress = () => {
-    alert('Add Button pressed');
+
+  // const handleAddButtonPress = () => {
+  //   alert('Add Button pressed');
+  // };
+
+  const handleArcBarPress = async () => {
+    navigation.navigate('ArrivalsScreen');
   };
 
-  const handleArcBarPress = () => {
-    alert('Arc Bar has been fired!');
+  const handleLogOutButtonPress = async () => {
+    try {
+      clearStorage();
+    } catch (error) {
+      console.error(error);
+    }
+    navigation.replace('LoginScreen');
   };
 
   const [chosenDate, setChosenDate] = useState('2021-12-01');
   const [hotelID, setHotelID] = useState(null);
   const [hotelListData, setHotelListData] = useState(null);
-
+  const [chosenHotelName, setChosenHotelName] = useState(null);
   // Calendar Modal Opener
   const [calendarModalVisible, setCalendarModalVisibleVisible] =
     useState(false);
+
   const toggleCalendarModal = () => {
     setCalendarModalVisibleVisible(!calendarModalVisible);
   };
-  const [toggleHotelListModal, setToggleHotelListModal] = useState(false);
 
-  const getUpdatedData = async () => {
+  const [hotelListModalVisible, setHotelListModalVisible] = useState(false);
+  function toggleHotelModal() {
+    setHotelListModalVisible(!hotelListModalVisible);
+  }
+
+  const getInitialData = async () => {
     setRefreshed(false);
-
     try {
       await getAllHotelPropertiesData().then(response => {
-        console.log(
-          '🚀🚀🚀 =>>> file: DashboardScreen.js =>>> line 69 =>>> awaitgetAllHotelPropertiesData =>>> response',
-          response,
-        );
         setHotelListData(response);
         setHotelID(response[0]);
+        setChosenHotelName(response[0].name);
         console.log('====================================');
         console.log('HOTEL LIST DATA =>>>>');
+        console.log(response);
         console.log(response.length);
-
         console.log('====================================');
       });
       await getDashboardData(hotelID, chosenDate).then(response => {
-        // console.log(response.data.data);
-        const byDateData = response.data.data.by_date_data;
-        const todayData = response.data.data.today_data;
+        const byDateData = response.by_date_data;
+        const todayData = response.today_data;
         setDashboardData({
           availableRooms: byDateData.available_rooms,
           currentLoad: Number.parseInt(byDateData.current_load),
@@ -104,11 +113,18 @@ export default function DashboardScreen({ navigation }) {
     }
   };
 
+  const handleChosenHotel = hotel => {
+    // setToggleHotelListModal(!toggleHotelListModal);
+    // alert(`CHOSEN HOTEL => ${hotel}`);
+    setHotelID(hotel.id);
+    setChosenHotelName(hotel.name);
+    toggleHotelModal();
+    // console.log(hotel);
+  };
+
   useEffect(() => {
-    getUpdatedData();
+    getInitialData();
   }, []);
-  // console.log(`THIS IS DASHBOARD DATA YOU SET, BRO :) ===>>>`);
-  // console.log(dashboardData);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
@@ -116,12 +132,9 @@ export default function DashboardScreen({ navigation }) {
         <ScrollView>
           <View style={[styles.hotelBar, POSITIONING.center]}>
             <TouchableOpacity
-              onPress={() => navigation.navigate('Comparison')}
+              onPress={toggleHotelModal}
               style={styles.dropdownIconStyle}>
-              <Text style={styles.hotelBarText}>
-                {/* {dashboardData?.name} */}
-                Kukaldosh Hotel
-              </Text>
+              <Text style={styles.hotelBarText}>{chosenHotelName}</Text>
               <Image source={dropdown} />
             </TouchableOpacity>
           </View>
@@ -554,7 +567,7 @@ export default function DashboardScreen({ navigation }) {
               )}
             </TouchableOpacity>
             {/* Plus Button */}
-            {/* <TouchableOpacity onPress={handleAddButtonPress}>
+            {/* <TouchableOpacity onPress={{}}>
             <Image source={addButton} style={{ width: 48, height: 48 }} />
           </TouchableOpacity> */}
           </View>
@@ -567,9 +580,28 @@ export default function DashboardScreen({ navigation }) {
       {calendarModalVisible && (
         <Overlay
           isVisible={calendarModalVisible}
-          onBackdropPress={toggleCalendarModal}>
+          onBackdropPress={toggleCalendarModal}
+          overlayStyle={{
+            backgroundColor: '#212831',
+            paddingTop: 40,
+            paddingBottom: 0,
+            top: -200,
+          }}>
           <Calendar handleAcceptButtonPress={toggleCalendarModal} />
         </Overlay>
+      )}
+
+      {/* Hotel List Modal Box */}
+
+      {hotelListModalVisible && (
+        <HotelModalBox
+          visible={hotelListModalVisible}
+          onTouchOutside={toggleHotelModal}
+          onQuitPress={toggleHotelModal}
+          onHotelChosen={handleChosenHotel}
+          hotelList={hotelListData}
+          chosenHotelID={hotelID}
+        />
       )}
     </SafeAreaView>
   );
