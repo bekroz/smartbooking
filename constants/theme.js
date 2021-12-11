@@ -87,12 +87,12 @@ export const FONTS = {
     lineHeight: 22,
   },
   body4: {
-    fontFamily: 'SF Pro Displa',
+    fontFamily: 'SF Pro Display',
     fontSize: SIZES.body4,
     lineHeight: 22,
   },
   body5: {
-    fontFamily: 'SF Pro Displa',
+    fontFamily: 'SF Pro Display',
     fontSize: SIZES.body5,
     lineHeight: 22,
   },
@@ -111,16 +111,11 @@ export const POSITIONING = {
   },
 };
 
-export const SAFEAREASTYLE = {
+export const DarkTheme = {
   flex: 1,
   backgroundColor: COLORS.darkBackground,
 };
 
-export const LOADERSTYLE = {
-  flex: 1,
-  backgroundColor: COLORS.blackBackground,
-};
-
-const theme = { COLORS, SIZES, FONTS, SAFEAREASTYLE, LOADERSTYLE };
+const theme = { COLORS, SIZES, FONTS };
 
 export default theme;

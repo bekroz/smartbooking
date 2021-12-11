@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import Svg, { G, Circle } from 'react-native-svg';
-import { COLORS } from '../constants/theme';
+import { COLORS, SIZES } from '../constants/theme';
 
 const DonutView = () => {
-  const radius = 70;
-  const circleCircumference = 3 * Math.PI * radius;
+  const radius = 65;
+  const circleCircumference = 4 * Math.PI * radius;
 
   const coralCircleData = 30;
   const blueCircleData = 10;
@@ -74,17 +74,17 @@ const DonutView = () => {
   return (
     <View style={styles.container}>
       <View style={styles.graphWrapper}>
-        <Svg height="100" width="100" viewBox="0 0 180 180">
+        <Svg height="160" width="160" viewBox="0 0 180 180">
           <G rotation={-90} originX="90" originY="90">
             <>
               {/* CORAL Circle */}
 
               {/* YELLOW Circle */}
-              {/* <Circle
+              <Circle
                 cx="50%"
                 cy="50%"
                 r={radius}
-                stroke={COLORS.greenCircle}
+                stroke={COLORS.yellow}
                 fill="transparent"
                 strokeWidth="15"
                 strokeDasharray={circleCircumference}
@@ -93,7 +93,7 @@ const DonutView = () => {
                 originX="90"
                 originY="90"
                 strokeLinecap="round"
-              /> */}
+              />
               <Circle
                 cx="50%"
                 cy="50%"
@@ -153,10 +153,43 @@ const DonutView = () => {
                 originY="90"
                 strokeLinecap="round"
               />
+              <Circle
+                cx="50%"
+                cy="50%"
+                r={radius}
+                stroke={COLORS.greenCircle}
+                fill="transparent"
+                strokeWidth="15"
+                strokeDasharray={circleCircumference}
+                strokeDashoffset={blueStrokeDashoffset}
+                rotation={blueCircleAngle}
+                originX="90"
+                originY="90"
+                strokeLinecap="round"
+              />
             </>
           </G>
         </Svg>
-        <Text style={styles.label}>{totalAmount}</Text>
+        {/* <Text style={styles.label}>{totalAmount}</Text> */}
+        <View
+          style={{
+            alignItems: 'center',
+            position: 'absolute',
+            alignSelf: 'center',
+          }}>
+          <Text style={{ color: COLORS.white, fontWeight: SIZES.fontWeight0 }}>
+            Booking.com
+          </Text>
+          <Text
+            style={{
+              color: COLORS.white,
+              fontSize: SIZES.body5,
+              fontWeight: SIZES.fontWeight2,
+              bottom: -5,
+            }}>
+            28%
+          </Text>
+        </View>
       </View>
     </View>
   );
@@ -182,19 +215,3 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
 });
-
-//               {/* GREEN Circle */}
-//               <Circle
-//                 cx="50%"
-//                 cy="50%"
-//                 r={radius}
-//                 stroke={COLORS.greenCircle}
-//                 fill="transparent"
-//                 strokeWidth="15"
-//                 strokeDasharray={circleCircumference}
-//                 strokeDashoffset={greenStrokeDashoffset}
-//                 rotation={greenCircleAngle}
-//                 originX="90"
-//                 originY="90"
-//                 strokeLinecap="round"
-//               />

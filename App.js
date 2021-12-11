@@ -1,20 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { View, StatusBar } from 'react-native';
-// Components
-import { SAFEAREASTYLE, LOADERSTYLE } from './constants/theme';
-import Loader from './components/Additionals/Loader';
-import AppStack from './AppStack';
+import { StatusBar } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { ModalPortal } from 'react-native-modals';
+// Component
+import Loader from './components/Loader/Loader';
+// Stack
+import AppStack from './stack/AppStack';
+// App theme
+import { DarkTheme } from './constants/theme';
+// DEV ==>> Testing new screens
+import TestingScreen from './components/Dashboard/Modals/HotelModalBox';
 
 export default function App() {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    setTimeout(() => setLoading(false), 3000);
+    setTimeout(() => setLoading(false), 1500);
   }, []);
 
   return (
-    <View style={loading ? LOADERSTYLE : SAFEAREASTYLE}>
+    <SafeAreaProvider style={DarkTheme}>
       <StatusBar animated={true} barStyle="light-content" />
       {loading ? <Loader /> : <AppStack />}
-    </View>
+      {/* <TestingScreen /> */}
+      <ModalPortal />
+    </SafeAreaProvider>
   );
 }

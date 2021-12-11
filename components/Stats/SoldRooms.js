@@ -1,25 +1,57 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   TouchableOpacity,
   Text,
   ScrollView,
   StyleSheet,
+  ActivityIndicator,
 } from 'react-native';
 import { Card } from 'react-native-elements/dist/card/Card';
 import { Divider } from 'react-native-elements/dist/divider/Divider';
-import styled from 'styled-components/native';
+import moment from 'moment';
 // Theme
 import { COLORS, SIZES } from '../../constants/theme';
+import useApi from '../../utils/api/useApi';
 // Components
 import BlueColumns from './BlueColumns';
 import LineChartData from './LineChartData';
 
+// Helpers
+import { numberWithSpaces } from '../../helpers';
+
 export default function SoldRooms() {
+  const { getStatisticsByYear } = useApi();
+  const [statisticsByYearData, setStatisticsByYearData] = useState(null);
+
+  const [hotelID, setHotelID] = useState(48);
+  const [chosenYear, setChosenYear] = useState(2021);
+  const [refreshed, setRefreshed] = useState(false);
+  const [cardChosen, setCardChosen] = useState(null);
+
+  const getUpdatedData = async () => {
+    try {
+      await getStatisticsByYear({ hotelID, chosenYear }).then(statistics => {
+        setStatisticsByYearData(statistics);
+        setRefreshed(true);
+        console.log('====================================');
+        refreshed && console.log(statisticsByYearData);
+        console.log('====================================');
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    setRefreshed(false);
+    getUpdatedData();
+  }, []);
+
   return (
-    <>
+    <ScrollView showsVerticalScrollIndicator={false}>
       <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={[
             styles.topBarBtn,
             {
@@ -35,48 +67,8 @@ export default function SoldRooms() {
             style={[styles.topBarText, { fontSize: 13, color: COLORS.white }]}>
             2021
           </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[
-            styles.topBarBtn,
-            {
-              backgroundColor: '#292F3A',
-              borderColor: '#5F85DB',
-              minWidth: 55,
-              height: 35,
-              margin: 10,
-              marginLeft: 0,
-            },
-          ]}>
-          <Text
-            style={[styles.topBarText, { fontSize: 13, color: COLORS.white }]}>
-            booking.com
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[
-            styles.topBarBtn,
-            {
-              backgroundColor: '#292F3A',
-              borderColor: '#5F85DB',
-              minWidth: 55,
-              maxWidth: 75,
-              height: 35,
-              margin: 10,
-              marginLeft: 0,
-            },
-          ]}>
-          <Text
-            style={[styles.topBarText, { fontSize: 13, color: COLORS.white }]}>
-            Августа
-          </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
-      <Divider
-        orientation="horizontal"
-        leftWidth={1}
-        color={COLORS.grayPlaceholderBorder}
-      />
       <View>
         <Text
           style={{
@@ -89,7 +81,9 @@ export default function SoldRooms() {
           Количество проданных ночей
         </Text>
       </View>
+
       {/* Chart and Line Graph View */}
+
       <View
         style={{
           marginBottom: 15,
@@ -102,8 +96,18 @@ export default function SoldRooms() {
           containerStyle={{
             justifyContent: 'center',
           }}>
-          <BlueColumns />
-          <LineChartData />
+          {refreshed ? (
+            <>
+              <BlueColumns />
+              <LineChartData />
+            </>
+          ) : (
+            <ActivityIndicator
+              animating={true}
+              color={COLORS.white}
+              left={180}
+            />
+          )}
         </ScrollView>
       </View>
       <Divider
@@ -123,84 +127,71 @@ export default function SoldRooms() {
           Количество проданных ночей
         </Text>
       </View>
-      <ScrollView>
-        <Card
-          containerStyle={[styles.card, styles.chosenCardStyle]}
-          title="SoldRooms">
-          {/* Card Context View */}
-          <View style={{ flexDirection: 'row' }}>
-            {/* LEFT-Side context */}
-            <View style={{ paddingRight: 20 }}>
-              <View style={{ marginBottom: 15 }}>
-                <Text style={{ color: COLORS.grayText }}>Дата:</Text>
-                <Text style={{ paddingTop: 5, color: COLORS.white }}>
-                  01 января - 03 декабря
-                </Text>
-              </View>
-              <View style={{ marginBottom: 15 }}>
-                <Text style={{ color: COLORS.grayText }}>
-                  Проданных номеров
-                </Text>
-                <WhiteText style={{ paddingTop: 5 }}>2</WhiteText>
-              </View>
-            </View>
-            {/* RIGHT-Side context */}
-            <View>
-              <View style={{ marginBottom: 15 }}>
-                <Text style={{ color: COLORS.grayText }}>Занято номеров:</Text>
-                <Text style={{ paddingTop: 5, color: COLORS.white }}>
-                  0.29%
-                </Text>
-              </View>
-              <View style={{ marginBottom: 15 }}>
-                <Text style={{ color: COLORS.grayText }}>Доход UZS</Text>
-                <Text style={{ paddingTop: 5, color: COLORS.white }}>
-                  10 277 000
-                </Text>
-              </View>
-            </View>
-          </View>
-        </Card>
+      <ScrollView showsHorizontalScrollIndicator={false}>
+        {refreshed ? (
+          statisticsByYearData?.map((stat, index) => (
+            <TouchableOpacity key={index}>
+              <Card
+                containerStyle={[styles.card, styles.chosenCardStyle]}
+                title="SoldRooms">
+                {/* Card Context View */}
+                <View style={{ flexDirection: 'row' }}>
+                  {/* LEFT-Side context */}
+                  <View style={{ marginRight: 20, flex: 1 }}>
+                    <View style={{ marginBottom: 15 }}>
+                      <Text style={{ color: COLORS.grayText }}>Дата:</Text>
+                      <Text style={{ paddingTop: 5, color: COLORS.white }}>
+                        {moment(stat?.start_date).format('DD MMM')} -{' '}
+                        {moment(stat?.end_date).format('DD MMM')}
+                      </Text>
+                    </View>
+                    <View style={{ marginBottom: 15 }}>
+                      <Text style={{ color: COLORS.grayText }}>
+                        Проданных номеров
+                      </Text>
+                      <Text style={{ paddingTop: 5, color: COLORS.white }}>
+                        {numberWithSpaces(stat?.reserved)}
+                      </Text>
+                    </View>
+                  </View>
+                  {/* RIGHT-Side context */}
+                  <View style={{ flex: 1 }}>
+                    <View style={{ marginBottom: 15 }}>
+                      <Text style={{ color: COLORS.grayText }}>
+                        Занято номеров:
+                      </Text>
+                      <Text style={{ paddingTop: 5, color: COLORS.white }}>
+                        {stat?.load_by_period} %
+                      </Text>
+                    </View>
 
-        <Card containerStyle={styles.card} title="SoldRooms">
-          {/* Card Context View */}
-          <View style={{ flexDirection: 'row' }}>
-            {/* LEFT-Side context */}
-            <View style={{ paddingRight: 20 }}>
-              <View style={{ marginBottom: 15 }}>
-                <Text style={{ color: COLORS.grayText }}>Дата:</Text>
-                <Text style={{ paddingTop: 5, color: COLORS.white }}>
-                  01 января - 03 декабря
-                </Text>
-              </View>
-              <View style={{ marginBottom: 15 }}>
-                <Text style={{ color: COLORS.grayText }}>
-                  Проданных номеров
-                </Text>
-                <Text style={{ paddingTop: 5, color: COLORS.white }}>2</Text>
-              </View>
-            </View>
-            {/* RIGHT-Side context */}
-            <View>
-              <View style={{ marginBottom: 15 }}>
-                <Text style={{ color: COLORS.grayText }}>Занято номеров:</Text>
-                <Text style={{ paddingTop: 5, color: COLORS.white }}>
-                  0.29%
-                </Text>
-              </View>
-              <View style={{ marginBottom: 15 }}>
-                <Text style={{ color: COLORS.grayText }}>Доход UZS</Text>
-                <Text style={{ paddingTop: 5, color: COLORS.white }}>
-                  10 277 000
-                </Text>
-              </View>
-            </View>
-          </View>
-        </Card>
+                    <View style={{ marginBottom: 15 }}>
+                      <Text style={{ color: COLORS.grayText }}>Доход UZS</Text>
+                      <Text style={{ paddingTop: 5, color: COLORS.white }}>
+                        {numberWithSpaces(stat?.revenue)}
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              </Card>
+            </TouchableOpacity>
+          ))
+        ) : (
+          <Card
+            containerStyle={[styles.card, styles.chosenCardStyle]}
+            title="SoldRooms">
+            {/* Card Context View */}
+            <ActivityIndicator
+              animating={true}
+              color={COLORS.white}
+              marginTop={40}
+            />
+          </Card>
+        )}
 
         <View style={{ paddingBottom: 100 }} />
       </ScrollView>
-    </>
+    </ScrollView>
   );
 }
 
@@ -229,7 +220,7 @@ const styles = StyleSheet.create({
     height: 140,
   },
   chosenCardStyle: {
-    borderColor: COLORS.blue,
+    borderColor: COLORS.grayPlaceholder,
   },
   priceText: {
     fontSize: SIZES.body5,
@@ -244,11 +235,3 @@ const styles = StyleSheet.create({
     fontWeight: SIZES.fontWeight3,
   },
 });
-
-const WhiteText = styled.Text`
-  color: #ffffff;
-`;
-
-const GrayText = styled.Text`
-  color: #657282;
-`;
