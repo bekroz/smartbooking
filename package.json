@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android",
-    "ios": "react-native run-ios",
+    "ios": "yarn install && cd ios && pod deintegrate && rm -rf Pods/ && rm -rf Podfile.lock && pod install && cd .. && xcrun simctl shutdown all && xcrun simctl erase all && react-native run-ios",
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",

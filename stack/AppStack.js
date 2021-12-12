@@ -57,7 +57,7 @@ const AppStack = navigation => {
           headerShown: false,
         }}>
         {/* Private Routes */}
-        {!user ? (
+        {user ? (
           <>
             <Stack.Screen name="HomeScreen" component={HomeNavigator} />
             <Stack.Screen name="DashboardScreen" component={DashboardScreen} />
@@ -71,6 +71,7 @@ const AppStack = navigation => {
         ) : (
           <>
             <Stack.Screen name="LoginScreen" component={LoginScreen} />
+            <Stack.Screen name="HomeScreen" component={HomeNavigator} />
             <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
             <Stack.Screen name="RestoreScreen" component={RestoreScreen} />
             <Stack.Screen name="TermsScreen" component={TermsScreen} />

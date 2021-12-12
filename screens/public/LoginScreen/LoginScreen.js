@@ -6,7 +6,7 @@ import {
   View,
   TextInput,
   SafeAreaView,
-  Image,
+  ActivityIndicator,
   Alert,
 } from 'react-native';
 import {
@@ -21,6 +21,7 @@ import { emailValidator, passwordValidator } from '../../../helpers';
 import { ShowPassword, HidePassword } from '../../../assets/icons/SvgIcons';
 // Components
 import { AuthContext } from '../../../contexts/AuthContext';
+import { set } from 'react-native-reanimated';
 
 export default function LoginScreen({ navigation }) {
   // const {
@@ -42,6 +43,7 @@ export default function LoginScreen({ navigation }) {
   const [password, setPassword] = useState({ value: '', error: '' });
   const [secureTextEntry, setSecureTextEntry] = useState(true);
   const [user, setUser] = useState(null);
+  const [loginRequest, setLoginRequest] = useState(false);
 
   function registerButtonPress() {
     navigation.navigate('NoFoundScreen');
@@ -75,27 +77,24 @@ export default function LoginScreen({ navigation }) {
       email: email.value,
       password: password.value,
     };
-
+    setLoginRequest(true);
     await AsyncStorage.setItem('USER', JSON.stringify(userSecret));
     try {
-      await handleIOSAuthentication().then(
-        handleIOSAuthorization(userSecret).then(userToken => {
-          if (userToken) {
-            navigation.replace('HomeScreen');
-            setUser(userToken);
-          } else {
-            console.error(error);
-          }
-        }),
-      );
+      await handleIOSAuthorization(userSecret).then(userToken => {
+        if (userToken) {
+          navigation.replace('HomeScreen');
+          setUser(userToken);
+        } else {
+          console.error(error);
+          alert('Your password is invalid');
+        }
+      });
     } catch (error) {
       console.error(error);
+      // setLoginRequest(false);
+      alert('Server error: ' + error);
     }
   };
-
-  // useEffect(() => {
-  //   user ? handleLogin() : navigation.navigate('Login');
-  // }, []);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
@@ -150,7 +149,15 @@ export default function LoginScreen({ navigation }) {
         <TouchableOpacity
           style={[styles.emailSignInButton, POSITIONING.center]}
           onPress={handleLogin}>
-          <Text style={styles.loginText}>Войти</Text>
+          {loginRequest ? (
+            <ActivityIndicator
+              animating={true}
+              color={COLORS.white}
+              marginTop={0}
+            />
+          ) : (
+            <Text style={styles.loginText}>Войти</Text>
+          )}
         </TouchableOpacity>
         {/* <AppleButton
           buttonStyle={AppleButton.Style.WHITE}
@@ -232,8 +239,8 @@ const styles = StyleSheet.create({
     color: COLORS.blue,
     position: 'absolute',
     fontSize: 14,
-    // fontFamily: 'SF Pro Display',
     marginBottom: 36,
+    // fontFamily: 'SF Pro Display',
   },
   loginText: {
     color: COLORS.white,
@@ -241,7 +248,7 @@ const styles = StyleSheet.create({
     height: 21,
     fontSize: SIZES.body4,
     fontWeight: SIZES.fontWeight3,
-    // fontFamily: 'SF Pro Display',
+    fontFamily: 'SF Pro Display',
   },
   appleButton: {
     width: SIZES.blockWidth,
