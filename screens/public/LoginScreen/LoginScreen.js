@@ -18,8 +18,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import useApi from '../../../utils/api/useApi';
 import { emailValidator, passwordValidator } from '../../../helpers';
 // Icons
-import showEye from '../../../assets/icons/showEye.png';
-import noShowEye from '../../../assets/icons/noShowEye.png';
+import { ShowPassword, HidePassword } from '../../../assets/icons/SvgIcons';
 // Components
 import { AuthContext } from '../../../contexts/AuthContext';
 
@@ -116,13 +115,12 @@ export default function LoginScreen({ navigation }) {
               autoCompleteType="email"
               textContentType="emailAddress"
               keyboardType="email-address"
-              es
             />
           </View>
-          <Text style={styles.password}>Password</Text>
+          <Text style={styles.password}>Пароль</Text>
           <View style={{ justifyContent: 'center' }}>
             <TextInput
-              label="Password"
+              label="Пароль"
               secureTextEntry={secureTextEntry}
               style={styles.placeholder}
               value={password}
@@ -133,20 +131,11 @@ export default function LoginScreen({ navigation }) {
               style={{
                 position: 'absolute',
                 alignSelf: 'flex-end',
+                right: 10,
+                top: 8,
               }}
               onPress={() => setSecureTextEntry(!secureTextEntry)}>
-              <Image
-                source={secureTextEntry ? noShowEye : showEye}
-                style={{
-                  width: 25,
-                  height: 25,
-                  tintColor: COLORS.grayPlaceholderBorder,
-                  right: 0,
-                  marginRight: 10,
-                  top: 2,
-                }}
-                resizeMode="contain"
-              />
+              {secureTextEntry ? <HidePassword /> : <ShowPassword />}
             </TouchableOpacity>
           </View>
         </View>
@@ -171,10 +160,10 @@ export default function LoginScreen({ navigation }) {
         /> */}
         <View style={styles.registerTextBlock}>
           <Text style={styles.registerTextBlock}>Нет аккаунта? </Text>
-          <TouchableOpacity onPress={registerButtonPress}>
-            <Text style={[styles.registerTextBlock, styles.registerText]}>
-              Регистрируйтесь!
-            </Text>
+          <TouchableOpacity
+            onPress={registerButtonPress}
+            style={styles.registerTextBlock}>
+            <Text style={styles.registerText}>Регистрируйтесь!</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -184,8 +173,8 @@ export default function LoginScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   titleBlock: {
-    flexGrow: 2,
-    top: -120,
+    flexGrow: 1,
+    top: -180,
   },
   titleText: {
     color: COLORS.white,
@@ -200,46 +189,51 @@ const styles = StyleSheet.create({
     color: COLORS.white,
     fontSize: SIZES.body5,
     margin: 10,
+    marginBottom: 24,
   },
   email: {
-    color: COLORS.grayText,
+    color: '#939393',
+    marginBottom: 4,
+    marginLeft: 10,
   },
   password: {
-    color: COLORS.grayText,
-    marginTop: 10,
-    marginBottom: 10,
+    color: '#939393',
+    marginBottom: 4,
+    marginLeft: 5,
   },
   placeholder: {
     width: SIZES.blockWidth,
     height: 40,
-    borderColor: COLORS.grayPlaceholderBorder,
-    borderWidth: 1,
+    borderColor: '#35373A',
+    borderWidth: 0.5,
     borderRadius: 6,
     paddingLeft: 10,
     paddingRight: 10,
-    marginTop: 5,
     color: COLORS.white,
     backgroundColor: COLORS.grayPlaceholder,
     fontWeight: SIZES.fontWeight1,
     fontSize: SIZES.body5,
+    marginBottom: 16,
   },
   socialButtonsBlock: {
-    top: -220,
+    top: -280,
     height: SIZES.blockHeight,
   },
   emailSignInButton: {
     backgroundColor: COLORS.blue,
     padding: 15,
-    marginBottom: 0,
-    borderRadius: 5,
+
+    borderRadius: 6,
     width: SIZES.blockWidth,
     height: SIZES.blockHeight,
-    top: -50,
+    top: -55,
   },
   forgotPasswordText: {
     color: COLORS.blue,
     position: 'absolute',
-    top: 25,
+    fontSize: 14,
+    // fontFamily: 'SF Pro Display',
+    marginBottom: 36,
   },
   loginText: {
     color: COLORS.white,
@@ -258,9 +252,10 @@ const styles = StyleSheet.create({
     fontSize: SIZES.body6,
     fontWeight: SIZES.fontWeight1,
     color: COLORS.white,
-    top: -15,
+    top: -20,
   },
   registerText: {
     color: COLORS.blue,
+    fontWeight: SIZES.fontWeight2,
   },
 });

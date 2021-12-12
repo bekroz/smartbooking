@@ -8,19 +8,11 @@ import { COLORS, SIZES } from '../constants/theme';
 import {
   DashboardScreen,
   ReservationScreen,
-  ComparisonScreen,
   StatsScreen,
   SettingsScreen,
   CalendarScreen,
 } from '../screens/private';
 // Icons
-// import dashboardIcon from '../constants/icons';
-import RESERVATIONICON from '../assets/icons/reservationsIcon.svg';
-// import calendarIcon from '../images/calendar.png';
-import StatsIcon from '../assets/icons/statsIcon.svg';
-import moreIcon from '../images/more.png';
-// REMOVE THIS
-import APITESTER from '../removables/APITESTER';
 
 const Tab = createBottomTabNavigator();
 

@@ -1,6 +1,13 @@
-import { combineReducers } from 'redux';
-
-const authData = (state = {}, action) => {
+const authDataReducer = (state = {}, action) => {
+  const initialState = {
+    token: null,
+    isLoggedIn: false,
+    user: {},
+    isLoading: false,
+    isError: false,
+    isSuccess: false,
+    errors: null,
+};
   switch (action.type) {
     case 'AUTH_USER_SUCCESS':
       return {
@@ -18,7 +25,7 @@ const authData = (state = {}, action) => {
   }
 };
 
-const createUser = (state = {}, action) => {
+const createUserReducer = (state = {}, action) => {
   switch (action.type) {
     case 'CREATE_USER_LOADING':
       return {
@@ -49,7 +56,7 @@ const createUser = (state = {}, action) => {
   }
 };
 
-const loginUser = (state = {}, action) => {
+const loginUserReducer = (state = {}, action) => {
   switch (action.type) {
     case 'LOGIN_USER_LOADING':
       return {
@@ -80,8 +87,4 @@ const loginUser = (state = {}, action) => {
   }
 };
 
-export default combineReducers({
-  createUser,
-  loginUser,
-  authData,
-});
+export { createUserReducer, loginUserReducer, authDataReducer };

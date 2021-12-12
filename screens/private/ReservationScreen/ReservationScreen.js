@@ -55,7 +55,12 @@ export default function ReservationScreen() {
     try {
       await getHotelAllReservationsData(params).then(response => {
         console.log('====================================');
-        console.log(response.meta);
+        console.log(
+          '🚀🚀🚀 =>>> file: ReservationScreen.js =>>> line 59 =>>> awaitgetHotelAllReservationsData =>>> response',
+        );
+        console.log(response.data);
+        console.log(response.data.length);
+        // console.log(response.meta);
         console.log('====================================');
         const receivedData = response.data;
         params.page = response.meta.currentPage;
@@ -102,6 +107,7 @@ export default function ReservationScreen() {
     'Выехал',
     'Не заезд',
   ];
+  
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
       <View>

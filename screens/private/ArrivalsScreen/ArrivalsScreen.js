@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import {
   View,
@@ -39,6 +39,10 @@ export default function ArrivalsScreen({ navigation }) {
   const status = ['Выезды', 'Заезды', 'Проживают'];
 
   const { getHotelSingleReservationData } = useApi();
+
+  useEffect(async () => {
+    await getHotelSingleReservationData();
+  }, []);
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
       {refreshed ? (
@@ -185,7 +189,7 @@ export default function ArrivalsScreen({ navigation }) {
                     style={{
                       fontSize: SIZES.body7,
                       color: COLORS.white,
-                      fontweight: SIZES.fontWeight0,
+                      fontWeight: SIZES.fontWeight0,
                     }}>
                     22 Окт
                   </Text>
