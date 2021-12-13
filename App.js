@@ -9,6 +9,7 @@ import AppStack from './stack/AppStack';
 // App theme
 import { DarkTheme } from './constants/theme';
 // DEV ==>> Testing new screens
+// import TestingScreen from './components/Calendar/MonthPicker/MonthDatePicker';
 // Wrapping App with persisting Redux store provider
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistedStore } from './redux/store/store';
@@ -18,7 +19,7 @@ import useApi from './utils/api/useApi';
 export default function App() {
   const [loading, setLoading] = useState(true);
   const { handleIOSAuthentication } = useApi();
-  
+
   useEffect(() => {
     setTimeout(() => setLoading(false), 2000);
     handleIOSAuthentication();

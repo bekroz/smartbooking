@@ -26,11 +26,9 @@ import { NoDataToShow } from '../../../components/UserAlerts';
 // Helpers
 import { numberWithSpaces, wordTruncator } from '../../../helpers';
 // Icons
-import dropdown from '../../../images/dropdown.png';
-import searchIcon from '../../../images/search.png';
 import moonIcon from '../../../images/moon.png';
 import personIcon from '../../../images/person.png';
-import { GoBackSvg } from '../../../assets/icons/SvgIcons';
+import { GoBackButton } from '../../../components/Buttons';
 // api
 import useApi from '../../../utils/api/useApi';
 
@@ -98,8 +96,14 @@ export default function ArrivalsScreen({ navigation }) {
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
       {refreshed ? (
         <ScrollView>
-          <View>
-            <GoBackSvg />
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginBottom: 23,
+            }}>
+            <GoBackButton />
             <HotelListBar />
           </View>
           <View>
@@ -144,7 +148,7 @@ export default function ArrivalsScreen({ navigation }) {
           </View>
 
           {/* Card Container */}
-          {!reservedRoomsListData ? (
+          {reservedRoomsListData ? (
             reservedRoomsListData.map((room, index) => (
               <Card key={index} containerStyle={styles.card} title="Guests">
                 {/* LEFT Side Content */}

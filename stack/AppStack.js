@@ -56,7 +56,7 @@ const AppStack = navigation => {
         screenOptions={{
           headerShown: false,
         }}
-        initialRouteName="ArrivalsScreen">
+        initialRouteName="LoginScreen">
         {/* Private Routes */}
         <>
           <Stack.Screen name="HomeScreen" component={HomeNavigator} />
@@ -66,8 +66,8 @@ const AppStack = navigation => {
           <Stack.Screen name="StatsScreen" component={StatsScreen} />
           <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
           <Stack.Screen name="ArrivalsScreen" component={ArrivalsScreen} />
+          {/* Public Routes */}
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
-
           <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
           <Stack.Screen name="RestoreScreen" component={RestoreScreen} />
           <Stack.Screen name="TermsScreen" component={TermsScreen} />

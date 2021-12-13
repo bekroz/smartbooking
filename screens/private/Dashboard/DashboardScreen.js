@@ -11,24 +11,28 @@ import {
 } from 'react-native';
 import { MultiArcCircle } from 'react-native-circles';
 import { Overlay } from 'react-native-elements';
+import NetInfo from '@react-native-community/netinfo';
 // Theme
 import { COLORS, POSITIONING, SIZES } from '../../../constants/theme';
 // Icons
 import leftArrow from '../../../images/leftArrow.png';
 import rightArrow from '../../../images/rightArrow.png';
-import dropdown from '../../../images/dropdown.png';
-// import addButton from '../../images/addButton.png';
 // Components
 import DayPick from '../../../components/Dashboard/DayPick';
 import PercentageCircle from '../../../components/Dashboard/PercentageCircle';
 import EmptyRoomsCircle from '../../../components/Dashboard/EmptyRoomsCircle';
 import useApi from '../../../utils/api/useApi';
 import Calendar from '../../../components/Calendar/Calendar';
+import { HotelListBar } from '../../../components/Dashboard';
+import HotelModalBox from '../../../components/Dashboard/Modals/HotelModalBox';
 // Helpers
 import { numberWithSpaces } from '../../../helpers';
-import HotelModalBox from '../../../components/Dashboard/Modals/HotelModalBox';
 
 export default function DashboardScreen({ navigation }) {
+  NetInfo.addEventListener(networkState => {
+    console.log('Connection type - ', networkState.type);
+    console.log('Is connected? - ', networkState.isConnected);
+  });
   // API HANDLERS
   const { getAllHotelPropertiesData, getDashboardData } = useApi();
 
@@ -47,15 +51,6 @@ export default function DashboardScreen({ navigation }) {
 
   const handleArcBarPress = async () => {
     navigation.navigate('ArrivalsScreen');
-  };
-
-  const handleLogOutButtonPress = async () => {
-    try {
-      clearStorage();
-    } catch (error) {
-      console.error(error);
-    }
-    navigation.replace('LoginScreen');
   };
 
   const [chosenDate, setChosenDate] = useState('2021-12-01');
@@ -130,13 +125,11 @@ export default function DashboardScreen({ navigation }) {
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
       {refreshed ? (
         <ScrollView>
-          <View style={[styles.hotelBar, POSITIONING.center]}>
-            <TouchableOpacity
+          <View style={POSITIONING.center}>
+            <HotelListBar
               onPress={toggleHotelModal}
-              style={styles.dropdownIconStyle}>
-              <Text style={styles.hotelBarText}>{chosenHotelName}</Text>
-              <Image source={dropdown} />
-            </TouchableOpacity>
+              hotelName={chosenHotelName}
+            />
           </View>
           <View style={styles.dateBlock}>
             <TouchableOpacity style={styles.arrowIconStyle}>
@@ -608,16 +601,6 @@ export default function DashboardScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  hotelBar: {
-    flexDirection: 'row',
-  },
-  hotelBarText: {
-    fontWeight: SIZES.fontWeight1,
-    fontSize: SIZES.body6,
-    color: COLORS.white,
-    padding: SIZES.base,
-    // fontFamily: 'SF Pro Display',
-  },
   dateBlock: {
     alignItems: 'center',
     justifyContent: 'space-between',
