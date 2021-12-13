@@ -5,15 +5,18 @@ import {
   SafeAreaView,
   StyleSheet,
   TouchableOpacity,
-  Image,
   ActivityIndicator,
+  ScrollView,
 } from 'react-native';
-import { COLORS, SIZES } from '../../../constants/theme';
 import { Card } from 'react-native-elements/dist/card/Card';
-import { ScrollView } from 'react-native-gesture-handler';
+// Theme
+import { COLORS, SIZES } from '../../../constants/theme';
+// Buttons
 import { GoBackSvg } from '../../../assets/icons/SvgIcons';
-import useApi from '../../../utils/api/useApi';
+// Helpers
 import { numberWithSpaces, getMonthName } from '../../../helpers';
+// API
+import useApi from '../../../utils/api/useApi';
 
 export default function ComparisonScreen({ navigation }) {
   function handleBackButtonPress() {
@@ -45,11 +48,6 @@ export default function ComparisonScreen({ navigation }) {
     setRefreshed(false);
     getUpdatedData();
   }, []);
-
-  console
-    .log
-    // comparisonData?.revenue / comparisonData?.compare_revenue_percent,
-    ();
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -20,20 +20,14 @@ import {
   DoloresDot,
   OtherDot,
 } from '../Reservations/StatusView/DotView';
-// Components
 import ByUserLine from '../Stats/Lines/ByUserLine';
 import TelephoneLine from '../Stats/Lines/TelephoneLine';
 import SitesLine from '../Stats/Lines/SitesLine';
 import BookingLine from '../Stats/Lines/BookingLine';
 import TraminaLine from '../Stats/Lines/TraminaLine';
 import DoloresLine from '../Stats/Lines/DoloresLine';
-import OtherLine from '../Stats/Lines/OtherLine';
-
+// API
 import useApi from '../../utils/api/useApi';
-import { useEffect } from 'react';
-import { useState } from 'react';
-import DonutView from '../../removables/DonutView';
-import { numberWithSpaces } from '../../helpers';
 
 export default function Details() {
   const currency = 'UZS';
@@ -100,7 +94,7 @@ export default function Details() {
             justifyContent: 'center',
             marginTop: 5,
             paddingBottom: 0,
-            paddingTop: 5
+            paddingTop: 5,
           }}>
           <TouchableOpacity
             style={[

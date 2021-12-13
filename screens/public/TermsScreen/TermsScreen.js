@@ -1,13 +1,16 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import LottieView from 'lottie-react-native';
+// Theme
 import { COLORS } from '../../../constants/theme';
 
 export default function TermsScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      <LottieView source={require('../../../images/splash.json')} autoPlay />
-
+      <LottieView
+        source={require('../../../assets/icons/splash.json')}
+        autoPlay
+      />
       <Text style={styles.loaderBottomText}>Setting up dashboard ...</Text>
       <TouchableOpacity
         style={styles.userAgreementBlock}

@@ -1,14 +1,8 @@
 import React from 'react';
-import {
-  Modal,
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+// Theme
 import { COLORS, POSITIONING, SIZES } from '../../../constants/theme';
-import { Overlay } from 'react-native-elements';
+// Icons
 import quit from '../../../images/quit.png';
 
 export default function DashboardModal() {

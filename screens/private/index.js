@@ -1,4 +1,4 @@
-import DashboardScreen from './Dashboard/DashboardScreen';
+import DashboardScreen from './DashboardScreen/DashboardScreen';
 import CalendarScreen from './CalendarScreen/CalendarScreen';
 import ReservationScreen from './ReservationScreen/ReservationScreen';
 import StatsScreen from './StatsScreen/StatsScreen';

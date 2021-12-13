@@ -4,23 +4,18 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Image,
   SafeAreaView,
   ScrollView,
   ActivityIndicator,
 } from 'react-native';
 import { Card } from 'react-native-elements/dist/card/Card';
 import { Divider } from 'react-native-elements/dist/divider/Divider';
-import AwesomeLoading from 'react-native-awesome-loading';
 import moment from 'moment';
 // Theme
 import { COLORS, SIZES } from '../../../constants/theme';
 // Icons
-import searchIcon from '../../../images/search.png';
-import moonIcon from '../../../images/moon.png/';
-import personIcon from '../../../images/person.png/';
+import { SearchSvg, MoonSvg, PersonSvg } from '../../../assets/icons/SvgIcons';
 // Components
-import useApi from '../../../utils/api/useApi';
 import {
   ConfirmedStatus,
   InHouseStatus,
@@ -28,7 +23,10 @@ import {
   CanceledStatus,
   NoShowStatus,
 } from '../../../components/Reservations/StatusView';
+// Helpers
 import { wordTruncator, numberWithSpaces } from '../../../helpers';
+// API
+import useApi from '../../../utils/api/useApi';
 
 export default function ReservationScreen() {
   const handleSearchButton = () => {
@@ -56,7 +54,6 @@ export default function ReservationScreen() {
         console.log('====================================');
         console.log(response.data);
         console.log(response.data.length);
-        // console.log(response.meta);
         console.log('====================================');
         const receivedData = response.data;
         params.page = response.meta.currentPage;
@@ -91,10 +88,6 @@ export default function ReservationScreen() {
     }
   }
 
-  console.log('====================================');
-  console.log(lastPage);
-  console.log('====================================');
-
   const typeStayDates = ['Бронирование', 'Заезд', 'Выезд', 'Проживание'];
   const statuses = [
     'Подтверждено',
@@ -113,7 +106,7 @@ export default function ReservationScreen() {
           </Text>
           <TouchableOpacity style={styles.search} onPress={() => loadNewData()}>
             <View>
-              <Image source={searchIcon} />
+              <SearchSvg />
             </View>
           </TouchableOpacity>
         </View>
@@ -185,12 +178,13 @@ export default function ReservationScreen() {
                   style={{
                     flexDirection: 'row',
                   }}>
-                  <Image source={moonIcon} />
+                  <MoonSvg />
                   <Text style={{ color: COLORS.white }}>
                     {' '}
                     {reservation?.nights}
                   </Text>
-                  <Image style={{ marginLeft: 10 }} source={personIcon} />
+                  <View style={{ marginLeft: 10 }}></View>
+                  <PersonSvg />
                   <Text style={{ color: COLORS.white }}>
                     {' '}
                     {reservation?.total_guests}

@@ -1,17 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Modal } from 'react-native-modals';
 import { ModalContent as LandingModalContent } from 'react-native-modals';
-import {
-  Text,
-  View,
-  Image,
-  Button,
-  StyleSheet,
-  TouchableOpacity,
-  ActivityIndicator,
-} from 'react-native';
+import { Text, View, Image, StyleSheet, TouchableOpacity } from 'react-native';
+// Theme
 import { COLORS, POSITIONING, SIZES } from '../../../constants/theme';
-import useApi from '../../../utils/api/useApi';
+// Icons
 import quitIcon from '../../../images/quit.png';
 
 const HotelModalBox = ({

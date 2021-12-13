@@ -6,44 +6,40 @@ import {
   StyleSheet,
   ActivityIndicator,
   ScrollView,
-  TouchableOpacity,
-  Image,
   SafeAreaView,
 } from 'react-native';
 import moment from 'moment';
 import { Card } from 'react-native-elements/dist/card/Card';
 import { Divider } from 'react-native-elements/dist/divider/Divider';
 // Theme
-import { COLORS, POSITIONING, SIZES } from '../../../constants/theme';
+import { COLORS, SIZES } from '../../../constants/theme';
 // Components
 import { HotelListBar } from '../../../components/Dashboard';
-import {
-  YellowLineIndicator,
-  BlueLineIndicator,
-  GreenLineIndicator,
-} from '../../../components/Dashboard/LineIndicator';
 import { NoDataToShow } from '../../../components/UserAlerts';
 // Helpers
 import { numberWithSpaces, wordTruncator } from '../../../helpers';
 // Icons
-import moonIcon from '../../../images/moon.png';
-import personIcon from '../../../images/person.png';
+import {
+  MoonSvg,
+  PersonSvg,
+  YellowLineIndicatorSvg,
+  GreenLineIndicatorSvg,
+  BlueLineIndicatorSvg,
+} from '../../../assets/icons/SvgIcons';
+// Buttons
 import { GoBackButton } from '../../../components/Buttons';
-// api
+// API
 import useApi from '../../../utils/api/useApi';
 
 export default function ArrivalsScreen({ navigation }) {
+  const { getReservedRoomsListData } = useApi();
   const [refreshed, setRefreshed] = useState(false);
   const chosenHotelName = 'Kukaldosh Hotel';
-
   const status = ['Выезды', 'Заезды', 'Проживают'];
-
-  const { getReservedRoomsListData } = useApi();
   const [hotelID, setHotelID] = useState(48);
   const [chosenDate, setChosenDate] = useState('2021-12-13');
   const [typeOfStay, setTypeOfStay] = useState('arrived');
   const [reservedRoomsListData, setReservedRoomsListData] = useState([]);
-  // typeOfStays: #1 arrived #2 left, #3 living
   const [pageIndex, setPageIndex] = useState(1);
   const [lastPage, setLastPage] = useState(false);
   const [noData, setNoData] = useState(false);
@@ -152,9 +148,9 @@ export default function ArrivalsScreen({ navigation }) {
             reservedRoomsListData.map((room, index) => (
               <Card key={index} containerStyle={styles.card} title="Guests">
                 {/* LEFT Side Content */}
-                {typeOfStay === 'arrived' && <GreenLineIndicator />}
-                {typeOfStay === 'left' && <YellowLineIndicator />}
-                {typeOfStay === 'living' && <BlueLineIndicator />}
+                {typeOfStay === 'arrived' && <GreenLineIndicatorSvg />}
+                {typeOfStay === 'left' && <YellowLineIndicatorSvg />}
+                {typeOfStay === 'living' && <BlueLineIndicatorSvg />}
                 <View
                   style={{
                     alignItems: 'center',
@@ -196,9 +192,11 @@ export default function ArrivalsScreen({ navigation }) {
                     style={{
                       flexDirection: 'row',
                     }}>
-                    <Image source={moonIcon} />
+                    <MoonSvg />
                     <Text style={{ color: COLORS.white }}> {room?.nights}</Text>
-                    <Image style={{ marginLeft: 10 }} source={personIcon} />
+                    <View style={{ marginLeft: 10 }}>
+                      <PersonSvg />
+                    </View>
                     <Text style={{ color: COLORS.white }}> {room?.adults}</Text>
                   </View>
                 </View>

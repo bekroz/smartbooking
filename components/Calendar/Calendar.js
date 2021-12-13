@@ -1,15 +1,8 @@
-import moment from 'moment';
 import React, { useState } from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
-import DateRangePicker from 'rn-select-date-range';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+// Components
 import Calendar from '../Additionals/date-picker';
+// Theme
 import { COLORS, SIZES } from '../../constants/theme';
 
 const App = ({ handleAcceptButtonPress }) => {

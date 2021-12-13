@@ -8,12 +8,7 @@ import Loader from './components/Loader/Loader';
 import AppStack from './stack/AppStack';
 // App theme
 import { DarkTheme } from './constants/theme';
-// DEV ==>> Testing new screens
-// import TestingScreen from './components/Calendar/MonthPicker/MonthDatePicker';
-// Wrapping App with persisting Redux store provider
-import { PersistGate } from 'redux-persist/integration/react';
-import { store, persistedStore } from './redux/store/store';
-import { Provider } from 'react-redux';
+// API
 import useApi from './utils/api/useApi';
 
 export default function App() {
@@ -26,15 +21,11 @@ export default function App() {
   }, []);
 
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistedStore}>
-        <SafeAreaProvider style={DarkTheme}>
-          <StatusBar animated={true} barStyle="light-content" />
-          {loading ? <Loader /> : <AppStack />}
-          {/* <TestingScreen /> */}
-          <ModalPortal />
-        </SafeAreaProvider>
-      </PersistGate>
-    </Provider>
+    <SafeAreaProvider style={DarkTheme}>
+      <StatusBar animated={true} barStyle="light-content" />
+      {loading ? <Loader /> : <AppStack />}
+      {/* <TestingScreen /> */}
+      <ModalPortal />
+    </SafeAreaProvider>
   );
 }

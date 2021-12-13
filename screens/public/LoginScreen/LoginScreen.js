@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,39 +9,21 @@ import {
   ActivityIndicator,
   Alert,
 } from 'react-native';
-import {
-  AppleButton,
-  // appleAuth,
-} from '@invertase/react-native-apple-authentication';
-import { COLORS, POSITIONING, SIZES } from '../../../constants/theme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import useApi from '../../../utils/api/useApi';
-import { emailValidator, passwordValidator } from '../../../helpers';
+// Theme
+import { COLORS, POSITIONING, SIZES } from '../../../constants/theme';
 // Icons
 import {
   ShowPasswordSvg,
   HidePasswordSvg,
 } from '../../../assets/icons/SvgIcons';
-// Components
-import { AuthContext } from '../../../contexts/AuthContext';
-import { set } from 'react-native-reanimated';
+// Helpers
+import { emailValidator, passwordValidator } from '../../../helpers';
+// API
+import useApi from '../../../utils/api/useApi';
 
 export default function LoginScreen({ navigation }) {
-  // const {
-  //   authenticated,
-  //   setAuthenticated,
-  //   userLoggedIn,
-  //   setUserLoggedIn,
-  //   error,
-  //   setError,
-  //   hotelID,
-  //   setHotelID,
-  //   userToken,
-  //   setUserToken,
-  //   userLogInHandler,
-  //   userLogOutHandler,
-  // } = useContext(AuthContext);
-
+  const { handleIOSAuthorization } = useApi();
   const [email, setEmail] = useState({ value: '', error: '' });
   const [password, setPassword] = useState({ value: '', error: '' });
   const [secureTextEntry, setSecureTextEntry] = useState(true);
@@ -55,7 +37,6 @@ export default function LoginScreen({ navigation }) {
   function resetPasswordButtonPress() {
     navigation.navigate('NoFoundScreen');
   }
-  const { handleIOSAuthentication, handleIOSAuthorization } = useApi();
 
   const handleLogin = async () => {
     const emailError = emailValidator(email.value);
@@ -94,7 +75,6 @@ export default function LoginScreen({ navigation }) {
       });
     } catch (error) {
       console.error(error);
-      // setLoginRequest(false);
       alert(error);
     }
   };

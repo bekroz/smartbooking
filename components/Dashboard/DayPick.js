@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Outset, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import Picker from 'react-native-picker-horizontal';
 import { COLORS, SIZES } from '../../constants/theme';
 

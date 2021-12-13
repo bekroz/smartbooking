@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { COLORS, SIZES } from '../../../constants/theme';
+import { SIZES } from '../../../constants/theme';
 import FadeInView from '../../../components/FadeInView/FadeInView';
 import { NoDataToShowSvg } from '../../../assets/icons/SvgIcons';
 

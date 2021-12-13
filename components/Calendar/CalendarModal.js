@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { Text, View } from 'react-native';
-import { Button, Overlay } from 'react-native-elements';
+import React from 'react';
+import { View } from 'react-native';
+import { Overlay } from 'react-native-elements';
+// Components
 import Calendar from './Calendar';
 
 export default function CalendarModal({

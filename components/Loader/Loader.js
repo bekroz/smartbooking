@@ -2,9 +2,9 @@ import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { COLORS } from '../../constants/theme';
-import loader from '../../images/splash.json';
+import loader from '../../assets/icons/splash.json';
 
-export default function Loader({ navigation }) {
+export default function Loader() {
   return (
     <View style={styles.container}>
       <LottieView source={loader} autoPlay />

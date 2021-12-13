@@ -1,14 +1,11 @@
-import moment from 'moment';
 import React, { useState } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
   View,
   Text,
-  Image,
   TouchableOpacity,
 } from 'react-native';
-import DateRangePicker from 'rn-select-date-range';
 import Calendar from '../Additionals/date-picker';
 import { COLORS, SIZES } from '../../constants/theme';
 
