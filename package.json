@@ -79,6 +79,7 @@
     "react-native-modal": "^13.0.0",
     "react-native-modal-dropdown": "^1.0.2",
     "react-native-modals": "^0.22.3",
+    "react-native-month-picker": "^1.0.1",
     "react-native-paper": "^4.10.1",
     "react-native-pathjs-charts": "^0.0.34",
     "react-native-picker-horizontal": "^0.1.2",

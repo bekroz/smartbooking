@@ -22,32 +22,86 @@ import {
   BlueLineIndicator,
   GreenLineIndicator,
 } from '../../../components/Dashboard/LineIndicator';
+import { NoDataToShow } from '../../../components/UserAlerts';
 // Helpers
 import { numberWithSpaces, wordTruncator } from '../../../helpers';
 // Icons
 import dropdown from '../../../images/dropdown.png';
 import searchIcon from '../../../images/search.png';
-import moonIcon from '../../../images/moon.png/';
-import personIcon from '../../../images/person.png/';
+import moonIcon from '../../../images/moon.png';
+import personIcon from '../../../images/person.png';
+import { GoBackSvg } from '../../../assets/icons/SvgIcons';
 // api
 import useApi from '../../../utils/api/useApi';
 
 export default function ArrivalsScreen({ navigation }) {
-  const [refreshed, setRefreshed] = useState(true);
+  const [refreshed, setRefreshed] = useState(false);
   const chosenHotelName = 'Kukaldosh Hotel';
 
   const status = ['Выезды', 'Заезды', 'Проживают'];
 
-  const { getHotelSingleReservationData } = useApi();
+  const { getReservedRoomsListData } = useApi();
+  const [hotelID, setHotelID] = useState(48);
+  const [chosenDate, setChosenDate] = useState('2021-12-13');
+  const [typeOfStay, setTypeOfStay] = useState('arrived');
+  const [reservedRoomsListData, setReservedRoomsListData] = useState([]);
+  // typeOfStays: #1 arrived #2 left, #3 living
+  const [pageIndex, setPageIndex] = useState(1);
+  const [lastPage, setLastPage] = useState(false);
+  const [noData, setNoData] = useState(false);
 
-  useEffect(async () => {
-    await getHotelSingleReservationData();
+  const getUpdatedData = async (page = pageIndex) => {
+    setRefreshed(false);
+    let outgoingData = {
+      hotelID: hotelID,
+      type: typeOfStay,
+      from: chosenDate,
+      by: chosenDate,
+      page: page,
+    };
+    try {
+      await getReservedRoomsListData(outgoingData).then(response => {
+        console.log('====================================');
+        console.log(response);
+        console.log(response.data[0]);
+        // console.log(response.data[0]);
+        // console.log(response.data.length);
+        console.log('====================================');
+
+        const receivedData = response.data;
+        outgoingData.page = response.meta.currentPage;
+        let nextPageData = reservedRoomsListData;
+        receivedData.forEach(element => {
+          nextPageData.push(element);
+        });
+        setReservedRoomsListData(nextPageData);
+        setRefreshed(true);
+        setPageIndex(pageIndex + 1);
+        if (response.meta.current_page === response.meta.last_page) {
+          setLastPage(true);
+          console.log('NO MORE DATA TO SHOW');
+        }
+        if (response.data === null) {
+          setNoData(true);
+        }
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getUpdatedData();
   }, []);
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
       {refreshed ? (
         <ScrollView>
-          <HotelListBar />
+          <View>
+            <GoBackSvg />
+            <HotelListBar />
+          </View>
           <View>
             <View style={{ marginLeft: 22, marginBottom: 35 }}>
               <ScrollView
@@ -90,142 +144,137 @@ export default function ArrivalsScreen({ navigation }) {
           </View>
 
           {/* Card Container */}
-          <Card containerStyle={styles.card} title="Guests">
-            {/* LEFT Side Content */}
-            {/* {status === } && <YellowLineIndicator />*/}
-            {/* {status === } && <BlueLineIndicator />*/}
-            {/* {status === } && <GreenLineIndicator />*/}
-            <YellowLineIndicator />
-            <View
-              style={{
-                alignItems: 'center',
-              }}>
-              <View style={{ marginBottom: 15, alignItems: 'center' }}>
-                <Text style={{ color: COLORS.grayText, marginBottom: 3 }}>
-                  Дата заезда:
-                </Text>
-                <Text style={{ color: COLORS.white }}>
-                  {/* {moment(reservation.checkin).format('DD.MM.YYYY')} */}
-                  22.02.2021
-                </Text>
-              </View>
-
-              {/* Small Vertical Divider */}
-              <Divider
-                orientation="vertical"
-                width={0.5}
-                left={45}
-                top={45}
-                height={12}
-                color={COLORS.blue}
-                position="absolute"
-              />
-              <View
-                style={{
-                  marginBottom: 20,
-                  marginTop: 10,
-                  alignItems: 'center',
-                }}>
-                <Text style={{ color: COLORS.grayText, marginBottom: 3 }}>
-                  Дата выезда:
-                </Text>
-                <Text style={{ color: COLORS.white }}>
-                  {/* {moment(reservation?.checkout).format('DD.MM.YYYY')} */}
-                  22.02.2021
-                </Text>
-              </View>
-
-              <View
-                style={{
-                  flexDirection: 'row',
-                }}>
-                <Image source={moonIcon} />
-                <Text style={{ color: COLORS.white }}>
-                  {' 3'}
-                  {/* {reservation?.nights} */}
-                </Text>
-                <Image style={{ marginLeft: 10 }} source={personIcon} />
-                <Text style={{ color: COLORS.white }}>
-                  {' 3'}
-                  {/* {reservation?.total_guests} */}
-                </Text>
-              </View>
-            </View>
-
-            <Divider
-              orientation="vertical"
-              leftWidth={1}
-              left={115}
-              height={130}
-              color="#404040"
-              position="absolute"
-            />
-
-            {/* LEFT-SIDE content */}
-            <View
-              style={{
-                position: 'absolute',
-                flexDirection: 'row',
-                left: 110,
-                marginLeft: 20,
-                flex: 1,
-                marginRight: 10,
-              }}>
-              {/* GuestDetailsView */}
-              <View
-                style={{
-                  height: 150,
-                  width: 170,
-                }}>
+          {!reservedRoomsListData ? (
+            reservedRoomsListData.map((room, index) => (
+              <Card key={index} containerStyle={styles.card} title="Guests">
+                {/* LEFT Side Content */}
+                {typeOfStay === 'arrived' && <GreenLineIndicator />}
+                {typeOfStay === 'left' && <YellowLineIndicator />}
+                {typeOfStay === 'living' && <BlueLineIndicator />}
                 <View
                   style={{
-                    flexDirection: 'row',
+                    alignItems: 'center',
                   }}>
-                  <Text style={styles.channelName}>
-                    {/* {wordTruncator(reservation?.guest.first_name, 8)} */}
-                    Booking.com
-                  </Text>
-                  <Text
+                  <View style={{ marginBottom: 15, alignItems: 'center' }}>
+                    <Text style={{ color: COLORS.grayText, marginBottom: 3 }}>
+                      Дата заезда:
+                    </Text>
+                    <Text style={{ color: COLORS.white }}>
+                      {moment(room.checkin).format('DD.MM.YYYY')}
+                    </Text>
+                  </View>
+
+                  {/* Small Vertical Divider */}
+                  <Divider
+                    orientation="vertical"
+                    width={0.5}
+                    left={45}
+                    top={45}
+                    height={12}
+                    color={COLORS.blue}
+                    position="absolute"
+                  />
+                  <View
                     style={{
-                      fontSize: SIZES.body7,
-                      color: COLORS.white,
-                      fontWeight: SIZES.fontWeight0,
+                      marginBottom: 20,
+                      marginTop: 10,
+                      alignItems: 'center',
                     }}>
-                    22 Окт
-                  </Text>
+                    <Text style={{ color: COLORS.grayText, marginBottom: 3 }}>
+                      Дата выезда:
+                    </Text>
+                    <Text style={{ color: COLORS.white }}>
+                      {moment(room?.checkout).format('DD.MM.YYYY')}
+                    </Text>
+                  </View>
+
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                    }}>
+                    <Image source={moonIcon} />
+                    <Text style={{ color: COLORS.white }}> {room?.nights}</Text>
+                    <Image style={{ marginLeft: 10 }} source={personIcon} />
+                    <Text style={{ color: COLORS.white }}> {room?.adults}</Text>
+                  </View>
                 </View>
 
-                <View>
-                  <Text
-                    style={{
-                      color: '#657282',
-                      fontSize: 16,
-                      fontWeight: SIZES.fontWeight2,
-                      marginBottom: 4,
-                    }}>
-                    {/* {guestName}  */}Богдан Пшеничны...
-                  </Text>
-                  <Text style={{ color: COLORS.white, marginBottom: 4 }}>
-                    {/* {roomType} */}
-                    Одноместный номер с....
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      color: COLORS.white,
-                      marginBottom: 18,
-                    }}>
-                    {/* {reservation?.source_name} */}SGL 105
-                  </Text>
-                  <Text style={[styles.greenPriceText, styles.equalMargin]}>
-                    {/* {numberWithSpaces(reservation?.total_sum)} UZS */}
-                    515 000 UZS
-                  </Text>
-                </View>
-              </View>
-            </View>
-          </Card>
+                <Divider
+                  orientation="vertical"
+                  leftWidth={1}
+                  left={115}
+                  height={130}
+                  color="#404040"
+                  position="absolute"
+                />
 
+                {/* LEFT-SIDE content */}
+                <View
+                  style={{
+                    position: 'absolute',
+                    flexDirection: 'row',
+                    left: 110,
+                    marginLeft: 20,
+                    flex: 1,
+                    marginRight: 10,
+                  }}>
+                  {/* GuestDetailsView */}
+                  <View
+                    style={{
+                      height: 150,
+                      width: 170,
+                    }}>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                      }}>
+                      <Text style={styles.channelName}>
+                        {wordTruncator(room?.source, 15)}
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: SIZES.body7,
+                          color: COLORS.white,
+                          fontWeight: SIZES.fontWeight0,
+                        }}>
+                        22 Окт
+                      </Text>
+                    </View>
+
+                    <View>
+                      <Text
+                        style={{
+                          color: '#657282',
+                          fontSize: 16,
+                          fontWeight: SIZES.fontWeight2,
+                          marginBottom: 4,
+                        }}>
+                        Shahzoda Test
+                      </Text>
+                      <Text style={{ color: COLORS.white, marginBottom: 4 }}>
+                        {room.room
+                          ? wordTruncator(room.name, 20)
+                          : wordTruncator(room.roomType.name, 20)}
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: 16,
+                          color: COLORS.white,
+                          marginBottom: 18,
+                        }}>
+                        {room.room ? room.name : room.roomType.short_name}
+                      </Text>
+                      <Text style={[styles.greenPriceText, styles.equalMargin]}>
+                        {numberWithSpaces(room.sum)} UZS
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              </Card>
+            ))
+          ) : (
+            <NoDataToShow />
+          )}
           <View
             style={{
               paddingBottom: 150,
@@ -332,3 +381,179 @@ const styles = StyleSheet.create({
     marginRight: 40,
   },
 });
+
+// <ScrollView showsVerticalScrollIndicator={false}>
+// {/* All Card */}
+// {reservedRoomsListData?.map((room, index) => (
+//   <Card key={index} containerStyle={styles.card} title="Guests">
+//     {/* LEFT Side Content */}
+//     <View
+//       style={{
+//         alignItems: 'center',
+//       }}>
+//       <View style={{ marginBottom: 15, alignItems: 'center' }}>
+//         <Text style={{ color: COLORS.grayText, marginBottom: 3 }}>
+//           Дата заезда:
+//         </Text>
+//         <Text style={{ color: COLORS.white }}>
+//           {moment(room.checkin).format('DD.MM.YYYY')}
+//         </Text>
+//       </View>
+
+//       {/* Small Vertical Divider */}
+//       <Divider
+//         orientation="vertical"
+//         width={0.5}
+//         left={45}
+//         top={45}
+//         height={12}
+//         color={COLORS.blue}
+//         position="absolute"
+//       />
+//       <View
+//         style={{
+//           marginBottom: 20,
+//           marginTop: 10,
+//           alignItems: 'center',
+//         }}>
+//         <Text style={{ color: COLORS.grayText, marginBottom: 3 }}>
+//           Дата выезда:
+//         </Text>
+//         <Text style={{ color: COLORS.white }}>
+//           {moment(room?.checkout).format('DD.MM.YYYY')}
+//         </Text>
+//       </View>
+
+//       <View
+//         style={{
+//           flexDirection: 'row',
+//         }}>
+//         <Image source={moonIcon} />
+//         <Text style={{ color: COLORS.white }}>
+//           {' '}
+//           {room?.nights}
+//         </Text>
+//         <Image style={{ marginLeft: 10 }} source={personIcon} />
+//         <Text style={{ color: COLORS.white }}>
+//           {' '}
+//           {room?.total_guests}
+//         </Text>
+//       </View>
+//     </View>
+
+//     <Divider
+//       orientation="vertical"
+//       leftWidth={1}
+//       left={115}
+//       height={130}
+//       color="#404040"
+//       position="absolute"
+//     />
+
+//     {/* LEFT-SIDE content */}
+//     <View
+//       style={{
+//         position: 'absolute',
+//         flexDirection: 'row',
+//         left: 110,
+//         flexDirection: 'row',
+//         marginLeft: 20,
+
+//         flex: 1,
+//         marginRight: 10,
+//       }}>
+//       {/* GuestDetailsView */}
+//       <View
+//         style={{
+//           height: 150,
+//           width: 140,
+//         }}>
+//         <Text style={styles.guestName}>
+//           {wordTruncator(room?.guest.first_name, 8)}
+//         </Text>
+//         <Text style={styles.guestName}>
+//           {wordTruncator(room?.guest.last_name, 8)}
+//         </Text>
+//         <View>
+//           <Text style={[styles.equalMargin, { color: COLORS.white }]}>
+//             {room?.total_rooms} номера
+//           </Text>
+//           <Text style={[styles.equalMargin, { color: COLORS.white }]}>
+//             {moment(room?.created_at).format('DD.MM.YYYY')}
+//           </Text>
+//           <Text
+//             style={[
+//               styles.equalMargin,
+//               { fontSize: 16, color: COLORS.white },
+//             ]}>
+//             {room?.source_name}
+//           </Text>
+//           <Text style={[styles.greenPriceText, styles.equalMargin]}>
+//             {numberWithSpaces(room?.total_sum)} UZS
+//           </Text>
+//         </View>
+//       </View>
+//       <View style={{ paddingRight: 20, marginRight: 50 }}>
+//         {room?.status == 'confirmed' && <ConfirmedStatus />}
+//         {room?.status == 'in_house' && <InHouseStatus />}
+//         {room?.status == 'check_out' && <CheckOutStatus />}
+//         {room?.status == 'canceled' && <CanceledStatus />}
+//         {room?.status == 'no_show' && <NoShowStatus />}
+//       </View>
+//     </View>
+//   </Card>
+// ))}
+// {lastPage ? (
+//   <View
+//     style={{
+//       alignSelf: 'center',
+//       backgroundColor: '#212831',
+//       width: SIZES.width - 20,
+//       height: 40,
+//       alignItems: 'center',
+//       justifyContent: 'center',
+//       marginTop: 15,
+//       borderRadius: 6,
+//     }}>
+//     <Text
+//       style={{
+//         color: COLORS.grayText,
+//         fontWeight: '500',
+//         fontSize: 16,
+//       }}>
+//       Все данные загружены :)
+//     </Text>
+//   </View>
+// ) : (
+//   <TouchableOpacity
+//     style={{
+//       alignSelf: 'center',
+//       backgroundColor: '#212831',
+//       width: SIZES.width - 20,
+//       height: 40,
+//       alignItems: 'center',
+//       justifyContent: 'center',
+//       marginTop: 15,
+//       borderRadius: 6,
+//     }}
+//     onPress={loadNewData}>
+//     <Text
+//       style={{ color: COLORS.blue, fontWeight: '500', fontSize: 16 }}>
+//       {refreshed ? (
+//         'Показать ещё'
+//       ) : (
+//         <ActivityIndicator
+//           animating={true}
+//           color={COLORS.white}
+//           marginTop={5}
+//         />
+//       )}
+//     </Text>
+//   </TouchableOpacity>
+// )}
+// <View
+//   style={{
+//     paddingBottom: 240,
+//   }}
+// />
+// </ScrollView>

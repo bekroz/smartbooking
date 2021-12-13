@@ -1,10 +1,10 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { NoNetwork } from '../../../assets/icons/SvgIcons';
 import { COLORS, SIZES } from '../../../constants/theme';
 import FadeInView from '../../../components/FadeInView/FadeInView';
+import { NoFutureDataToShowSvg } from '../../../assets/icons/SvgIcons';
 
-const NoNetworkScreen = ({ show }) => {
+export default function NoFutureDataToShow({ show }) {
   if (!show) {
     return (
       <FadeInView
@@ -15,23 +15,19 @@ const NoNetworkScreen = ({ show }) => {
           bottom: 50,
         }}>
         <View style={{ marginBottom: 30 }}>
-          <NoNetwork />
+          <NoFutureDataToShowSvg />
         </View>
-        <Text style={styles.noNetWorkText}>
-          {`Нет соединения с интернетом, 
-                      подождем?`}
-        </Text>
+        <Text
+          style={styles.noFutureDataToShowText}>{`Нет данных для показа`}</Text>
       </FadeInView>
     );
   } else {
     return null;
   }
-};
-
-export default NoNetworkScreen;
+}
 
 const styles = StyleSheet.create({
-  noNetWorkText: {
+  noFutureDataToShowText: {
     color: COLORS.white,
     fontSize: SIZES.body3,
     fontWeight: SIZES.fontWeight3,

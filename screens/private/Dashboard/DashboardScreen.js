@@ -192,7 +192,7 @@ export default function DashboardScreen({ navigation }) {
                   { start: 0, end: 140 },
                   { start: 220, end: 360 },
                 ]}
-                color="#0ECC38"
+                color={COLORS.greenProgress}
                 width={10}
               />
               <Text

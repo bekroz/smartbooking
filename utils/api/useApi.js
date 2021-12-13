@@ -24,8 +24,9 @@ const useApi = () => {
         setAppToken(response.data.access_token);
         return response.data.access_token;
       });
-    } catch (e) {
-      alert(e);
+    } catch (err) {
+      console.error(err);
+      alert(err);
     }
   };
 
@@ -51,8 +52,9 @@ const useApi = () => {
         setUserToken(response.data.access_token);
         return response.data.access_token;
       });
-    } catch (e) {
-      console.log(e);
+    } catch (err) {
+      console.error(err);
+      alert(err);
     }
   };
 
@@ -72,8 +74,9 @@ const useApi = () => {
         console.log(response.data.data);
         return response.data.data;
       });
-    } catch (e) {
-      console.log(e);
+    } catch (err) {
+      console.error(err);
+      alert(err);
     }
   };
 
@@ -89,9 +92,9 @@ const useApi = () => {
           'Content-Type': 'application/json',
         },
       });
-    } catch (e) {
-      console.log('ERROR =>>>>');
-      console.log(e);
+    } catch (err) {
+      console.error(err);
+      alert(err);
     }
   };
 
@@ -111,8 +114,9 @@ const useApi = () => {
       }).then(response => {
         return response.data.data;
       });
-    } catch (e) {
-      console.log(e);
+    } catch (err) {
+      console.error(err);
+      alert(err);
     }
   };
 
@@ -123,7 +127,7 @@ const useApi = () => {
   const lastDayOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
 
   // DEFAULT OUTGOING DATA TO SEND
-  let reservations_outgoing_data = {
+  let outgoing_data = {
     hotelID: '48',
     date_range_type: 'type_stay_dates',
     start_date: firstDayOfMonth,
@@ -131,23 +135,24 @@ const useApi = () => {
     page: 2,
   };
 
-  const getHotelAllReservationsData = async reservations_outgoing_data => {
+  const getHotelAllReservationsData = async outgoingData => {
     const userToken = await getUserToken();
 
     try {
       return await axios({
-        url: `${Config.BASE_API_URL}/mobile/${reservations_outgoing_data.hotelID}/reservations`,
+        url: `${Config.BASE_API_URL}/mobile/${outgoingData.hotelID}/reservations`,
         method: 'POST',
         headers: {
           Authorization: `Bearer ${userToken}`,
           'Content-Type': 'application/json',
         },
-        data: reservations_outgoing_data,
+        data: outgoingData,
       }).then(response => {
         return response.data;
       });
-    } catch (e) {
-      console.log(e);
+    } catch (err) {
+      console.error(err);
+      alert(err);
     }
   };
 
@@ -164,12 +169,34 @@ const useApi = () => {
           'Content-Type': 'application/json',
         },
       });
-    } catch (e) {
-      console.log(e);
+    } catch (err) {
+      console.error(err);
+      alert(err);
     }
   };
 
-  // #8 API => GET Hotel Statistics By Year
+  // #8 API => GET Reserved room list dataSource
+
+  const getReservedRoomsListData = async outgoingData => {
+    const userToken = await getUserToken();
+    try {
+      return await axios({
+        url: `${Config.BASE_API_URL}/mobile/${outgoingData.hotelID}/reservation-rooms`,
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${userToken}`,
+          'Content-Type': 'application/json',
+        },
+        data: outgoingData,
+      }).then(response => {
+        return response.data;
+      });
+    } catch (err) {
+      console.error(err);
+      alert(err);
+    }
+  };
+  // #9 API => GET Hotel Statistics By Year
 
   const getStatisticsByYear = async ({ hotelID, chosenYear }) => {
     const userToken = await getUserToken();
@@ -184,17 +211,16 @@ const useApi = () => {
         data: {
           year: chosenYear,
         },
-      })
-        .then(response => {
-          return response.data.data;
-        })
-        .catch(e => console.log(e));
-    } catch (e) {
-      console.log(e);
+      }).then(response => {
+        return response.data.data;
+      });
+    } catch (err) {
+      console.error(err);
+      alert(err);
     }
   };
 
-  // #9 API => GET Hotel Statistics By Category
+  // #10 API => GET Hotel Statistics By Category
 
   const getStatisticsByCategory = async dateRange => {
     const userToken = await getUserToken();
@@ -210,14 +236,15 @@ const useApi = () => {
       }).then(response => {
         return response;
       });
-    } catch (e) {
-      console.log(e);
+    } catch (err) {
+      console.error(err);
+      alert(err);
     }
   };
 
-  // #10 API => GET Properties Comparison Data
+  // #11 API => GET Properties Comparison Data
 
-  const getPropertiesComparisonData = async comparison_outgoing_data => {
+  const getPropertiesComparisonData = async outgoingData => {
     const userToken = await getUserToken();
     try {
       return await axios({
@@ -227,7 +254,7 @@ const useApi = () => {
           Authorization: `Bearer ${userToken}`,
           'Content-Type': 'application/json',
         },
-        data: comparison_outgoing_data,
+        data: outgoingData,
       }).then(response => {
         return response.data;
       });
@@ -236,7 +263,7 @@ const useApi = () => {
     }
   };
 
-  // #11 API => GET Property Sources Data
+  // #12 API => GET Property Sources Data
 
   const getSourcesData = async () => {
     const userToken = await getUserToken();
@@ -253,8 +280,9 @@ const useApi = () => {
         console.log(response.data);
         return response.data;
       });
-    } catch (e) {
-      console.log(e);
+    } catch (err) {
+      console.error(err);
+      alert(err);
     }
   };
 
@@ -274,12 +302,14 @@ const useApi = () => {
     // #7
     getHotelSingleReservationData,
     // #8
-    getStatisticsByYear,
+    getReservedRoomsListData,
     // #9
-    getStatisticsByCategory,
+    getStatisticsByYear,
     // #10
-    getPropertiesComparisonData,
+    getStatisticsByCategory,
     // #11
+    getPropertiesComparisonData,
+    // #12
     getSourcesData,
   };
 };

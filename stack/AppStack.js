@@ -55,29 +55,24 @@ const AppStack = navigation => {
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
-        }}>
+        }}
+        initialRouteName="ArrivalsScreen">
         {/* Private Routes */}
-        {user ? (
-          <>
-            <Stack.Screen name="HomeScreen" component={HomeNavigator} />
-            <Stack.Screen name="DashboardScreen" component={DashboardScreen} />
-            <Stack.Screen name="Reservation" component={ReservationScreen} />
-            <Stack.Screen name="Comparison" component={ComparisonScreen} />
-            <Stack.Screen name="StatsScreen" component={StatsScreen} />
-            <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
-            <Stack.Screen name="ArrivalsScreen" component={ArrivalsScreen} />
-            <Stack.Screen name="LoginScreen" component={LoginScreen} />
-          </>
-        ) : (
-          <>
-            <Stack.Screen name="LoginScreen" component={LoginScreen} />
-            <Stack.Screen name="HomeScreen" component={HomeNavigator} />
-            <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
-            <Stack.Screen name="RestoreScreen" component={RestoreScreen} />
-            <Stack.Screen name="TermsScreen" component={TermsScreen} />
-            <Stack.Screen name="NoFoundScreen" component={NoFoundScreen} />
-          </>
-        )}
+        <>
+          <Stack.Screen name="HomeScreen" component={HomeNavigator} />
+          <Stack.Screen name="DashboardScreen" component={DashboardScreen} />
+          <Stack.Screen name="Reservation" component={ReservationScreen} />
+          <Stack.Screen name="Comparison" component={ComparisonScreen} />
+          <Stack.Screen name="StatsScreen" component={StatsScreen} />
+          <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
+          <Stack.Screen name="ArrivalsScreen" component={ArrivalsScreen} />
+          <Stack.Screen name="LoginScreen" component={LoginScreen} />
+
+          <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+          <Stack.Screen name="RestoreScreen" component={RestoreScreen} />
+          <Stack.Screen name="TermsScreen" component={TermsScreen} />
+          <Stack.Screen name="NoFoundScreen" component={NoFoundScreen} />
+        </>
       </Stack.Navigator>
     </NavigationContainer>
   );

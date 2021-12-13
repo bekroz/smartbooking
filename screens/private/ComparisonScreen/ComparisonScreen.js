@@ -11,7 +11,7 @@ import {
 import { COLORS, SIZES } from '../../../constants/theme';
 import { Card } from 'react-native-elements/dist/card/Card';
 import { ScrollView } from 'react-native-gesture-handler';
-import blueChevronLeft from '../../../images/blueChevronLeft.png';
+import { GoBackSvg } from '../../../assets/icons/SvgIcons';
 import useApi from '../../../utils/api/useApi';
 import { numberWithSpaces, getMonthName } from '../../../helpers';
 
@@ -69,7 +69,7 @@ export default function ComparisonScreen({ navigation }) {
             padding: 10,
             position: 'absolute',
           }}>
-          <Image source={blueChevronLeft} />
+          <GoBackSvg />
         </TouchableOpacity>
         <Text
           style={{

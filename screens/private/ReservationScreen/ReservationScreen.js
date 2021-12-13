@@ -40,7 +40,6 @@ export default function ReservationScreen() {
   const [refreshed, setRefreshed] = useState(false);
   const [hotelID, setHotelID] = useState(48);
   const [pageIndex, setPageIndex] = useState(1);
-  const [data, setData] = useState(null);
   const [lastPage, setLastPage] = useState(false);
 
   const getUpdatedData = async (page = pageIndex) => {
@@ -55,9 +54,6 @@ export default function ReservationScreen() {
     try {
       await getHotelAllReservationsData(params).then(response => {
         console.log('====================================');
-        console.log(
-          '🚀🚀🚀 =>>> file: ReservationScreen.js =>>> line 59 =>>> awaitgetHotelAllReservationsData =>>> response',
-        );
         console.log(response.data);
         console.log(response.data.length);
         // console.log(response.meta);
@@ -107,7 +103,7 @@ export default function ReservationScreen() {
     'Выехал',
     'Не заезд',
   ];
-  
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
       <View>

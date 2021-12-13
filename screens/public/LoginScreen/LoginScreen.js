@@ -18,7 +18,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import useApi from '../../../utils/api/useApi';
 import { emailValidator, passwordValidator } from '../../../helpers';
 // Icons
-import { ShowPassword, HidePassword } from '../../../assets/icons/SvgIcons';
+import {
+  ShowPasswordSvg,
+  HidePasswordSvg,
+} from '../../../assets/icons/SvgIcons';
 // Components
 import { AuthContext } from '../../../contexts/AuthContext';
 import { set } from 'react-native-reanimated';
@@ -92,7 +95,7 @@ export default function LoginScreen({ navigation }) {
     } catch (error) {
       console.error(error);
       // setLoginRequest(false);
-      alert('Server error: ' + error);
+      alert(error);
     }
   };
 
@@ -134,7 +137,7 @@ export default function LoginScreen({ navigation }) {
                 top: 8,
               }}
               onPress={() => setSecureTextEntry(!secureTextEntry)}>
-              {secureTextEntry ? <HidePassword /> : <ShowPassword />}
+              {secureTextEntry ? <HidePasswordSvg /> : <ShowPasswordSvg />}
             </TouchableOpacity>
           </View>
         </View>

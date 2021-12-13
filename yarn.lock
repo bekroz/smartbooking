@@ -11175,6 +11175,15 @@ react-native-modals@^0.22.3:
     babel-plugin-flow-react-proptypes "^9.1.1"
     prop-types "^15.6.0"
 
+react-native-month-picker@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-month-picker/-/react-native-month-picker-1.0.1.tgz#e0cf8506d917eece13000ac7aee72053fc4fc4ba"
+  integrity sha512-evQ4asv45XekHNgVi37kzev3IOm5OCZ/Am+d8Uup61voTUerDtytE77E/NHjn0vNK2qv5+qdxYvK7SlAHZwl8w==
+  dependencies:
+    moment "^2.24.0"
+    prop-types "^15.7.2"
+    react-native-swipe-gestures "^1.0.4"
+
 react-native-month@1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/react-native-month/-/react-native-month-1.0.5.tgz#d39ad8d08485f03c21fb12bac818093120f3ee38"
@@ -11366,7 +11375,7 @@ react-native-svg@~5.5.1:
     color "^0.11.1"
     lodash "^4.16.6"
 
-react-native-swipe-gestures@^1.0.5:
+react-native-swipe-gestures@^1.0.4, react-native-swipe-gestures@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/react-native-swipe-gestures/-/react-native-swipe-gestures-1.0.5.tgz#a172cb0f3e7478ccd681fd36b8bfbcdd098bde7c"
   integrity sha512-Ns7Bn9H/Tyw278+5SQx9oAblDZ7JixyzeOczcBK8dipQk2pD7Djkcfnf1nB/8RErAmMLL9iXgW0QHqiII8AhKw==
