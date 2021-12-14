@@ -1,16 +1,16 @@
 import axios from 'axios';
-import Config from '../../config/config';
+import Config from '../config/config';
 import {
   getAppToken,
   setAppToken,
   getUserToken,
   setUserToken,
   clearStorage,
-} from './useCustomAsyncStorage';
+} from '../utils/useCustomAsyncStorage';
 
 const useApi = () => {
   // #1 API => GET iOS APP token
-  const handleIOSAuthentication = async () => {
+  const handleAppTokenization = async () => {
     try {
       await axios({
         method: 'POST',
@@ -32,7 +32,7 @@ const useApi = () => {
 
   // #2 API => GET iOS USER token
 
-  const handleIOSAuthorization = async userSecret => {
+  const handleUserTokenization = async userSecret => {
     const appToken = await getAppToken();
     try {
       return await axios({
@@ -288,9 +288,9 @@ const useApi = () => {
 
   return {
     // #1
-    handleIOSAuthentication,
+    handleAppTokenization,
     // #2
-    handleIOSAuthorization,
+    handleUserTokenization,
     // #3
     getAllHotelPropertiesData,
     // #4

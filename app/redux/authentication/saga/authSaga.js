@@ -1,27 +1,15 @@
-import {put, takeLatest, call, all, take} from 'redux-saga/effects';
+import { put, takeLatest, call, all, take } from 'redux-saga/effects';
 import * as typesAction from './actions/typesAction';
 import * as authenticationAction from './actions/actions';
-import {
-  showNotification,
-  setRoot,
-  showModalNavigation,
-} from '../../navigation/function';
-import {
-  registerApi,
-  loginApi,
-  updateApi,
-  getMyAccountApi,
-} from '../../api/auth';
-
-import {eventChannel} from 'redux-saga';
-import {Navigation} from 'react-native-navigation';
-import {AsyncStorage} from 'react-native';
+import { eventChannel } from 'redux-saga';
+import { Navigation } from 'react-native-navigation';
+import { handleUserTokenization } from '../../../api/useApi';
 
 function* login(actions) {
   try {
-    const response = yield call(loginApi, actions.userData);
-    yield AsyncStorage.setItem('token', response.data);
-    yield call(updateApi, {deviceToken: actions.tokenDevice}, response.data);
+    const response = yield call(handleUserTokenization, actions.appToken);
+    yield AsyncStorage.setItem('APP_TOEN', response.data.access_token);
+    yield call(updateApi, { deviceToken: actions.tokenDevice }, response.data);
     yield put(authenticationAction.loginSuccess());
   } catch (error) {
     console.log('error saga', error.data);

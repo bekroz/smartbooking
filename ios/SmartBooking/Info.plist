@@ -49,16 +49,6 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>SF Pro Display.ttf</string>
-		<string>SFPRODISPLAYBLACKITALIC.OTF</string>
-		<string>SFPRODISPLAYBOLD.OTF</string>
-		<string>SFPRODISPLAYHEAVYITALIC.OTF</string>
-		<string>SFPRODISPLAYLIGHTITALIC.OTF</string>
-		<string>SFPRODISPLAYMEDIUM.OTF</string>
-		<string>SFPRODISPLAYREGULAR.OTF</string>
-		<string>SFPRODISPLAYSEMIBOLDITALIC.OTF</string>
-		<string>SFPRODISPLAYTHINITALIC.OTF</string>
-		<string>SFPRODISPLAYULTRALIGHTITALIC.OTF</string>
-		<string>SF Pro Display Bold.OTF</string>
 	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
