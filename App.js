@@ -2,30 +2,29 @@ import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ModalPortal } from 'react-native-modals';
-// Component
-import Loader from './components/Loader/Loader';
 // Stack
-import AppStack from './stack/AppStack';
+import AppStack from './app/stack/AppStack';
 // App theme
 import { DarkTheme } from './constants/theme';
-// API
-import useApi from './utils/api/useApi';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/lib/integration/react';
+import { persistStore } from 'redux-persist';
+import store from './redux/store/store';
 
-export default function App() {
-  const [loading, setLoading] = useState(true);
-  const { handleIOSAuthentication } = useApi();
-
-  useEffect(() => {
-    setTimeout(() => setLoading(false), 2000);
-    handleIOSAuthentication();
-  }, []);
+const App = () => {
+  const persistor = persistStore(store);
 
   return (
     <SafeAreaProvider style={DarkTheme}>
       <StatusBar animated={true} barStyle="light-content" />
-      {loading ? <Loader /> : <AppStack />}
-      {/* <TestingScreen /> */}
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <AppStack />
+        </PersistGate>
+      </Provider>
       <ModalPortal />
     </SafeAreaProvider>
   );
-}
+};
+
+export default App;
