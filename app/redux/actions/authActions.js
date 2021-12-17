@@ -1,6 +1,37 @@
+import { handleAppTokenization } from '../../api';
+import { AUTH } from '../types/index';
+
+const appTokenRequest = () => ({
+  type: AUTH.APP_TOKEN_REQUEST,
+});
+
+const appTokenSuccess = appToken => ({
+  type: AUTH.APP_TOKEN_SUCCESS,
+  payload: appToken,
+});
+
+const appTokenFailure = error => ({
+  type: AUTH.APP_TOKEN_FAILURE,
+  payload: error,
+});
+
+export const appTokenAction = () => {
+  return async dispatch => {
+    dispatch(appTokenRequest());
+    try {
+      handleAppTokenization().then(appToken =>
+        dispatch(appTokenSuccess(appToken)),
+      );
+    } catch (error) {
+      console.error(error);
+      dispatch(appTokenFailure(error));
+    }
+  };
+};
+
 // Type
 import AUTH from '../types/authTypes';
-import useApi from '../../api/useApi';
+import { handleAppTokenization } from '../../api';
 // #1 Registration
 
 export default function authActions() {

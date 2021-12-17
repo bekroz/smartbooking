@@ -1,3 +1,3 @@
 import HotelListBar from './HotelList/HotelListBar';
-
-export { HotelListBar };
+import HotelModalBox from './Modals/HotelModalBox';
+export { HotelListBar, HotelModalBox };

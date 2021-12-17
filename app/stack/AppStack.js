@@ -23,7 +23,6 @@ import {
   TermsScreen,
 } from '../screens/public';
 import Loader from '../components/Loader/Loader';
-import useApi from '../api/useApi';
 
 const Stack = createStackNavigator();
 

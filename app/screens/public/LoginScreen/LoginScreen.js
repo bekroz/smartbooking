@@ -20,12 +20,14 @@ import {
 // Helpers
 import { emailValidator, passwordValidator } from '../../../helpers';
 // API
-import useApi from '../../../api/useApi';
+import {
+  handleAppTokenization,
+  handleUserTokenization,
+} from '../../../api';
 // Utils
 import { setUserSecret } from '../../../utils/useCustomAsyncStorage';
 // Context
 export default function LoginScreen({ navigation }) {
-  const { handleAppTokenization, handleUserTokenization } = useApi();
   const [email, setEmail] = useState({ value: '', error: '' });
   const [password, setPassword] = useState({ value: '', error: '' });
   const [secureTextEntry, setSecureTextEntry] = useState(true);

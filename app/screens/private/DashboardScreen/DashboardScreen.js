@@ -30,13 +30,13 @@ import { HotelListBar } from '../../../components/Dashboard';
 // Helpers
 import { numberWithSpaces } from '../../../helpers';
 // API
-import useApi from '../../../api/useApi';
+import {
+  getAllHotelPropertiesData,
+  getDashboardData,
+} from '../../../api';
 
 export default function DashboardScreen({ navigation }) {
   // import NetInfo from '@react-native-community/netinfo';
-
-  // API HANDLERS
-  const { getAllHotelPropertiesData, getDashboardData } = useApi();
 
   // // BUTTON HANDLERS
   const [firstView, setFirstView] = useState(true);

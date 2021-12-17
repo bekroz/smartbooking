@@ -15,8 +15,6 @@ const HotelModalBox = ({
   hotelList,
   chosenHotelID,
 }) => {
-  // const { getAllHotelPropertiesData } = useApi();
-
   // const [loaded, setLoaded] = useState(false);
   // const [hotelList, setHotelList] = useState(null);
   // const [chosenHotelID, setChosenHotelID] = useState(null);

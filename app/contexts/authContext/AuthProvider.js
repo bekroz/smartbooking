@@ -1,4 +1,3 @@
-import useApi from '../../utils/api/useApi';
 import createDataContext from './authContext';
 
 const authReducer = (state, action) => {

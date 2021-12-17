@@ -26,15 +26,10 @@ import {
 // Helpers
 import { wordTruncator, numberWithSpaces } from '../../../helpers';
 // API
-import useApi from '../../../api/useApi';
+import { getHotelAllReservationsData } from '../../../api';
 
 export default function ReservationScreen() {
-  const handleSearchButton = () => {
-    // console.log('handleSearchButton is fired!');
-  };
-
   const [hotelAllReservationsData, setHotelAllReservationsData] = useState([]);
-  const { getHotelAllReservationsData } = useApi();
   const [refreshed, setRefreshed] = useState(false);
   const [hotelID, setHotelID] = useState(48);
   const [pageIndex, setPageIndex] = useState(1);

@@ -16,19 +16,16 @@ import { GoBackSvg } from '../../../assets/icons/SvgIcons';
 // Helpers
 import { numberWithSpaces, getMonthName } from '../../../helpers';
 // API
-import useApi from '../../../api/useApi';
+import { getPropertiesComparisonData } from '../../../api';
 
 export default function ComparisonScreen({ navigation }) {
-  function handleBackButtonPress() {
-    navigation.navigate('HomeScreen');
-  }
-  const { getPropertiesComparisonData } = useApi();
+  const [refreshed, setRefreshed] = useState(false);
+
   const [comparisonData, setComparisonData] = useState(null);
   const [date, setDate] = useState({
     year: '2021',
     month: '12',
   });
-  const [refreshed, setRefreshed] = useState(false);
 
   const getUpdatedData = async () => {
     try {
@@ -43,6 +40,10 @@ export default function ComparisonScreen({ navigation }) {
       setRefreshed(false);
     }
   };
+
+  function handleBackButtonPress() {
+    navigation.navigate('HomeScreen');
+  }
 
   useEffect(() => {
     setRefreshed(false);

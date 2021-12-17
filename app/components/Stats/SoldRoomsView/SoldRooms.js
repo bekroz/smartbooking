@@ -18,10 +18,9 @@ import LineChartData from '../LineChartData/LineChartData';
 // Helpers
 import { numberWithSpaces } from '../../../helpers';
 // API
-import useApi from '../../../api/useApi';
+import { getStatisticsByYear } from '../../../api';
 
 export default function SoldRooms() {
-  const { getStatisticsByYear } = useApi();
   const [statisticsByYearData, setStatisticsByYearData] = useState(null);
 
   const [hotelID, setHotelID] = useState(48);

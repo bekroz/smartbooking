@@ -30,17 +30,13 @@ import {
 } from '../Lines';
 // import { DonutView } from '..';
 // API
-import useApi from '../../../api/useApi';
+import { getStatisticsByCategory } from '../../../api';
 import { numberWithSpaces } from '../../../helpers';
 
 export default function Details() {
   const currency = 'UZS';
   const hotelRoomPrice = '235 000';
   const maxWidth = 250;
-
-  // API
-  const { getStatisticsByCategory } = useApi();
-
   const [statsData, setStatsData] = useState(null);
   const [chosenDateRange, setChosenDateRange] = useState(null);
   const [overallData, setOverallData] = useState(null);

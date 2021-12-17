@@ -3,7 +3,7 @@ import * as typesAction from './actions/typesAction';
 import * as authenticationAction from './actions/actions';
 import { eventChannel } from 'redux-saga';
 import { Navigation } from 'react-native-navigation';
-import { handleUserTokenization } from '../../api/useApi';
+import { handleUserTokenization } from '../../api';
 
 function* login(actions) {
   try {

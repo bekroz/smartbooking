@@ -7,19 +7,16 @@ import {
   ActivityIndicator,
   ScrollView,
   SafeAreaView,
-  FlatList,
-  RefreshControl,
 } from 'react-native';
+// TODO: Replace moment with another light package
 import moment from 'moment';
 import { Card } from 'react-native-elements/dist/card/Card';
 import { Divider } from 'react-native-elements/dist/divider/Divider';
-import { Avatar, Badge, Icon, withBadge } from 'react-native-elements';
 // Theme
 import { COLORS, SIZES } from '../../../constants/theme';
 // Components
-import { HotelListBar } from '../../../components/Dashboard';
+import { HotelListBar, HotelModalBox } from '../../../components/Dashboard';
 import { NoDataToShow } from '../../../components/UserAlerts';
-import HotelModalBox from '../../../components/Dashboard/Modals/HotelModalBox';
 // Helpers
 import { numberWithSpaces, wordTruncator } from '../../../helpers';
 // Icons
@@ -33,10 +30,9 @@ import {
 // Buttons
 import { GoBackButton } from '../../../components/Buttons';
 // API
-import useApi from '../../../api/useApi';
+import { getReservedRoomsListData } from '../../../api';
 
 export default function ArrivalsScreen({ navigation, route }) {
-  const { getReservedRoomsListData } = useApi();
   const [refreshed, setRefreshed] = useState(false);
   const chosenHotelName = 'Kukaldosh Hotel';
   const [reservedRoomsListData, setReservedRoomsListData] = useState([]);
