@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -20,10 +20,12 @@ import {
 // Helpers
 import { emailValidator, passwordValidator } from '../../../helpers';
 // API
-import useApi from '../../../utils/api/useApi';
+import useApi from '../../../api/useApi';
+// Utils
+import { setUserSecret } from '../../../utils/useCustomAsyncStorage';
 // Context
 export default function LoginScreen({ navigation }) {
-  const { handleIOSAuthentication, handleIOSAuthorization } = useApi();
+  const { handleAppTokenization, handleUserTokenization } = useApi();
   const [email, setEmail] = useState({ value: '', error: '' });
   const [password, setPassword] = useState({ value: '', error: '' });
   const [secureTextEntry, setSecureTextEntry] = useState(true);
@@ -62,9 +64,9 @@ export default function LoginScreen({ navigation }) {
       password: password.value,
     };
     setLoginRequest(true);
-    await AsyncStorage.setItem('USER', JSON.stringify(userSecret));
+    setUserSecret(userSecret);
     try {
-      await handleIOSAuthorization(userSecret).then(userToken => {
+      await handleUserTokenization().then(userToken => {
         if (userToken) {
           navigation.replace('HomeScreen');
           setUser(userToken);
@@ -76,8 +78,13 @@ export default function LoginScreen({ navigation }) {
     } catch (error) {
       console.error(error);
       alert(error);
+      setLoginRequest(false);
     }
   };
+
+  useEffect(() => {
+    handleAppTokenization();
+  }, []);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
@@ -91,7 +98,7 @@ export default function LoginScreen({ navigation }) {
               returnKeyType="next"
               label="E-mail"
               style={styles.placeholder}
-              value={email}
+              value={email.value}
               onChangeText={text => setEmail({ value: text, error: '' })}
               autoCapitalize="none"
               autoCompleteType="email"
@@ -105,7 +112,7 @@ export default function LoginScreen({ navigation }) {
               label="Пароль"
               secureTextEntry={secureTextEntry}
               style={styles.placeholder}
-              value={password}
+              value={password.value}
               onChangeText={text => setPassword({ value: text, error: '' })}
               returnKeyType="done"
             />
@@ -231,7 +238,7 @@ const styles = StyleSheet.create({
     height: 21,
     fontSize: SIZES.body4,
     fontWeight: SIZES.fontWeight3,
-    fontFamily: 'SF Pro Display',
+    // fontFamily: 'SF Pro Display',
   },
   appleButton: {
     width: SIZES.blockWidth,

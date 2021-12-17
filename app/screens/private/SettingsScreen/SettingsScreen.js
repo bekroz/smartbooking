@@ -11,7 +11,7 @@ import { Divider } from 'react-native-elements';
 // Theme
 import { COLORS, POSITIONING, SIZES } from '../../../constants/theme';
 // Util
-import { clearStorage } from '../../../utils/api/useCustomAsyncStorage';
+import { clearStorage } from '../../../utils/useCustomAsyncStorage';
 
 export default function SettingsScreen({ navigation }) {
   const handleLogOutButtonPress = async () => {

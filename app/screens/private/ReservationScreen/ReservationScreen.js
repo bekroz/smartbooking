@@ -26,11 +26,11 @@ import {
 // Helpers
 import { wordTruncator, numberWithSpaces } from '../../../helpers';
 // API
-import useApi from '../../../utils/api/useApi';
+import useApi from '../../../api/useApi';
 
 export default function ReservationScreen() {
   const handleSearchButton = () => {
-    console.log('handleSearchButton is fired!');
+    // console.log('handleSearchButton is fired!');
   };
 
   const [hotelAllReservationsData, setHotelAllReservationsData] = useState([]);
@@ -51,10 +51,10 @@ export default function ReservationScreen() {
     };
     try {
       await getHotelAllReservationsData(params).then(response => {
-        console.log('====================================');
-        console.log(response.data);
-        console.log(response.data.length);
-        console.log('====================================');
+        // console.log('====================================');
+        // console.log(response.data);
+        // console.log(response.data.length);
+        // console.log('====================================');
         const receivedData = response.data;
         params.page = response.meta.currentPage;
         let existingReservations = hotelAllReservationsData;
@@ -66,7 +66,7 @@ export default function ReservationScreen() {
         setPageIndex(pageIndex + 1);
         if (response.meta.current_page === response.meta.last_page) {
           setLastPage(true);
-          console.log('NO MORE DATA TO SHOW');
+          // console.log('NO MORE DATA TO SHOW');
         }
       });
     } catch (error) {

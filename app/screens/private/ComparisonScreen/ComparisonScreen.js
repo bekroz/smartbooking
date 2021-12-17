@@ -16,11 +16,11 @@ import { GoBackSvg } from '../../../assets/icons/SvgIcons';
 // Helpers
 import { numberWithSpaces, getMonthName } from '../../../helpers';
 // API
-import useApi from '../../../utils/api/useApi';
+import useApi from '../../../api/useApi';
 
 export default function ComparisonScreen({ navigation }) {
   function handleBackButtonPress() {
-    navigation.navigate('Home');
+    navigation.navigate('HomeScreen');
   }
   const { getPropertiesComparisonData } = useApi();
   const [comparisonData, setComparisonData] = useState(null);
@@ -33,8 +33,8 @@ export default function ComparisonScreen({ navigation }) {
   const getUpdatedData = async () => {
     try {
       await getPropertiesComparisonData(date).then(response => {
-        console.log('10. PROPERTIES COMPARISON DATA ===>>>');
-        console.log(response.data[0]);
+        // console.log('10. PROPERTIES COMPARISON DATA ===>>>');
+        // console.log(response.data[0]);
         setComparisonData(response.data[0]);
         setRefreshed(true);
       });

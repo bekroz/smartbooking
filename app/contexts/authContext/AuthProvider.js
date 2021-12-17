@@ -22,7 +22,7 @@ const authReducer = (state, action) => {
 
 const LOGIN = async dispatch => {
   return (userToken, userSecret) => {
-    console.log('LOGIN');
+    // console.log('LOGIN');
     dispatch({
       type: 'LOGIN',
       payload: {

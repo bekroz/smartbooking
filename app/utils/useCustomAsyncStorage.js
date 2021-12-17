@@ -23,6 +23,16 @@ const setUserToken = async userToken => {
 };
 
 // #5
+const setUserSecret = userSecret => {
+  return AsyncStorage.setItem('USER_SECRET', JSON.stringify(userSecret));
+};
+// #6
+const getUserSecret = async () => {
+  const userSecret = await AsyncStorage.getItem('USER_SECRET');
+  return userSecret ? JSON.parse(userSecret) : null;
+};
+
+// #7
 const clearStorage = async () => {
   return AsyncStorage.clear();
 };
@@ -37,5 +47,9 @@ export {
   // #4
   setUserToken,
   // #5
+  setUserSecret,
+  // #6
+  getUserSecret,
+  // #7
   clearStorage,
 };

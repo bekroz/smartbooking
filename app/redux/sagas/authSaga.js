@@ -3,7 +3,7 @@ import * as typesAction from './actions/typesAction';
 import * as authenticationAction from './actions/actions';
 import { eventChannel } from 'redux-saga';
 import { Navigation } from 'react-native-navigation';
-import { handleUserTokenization } from '../../../api/useApi';
+import { handleUserTokenization } from '../../api/useApi';
 
 function* login(actions) {
   try {
@@ -12,7 +12,7 @@ function* login(actions) {
     yield call(updateApi, { deviceToken: actions.tokenDevice }, response.data);
     yield put(authenticationAction.loginSuccess());
   } catch (error) {
-    console.log('error saga', error.data);
+    // console.log('error saga', error.data);
     yield showNotification(
       'showNotification',
       'Đăng nhập không thành công',
@@ -28,7 +28,7 @@ function* logOut() {
     yield put(authenticationAction.logOutSuccess());
     yield setRoot('login');
   } catch (error) {
-    console.log('error', error);
+    // console.log('error', error);
     yield put(authenticationAction.logOutFailed());
   }
 }
@@ -45,7 +45,7 @@ function* register(actions) {
     yield showModalNavigation('registerStation');
     yield Navigation.dismissModal(actions.componentId);
   } catch (error) {
-    console.log('error', JSON.stringify(error, null, 4));
+    // console.log('error', JSON.stringify(error, null, 4));
     yield showNotification(
       'showNotification',
       'Đăng kí không thành công!',
@@ -61,7 +61,7 @@ function* getMyAccount(actions) {
     let response = yield call(getMyAccountApi, token);
     yield put(authenticationAction.getMyAccountSuccess(response.data));
   } catch (error) {
-    console.log('error', error);
+    // console.log('error', error);
     yield put(authenticationAction.getMyAccountFailed(error));
   }
 }
@@ -72,16 +72,16 @@ function* updateMyAccount(actions) {
     let response = yield call(updateApi, actions.data, token);
     yield put(authenticationAction.updateMyAccountSuccess(response.data));
   } catch (error) {
-    console.log('error', error);
+    // console.log('error', error);
     yield put(authenticationAction.updateMyAccountFailed(error));
   }
 }
 
-const rootSagaAuthentication = () => [
+const authSaga = () => [
   takeLatest(typesAction.LOGIN, login),
   takeLatest(typesAction.LOGOUT, logOut),
   takeLatest(typesAction.REGISTER, register),
   takeLatest(typesAction.GET_MY_ACCOUNT, getMyAccount),
   takeLatest(typesAction.UPDATE_MY_ACCOUNT, updateMyAccount),
 ];
-export default rootSagaAuthentication();
+export default authSaga();

@@ -18,7 +18,7 @@ import LineChartData from '../LineChartData/LineChartData';
 // Helpers
 import { numberWithSpaces } from '../../../helpers';
 // API
-import useApi from '../../../utils/api/useApi';
+import useApi from '../../../api/useApi';
 
 export default function SoldRooms() {
   const { getStatisticsByYear } = useApi();
@@ -34,9 +34,9 @@ export default function SoldRooms() {
       await getStatisticsByYear({ hotelID, chosenYear }).then(statistics => {
         setStatisticsByYearData(statistics);
         setRefreshed(true);
-        console.log('====================================');
-        refreshed && console.log(statisticsByYearData);
-        console.log('====================================');
+        // console.log('====================================');
+        // refreshed && console.log(statisticsByYearData);
+        // console.log('====================================');
       });
     } catch (error) {
       console.error(error);

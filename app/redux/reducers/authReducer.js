@@ -11,26 +11,40 @@ const initialState = {
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
+    case AUTH.APP_TOKEN_GET:
+      return {
+        ...state,
+        loading: true,
+        appToken: action.payload,
+      };
     case AUTH.LOGIN_REQUEST:
       return {
         ...state,
         loading: true,
-        user: action.data,
+        user: action.payload,
       };
     case AUTH.LOGIN_SUCCESS:
       return {
         ...state,
-        userToken: action.data,
+        loading: false,
         userLoggedIn: true,
+        userToken: action.payload,
       };
     case AUTH.LOGIN_FAILURE:
-      return { ...state, error: action.error };
+      return { ...state, error: action.payload };
     case AUTH.LOGOUT_REQUEST:
       return { ...state, userLoggedIn: true, loading: true };
     case AUTH.LOGOUT_SUCCESS:
-      return { ...state };
+      return {
+        ...state,
+        user: null,
+        appToken: null,
+        userToken: null,
+        userLoggedIn: false,
+        loading: false,
+      };
     case AUTH.LOGOUT_FAILURE:
-      return { ...state, action: action.error };
+      return { ...state, error: action.payload };
     default:
       return { ...state };
   }

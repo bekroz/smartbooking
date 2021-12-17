@@ -28,9 +28,10 @@ import {
   TraminaLine,
   DoloresLine,
 } from '../Lines';
-import { DonutView } from '..';
+// import { DonutView } from '..';
 // API
-import useApi from '../../../utils/api/useApi';
+import useApi from '../../../api/useApi';
+import { numberWithSpaces } from '../../../helpers';
 
 export default function Details() {
   const currency = 'UZS';
@@ -72,13 +73,6 @@ export default function Details() {
     getUpdatedData();
   }, []);
 
-  // RegExp to add space between numbers
-  function numberWithSpaces(x) {
-    var parts = x.toString().split('.');
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
-    return parts.join('.');
-  }
-
   const sourceNameArray = [
     'От стойки',
     'Телефон',
@@ -87,6 +81,7 @@ export default function Details() {
     'Booking.com',
     'Трамина',
   ];
+
   return (
     <>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -104,7 +99,7 @@ export default function Details() {
               styles.topBarBtn,
               {
                 backgroundColor: '#292F3A',
-                borderColor: '#5F85DB',
+                borderColor: COLORS.blue,
                 width: SIZES.width - 30,
                 height: 35,
               },
@@ -153,7 +148,7 @@ export default function Details() {
                 {/* LEFT Donut View */}
                 <View style={styles.donutBlock}>
                   {/* <Donut /> */}
-                  <DonutView />
+                  {/* <DonutView /> */}
                 </View>
                 {/* Color and Title */}
                 <View style={{ flex: 1, top: -15 }}>
@@ -275,10 +270,10 @@ export default function Details() {
                 {statsData?.map((dot, index) => (
                   <View style={styles.dotBlock}>
                     {dot?.source_name === 'От стойки' && (
-                      <ByUserLine lineWidth={100} />
+                      <ByUserLine lineWidth={100} key={index} />
                     )}
 
-                    {dot?.source_name === 'Телефон' && (
+                    {/* {dot?.source_name === 'Телефон' && (
                       <TelephoneLine lineWidth={50} />
                     )}
 
@@ -295,7 +290,7 @@ export default function Details() {
 
                     {dot?.source_name === 'Трамина' && (
                       <TraminaLine lineWidth={50} />
-                    )}
+                    )} */}
 
                     <Text style={{ color: COLORS.white }}>
                       {numberWithSpaces(dot?.average_revenue)}{' '}

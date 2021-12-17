@@ -1,14 +1,13 @@
-/* eslint-disable */
-import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
-import thunk from 'redux-thunk';
-import createSagaMiddleware from 'redux-saga';
-import reducers from '../Redux/Reducer';
-import AUTH from '../authentication/types/authTypes';
-import { persistStore, persistReducer } from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { applyMiddleware, combineReducers, createStore } from 'redux';
 
-const sagaMiddleware = createSagaMiddleware();
-const middleware = [thunk, sagaMiddleware];
+import loggerMiddleware from 'redux-logger';
+
+// Reducers
+import reducers from '../Redux/Reducer';
+// Types
+import AUTH from '../authentication/types/authTypes';
+
 const persistConfig = {
   key: 'root',
   keyPrefix: '',
@@ -28,12 +27,11 @@ const appReducer = combineReducers({
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 const initialState = {};
 
-const composedEnhancers = compose(applyMiddleware(...middleware));
-
+const middleware = applyMiddleware(loggerMiddleware);
 const allConfiguredStores = createStore(
   persistedReducer,
   initialState,
-  composedEnhancers,
+  middleware,
 );
 export const store = allConfiguredStores;
 export const persistor = persistStore(store);

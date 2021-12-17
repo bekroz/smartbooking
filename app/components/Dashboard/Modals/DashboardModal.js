@@ -8,7 +8,7 @@ import quit from '../../../images/quit.png';
 export default function DashboardModal() {
   // const modalShow
   // const modalClose = () => {
-  //   console.log('Modal closed');
+  //   // console.log('Modal closed');
   // };
   // return (
   //   <Modal
