@@ -1,4 +1,4 @@
-// #1 STAS case types
+// STATS case types
 export default STATS = {
   // Bars tab
   BY_YEAR_DATA_REQUEST: 'STATS_BY_YEAR_DATA_REQUEST',

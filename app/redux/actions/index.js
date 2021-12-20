@@ -1,22 +1,71 @@
 // Auth actions
-import authActions from './authActions';
+import {
+    appTokenRequestAction,
+    appTokenSuccessAction,
+    appTokenFailureAction,
+    loginRequestAction,
+    loginSuccessAction,
+    loginFailureAction,
+} from './authActions';
 // Hotel actions
-import getHotelData from './hotelActions';
+import { 
+    getHotelDataRequestAction,
+    getHotelDataSuccessAction,
+    getHotelDataFailureAction,
+    setHotelIDAction,
+} from './hotelActions';
 // Dashboard actions
-import getDashboardData  from './dashboardActions';
+import { getDashboardDataRequestAction, getDashboardDataSuccessAction, getDashboardDataFailureAction, }  from './dashboardActions';
 // Reservation actions
-import { getReservationData, getReservationData } from './reservationActions';
+import {
+    getReservationDataRequestAction,
+    getReservationDataSuccessAction,
+    getReservationDataFailureAction,
+    getReservationNextPageDataRequestAction,
+    getReservationNextPageDataSuccessAction,
+    getReservationNextPageDataFailureAction,
+    reservationLastPageReachedAction  } from './reservationActions';
 // Stats actions
-import { getStatsByCategoryData, getStatsByYearData } from './statsActions';
+import { getStatsByCategoryDataRequestAction, 
+    getStatsByCategoryDataSuccessAction, 
+    getStatsByCategoryDataFailureAction, 
+    getStatsByYearDataRequestAction, 
+    getStatsByYearDataSuccessAction, 
+    getStatsByYearDataFailureAction } from './statsActions';
 // Comparison actions
 import getComparisonData from './comparisonActions';
 
 export {
-    authActions, 
-    getHotelData, 
-    getDashboardData, 
-    getReservationData, 
-    getStatsByCategoryData, 
-    getStatsByYearData, 
-    getComparisonData 
+    // Auth
+    appTokenRequestAction,
+    appTokenSuccessAction,
+    appTokenFailureAction,
+    loginRequestAction,
+    loginSuccessAction,
+    loginFailureAction,
+    // Hotel
+    getHotelDataRequestAction,
+    getHotelDataSuccessAction,
+    getHotelDataFailureAction,
+    setHotelIDAction,
+    // Dashboard
+    getDashboardDataRequestAction, 
+    getDashboardDataSuccessAction, 
+    getDashboardDataFailureAction,
+    // Reservation
+    getReservationDataRequestAction,
+    getReservationDataSuccessAction,
+    getReservationDataFailureAction,
+    getReservationNextPageDataRequestAction,
+    getReservationNextPageDataSuccessAction,
+    getReservationNextPageDataFailureAction,
+    reservationLastPageReachedAction,
+    // Stats
+    getStatsByCategoryDataRequestAction, 
+    getStatsByCategoryDataSuccessAction, 
+    getStatsByCategoryDataFailureAction, 
+    getStatsByYearDataRequestAction, 
+    getStatsByYearDataSuccessAction, 
+    getStatsByYearDataFailureAction,
+    
 };

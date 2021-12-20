@@ -10,12 +10,12 @@ import comparisonReducer from './comparisonReducer'
 
 // Redux: Root Reducer
 const rootReducer = combineReducers({
-  authState: authReducer,
-  hotelState: hotelReducer,
-  dashboardState: dashboardReducer,
-  reservationState: reservationReducer,  
-  statsState: statsReducer,
-  comparisonState: comparisonReducer
+  authReducer: authReducer,
+  hotelReducer: hotelReducer,
+  dashboardReducer: dashboardReducer,
+  reservationReducer: reservationReducer,  
+  statsReducer: statsReducer,
+  comparisonReducer: comparisonReducer
 });
 
 export default rootReducer;

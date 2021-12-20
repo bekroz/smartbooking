@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import {
   View,
   Text,
@@ -28,10 +28,9 @@ import {
 import { wordTruncator, numberWithSpaces } from '../../../helpers';
 // API
 import {
-  getReservationData,
-  getReservationNextPageData,
+  getReservationDataMiddleware,
+  getReservationNextPageDataMiddleware,
 } from '../../../redux/actions/reservationActions';
-import { store } from '../../../redux/store';
 import { connect } from 'react-redux';
 
 const ReservationScreen = ({
@@ -39,44 +38,25 @@ const ReservationScreen = ({
   loading,
   reservationData,
   isLastPage,
+  hotelID,
 }) => {
-  setTimeout(() => console.log(reservationData), 1000);
-  const typeStayDates = ['Бронирование', 'Заезд', 'Выезд', 'Проживание'];
-  const statuses = [
-    'Подтверждено',
-    'Оплачено',
-    'В номере',
-    'Выехал',
-    'Не заезд',
-  ];
 
-  const outgoingData = {
-    hotelID: 48,
-    date_range_type: 'type_stay_dates',
-    start_date: '2021-08-11',
-    end_date: '2021-11-30',
-    page: 1,
+  const wait = timeout => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
   };
-
-  // const wait = timeout => {
-  //   return new Promise(resolve => setTimeout(resolve, timeout));
-  // };
-  // const onPullToRefresh = React.useCallback(() => {
-  //   wait(500).then(() => getData(outgoingData));
-  // }, []);
+  const onPullToRefresh = useCallback(() => {
+    wait(500).then(() => getReservationDataMiddleware());
+  }, []);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      getReservationData(outgoingData);
+      getReservationDataMiddleware();
     });
 
   return unsubscribe;
   }, [navigation]);
 
-  useEffect(() => {
-    getReservationData(outgoingData);
-  }, []);
-  
+
   return (
     <SafeAreaView style={styles.container}>
       <View>
@@ -94,9 +74,7 @@ const ReservationScreen = ({
           </View>
           <View style={styles.reservationsNumberContainer}>
             <Text style={styles.reservationsNumber}>
-              {!loading
-                ? `${reservationData?.length} бронирования`
-                : 'Загружается ...'}
+              {loading ? 'Загружается ...' : `${reservationData?.length} бронирования`}
             </Text>
           </View>
         </View>
@@ -217,7 +195,7 @@ const ReservationScreen = ({
                   </View>
                 </Card>
               ))
-            : 'sadad'}
+            : null}
           {isLastPage ? (
             <View style={styles.noMoreDataContainer}>
               <Text style={styles.noMoreDataAlertText}>
@@ -229,7 +207,7 @@ const ReservationScreen = ({
               style={styles.showMoreButton}
               onPress={getReservationNextPageData(outgoingData)}>
               <Text style={styles.showMoreText}>
-                {loading ? (
+                {!isLastPage ? (
                   'Показать ещё'
                 ) : (
                   <ActivityIndicator
@@ -398,18 +376,19 @@ const styles = StyleSheet.create({
   },
 });
 
-function mapStateToProps({ reservationState }) {
+function mapStateToProps({ reservationReducer, hotelReducer }) {
   console.log('====================================');
   console.log('THIS IS STATE =>>>>>');
   console.log('====================================');
-  // console.log(reservationReducer);
+  console.log(reservationReducer);
+  console.log(hotelReducer);
   return {
-    loading: reservationState.loading,
-    reservationData: reservationState.reservationData,
-    isLastPage: reservationState.isLastPage,
-    lastPage: reservationState.lastPage,
-    pageIndex: reservationState.pageIndex,
-    error: reservationState.error,
+    loading: reservationReducer.loading,
+    reservationData: reservationReducer.reservationData,
+    isLastPage: reservationReducer.isLastPage,
+    lastPage: reservationReducer.lastPage,
+    pageIndex: reservationReducer.pageIndex,
+    hotelID: hotelReducer.hotelID,
   };
 }
 

@@ -7,9 +7,8 @@ import AppStack from './app/stack/AppStack';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 import { store, persistor } from './app/redux/store';
-import { connect } from 'react-redux';
 import Loader from './app/components/Loader/Loader';
-import TestingScreen from './removables/ReduxExample';
+// import TestingScreen from './removables/ReduxExample';
 import * as Sentry from '@sentry/react-native';
 
 Sentry.init({

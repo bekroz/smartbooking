@@ -1,6 +1,4 @@
-import { getHotelAllReservationsDataAPI } from '../../api';
 import { RESERVATION } from '../types';
-import { store } from '../store';
 
 const getReservationDataRequestAction = () => {
   return {
@@ -42,47 +40,18 @@ const getReservationNextPageDataFailureAction = error => {
   };
 };
 
-const lastPageReachedAction = () => {
+const reservationLastPageReachedAction = () => {
   return {
     type: RESERVATION.LAST_PAGE_REACHED,
   };
 };
 
-async function getReservationData(params) {
-    getReservationDataRequestAction();
-  try {
-    await getHotelAllReservationsDataAPI(params).then(response => {
-      const receivedData = response.data;
-      params.page = response.meta.currentPage;
-      getReservationDataSuccessAction(receivedData);
-    });
-  } catch (error) {
-    getReservationDataFailureAction(error);
-    console.error(error);
-  }
+export {
+  getReservationDataRequestAction,
+  getReservationDataSuccessAction,
+  getReservationDataFailureAction,
+  getReservationNextPageDataRequestAction,
+  getReservationNextPageDataSuccessAction,
+  getReservationNextPageDataFailureAction,
+  reservationLastPageReachedAction
 }
-
-async function getReservationNextPageData(params) {
-  params.page++;
-  getReservationNextPageDataRequestAction(params.page);
-  try {
-    await getHotelAllReservationsDataAPI(params).then(response => {
-      const receivedData = response.data;
-      params.page = response.meta.currentPage;
-      let lastData = store.getState().reservationState.reservationData;
-      receivedData.forEach(element => {
-        lastData.push(element);
-      });
-
-      getReservationNextPageDataSuccessAction(lastData);
-      if (response.meta.current_page === response.meta.last_page) {
-        lastPageReachedAction();
-      }
-    });
-  } catch (error) {
-    getReservationNextPageDataFailureAction(error);
-    console.error(error);
-  }
-}
-
-export { getReservationData, getReservationNextPageData };

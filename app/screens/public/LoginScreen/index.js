@@ -21,9 +21,9 @@ import {
 import { emailValidator, passwordValidator } from '../../../helpers';
 // API
 import {
-  handleAppTokenizationAPI,
+  appTokenMiddleware,
   handleUserTokenizationAPI,
-} from '../../../api';
+} from '../../../redux/middlewares'
 // Utils
 import { setUserSecret } from '../../../utils/useCustomAsyncStorage';
 // Context
@@ -85,7 +85,7 @@ export default function LoginScreen({ navigation }) {
   };
 
   useEffect(() => {
-    handleAppTokenizationAPI();
+    appTokenMiddleware();
   }, []);
 
   return (

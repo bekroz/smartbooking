@@ -1,5 +1,4 @@
 import { STATS } from '../types';
-import { getStatisticsByCategoryAPI, getStatisticsByYearAPI } from '../../api'
 
 // By category
 const getStatsByCategoryDataRequestAction = (chosenStatsDateRange) => {
@@ -45,30 +44,9 @@ const getStatsByYearDataFailureAction = (error) => {
   };
 };
 
-
-async function getStatsByCategoryData(chosenStatsDateRange) {
-  getStatsByCategoryDataRequestAction(chosenStatsDateRange);
-  try {
-    await getStatisticsByCategoryAPI(chosenStatsDateRange).then(statisticsByCategoryData => {
-      getStatsByCategoryDataSuccessAction(statisticsByCategoryData)
-    });
-  } catch (error) {
-    getStatsByCategoryDataFailureAction(error);
-    console.error(error);
-  }
-}
-
-async function getStatsByYearData(chosenStatsYear) {
-  getStatsByYearDataRequestAction(chosenStatsYear);
-  try {
-    await getStatisticsByYearAPI(chosenStatsYear).then(statisticsByYearData => {
-      getStatsByYearDataSuccessAction(statisticsByYearData)
-    });
-  } catch (error) {
-    getStatsByYearDataFailureAction(error);
-    console.error(error);
-  }
-}
-
-
-export { getStatsByCategoryData, getStatsByYearData };
+export { getStatsByCategoryDataRequestAction, 
+  getStatsByCategoryDataSuccessAction, 
+  getStatsByCategoryDataFailureAction, 
+  getStatsByYearDataRequestAction, 
+  getStatsByYearDataSuccessAction, 
+  getStatsByYearDataFailureAction };

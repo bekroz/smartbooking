@@ -13,19 +13,23 @@ const hotelReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: true,
-        hotelID: action.payload,
       };
     case HOTEL.DATA_SUCCESS:
       return {
         ...state,
         loading: false,
         hotelList: action.payload,
-      };
+      };      
     case HOTEL.DATA_FAILURE:
       return {
         ...state,
         loading: false,
         error: action.payload
+      };
+    case HOTEL.SET_HOTEL_ID:
+      return {
+        ...state,
+        hotelID: action.payload
       };
     default:
       return { ...state };

@@ -1,13 +1,13 @@
-import { getDashboardDataAPI } from '../../api';
-import { DASHBOARD } from '../types/index';
+import { DASHBOARD } from '../types';
 
-const getDashboardDataRequestAction = () => {
+const getDashboardDataRequestAction = (chosenDashbordDate) => {
   return {
     type: DASHBOARD.DATA_REQUEST,
+    payload: chosenDashbordDate 
   };
 };
 
-const getDashboardDataSuccessAction = dashboardData => {
+const getDashboardDataSuccessAction = (dashboardData) => {
   return {
     type: DASHBOARD.DATA_SUCCESS,
     payload: dashboardData,
@@ -21,17 +21,4 @@ const getDashboardDataFailureAction = error => {
   };
 };
 
-
-async function getDashboardData(params) {
-  getDashboardDataRequestAction();
-  try {
-    await getDashboardDataAPI(params).then(dashboardData => {
-      getDashboardDataSuccessAction(dashboardData);
-    });
-  } catch (error) {
-    getDashboardDataFailureAction(error);
-    console.error(error);
-  }
-}
-
-export default getDashboardData;
+export { getDashboardDataRequestAction, getDashboardDataSuccessAction, getDashboardDataFailureAction };

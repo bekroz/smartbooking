@@ -11,8 +11,8 @@ const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['authReducer', ],
-  blacklist: ['dashboardReducer','hotelReducer','reservationReducer','stasReducer', 'comparisonReducer'],
+  whitelist: ['authReducer'],
+  blacklist: ['dashboardReducer','reservationReducer','statsReducer', 'comparisonReducer'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

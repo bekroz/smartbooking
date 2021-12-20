@@ -1,5 +1,4 @@
 import { COMPARISON } from '../types';
-import { getPropertiesComparisonDataAPI } from '../../api';
 
 const getComparisonDataRequestAction = (chosenComparisonDate) => {
   return {
@@ -22,16 +21,8 @@ const getComparisonDataFailureAction = (error) => {
   };
 };
 
-async function getComparisonData(chosenComparisonDate) {
-    getComparisonDataRequestAction(chosenComparisonDate);
-try {
-  await getPropertiesComparisonDataAPI(chosenComparisonDate).then(comparisonData => {
-    getComparisonDataSuccessAction(comparisonData);
-  });
-} catch (error) {
-    getComparisonDataFailureAction(error);
-  console.error(error);
+export {
+  getComparisonDataRequestAction,
+  getComparisonDataSuccessAction,
+  getComparisonDataFailureAction
 }
-}
-
-export default getComparisonData;

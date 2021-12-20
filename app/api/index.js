@@ -22,7 +22,7 @@ const handleAppTokenizationAPI = async () => {
     }).then(response => {
       // console.log('1. APP TOKEN ===>>>');
       // console.log(response.data.access_token);
-      setAppToken(response.data.access_token);
+      // setAppToken(response.data.access_token);
       return response.data.access_token;
     });
   } catch (err) {
@@ -31,7 +31,7 @@ const handleAppTokenizationAPI = async () => {
 };
 
 // #2 API => GET USER token
-const handleUserTokenizationAPI = async () => {
+const handleUserTokenizationAPI = async (outgoingData) => {
   const appToken = await getAppToken();
   const userSecret = await getUserSecret();
   try {
@@ -42,14 +42,19 @@ const handleUserTokenizationAPI = async () => {
         Authorization: `Bearer ${appToken}`,
         'Content-Type': 'application/json',
       },
-      data: {
+     data: {
         username: userSecret.email,
         password: userSecret.password,
       },
+      // data: outgoingData.user
+      // data: {
+      //   username: outgoingData.user.email,
+      //   password: outgoingData.user.password,
+      // },
     }).then(response => {
       // console.log('2. USER TOKEN ===>>>');
       // console.log(response.data.access_token);
-      setUserToken(response.data.access_token);
+      // setUserToken(response.data.access_token);
       return response.data.access_token;
     });
   } catch (err) {
@@ -70,7 +75,7 @@ const getAllHotelPropertiesDataAPI = async () => {
         'Content-Type': 'application/json',
       },
     }).then(response => {
-      // console.log('3. ALL HOTEL PROPERTY LIST ===>>>');
+      // console.log('3. ALL HOTELS LIST ===>>>');
       // console.log(response.data.data);
       return response.data.data;
     });
@@ -80,15 +85,15 @@ const getAllHotelPropertiesDataAPI = async () => {
   }
 };
 
-// #4 API => GET All Hotel Properties Data of the user
-const getSingleHotelDataAPI = async hotelID => {
-  const userToken = await getUserToken();
+// #4 API => GET Single Hotel Detailed Data of the user
+const getSingleHotelDataAPI = async (outgoingData) => {
+  // const userToken = await getUserToken();
   try {
     return await axios({
-      url: `${Config.BASE_API_URL}/mobile/properties/${hotelID}`,
+      url: `${Config.BASE_API_URL}/mobile/properties/${outgoingData.hotelID}`,
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${userToken}`,
+        Authorization: `Bearer ${outgoingData.userToken}`,
         'Content-Type': 'application/json',
       },
     });
@@ -99,18 +104,17 @@ const getSingleHotelDataAPI = async hotelID => {
 };
 
 // #5 API => GET Dashboard Data of the user
-
-const getDashboardDataAPI = async dashboardOutgoingData => {
-  const userToken = await getUserToken();
+const getDashboardDataAPI = async outgoingData => {
+  // const userToken = await getUserToken();
   try {
     return await axios({
-      url: `${Config.BASE_API_URL}/mobile/${dashboardOutgoingData.hotelID}/dashboard`,
+      url: `${Config.BASE_API_URL}/mobile/${outgoingData.hotelID}/dashboard`,
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${userToken}`,
+        Authorization: `Bearer ${outgoingData.userToken}`,
         'Content-Type': 'application/json',
       },
-      data: dashboardOutgoingData,
+      data: outgoingData.dashboardOutgoingData,
     }).then(response => {
       return response.data.data;
     });
@@ -120,33 +124,19 @@ const getDashboardDataAPI = async dashboardOutgoingData => {
   }
 };
 
-// #6 API => GET Hotel All Reservations Data
-
-// const date = new Date();
-// const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
-// const lastDayOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-
-// DEFAULT OUTGOING DATA TO SEND
-// let outgoing_data = {
-//   hotelID: '48',
-//   date_range_type: 'type_stay_dates',
-//   start_date: firstDayOfMonth,
-//   end_date: lastDayOfMonth,
-//   page: 2,
-// };
-
-const getHotelAllReservationsDataAPI = async outgoingData => {
-  const userToken = await getUserToken();
+// #6 API => GET All Reservations Data
+const getAllReservationsDataAPI = async outgoingData => {
+  // const userToken = await getUserToken();
 
   try {
     return await axios({
       url: `${Config.BASE_API_URL}/mobile/${outgoingData.hotelID}/reservations`,
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${userToken}`,
+        Authorization: `Bearer ${outgoingData.userToken}`,
         'Content-Type': 'application/json',
       },
-      data: outgoingData,
+      data: outgoingData.reservationsOutgoingData,
     }).then(response => {
       return response.data;
     });
@@ -157,15 +147,14 @@ const getHotelAllReservationsDataAPI = async outgoingData => {
 };
 
 // #7 API => GET Hotel Single Reservation Data
-
 const getHotelSingleReservationDataAPI = async outgoingData => {
-  const userToken = await getUserToken();
+  // const userToken = await getUserToken();
   try {
     return await axios({
       url: `${Config.BASE_API_URL}/mobile/${outgoingData.hotelID}/reservations/${outgoingData.reservationID}`,
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${userToken}`,
+        Authorization: `Bearer ${outgoingData.userToken}`,
         'Content-Type': 'application/json',
       },
     });
@@ -176,18 +165,17 @@ const getHotelSingleReservationDataAPI = async outgoingData => {
 };
 
 // #8 API => GET Reserved room list dataSource
-
 const getReservedRoomsListDataAPI = async outgoingData => {
-  const userToken = await getUserToken();
+  // const userToken = await getUserToken();
   try {
     return await axios({
       url: `${Config.BASE_API_URL}/mobile/${outgoingData.hotelID}/reservation-rooms`,
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${userToken}`,
+        Authorization: `Bearer ${outgoingData.userToken}`,
         'Content-Type': 'application/json',
       },
-      data: outgoingData,
+      data: outgoingData.reservedRoomsOutgoingData,
     }).then(response => {
       return response.data;
     });
@@ -196,20 +184,20 @@ const getReservedRoomsListDataAPI = async outgoingData => {
     alert(err);
   }
 };
-// #9 API => GET Hotel Statistics By Year
 
-const getStatisticsByYearAPI = async ({ hotelID, chosenYear }) => {
-  const userToken = await getUserToken();
+// #9 API => GET Hotel Statistics By Year
+const getStatisticsByYearAPI = async (outgoingData) => {
+  // const userToken = await getUserToken();
   try {
     return await axios({
-      url: `${Config.BASE_API_URL}/mobile/${hotelID}/statistics-by-year`,
+      url: `${Config.BASE_API_URL}/mobile/${outgoingData.hotelID}/statistics-by-year`,
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${userToken}`,
+        Authorization: `Bearer ${outgoingData.userToken}`,
         'Content-Type': 'application/json',
       },
       data: {
-        year: chosenYear,
+        year: outgoingData.chosenStatYear,
       },
     }).then(response => {
       return response.data.data;
@@ -222,17 +210,17 @@ const getStatisticsByYearAPI = async ({ hotelID, chosenYear }) => {
 
 // #10 API => GET Hotel Statistics By Category
 
-const getStatisticsByCategoryAPI = async (hotelID, dateRange) => {
-  const userToken = await getUserToken();
+const getStatisticsByCategoryAPI = async (outgoingData) => {
+  // const userToken = await getUserToken();
   try {
     return await axios({
-      url: `${Config.BASE_API_URL}/mobile/${hotelID}/statistics-by-group`,
+      url: `${Config.BASE_API_URL}/mobile/${outgoingData.hotelID}/statistics-by-group`,
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${userToken}`,
+        Authorization: `Bearer ${outgoingData.userToken}`,
         'Content-Type': 'application/json',
       },
-      data: dateRange,
+      data: outgoingData
     }).then(response => {
       return response;
     });
@@ -243,15 +231,14 @@ const getStatisticsByCategoryAPI = async (hotelID, dateRange) => {
 };
 
 // #11 API => GET Properties Comparison Data
-
 const getPropertiesComparisonDataAPI = async outgoingData => {
-  const userToken = await getUserToken();
+  // const userToken = await getUserToken();
   try {
     return await axios({
       url: `${Config.BASE_API_URL}/mobile/compare-properties`,
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${userToken}`,
+        Authorization: `Bearer ${outgoingData.userToken}`,
         'Content-Type': 'application/json',
       },
       data: outgoingData,
@@ -264,15 +251,14 @@ const getPropertiesComparisonDataAPI = async outgoingData => {
 };
 
 // #12 API => GET Property Sources Data
-
-const getSourcesDataAPI = async () => {
-  const userToken = await getUserToken();
+const getSourcesDataAPI = async (outgoingData) => {
+  // const userToken = await getUserToken();
   try {
     return await axios({
-      url: `${Config.BASE_API_URL}/mobile/${hotelID}/sources`,
+      url: `${Config.BASE_API_URL}/mobile/${outgoingData.hotelID}/sources`,
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${userToken}`,
+        Authorization: `Bearer ${outgoingData.userToken}`,
         'Content-Type': 'application/json',
       },
     }).then(response => {
@@ -297,7 +283,7 @@ export {
   // #5
   getDashboardDataAPI,
   // #6
-  getHotelAllReservationsDataAPI,
+  getAllReservationsDataAPI,
   // #7
   getHotelSingleReservationDataAPI,
   // #8

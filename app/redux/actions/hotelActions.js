@@ -1,16 +1,16 @@
 import { HOTEL } from '../types';
-import { getAllHotelPropertiesDataAPI } from '../../api';
 
-const getHotelDataRequestAction = (hotelID) => {
+const getHotelDataRequestAction = (currentHotelID) => {
   return {
     type: HOTEL.DATA_REQUEST,
+    payload: currentHotelID
   };
 };
 
 const getHotelDataSuccessAction = (hotelList) => {
   return {
     type: HOTEL.DATA_SUCCESS,
-    payload: hotelList
+    payload: hotelList,
   };
 };
 
@@ -21,16 +21,17 @@ const getHotelDataFailureAction = (error) => {
   };
 };
 
+const setHotelIDAction = (hotelID) => {
+  return {
+    type: HOTEL.SET_HOTEL_ID,
+    payload: hotelID
+  };
+};
 
-async function getHotelData() {
-  getHotelDataRequestAction();
-try {
-  await getAllHotelPropertiesDataAPI(params).then(hotelList => {
-    getHotelDataSuccessAction(hotelList);
-  });
-} catch (error) {
-  getHotelDataFailureAction(error);
-  console.error(error);
+export {
+  getHotelDataRequestAction,
+  getHotelDataSuccessAction,
+  getHotelDataFailureAction,
+  setHotelIDAction
 }
-}
-export default getHotelData;
+
