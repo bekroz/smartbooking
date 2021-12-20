@@ -1,24 +1,74 @@
-import { USER_SELECTION } from '../types/index';
+import { STATS } from '../types';
+import { getStatisticsByCategoryAPI, getStatisticsByYearAPI } from '../../api'
 
-const setHotelIDAction = (hotelID) => {
+// By category
+const getStatsByCategoryDataRequestAction = (chosenStatsDateRange) => {
   return {
-    type: USER_SELECTION.CHOSEN_HOTEL_ID,
-    hotelID: hotelID
+    type: STATS.BY_CATEGORY_DATA_REQUEST,
+    payload: chosenStatsDateRange
   };
 };
 
-const setDateRangeAction = (dateRange) => {
+const getStatsByCategoryDataSuccessAction = (statisticsByCategoryData) => {
   return {
-    type: USER_SELECTION.CHOSEN_RANGE,
-    dateRange: dateRange
+    type: STATS.BY_CATEGORY_DATA_SUCCESS,
+    payload: statisticsByCategoryData
   };
 };
 
-const setChosenYearAction = (chosenYear) => {
+const getStatsByCategoryDataFailureAction = (error) => {
   return {
-    type: USER_SELECTION.CHOSEN_RANGE,
-    chosenYear: chosenYear
+    type: STATS.BY_CATEGORY_DATA_FAILURE,
+    payload: error
   };
 };
 
-export { setHotelIDAction, setDateRangeAction, setChosenYearAction };
+// By year
+const getStatsByYearDataRequestAction = (chosenStatsYear) => {
+  return {
+    type: STATS.BY_YEAR_DATA_REQUEST,
+    payload: chosenStatsYear
+  };
+};
+
+const getStatsByYearDataSuccessAction = (statisticsByYearData) => {
+  return {
+    type: STATS.BY_YEAR_DATA_SUCCESS,
+    payload: statisticsByYearData
+  };
+};
+
+const getStatsByYearDataFailureAction = (error) => {
+  return {
+    type: STATS.BY_YEAR_DATA_FAILURE,
+    payload: error
+  };
+};
+
+
+async function getStatsByCategoryData(chosenStatsDateRange) {
+  getStatsByCategoryDataRequestAction(chosenStatsDateRange);
+  try {
+    await getStatisticsByCategoryAPI(chosenStatsDateRange).then(statisticsByCategoryData => {
+      getStatsByCategoryDataSuccessAction(statisticsByCategoryData)
+    });
+  } catch (error) {
+    getStatsByCategoryDataFailureAction(error);
+    console.error(error);
+  }
+}
+
+async function getStatsByYearData(chosenStatsYear) {
+  getStatsByYearDataRequestAction(chosenStatsYear);
+  try {
+    await getStatisticsByYearAPI(chosenStatsYear).then(statisticsByYearData => {
+      getStatsByYearDataSuccessAction(statisticsByYearData)
+    });
+  } catch (error) {
+    getStatsByYearDataFailureAction(error);
+    console.error(error);
+  }
+}
+
+
+export { getStatsByCategoryData, getStatsByYearData };

@@ -2,10 +2,10 @@ import { STATS } from '../types';
 
 const initialState = {
   loading: false,
-  chosenStatsYear: '',
   chosenStatsDateRange: {},
-  statisticsByYearData: [],
+  chosenStatsYear: '',
   statisticsByCategoryData: [],
+  statisticsByYearData: [],
   error: null
 };
 

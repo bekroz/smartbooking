@@ -6,6 +6,7 @@ import hotelReducer from './hotelReducer';
 import dashboardReducer from './dashboardReducer';
 import reservationReducer from './reservationReducer';
 import statsReducer from './statsReducer';
+import comparisonReducer from './comparisonReducer'
 
 // Redux: Root Reducer
 const rootReducer = combineReducers({
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   dashboardState: dashboardReducer,
   reservationState: reservationReducer,  
   statsState: statsReducer,
+  comparisonState: comparisonReducer
 });
 
 export default rootReducer;

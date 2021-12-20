@@ -1,10 +1,10 @@
-import DashboardScreen from './DashboardScreen/DashboardScreen';
-import CalendarScreen from './CalendarScreen/CalendarScreen';
-import ReservationScreen from './ReservationScreen/ReservationScreen';
-import StatsScreen from './StatsScreen/StatsScreen';
-import SettingsScreen from './SettingsScreen/SettingsScreen';
-import ComparisonScreen from './ComparisonScreen/ComparisonScreen';
-import ArrivalsScreen from './ArrivalsScreen/ArrivalsScreen';
+import DashboardScreen from './DashboardScreen';
+import CalendarScreen from './CalendarScreen';
+import ReservationScreen from './ReservationScreen';
+import StatsScreen from './StatsScreen';
+import SettingsScreen from './SettingsScreen';
+import ComparisonScreen from './ComparisonScreen';
+import ArrivalsScreen from './ArrivalsScreen';
 
 export {
   DashboardScreen,

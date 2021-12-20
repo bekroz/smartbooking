@@ -33,31 +33,31 @@ const reservationReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        reservationData: action.payload.reservationData,
+        reservationData: action.payload,
       };
     case RESERVATION.DATA_FAILURE:
       return {
         ...state,
         loading: false,
-        error: action.payload.error,
+        error: action.payload,
       };
     case RESERVATION.NEXT_PAGE_REQUEST:
       return {
         ...state,
         loading: true,
-        pageIndex: action.payload.pageIndex,
+        pageIndex: action.payload,
       };
     case RESERVATION.NEXT_PAGE_SUCCESS:
       return {
         ...state,
         loading: false,
-        reservationData: action.payload.reservationData,
+        reservationData: action.payload,
       };
     case RESERVATION.NEXT_PAGE_FAILURE:
       return {
         ...state,
         loading: false,
-        error: action.payload.error,
+        error: action.payload,
       };
     case RESERVATION.LAST_PAGE_REACHED:
       return {

@@ -1,6 +1,6 @@
 import { getHotelAllReservationsDataAPI } from '../../api';
-import { RESERVATION } from '../types/index';
-import { store } from '../../redux/store';
+import { RESERVATION } from '../types';
+import { store } from '../store';
 
 const getReservationDataRequestAction = () => {
   return {
@@ -11,14 +11,14 @@ const getReservationDataRequestAction = () => {
 const getReservationDataSuccessAction = reservationData => {
   return {
     type: RESERVATION.DATA_SUCCESS,
-    reservationData: reservationData,
+    payload: reservationData,
   };
 };
 
 const getReservationDataFailureAction = error => {
   return {
     type: RESERVATION.DATA_FAILURE,
-    error: error,
+    payload: error,
   };
 };
 
@@ -31,14 +31,14 @@ const getReservationNextPageDataRequestAction = () => {
 const getReservationNextPageDataSuccessAction = reservationData => {
   return {
     type: RESERVATION.NEXT_PAGE_SUCCESS,
-    reservationData: reservationData,
+    payload: reservationData,
   };
 };
 
 const getReservationNextPageDataFailureAction = error => {
   return {
     type: RESERVATION.NEXT_PAGE_FAILURE,
-    error: error,
+    payload: error,
   };
 };
 
@@ -84,4 +84,5 @@ async function getReservationNextPageData(params) {
     console.error(error);
   }
 }
+
 export { getReservationData, getReservationNextPageData };

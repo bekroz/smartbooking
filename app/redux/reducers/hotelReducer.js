@@ -3,7 +3,6 @@ import { HOTEL } from '../types';
 const initialState = {
   loading: false,
   hotelID: null,
-  hotelName: null,
   hotelList: [],
   error: null
 };
@@ -14,22 +13,19 @@ const hotelReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: true,
-        hotelID: action.payload.hotelID,
-        hotelName: action.payload.hotelName
+        hotelID: action.payload,
       };
     case HOTEL.DATA_SUCCESS:
       return {
         ...state,
         loading: false,
-        hotelList: action.payload.hotelList,
-        hotelID: action.payload.hotelID,
-        hotelName: action.payload.hotelName
+        hotelList: action.payload,
       };
     case HOTEL.DATA_FAILURE:
       return {
         ...state,
         loading: false,
-        error: action.payload.error
+        error: action.payload
       };
     default:
       return { ...state };

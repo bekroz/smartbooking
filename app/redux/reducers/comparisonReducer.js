@@ -1,25 +1,25 @@
-import DASHBOARD from '../types/dashboardTypes';
+import { COMPARISON } from '../types';
 
 const initialState = {
   loading: false,
-  dashboardData: [],
+  comparisonData: {},
   error: '',
 };
 
-const dashboardReducer = (state = initialState, action) => {
+const comparisonReducer = (state = initialState, action) => {
   switch (action.type) {
-    case DASHBOARD.DATA_REQUEST:
+    case COMPARISON.DATA_REQUEST:
       return {
         ...state,
         loading: true,
       };
-    case DASHBOARD.DATA_SUCCESS:
+    case COMPARISON.DATA_SUCCESS:
       return {
         ...state,
         loading: false,
-        dashboardData: action.payload,
+        comparisonData: action.payload,
       };
-    case DASHBOARD.DATA_FAILURE:
+    case COMPARISON.DATA_FAILURE:
       return {
         ...state,
         loading: false,
@@ -29,4 +29,4 @@ const dashboardReducer = (state = initialState, action) => {
       return { ...state };
   }
 };
-export default dashboardReducer;
+export default comparisonReducer;

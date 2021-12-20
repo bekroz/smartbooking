@@ -10,14 +10,14 @@ const getDashboardDataRequestAction = () => {
 const getDashboardDataSuccessAction = dashboardData => {
   return {
     type: DASHBOARD.DATA_SUCCESS,
-    dashboardData: dashboardData,
+    payload: dashboardData,
   };
 };
 
 const getDashboardDataFailureAction = error => {
   return {
     type: DASHBOARD.DATA_FAILURE,
-    error: error,
+    payload: error,
   };
 };
 
@@ -34,4 +34,4 @@ async function getDashboardData(params) {
   }
 }
 
-export { getDashboardData };
+export default getDashboardData;

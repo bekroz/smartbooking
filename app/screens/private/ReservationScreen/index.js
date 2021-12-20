@@ -30,8 +30,8 @@ import { wordTruncator, numberWithSpaces } from '../../../helpers';
 import {
   getReservationData,
   getReservationNextPageData,
-} from '../../../redux/actions/reservationAction';
-// import { store } from '../../../redux/store';
+} from '../../../redux/actions/reservationActions';
+import { store } from '../../../redux/store';
 import { connect } from 'react-redux';
 
 const ReservationScreen = ({
@@ -76,6 +76,7 @@ const ReservationScreen = ({
   useEffect(() => {
     getReservationData(outgoingData);
   }, []);
+  
   return (
     <SafeAreaView style={styles.container}>
       <View>
