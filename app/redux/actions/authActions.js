@@ -19,7 +19,7 @@ export const appTokenAction = () => {
   return async dispatch => {
     dispatch(appTokenRequest());
     try {
-      handleAppTokenization().then(appToken =>
+      handleAppTokenizationAPI().then(appToken =>
         dispatch(appTokenSuccess(appToken)),
       );
     } catch (error) {
@@ -31,7 +31,7 @@ export const appTokenAction = () => {
 
 // Type
 import AUTH from '../types/authTypes';
-import { handleAppTokenization } from '../../api';
+import { handleAppTokenizationAPI } from '../../api';
 // #1 Registration
 
 export default function authActions() {

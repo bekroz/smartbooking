@@ -31,19 +31,4 @@ const App = () => {
   );
 };
 
-// store.subscribe(() => {
-//   console.log('STORE UPDATED ===>>> ====================================');
-//   console.log(store.getState());
-//   console.log('====================================');
-// });
-// store.dispatch({
-//   type: 'AUTH_APP_TOKEN_GET',
-//   payload: 'dsfasdsa'
-// });
-
-console.log('====================================');
-console.log('PERSISTOR  ===>>> ');
-console.log(store.getState());
-console.log('====================================');
-
 export default App;

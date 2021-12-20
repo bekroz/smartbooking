@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   Text,
@@ -28,15 +28,15 @@ import {
 import { wordTruncator, numberWithSpaces } from '../../../helpers';
 // API
 import {
-  getData,
-  getNextPageData,
+  getReservationData,
+  getReservationNextPageData,
 } from '../../../redux/actions/reservationAction';
 // import { store } from '../../../redux/store';
 import { connect } from 'react-redux';
 
 const ReservationScreen = ({
   navigation,
-  refreshing,
+  loading,
   reservationData,
   isLastPage,
 }) => {
@@ -67,14 +67,14 @@ const ReservationScreen = ({
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      getData(outgoingData);
+      getReservationData(outgoingData);
     });
 
   return unsubscribe;
   }, [navigation]);
 
   useEffect(() => {
-    getData(outgoingData);
+    getReservationData(outgoingData);
   }, []);
   return (
     <SafeAreaView style={styles.container}>
@@ -93,7 +93,7 @@ const ReservationScreen = ({
           </View>
           <View style={styles.reservationsNumberContainer}>
             <Text style={styles.reservationsNumber}>
-              {!refreshing
+              {!loading
                 ? `${reservationData?.length} бронирования`
                 : 'Загружается ...'}
             </Text>
@@ -109,7 +109,7 @@ const ReservationScreen = ({
           showsVerticalScrollIndicator={false}
           refreshControl={
             <RefreshControl
-              refreshing={refreshing}
+              loading={loading}
               onRefresh={
                 {}
                 // onPullToRefresh
@@ -118,7 +118,7 @@ const ReservationScreen = ({
             />
           }>
           {/* All Cards */}
-          {!refreshing
+          {!loading
             ? reservationData?.map((reservation, index) => (
                 <Card key={index} containerStyle={styles.card} title="Guests">
                   {/* LEFT Side Content */}
@@ -226,9 +226,9 @@ const ReservationScreen = ({
           ) : (
             <TouchableOpacity
               style={styles.showMoreButton}
-              onPress={getNextPageData(outgoingData)}>
+              onPress={getReservationNextPageData(outgoingData)}>
               <Text style={styles.showMoreText}>
-                {refreshing ? (
+                {loading ? (
                   'Показать ещё'
                 ) : (
                   <ActivityIndicator
@@ -397,18 +397,18 @@ const styles = StyleSheet.create({
   },
 });
 
-function mapStateToProps({ reservationReducer }) {
+function mapStateToProps({ reservationState }) {
   console.log('====================================');
   console.log('THIS IS STATE =>>>>>');
   console.log('====================================');
   // console.log(reservationReducer);
   return {
-    refreshing: reservationReducer.refreshing,
-    reservationData: reservationReducer.reservationData,
-    isLastPage: reservationReducer.isLastPage,
-    lastPage: reservationReducer.lastPage,
-    pageIndex: reservationReducer.pageIndex,
-    error: reservationReducer.error,
+    loading: reservationState.loading,
+    reservationData: reservationState.reservationData,
+    isLastPage: reservationState.isLastPage,
+    lastPage: reservationState.lastPage,
+    pageIndex: reservationState.pageIndex,
+    error: reservationState.error,
   };
 }
 

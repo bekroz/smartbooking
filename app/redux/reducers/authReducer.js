@@ -1,12 +1,12 @@
-import AUTH from '../types/authTypes';
+import { AUTH } from '../types';
 
 const initialState = {
   loading: false,
   user: null,
   appToken: null,
   userToken: null,
-  error: null,
   userLoggedIn: false,
+  error: null,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -19,7 +19,7 @@ const authReducer = (state = initialState, action) => {
     case AUTH.APP_TOKEN_SUCCESS:
       return {
         ...state,
-        loading: true,
+        loading: false,
         appToken: action.payload,
       };
     case AUTH.APP_TOKEN_FAILURE:
@@ -32,19 +32,27 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: true,
+        user: action.payload,
       };
     case AUTH.LOGIN_SUCCESS:
       return {
         ...state,
         loading: false,
-        user: action.user,
-        userToken: action.userToken,
         userLoggedIn: true,
+        userToken: action.payload,
       };
     case AUTH.LOGIN_FAILURE:
-      return { ...state, error: action.payload };
+      return { 
+        ...state, 
+        error: 
+        action.payload 
+      };
     case AUTH.LOGOUT_REQUEST:
-      return { ...state, userLoggedIn: true, loading: true };
+      return { 
+        ...state, 
+        loading: true, 
+        userLoggedIn: true,  
+      };
     case AUTH.LOGOUT_SUCCESS:
       return {
         ...state,
@@ -55,7 +63,9 @@ const authReducer = (state = initialState, action) => {
         loading: false,
       };
     case AUTH.LOGOUT_FAILURE:
-      return { ...state, error: action.payload };
+      return { 
+        ...state, 
+        error: action.payload };
     default:
       return { ...state };
   }

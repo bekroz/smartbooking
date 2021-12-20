@@ -18,7 +18,7 @@ import LineChartData from '../LineChartData/LineChartData';
 // Helpers
 import { numberWithSpaces } from '../../../helpers';
 // API
-import { getStatisticsByYear } from '../../../api';
+import { getStatisticsByYearAPI } from '../../../api';
 import { useCallback } from 'react';
 import { RefreshControl } from 'react-native';
 
@@ -32,7 +32,7 @@ export default function SoldRooms() {
 
   const getUpdatedData = async () => {
     try {
-      await getStatisticsByYear({ hotelID, chosenYear }).then(statistics => {
+      await getStatisticsByYearAPI({ hotelID, chosenYear }).then(statistics => {
         setStatisticsByYearData(statistics);
         setRefreshed(true);
         // console.log('====================================');

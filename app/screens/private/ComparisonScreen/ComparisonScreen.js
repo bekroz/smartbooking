@@ -16,7 +16,7 @@ import { GoBackSvg } from '../../../assets/icons/SvgIcons';
 // Helpers
 import { numberWithSpaces, getMonthName } from '../../../helpers';
 // API
-import { getPropertiesComparisonData } from '../../../api';
+import { getPropertiesComparisonDataAPI } from '../../../api';
 
 export default function ComparisonScreen({ navigation }) {
   // HARD CODED DATA ===> STARTS
@@ -33,7 +33,7 @@ export default function ComparisonScreen({ navigation }) {
   async function getUpdatedData() {
     setDataLoaded(false);
     try {
-      await getPropertiesComparisonData(date).then(response => {
+      await getPropertiesComparisonDataAPI(date).then(response => {
         // console.log('10. PROPERTIES COMPARISON DATA ===>>>');
         // console.log(response.data[0]);
         setComparisonData(response.data[0]);

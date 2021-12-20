@@ -21,8 +21,8 @@ import {
 import { emailValidator, passwordValidator } from '../../../helpers';
 // API
 import {
-  handleAppTokenization,
-  handleUserTokenization,
+  handleAppTokenizationAPI,
+  handleUserTokenizationAPI,
 } from '../../../api';
 // Utils
 import { setUserSecret } from '../../../utils/useCustomAsyncStorage';
@@ -68,7 +68,7 @@ export default function LoginScreen({ navigation }) {
     setLoginRequest(true);
     setUserSecret(userSecret);
     try {
-      await handleUserTokenization().then(userToken => {
+      await handleUserTokenizationAPI().then(userToken => {
         if (userToken) {
           navigation.replace('HomeScreen');
           setUser(userToken);
@@ -85,7 +85,7 @@ export default function LoginScreen({ navigation }) {
   };
 
   useEffect(() => {
-    handleAppTokenization();
+    handleAppTokenizationAPI();
   }, []);
 
   return (

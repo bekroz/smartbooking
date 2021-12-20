@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -19,7 +19,7 @@ export default function SettingsScreen({ navigation }) {
     Alert.alert('Вы действительно хотите выйти из своего аккаунта?', '', [
       {
         text: 'Выйти',
-        onPress: () => handleLougOut(),
+        onPress: () => handleLogOut(),
         style: 'destructive',
       },
       {
@@ -29,7 +29,7 @@ export default function SettingsScreen({ navigation }) {
     ]);
   }
 
-  async function handleLougOut() {
+  async function handleLogOut() {
     try {
       await clearStorage();
       navigation.replace('LoginScreen');

@@ -31,7 +31,7 @@ import {
 } from '../Lines';
 // import { DonutView } from '..';
 // API
-import { getStatisticsByCategory } from '../../../api';
+import { getStatisticsByCategoryAPI } from '../../../api';
 import { numberWithSpaces } from '../../../helpers';
 
 export default function Details() {
@@ -51,7 +51,7 @@ export default function Details() {
 
   const getUpdatedData = async () => {
     try {
-      await getStatisticsByCategory(dateRange).then(response => {
+      await getStatisticsByCategoryAPI(dateRange).then(response => {
         setStatsData(response.data.data);
         setOverallData({
           totalRevenue: response.data.total_revenue,

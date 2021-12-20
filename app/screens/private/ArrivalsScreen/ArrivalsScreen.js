@@ -30,7 +30,7 @@ import {
 // Buttons
 import { GoBackButton } from '../../../components/Buttons';
 // API
-import { getReservedRoomsListData } from '../../../api';
+import { getReservedRoomsListDataAPI } from '../../../api';
 
 export default function ArrivalsScreen({ navigation, route }) {
   const [refreshed, setRefreshed] = useState(false);
@@ -76,7 +76,7 @@ export default function ArrivalsScreen({ navigation, route }) {
       };
       // console.log(outgoingData);
       try {
-        await getReservedRoomsListData(outgoingData).then(response => {
+        await getReservedRoomsListDataAPI(outgoingData).then(response => {
           // console.log('====================================');
           // console.log(response);
           // console.log(response.data[0]);

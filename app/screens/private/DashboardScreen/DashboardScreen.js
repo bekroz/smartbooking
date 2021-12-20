@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   SafeAreaView,
   ScrollView,
-  ActivityIndicator,
   RefreshControl,
 } from 'react-native';
 import { MultiArcCircle } from 'react-native-circles';
@@ -32,7 +31,7 @@ import { Calendar } from '../../../components/Calendar';
 // Helpers
 import { numberWithSpaces } from '../../../helpers';
 // API
-import { getAllHotelPropertiesData, getDashboardData } from '../../../api';
+import { getAllHotelPropertiesDataAPI, getDashboardDataAPI } from '../../../api';
 
 export default function DashboardScreen({ navigation }) {
   const [dataLoaded, setDataLoaded] = useState(false);
@@ -106,12 +105,12 @@ export default function DashboardScreen({ navigation }) {
   async function getData() {
     setDataLoaded(false);
     try {
-      await getAllHotelPropertiesData().then(response => {
+      await getAllHotelPropertiesDataAPI().then(response => {
         setHotelListData(response);
         setChosenHotelID(response[0]);
         setChosenHotelName(response[0].name);
       });
-      await getDashboardData(dashboard_outgoingData).then(response => {
+      await getDashboardDataAPI(dashboard_outgoingData).then(response => {
         const byDateData = response.by_date_data;
         const todayData = response.today_data;
         setDashboardData({

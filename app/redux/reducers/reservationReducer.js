@@ -1,7 +1,20 @@
-import RESERVATION from '../types/reservationTypes';
+import { RESERVATION } from '../types';
+
+
+// const typeStayDates = ['Бронирование', 'Заезд', 'Выезд', 'Проживание'];
+// const statuses = [
+//   'Подтверждено',
+//   'Оплачено',
+//   'В номере',
+//   'Выехал',
+//   'Не заезд',
+// ];
 
 const initialState = {
-  refreshing: false,
+  loading: false,
+  chosenReservationDateRange: {},
+  chosenReservationStatus: '',
+  chosenReservationType: '',
   reservationData: [],
   pageIndex: 1,
   lastPage: 1,
@@ -14,42 +27,42 @@ const reservationReducer = (state = initialState, action) => {
     case RESERVATION.DATA_REQUEST:
       return {
         ...state,
-        refreshing: true,
+        loading: true,
       };
     case RESERVATION.DATA_SUCCESS:
       return {
         ...state,
-        refreshing: false,
-        reservationData: action.reservationData,
+        loading: false,
+        reservationData: action.payload.reservationData,
       };
     case RESERVATION.DATA_FAILURE:
       return {
         ...state,
-        refreshing: false,
-        error: action.error,
+        loading: false,
+        error: action.payload.error,
       };
     case RESERVATION.NEXT_PAGE_REQUEST:
       return {
         ...state,
-        refreshing: true,
-        pageIndex: action.pageIndex,
+        loading: true,
+        pageIndex: action.payload.pageIndex,
       };
     case RESERVATION.NEXT_PAGE_SUCCESS:
       return {
         ...state,
-        refreshing: false,
-        reservationData: action.reservationData,
+        loading: false,
+        reservationData: action.payload.reservationData,
       };
     case RESERVATION.NEXT_PAGE_FAILURE:
       return {
         ...state,
-        refreshing: false,
-        error: action.error,
+        loading: false,
+        error: action.payload.error,
       };
     case RESERVATION.LAST_PAGE_REACHED:
       return {
         ...state,
-        refreshing: false,
+        loading: false,
         lastPage: true,
       };
     default:

@@ -17,7 +17,7 @@ export default function StatsScreen({ navigation }) {
 
   React.useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      getData();
+      // getData();
     });
 
     return unsubscribe;

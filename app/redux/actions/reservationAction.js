@@ -1,4 +1,4 @@
-import { getHotelAllReservationsData } from '../../api';
+import { getHotelAllReservationsDataAPI } from '../../api';
 import { RESERVATION } from '../types/index';
 import { store } from '../../redux/store';
 
@@ -22,14 +22,13 @@ const getReservationDataFailureAction = error => {
   };
 };
 
-const getReservationNextPageDataSuccessAction = reservationData => {
+const getReservationNextPageDataRequestAction = () => {
   return {
     type: RESERVATION.NEXT_PAGE_REQUEST,
-    reservationData: reservationData,
   };
 };
 
-const getReservationNextPageDataRequestAction = reservationData => {
+const getReservationNextPageDataSuccessAction = reservationData => {
   return {
     type: RESERVATION.NEXT_PAGE_SUCCESS,
     reservationData: reservationData,
@@ -49,10 +48,10 @@ const lastPageReachedAction = () => {
   };
 };
 
-async function getData(params) {
+async function getReservationData(params) {
     getReservationDataRequestAction();
   try {
-    await getHotelAllReservationsData(params).then(response => {
+    await getHotelAllReservationsDataAPI(params).then(response => {
       const receivedData = response.data;
       params.page = response.meta.currentPage;
       getReservationDataSuccessAction(receivedData);
@@ -63,14 +62,14 @@ async function getData(params) {
   }
 }
 
-async function getNextPageData(params) {
+async function getReservationNextPageData(params) {
   params.page++;
   getReservationNextPageDataRequestAction(params.page);
   try {
-    await getHotelAllReservationsData(params).then(response => {
+    await getHotelAllReservationsDataAPI(params).then(response => {
       const receivedData = response.data;
       params.page = response.meta.currentPage;
-      let lastData = store.getState().reservationReducer.reservationData;
+      let lastData = store.getState().reservationState.reservationData;
       receivedData.forEach(element => {
         lastData.push(element);
       });
@@ -85,4 +84,4 @@ async function getNextPageData(params) {
     console.error(error);
   }
 }
-export { getData, getNextPageData };
+export { getReservationData, getReservationNextPageData };
