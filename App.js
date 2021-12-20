@@ -10,7 +10,6 @@ import { store, persistor } from './app/redux/store';
 import { connect } from 'react-redux';
 import Loader from './app/components/Loader/Loader';
 import TestingScreen from './removables/ReduxExample';
-
 import * as Sentry from '@sentry/react-native';
 
 Sentry.init({
@@ -23,7 +22,7 @@ const App = () => {
       <StatusBar animated={true} barStyle="light-content" />
       <Provider store={store}>
         <PersistGate loading={<Loader />} persistor={persistor}>
-          {/* <AppStack /> */}
+          <AppStack />
           {/* <TestingScreen /> */}
         </PersistGate>
       </Provider>
@@ -44,7 +43,7 @@ const App = () => {
 
 console.log('====================================');
 console.log('PERSISTOR  ===>>> ');
-console.log(persistor);
+console.log(store.getState());
 console.log('====================================');
 
 export default App;

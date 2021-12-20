@@ -12,7 +12,7 @@ export default function EmptyRoomsCircle({ initialValue, value }) {
         initialValue={initialValue}
         radius={45}
         value={value}
-        valuePrefix={value}
+        valuePrefix={value.toString()}
         fontSize={SIZES.body3}
         maxValue={initialValue}
         textColor="#FFF"

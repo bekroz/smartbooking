@@ -6,13 +6,22 @@ import SegmentedControl from 'rn-segmented-control';
 import { COLORS } from '../../../constants/theme';
 // Components
 import { Details, SoldRooms } from '../../../components/Stats';
+import { ScrollView } from 'react-native';
 
-export default function StatsScreen() {
+export default function StatsScreen({ navigation }) {
   const tabs = ['Обзор', 'Занятость'];
   const [tabIndex, setTabIndex] = useState(0);
   const handleTabsChange = index => {
     setTabIndex(index);
   };
+
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      getData();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#111923' }}>

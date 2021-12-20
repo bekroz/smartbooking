@@ -100,17 +100,17 @@ const getSingleHotelData = async hotelID => {
 
 // #5 API => GET Dashboard Data of the user
 
-const getDashboardData = async (hotelID, chosenDate) => {
+const getDashboardData = async dashboard_outgoingData => {
   const userToken = await getUserToken();
   try {
     return await axios({
-      url: `${Config.BASE_API_URL}/mobile/${hotelID}/dashboard`,
+      url: `${Config.BASE_API_URL}/mobile/${dashboard_outgoingData.hotelID}/dashboard`,
       method: 'POST',
       headers: {
         Authorization: `Bearer ${userToken}`,
         'Content-Type': 'application/json',
       },
-      data: chosenDate,
+      data: dashboard_outgoingData,
     }).then(response => {
       return response.data.data;
     });
@@ -158,11 +158,11 @@ const getHotelAllReservationsData = async outgoingData => {
 
 // #7 API => GET Hotel Single Reservation Data
 
-const getHotelSingleReservationData = async (hotelID, reservationID) => {
+const getHotelSingleReservationData = async outgoingData => {
   const userToken = await getUserToken();
   try {
     return await axios({
-      url: `${Config.BASE_API_URL}/mobile/${hotelID}/reservations/${reservationID}`,
+      url: `${Config.BASE_API_URL}/mobile/${outgoingData.hotelID}/reservations/${outgoingData.reservationID}`,
       method: 'POST',
       headers: {
         Authorization: `Bearer ${userToken}`,

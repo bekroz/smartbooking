@@ -1,3 +1,3 @@
 import AUTH from './authTypes';
-
-export { AUTH };
+import RESERVATION from './reservationTypes';
+export { AUTH, RESERVATION };

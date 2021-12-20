@@ -45,7 +45,7 @@ export default function ArrivalsScreen({ navigation, route }) {
   const chosenDate = '2021-12-01';
   const hotelID = 48;
   const hotelListData = route?.params.hoteListData;
-  // console.log('HOTEL LIST DATA');
+
   // console.log(hotelListData);
 
   const [hotelListModalVisible, setHotelListModalVisible] = useState(false);
@@ -64,8 +64,8 @@ export default function ArrivalsScreen({ navigation, route }) {
   const onRefresh = useCallback(
     async (page = pageIndex) => {
       setPullToRefresh(true);
-      // console.log('THIS IS TYPE OF STAY');
-      // console.log(typeOfStay);
+      console.log('THIS IS TYPE OF STAY');
+      console.log(typeOfStay);
       setRefreshed(false);
       let outgoingData = {
         hotelID: hotelID,

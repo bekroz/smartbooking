@@ -19,34 +19,37 @@ import { numberWithSpaces, getMonthName } from '../../../helpers';
 import { getPropertiesComparisonData } from '../../../api';
 
 export default function ComparisonScreen({ navigation }) {
-  const [refreshed, setRefreshed] = useState(false);
-
-  const [comparisonData, setComparisonData] = useState(null);
+  // HARD CODED DATA ===> STARTS
   const [date, setDate] = useState({
     year: '2021',
     month: '12',
   });
+  // HARD CODED DATA ===> ENDS
+  
+  const [dataLoaded, setDataLoaded] = useState(false);
+  // Data container
+  const [comparisonData, setComparisonData] = useState({});
 
-  const getUpdatedData = async () => {
+  async function getUpdatedData() {
+    setDataLoaded(false);
     try {
       await getPropertiesComparisonData(date).then(response => {
         // console.log('10. PROPERTIES COMPARISON DATA ===>>>');
         // console.log(response.data[0]);
         setComparisonData(response.data[0]);
-        setRefreshed(true);
+        setDataLoaded(true);
       });
     } catch (error) {
       console.error(error);
-      setRefreshed(false);
     }
-  };
+  }
 
+  // Button handlers
   function handleBackButtonPress() {
     navigation.navigate('HomeScreen');
   }
 
   useEffect(() => {
-    setRefreshed(false);
     getUpdatedData();
   }, []);
 
@@ -117,7 +120,7 @@ export default function ComparisonScreen({ navigation }) {
       <ScrollView>
         <Card containerStyle={styles.card} title="Revenue">
           {/* Card Title */}
-          {refreshed ? (
+          {dataLoaded ? (
             <>
               <View
                 style={{
@@ -193,7 +196,7 @@ export default function ComparisonScreen({ navigation }) {
                   </Text>
                   <Text
                     style={[styles.equalBottomMargin, { color: COLORS.white }]}>
-                    {/* {refreshed && numberWithSpaces(comparisonData?.reserved)} 0 */}
+                    {/* {dataLoaded && numberWithSpaces(comparisonData?.reserved)} 0 */}
                     {numberWithSpaces(comparisonData?.revenue)}
                   </Text>
                   <Text
@@ -202,7 +205,7 @@ export default function ComparisonScreen({ navigation }) {
                   </Text>
                   <Text
                     style={[styles.equalBottomMargin, { color: COLORS.white }]}>
-                    {refreshed &&
+                    {dataLoaded &&
                       numberWithSpaces(comparisonData?.average_price)}
                   </Text>
                   <Text

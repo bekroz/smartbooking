@@ -19,6 +19,8 @@ import LineChartData from '../LineChartData/LineChartData';
 import { numberWithSpaces } from '../../../helpers';
 // API
 import { getStatisticsByYear } from '../../../api';
+import { useCallback } from 'react';
+import { RefreshControl } from 'react-native';
 
 export default function SoldRooms() {
   const [statisticsByYearData, setStatisticsByYearData] = useState(null);
@@ -42,13 +44,34 @@ export default function SoldRooms() {
     }
   };
 
+  const wait = timeout => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  };
+
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onPullToRefresh = useCallback(() => {
+    setRefreshing(true);
+    wait(500).then(() => setRefreshing(false));
+    getUpdatedData();
+  }, []);
+
   useEffect(() => {
     setRefreshed(false);
     getUpdatedData();
   }, []);
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView
+      refreshing={refreshing}
+      showsHorizontalScrollIndicator={false}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onPullToRefresh}
+          tintColor={'white'}
+        />
+      }>
       <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
         {/* <TouchableOpacity
           style={[
@@ -126,70 +149,66 @@ export default function SoldRooms() {
           Количество проданных ночей
         </Text>
       </View>
-      <ScrollView showsHorizontalScrollIndicator={false}>
-        {refreshed ? (
-          statisticsByYearData?.map((stat, index) => (
-            <TouchableOpacity key={index}>
-              <Card
-                containerStyle={[styles.card, styles.chosenCardStyle]}
-                title="SoldRooms">
-                {/* Card Context View */}
-                <View style={{ flexDirection: 'row' }}>
-                  {/* LEFT-Side context */}
-                  <View style={{ marginRight: 20, flex: 1 }}>
-                    <View style={{ marginBottom: 15 }}>
-                      <Text style={{ color: COLORS.grayText }}>Дата:</Text>
-                      <Text style={{ paddingTop: 5, color: COLORS.white }}>
-                        {moment(stat?.start_date).format('DD MMM')} -{' '}
-                        {moment(stat?.end_date).format('DD MMM')}
-                      </Text>
-                    </View>
-                    <View style={{ marginBottom: 15 }}>
-                      <Text style={{ color: COLORS.grayText }}>
-                        Проданных номеров
-                      </Text>
-                      <Text style={{ paddingTop: 5, color: COLORS.white }}>
-                        {numberWithSpaces(stat?.reserved)}
-                      </Text>
-                    </View>
+      {refreshed ? (
+        statisticsByYearData?.map((stat, index) => (
+          <TouchableOpacity key={index}>
+            <Card
+              containerStyle={[styles.card, styles.chosenCardStyle]}
+              title="SoldRooms">
+              {/* Card Context View */}
+              <View style={{ flexDirection: 'row' }}>
+                {/* LEFT-Side context */}
+                <View style={{ marginRight: 20, flex: 1 }}>
+                  <View style={{ marginBottom: 15 }}>
+                    <Text style={{ color: COLORS.grayText }}>Дата:</Text>
+                    <Text style={{ paddingTop: 5, color: COLORS.white }}>
+                      {moment(stat?.start_date).format('DD MMM')} -{' '}
+                      {moment(stat?.end_date).format('DD MMM')}
+                    </Text>
                   </View>
-                  {/* RIGHT-Side context */}
-                  <View style={{ flex: 1 }}>
-                    <View style={{ marginBottom: 15 }}>
-                      <Text style={{ color: COLORS.grayText }}>
-                        Занято номеров:
-                      </Text>
-                      <Text style={{ paddingTop: 5, color: COLORS.white }}>
-                        {stat?.load_by_period} %
-                      </Text>
-                    </View>
-
-                    <View style={{ marginBottom: 15 }}>
-                      <Text style={{ color: COLORS.grayText }}>Доход UZS</Text>
-                      <Text style={{ paddingTop: 5, color: COLORS.white }}>
-                        {numberWithSpaces(stat?.revenue)}
-                      </Text>
-                    </View>
+                  <View style={{ marginBottom: 15 }}>
+                    <Text style={{ color: COLORS.grayText }}>
+                      Проданных номеров
+                    </Text>
+                    <Text style={{ paddingTop: 5, color: COLORS.white }}>
+                      {numberWithSpaces(stat?.reserved)}
+                    </Text>
                   </View>
                 </View>
-              </Card>
-            </TouchableOpacity>
-          ))
-        ) : (
-          <Card
-            containerStyle={[styles.card, styles.chosenCardStyle]}
-            title="SoldRooms">
-            {/* Card Context View */}
-            <ActivityIndicator
-              animating={true}
-              color={COLORS.white}
-              marginTop={40}
-            />
-          </Card>
-        )}
+                {/* RIGHT-Side context */}
+                <View style={{ flex: 1 }}>
+                  <View style={{ marginBottom: 15 }}>
+                    <Text style={{ color: COLORS.grayText }}>
+                      Занято номеров:
+                    </Text>
+                    <Text style={{ paddingTop: 5, color: COLORS.white }}>
+                      {stat?.load_by_period} %
+                    </Text>
+                  </View>
 
-        <View style={{ paddingBottom: 100 }} />
-      </ScrollView>
+                  <View style={{ marginBottom: 15 }}>
+                    <Text style={{ color: COLORS.grayText }}>Доход UZS</Text>
+                    <Text style={{ paddingTop: 5, color: COLORS.white }}>
+                      {numberWithSpaces(stat?.revenue)}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </Card>
+          </TouchableOpacity>
+        ))
+      ) : (
+        <Card
+          containerStyle={[styles.card, styles.chosenCardStyle]}
+          title="SoldRooms">
+          <ActivityIndicator
+            animating={true}
+            color={COLORS.white}
+            marginTop={40}
+          />
+        </Card>
+      )}
+      <View style={{ paddingBottom: 100 }} />
     </ScrollView>
   );
 }

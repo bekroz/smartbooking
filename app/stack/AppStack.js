@@ -27,27 +27,47 @@ import Loader from '../components/Loader/Loader';
 const Stack = createStackNavigator();
 
 const AppStack = ({ navigation }) => {
-  // import NetInfo from '@react-native-community/netinfo';
-
-  // const [disconnectionAlert, setDisconnectionAlert] = useState(false);
+  const [disconnectionAlert, setDisconnectionAlert] = useState(false);
 
   // NetInfo.addEventListener(networkState => {
-  //   // console.log('Connection type - ', networkState.type);
-  //   // console.log('Is connected? - ', networkState.isConnected);
-  //   setDisconnectionAlert(true);
+  //   console.log('Connection type - ', networkState.type);
+  //   console.log('Is connected? - ', networkState.isConnected);
+  //   if (networkState.isConnected === true) {
+  //     setDisconnectionAlert(false);
+  //   } else {
+  //     setTimeout(setDisconnectionAlert(true));
+  //   }
   // });
-  // if (!disconnectionAlert) {
-  //   Alert.alert('Network error', ' go find a free WiFI! :)', [
-  //     {
-  //       text: 'Try again',
-  //       onPress: () => {
-  //         // console.log('OK button Pressed');
-  //         setDisconnectionAlert(!disconnectionAlert);
+
+
+  // if (disconnectionAlert) {
+  //   Alert.alert(
+  //     'Нет подключения к Интернету',
+  //     '',
+  //     [
+  //       {
+  //         text: 'Попробовать еще раз',
+  //         onPress: () => {
+  //           // console.log('OK button Pressed');
+  //           setDisconnectionAlert(false);
+  //         },
+  //         style: 'Cancel',
   //       },
-  //       style: 'Cancel',
-  //     },
-  //   ]);
+  //     ],
+  //   );
   // }
+
+  // useEffect(() => {
+  //   const removeNetInfoSubscription = NetInfo.addEventListener((state) => {
+  //     offline = !(state.isConnected && state.isInternetReachable);
+  //     setOfflineStatus(offline);
+  //   });
+
+  //   if(offline) {
+  //     alert('OFFLINE!')
+  //   }
+  //   return () => removeNetInfoSubscription();
+  // }, []);
 
   const DashboardNavigator = () => {
     return (

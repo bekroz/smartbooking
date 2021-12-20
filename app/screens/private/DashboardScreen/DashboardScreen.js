@@ -4,10 +4,10 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Image,
   SafeAreaView,
   ScrollView,
   ActivityIndicator,
+  RefreshControl,
 } from 'react-native';
 import { MultiArcCircle } from 'react-native-circles';
 import { Overlay } from 'react-native-elements';
@@ -21,27 +21,33 @@ import {
   GrayRightArrowSvg,
 } from '../../../assets/icons/SvgIcons';
 // Components
-import DayPick from '../../../components/Dashboard/DayPick';
-import PercentageCircle from '../../../components/Dashboard/PercentageCircle';
-import EmptyRoomsCircle from '../../../components/Dashboard/EmptyRoomsCircle';
-import Calendar from '../../../components/Calendar/Calendar';
-import HotelModalBox from '../../../components/Dashboard/Modals/HotelModalBox';
-import { HotelListBar } from '../../../components/Dashboard';
+import {
+  HotelListBar,
+  HotelModalBox,
+  PercentageCircle,
+  EmptyRoomsCircle,
+  DayPicker,
+} from '../../../components/Dashboard';
+import { Calendar } from '../../../components/Calendar';
 // Helpers
 import { numberWithSpaces } from '../../../helpers';
 // API
-import {
-  getAllHotelPropertiesData,
-  getDashboardData,
-} from '../../../api';
+import { getAllHotelPropertiesData, getDashboardData } from '../../../api';
 
 export default function DashboardScreen({ navigation }) {
-  // import NetInfo from '@react-native-community/netinfo';
-
-  // // BUTTON HANDLERS
-  const [firstView, setFirstView] = useState(true);
-  const [refreshed, setRefreshed] = useState(false);
+  const [dataLoaded, setDataLoaded] = useState(false);
+  // View togglers
+  const [percentageView, setPercentageView] = useState(true);
+  const [calendarModalVisible, setCalendarModalVisible] = useState(false);
+  const [hotelListModalVisible, setHotelListModalVisible] = useState(false);
+  // Data Containers
   const [dashboardData, setDashboardData] = useState(null);
+  const [hotelListData, setHotelListData] = useState(null);
+  // User selection
+  const [chosenHotelName, setChosenHotelName] = useState(null);
+  const [chosenHotelID, setChosenHotelID] = useState(48);
+  // TODO: ADD =>>> network watcher
+  // import NetInfo from '@react-native-community/netinfo';
   // const [disconnectionAlert, setDisconnectionAlert] = useState(true);
   // NetInfo.addEventListener(networkState => {
   //   // console.log('Connection type - ', networkState.type);
@@ -49,77 +55,68 @@ export default function DashboardScreen({ navigation }) {
   //   setDisconnectionAlert(true);
   // });
 
-  const handleViewChange = () => {
-    setFirstView(!firstView);
+  // TODO: REMOVE =>>> Hardcoded data
+
+  const dashboard_outgoingData = {
+    hotelID: 48,
+    chosenDate: '2021-12-01',
   };
 
-  // const handleAddButtonPress = () => {
-  //   alert('Add Button pressed');
-  // };
-
-  const handleFirstArcBarPress = () => {
-    navigation.navigate('ArrivalsScreen', {
-      typeOfStay: 'arrived',
-      chosenDate: chosenDate,
-      hotelID: hotelID,
-      hotelListData: hotelListData,
-    });
+  const wait = timeout => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
   };
 
-  const handleSecondArcBarPress = () => {
-    navigation.navigate('ArrivalsScreen', {
-      typeOfStay: 'left',
-      chosenDate: chosenDate,
-      hotelID: hotelID,
-    });
-  };
+  const [refreshing, setRefreshing] = React.useState(false);
 
-  const handleThirdArcBarPress = () => {
-    navigation.navigate('ArrivalsScreen', {
-      typeOfStay: 'living',
-      chosenDate: chosenDate,
-      hotelID: hotelID,
-    });
-  };
+  const onPullToRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    wait(500).then(() => setRefreshing(false));
+    getData();
+  }, []);
 
-  const [chosenDate, setChosenDate] = useState('2021-12-01');
-  const [hotelID, setHotelID] = useState(48);
-  const [hotelListData, setHotelListData] = useState(null);
-  const [chosenHotelName, setChosenHotelName] = useState(null);
-  // Calendar Modal Opener
-  const [calendarModalVisible, setCalendarModalVisibleVisible] =
-    useState(false);
-
-  const toggleCalendarModal = () => {
-    setCalendarModalVisibleVisible(!calendarModalVisible);
-  };
-
-  const [hotelListModalVisible, setHotelListModalVisible] = useState(false);
+  // Modals Openers
   function toggleHotelModal() {
     setHotelListModalVisible(!hotelListModalVisible);
   }
 
-  const getInitialData = async () => {
-    setRefreshed(false);
+  function toggleCalendarModal() {
+    setCalendarModalVisible(!calendarModalVisible);
+  }
+  // Button Press handlers
+  function handleChosenHotel(hotel) {
+    setChosenHotelID(hotel.id);
+    setChosenHotelName(hotel.name);
+    toggleHotelModal();
+  }
+
+  function handleArcBarPress(typeOfStay) {
+    navigation.navigate('ArrivalsScreen', {
+      typeOfStay: typeOfStay,
+      chosenDate: dashboard_outgoingData.chosenDate,
+      hotelID: chosenHotelID,
+      hotelListData: hotelListData,
+    });
+  }
+
+  function handleViewChange() {
+    setPercentageView(!percentageView);
+  }
+
+  // TODO: Move data chetcher to redux actions
+  async function getData() {
+    setDataLoaded(false);
     try {
       await getAllHotelPropertiesData().then(response => {
         setHotelListData(response);
-        setHotelID(response[0]);
+        setChosenHotelID(response[0]);
         setChosenHotelName(response[0].name);
-        // console.log('====================================');
-        // console.log('HOTEL LIST DATA =>>>>');
-        // console.log(response);
-        // console.log(response.length);
-        // console.log('====================================');
       });
-      await getDashboardData(hotelID, chosenDate).then(response => {
+      await getDashboardData(dashboard_outgoingData).then(response => {
         const byDateData = response.by_date_data;
         const todayData = response.today_data;
-        // console.log('DASHBOARD DATA ====>>> ');
-        // console.log(response);
         setDashboardData({
           availableRooms: byDateData.available_rooms,
-          currentLoad: Number.parseInt(byDateData.current_load),
+          currentLoad: byDateData.current_load,
           leftArrived: byDateData.left_arrived,
           leftCheckout: byDateData.left_checkout,
           live: byDateData.live,
@@ -132,29 +129,35 @@ export default function DashboardScreen({ navigation }) {
           canceledRevenue: todayData.canceled_reservations_data.revenue,
         });
       }),
-        setRefreshed(true);
+        setDataLoaded(true);
     } catch (error) {
-      setRefreshed(false);
+      setDataLoaded(false);
       console.error(error);
     }
-  };
-
-  const handleChosenHotel = hotel => {
-    // setToggleHotelListModal(!toggleHotelListModal);
-    // alert(`CHOSEN HOTEL => ${hotel}`);
-    setHotelID(hotel.id);
-    setChosenHotelName(hotel.name);
-    toggleHotelModal();
-    // console.log(hotel);
-  };
+  }
 
   useEffect(() => {
-    getInitialData();
+    getData();
   }, []);
 
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      getData();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
-      <ScrollView>
+    <SafeAreaView style={styles.container}>
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onPullToRefresh}
+            tintColor={'white'}
+          />
+        }>
         <View style={POSITIONING.center}>
           <HotelListBar
             onPress={toggleHotelModal}
@@ -172,44 +175,20 @@ export default function DashboardScreen({ navigation }) {
             <WhiteRightArrowSvg />
           </TouchableOpacity>
         </View>
-        <View
-          style={{
-            alignItems: 'center',
-            padding: 5,
-            marginBottom: 0,
-          }}>
-          <TouchableOpacity onPress={toggleCalendarModal}>
-            <Text
-              style={{
-                fontSize: 16,
-                fontWeight: SIZES.fontWeight0,
-                color: COLORS.white,
-              }}>
-              Вторник
-            </Text>
-          </TouchableOpacity>
+        <View style={styles.weekDayContainer}>
+          <Text style={styles.weekDayText}>Вторник</Text>
         </View>
         {/* Horizontal Calendar Day Picker */}
-        <View
-          style={{
-            alignItems: 'center',
-            width: '100%',
-            height: 60,
-          }}>
-          <DayPick />
+        <View style={styles.dayPickerContainer}>
+          <DayPicker />
         </View>
-        {refreshed ? (
+        {dataLoaded ? (
           <>
-            {/* SemiCircle View goes here */}
-            <View
-              style={{
-                width: SIZES.width,
-                height: 170,
-                flexDirection: 'row',
-              }}>
-              {/* FIRST ARC circle */}
+            {/* Arc Bars Container */}
+            <View style={styles.arcBarsContainer}>
+              {/* FIRST ARC */}
               <TouchableOpacity
-                onPress={handleFirstArcBarPress}
+                onPress={() => handleArcBarPress('arrived')}
                 style={styles.arcBlock}>
                 <MultiArcCircle
                   radius={50}
@@ -220,28 +199,16 @@ export default function DashboardScreen({ navigation }) {
                   color={COLORS.greenProgress}
                   width={10}
                 />
-                <Text
-                  style={{
-                    color: COLORS.white,
-                    fontSize: SIZES.body2,
-                    fontWeight: SIZES.fontWeight1,
-                  }}>
-                  {refreshed ? dashboardData?.leftArrived : '0'}
+                <Text style={styles.arcBarNumber}>
+                  {dataLoaded ? dashboardData?.leftArrived : '0'}
                 </Text>
-                <Text
-                  style={{
-                    color: COLORS.white,
-                    fontSize: SIZES.body5,
-                    fontWeight: SIZES.fontWeight0,
-                    position: 'absolute',
-                    bottom: 10,
-                  }}>
-                  Заезд
-                </Text>
+                <View style={styles.arcBarDescContainer}>
+                  <Text style={styles.arcBarDescription}>Заезд</Text>
+                </View>
               </TouchableOpacity>
-              {/* SECOND ARC circle */}
+              {/* SECOND ARC */}
               <TouchableOpacity
-                onPress={handleSecondArcBarPress}
+                onPress={() => handleArcBarPress('left')}
                 style={styles.arcBlock}>
                 <MultiArcCircle
                   radius={50}
@@ -252,29 +219,16 @@ export default function DashboardScreen({ navigation }) {
                   color={COLORS.yellow}
                   width={10}
                 />
-                <Text
-                  style={{
-                    color: COLORS.white,
-                    fontSize: SIZES.body2,
-                    fontWeight: SIZES.fontWeight1,
-                  }}>
-                  {refreshed ? dashboardData?.leftCheckout : '0'}
+                <Text style={styles.arcBarNumber}>
+                  {dataLoaded ? dashboardData?.leftCheckout : '0'}
                 </Text>
-
-                <Text
-                  style={{
-                    color: COLORS.white,
-                    fontSize: SIZES.body5,
-                    fontWeight: SIZES.fontWeight0,
-                    position: 'absolute',
-                    bottom: 10,
-                  }}>
-                  Выезд
-                </Text>
+                <View style={styles.arcBarDescContainer}>
+                  <Text style={styles.arcBarDescription}>Выезд</Text>
+                </View>
               </TouchableOpacity>
-              {/* THIRD ARC circle */}
+              {/* THIRD ARC */}
               <TouchableOpacity
-                onPress={handleThirdArcBarPress}
+                onPress={() => handleArcBarPress('living')}
                 style={styles.arcBlock}>
                 <MultiArcCircle
                   radius={50}
@@ -285,49 +239,27 @@ export default function DashboardScreen({ navigation }) {
                   color={COLORS.blue}
                   width={10}
                 />
-                <Text
-                  style={{
-                    color: COLORS.white,
-                    fontSize: SIZES.body2,
-                    fontWeight: SIZES.fontWeight1,
-                  }}>
-                  {refreshed ? dashboardData?.live : '0'}
+                <Text style={styles.arcBarNumber}>
+                  {dataLoaded ? dashboardData.live : '0'}
                 </Text>
-                <Text
-                  style={{
-                    color: COLORS.white,
-                    fontSize: SIZES.body5,
-                    fontWeight: SIZES.fontWeight0,
-                    position: 'absolute',
-                    bottom: 10,
-                  }}>
-                  Проживают
-                </Text>
+                <View style={styles.arcBarDescContainer}>
+                  <Text style={styles.arcBarDescription}>Проживают</Text>
+                </View>
               </TouchableOpacity>
             </View>
-            <View style={styles.circleBottomTitles}></View>
             {/* GRAY Boxes container */}
             <View style={{ marginBottom: 25 }}>
-              {/* FIRST GRAY BOX starts here */}
-              <TouchableOpacity style={styles.grayBlock}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                  }}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                    }}>
+              {/* First Gray Box */}
+              <TouchableOpacity style={styles.grayBlockContainer}>
+                <View style={styles.grayBlock}>
+                  <View style={styles.grayBlockLeftSideView}>
                     <View style={styles.blueBox}>
                       <Text
                         style={{
                           fontWeight: SIZES.fontWeight2,
                           color: COLORS.white,
                         }}>
-                        {refreshed ? dashboardData?.confirmedQuantity : '0'}
+                        {dataLoaded ? dashboardData?.confirmedQuantity : '0'}
                       </Text>
                     </View>
                     <View>
@@ -341,16 +273,7 @@ export default function DashboardScreen({ navigation }) {
                       </Text>
                     </View>
                   </View>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'flex-end',
-                      alignItems: 'center',
-                      width: 60,
-                      marginRight: 10,
-                      marginLeft: 20,
-                      flex: 1,
-                    }}>
+                  <View style={styles.grayBlockRightSideView}>
                     <View style={{ marginRight: 10 }}>
                       <Text
                         style={{
@@ -358,7 +281,7 @@ export default function DashboardScreen({ navigation }) {
                           fontWeight: SIZES.fontWeight0,
                           color: COLORS.grayText,
                         }}>
-                        {refreshed
+                        {dataLoaded
                           ? numberWithSpaces(dashboardData?.confirmedRevenue)
                           : '0'}
                       </Text>
@@ -384,50 +307,29 @@ export default function DashboardScreen({ navigation }) {
                   </View>
                 </View>
               </TouchableOpacity>
-
-              {/* SECOND BOX starts here */}
-              <TouchableOpacity style={styles.grayBlock}>
+              {/* Second Gray Box */}
+              <TouchableOpacity style={styles.grayBlockContainer}>
                 <View
                   style={{
                     flexDirection: 'row',
                     alignItems: 'center',
                     justifyContent: 'space-between',
                   }}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                    }}>
+                  <View style={styles.grayBlockLeftSideView}>
                     <View style={styles.blueTextBlock}>
                       <Text
                         style={{
                           fontWeight: SIZES.fontWeight2,
                           color: COLORS.blue,
                         }}>
-                        {refreshed ? dashboardData?.canceledQuantity : '0'}
+                        {dataLoaded ? dashboardData?.canceledQuantity : '0'}
                       </Text>
                     </View>
                     <View>
-                      <Text
-                        style={{
-                          fontSize: 18,
-                          fontWeight: SIZES.fontWeight2,
-                          color: COLORS.white,
-                        }}>
-                        Отмена
-                      </Text>
+                      <Text style={styles.grayBlockText}>Отмена</Text>
                     </View>
                   </View>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'flex-end',
-                      alignItems: 'center',
-                      width: 60,
-                      marginRight: 10,
-                      marginLeft: 20,
-                      flex: 1,
-                    }}>
+                  <View style={styles.grayBlockRightSideView}>
                     <View style={{ marginRight: 10 }}>
                       <Text
                         style={{
@@ -435,7 +337,7 @@ export default function DashboardScreen({ navigation }) {
                           fontWeight: SIZES.fontWeight0,
                           color: COLORS.grayText,
                         }}>
-                        {refreshed
+                        {dataLoaded
                           ? numberWithSpaces(dashboardData?.canceledRevenue)
                           : '0'}
                       </Text>
@@ -461,20 +363,15 @@ export default function DashboardScreen({ navigation }) {
                   </View>
                 </View>
               </TouchableOpacity>
-
-              {/* THIRD BOX starts here */}
-              <TouchableOpacity style={styles.grayBlock}>
+              {/* Third Gray Box */}
+              <TouchableOpacity style={styles.grayBlockContainer}>
                 <View
                   style={{
                     flexDirection: 'row',
                     alignItems: 'center',
                     justifyContent: 'space-between',
                   }}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                    }}>
+                  <View style={styles.grayBlockLeftSideView}>
                     <View style={styles.blueTextBlock}>
                       <Text
                         style={{
@@ -484,27 +381,11 @@ export default function DashboardScreen({ navigation }) {
                         0
                       </Text>
                     </View>
-                    <View style={{}}>
-                      <Text
-                        style={{
-                          fontSize: 18,
-                          fontWeight: SIZES.fontWeight2,
-                          color: COLORS.white,
-                        }}>
-                        Сообщения
-                      </Text>
+                    <View>
+                      <Text style={styles.grayBlockText}>Сообщения</Text>
                     </View>
                   </View>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'flex-end',
-                      alignItems: 'center',
-                      width: 60,
-                      marginRight: 10,
-                      marginLeft: 20,
-                      flex: 1,
-                    }}>
+                  <View style={styles.grayBlockRightSideView}>
                     <View style={{ marginRight: 10 }}>
                       <Text
                         style={{
@@ -515,106 +396,50 @@ export default function DashboardScreen({ navigation }) {
                         0
                       </Text>
                     </View>
-                    <View style={{ right: 5 }}>
-                      <Text
-                        style={{
-                          fontSize: 18,
-                          fontWeight: SIZES.fontWeight0,
-                          color: COLORS.grayText,
-                        }}></Text>
-                    </View>
-                    <View
-                      style={{
-                        backgroundColor: '#212831',
-                      }}>
-                      <View style={{ marginLeft: 5 }}>
-                        <GrayRightArrowSvg />
-                      </View>
+                    <View style={{ marginLeft: 5 }}>
+                      <GrayRightArrowSvg />
                     </View>
                   </View>
                 </View>
               </TouchableOpacity>
             </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                margin: 15,
-              }}>
-              {/* Left Text */}
-              <TouchableOpacity
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  zIndex: 999,
-                  width: SIZES.width / 1.5,
-                }}
-                onPress={handleViewChange}>
-                <View
-                  style={{
-                    marginRight: 25,
-                    width: 150,
-                  }}>
-                  <>
-                    <Text
-                      style={{
-                        fontWeight: SIZES.fontWeight2,
-                        fontSize: SIZES.body2,
-                        color: COLORS.white,
-                      }}>
-                      {firstView ? 'Загрузка' : 'Свободно'}
-                    </Text>
-
-                    <Text
-                      style={{
-                        fontSize: SIZES.body6,
-                        marginTop: 5,
-                        color: COLORS.white,
-                      }}>
-                      на сегодня
-                    </Text>
-                  </>
-                </View>
-                {/* Middle Circle */}
-                {firstView ? (
-                  <PercentageCircle
-                    currentPercentage={dashboardData?.currentLoad}
-                  />
-                ) : (
-                  <EmptyRoomsCircle
-                    initialValue={dashboardData?.maxRooms}
-                    value={dashboardData?.availableRooms}
-                  />
-                )}
-              </TouchableOpacity>
-              {/* Plus Button */}
-              {/* <TouchableOpacity onPress={{}}>
-            <Image source={addButton} style={{ width: 48, height: 48 }} />
-          </TouchableOpacity> */}
-            </View>
+            {/* Left Text */}
+            <TouchableOpacity
+              style={styles.loadDescCircleContainer}
+              onPress={handleViewChange}>
+              <View style={styles.loadDescriptionContainer}>
+                <Text style={styles.loadDescriptionText}>
+                  {percentageView ? 'Загрузка' : 'Свободно'}
+                </Text>
+                <Text style={styles.loadBottomText}>на сегодня</Text>
+              </View>
+              {/* Middle Circle */}
+              {percentageView ? (
+                <PercentageCircle
+                  currentPercentage={dashboardData.currentLoad}
+                />
+              ) : (
+                <EmptyRoomsCircle
+                  initialValue={dashboardData.maxRooms}
+                  value={dashboardData.availableRooms}
+                />
+              )}
+            </TouchableOpacity>
           </>
-        ) : (
-          <ActivityIndicator animating={true} color={COLORS.white} top={250} />
-        )}
+        ) : null}
       </ScrollView>
-      {/* Calendar Modal View */}
+
+      {/* Calendar Modal */}
       {calendarModalVisible && (
         <Overlay
           isVisible={calendarModalVisible}
           onBackdropPress={toggleCalendarModal}
-          overlayStyle={{
-            backgroundColor: '#212831',
-            paddingTop: 40,
-            paddingBottom: 0,
-            top: -200,
-          }}>
+          overlayStyle={styles.overlayStyle}>
           <Calendar handleAcceptButtonPress={toggleCalendarModal} />
         </Overlay>
       )}
 
-      {/* Hotel List Modal Box */}
-
+      {/* Hotel List Modal */}
       {hotelListModalVisible && (
         <HotelModalBox
           visible={hotelListModalVisible}
@@ -622,7 +447,7 @@ export default function DashboardScreen({ navigation }) {
           onQuitPress={toggleHotelModal}
           onHotelChosen={handleChosenHotel}
           hotelList={hotelListData}
-          chosenHotelID={hotelID}
+          chosenHotelID={chosenHotelID}
         />
       )}
     </SafeAreaView>
@@ -630,6 +455,10 @@ export default function DashboardScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: COLORS.darkBackground,
+  },
   dateBlock: {
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -643,6 +472,21 @@ const styles = StyleSheet.create({
   arrowIconStyle: {
     padding: 15,
   },
+  weekDayContainer: {
+    alignItems: 'center',
+    padding: 5,
+    marginBottom: 0,
+  },
+  weekDayText: {
+    fontSize: 16,
+    fontWeight: SIZES.fontWeight0,
+    color: COLORS.white,
+  },
+  dayPickerContainer: {
+    alignItems: 'center',
+    width: '100%',
+    height: 60,
+  },
   dropdownIconStyle: {
     padding: 5,
     flexDirection: 'row',
@@ -653,14 +497,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: COLORS.blue,
   },
-  circleBottomTitles: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    marginTop: 15,
-    marginBottom: 10,
-  },
-  grayBlock: {
+  grayBlockContainer: {
     backgroundColor: '#212831',
     borderRadius: 5,
     borderColor: '#404040',
@@ -668,6 +505,29 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginLeft: 10,
     marginBottom: 8,
+  },
+  grayBlockLeftSideView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  grayBlockRightSideView: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    width: 60,
+    marginRight: 10,
+    marginLeft: 20,
+  },
+  grayBlock: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  grayBlockText: {
+    fontSize: 18,
+    fontWeight: SIZES.fontWeight2,
+    color: COLORS.white,
   },
   blueBox: {
     backgroundColor: COLORS.blue,
@@ -689,10 +549,56 @@ const styles = StyleSheet.create({
     fontWeight: SIZES.fontWeight2,
     color: COLORS.blue,
   },
+  arcBarsContainer: {
+    width: SIZES.width,
+    height: 170,
+    flexDirection: 'row',
+    marginBottom: 25,
+  },
+  arcBarNumber: {
+    color: COLORS.white,
+    fontSize: SIZES.body2,
+    fontWeight: SIZES.fontWeight1,
+  },
+  arcBarDescContainer: {
+    position: 'absolute',
+    bottom: 10,
+  },
+  arcBarDescription: {
+    color: COLORS.white,
+    fontSize: SIZES.body5,
+    fontWeight: SIZES.fontWeight0,
+  },
   arcBlock: {
     justifyContent: 'center',
     alignItems: 'center',
     width: SIZES.width / 3,
     height: '100%',
+  },
+  loadDescCircleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    zIndex: 999,
+    width: SIZES.width / 1.5,
+    margin: 15,
+  },
+  loadDescriptionContainer: {
+    marginRight: 25,
+    width: 150,
+  },
+  loadDescriptionText: {
+    fontWeight: SIZES.fontWeight2,
+    fontSize: SIZES.body2,
+    color: COLORS.white,
+  },
+  loadBottomText: {
+    fontSize: SIZES.body6,
+    color: COLORS.white,
+  },
+  overlayStyle: {
+    backgroundColor: '#212831',
+    paddingTop: 40,
+    paddingBottom: 0,
+    top: -200,
   },
 });

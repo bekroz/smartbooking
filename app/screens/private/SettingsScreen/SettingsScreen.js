@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   StyleSheet,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import { Card } from 'react-native-elements/dist/card/Card';
 import { Divider } from 'react-native-elements';
@@ -14,14 +15,28 @@ import { COLORS, POSITIONING, SIZES } from '../../../constants/theme';
 import { clearStorage } from '../../../utils/useCustomAsyncStorage';
 
 export default function SettingsScreen({ navigation }) {
-  const handleLogOutButtonPress = async () => {
+  function logOutButtonPress() {
+    Alert.alert('Вы действительно хотите выйти из своего аккаунта?', '', [
+      {
+        text: 'Выйти',
+        onPress: () => handleLougOut(),
+        style: 'destructive',
+      },
+      {
+        text: 'Отменить',
+        style: 'cancel',
+      },
+    ]);
+  }
+
+  async function handleLougOut() {
     try {
       await clearStorage();
       navigation.replace('LoginScreen');
     } catch (error) {
       console.error(error);
     }
-  };
+  }
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
@@ -39,7 +54,6 @@ export default function SettingsScreen({ navigation }) {
           {/* Card Context View */}
           <View style={{}}>
             {/* LEFT-Side context */}
-
             <View style={{ marginBottom: 15 }}>
               <TouchableOpacity
                 style={{
@@ -62,7 +76,6 @@ export default function SettingsScreen({ navigation }) {
                   marginBottom: 20,
                 }}>
                 <Text style={styles.menuOptionStyle}>Отзывы гостей</Text>
-
                 <Divider
                   orientation="horizontal"
                   width={0.7}
@@ -70,13 +83,11 @@ export default function SettingsScreen({ navigation }) {
                   top={10}
                 />
               </TouchableOpacity>
-
               <TouchableOpacity
                 style={{
                   marginBottom: 20,
                 }}>
                 <Text style={styles.menuOptionStyle}>Финансы</Text>
-
                 <Divider
                   orientation="horizontal"
                   width={0.7}
@@ -84,7 +95,6 @@ export default function SettingsScreen({ navigation }) {
                   top={10}
                 />
               </TouchableOpacity>
-
               <TouchableOpacity
                 style={{
                   marginBottom: 20,
@@ -160,7 +170,6 @@ export default function SettingsScreen({ navigation }) {
               <TouchableOpacity
                 style={{
                   marginTop: 10,
-
                   height: 30,
                 }}>
                 <Text style={styles.menuOptionStyle}>Питание</Text>
@@ -172,27 +181,13 @@ export default function SettingsScreen({ navigation }) {
       <View
         style={{
           alignSelf: 'center',
-          justifyContent: 'center',
-          alignContent: 'center',
         }}>
         <TouchableOpacity
-          style={{
-            backgroundColor: COLORS.grayPlaceholder,
-            borderColor: COLORS.grayPlaceholder,
-            borderRadius: 6,
-            borderWidth: 0.5,
-            borderColor: '#404040',
-            height: 140,
-            width: 355,
-            height: 48,
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginTop: 20,
-          }}
-          onPress={handleLogOutButtonPress}>
+          style={styles.logOutButtonStyle}
+          onPress={logOutButtonPress}>
           <Text
             style={[styles.logOutText, { alignSelf: 'flex-start', left: 15 }]}>
-            Log Out
+            Выйти
           </Text>
         </TouchableOpacity>
       </View>
@@ -241,96 +236,22 @@ const styles = StyleSheet.create({
     fontSize: SIZES.body5,
     color: COLORS.red,
   },
+  logOutButtonStyle: {
+    backgroundColor: COLORS.grayPlaceholder,
+    borderColor: COLORS.grayPlaceholder,
+    borderRadius: 6,
+    borderWidth: 0.5,
+    borderColor: '#404040',
+    height: 140,
+    width: 355,
+    height: 48,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
+  },
   logOutText: {
     fontWeight: SIZES.fontWeight1,
     fontSize: SIZES.body5,
     color: COLORS.red,
   },
 });
-
-// import AsyncStorage from '@react-native-async-storage/async-storage';
-// import React, { useEffect } from 'react';
-// import SettingsComponent from '../../components/SettingsComponent'
-
-// const Settings = () => {
-//   const [email, setEmail] = React.useState(null);
-//   const [modalVisible, setModalVisible] = React.useState(false);
-//   const [sortBy, setSortBy] = React.useState(null);
-
-//   const saveSetting = (key, value) => {
-//     AsyncStorage.setItem(key, value);
-//   };
-
-//   const settingsOptions = [
-//     { title: 'My Info', subTitle: 'Setup your profile', onPress: () => {} },
-//     { title: 'Accounts', subTitle: null, onPress: () => {} },
-//     {
-//       title: 'Default account for new contacts',
-//       subTitle: email,
-//       onPress: () => {},
-//     },
-//     {
-//       title: 'Contacts to display',
-//       subTitle: 'All contacts',
-//       onPress: () => {},
-//     },
-//     {
-//       title: 'Sort by',
-//       subTitle: sortBy,
-//       onPress: () => {
-//         setModalVisible(true);
-//       },
-//     },
-//     { title: 'Name format', subTitle: 'First name first', onPress: () => {} },
-//     { title: 'Import', subTitle: null, onPress: () => {} },
-//     { title: 'Export', subTitle: null, onPress: () => {} },
-//     { title: 'Blocked numbers', subTitle: null, onPress: () => {} },
-//     { title: 'About RNContacts', subTitle: null, onPress: () => {} },
-//   ];
-
-//   const prefArr = [
-//     {
-//       name: 'First Name',
-//       selected: sortBy === 'First Name',
-
-//       onPress: () => {
-//         saveSetting('sortBy', 'First Name');
-//         setSortBy('First Name');
-//         setModalVisible(false);
-//       },
-//     },
-//     {
-//       name: 'Last Name',
-//       selected: sortBy === 'Last Name',
-//       onPress: () => {
-//         saveSetting('sortBy', 'Last Name');
-//         setSortBy('Last Name');
-//         setModalVisible(false);
-//       },
-//     },
-//   ];
-
-//   const getSettings = async () => {
-//     const user = await AsyncStorage.getItem('user');
-//     setEmail(JSON.parse(user).email);
-
-//     const sortPref = await AsyncStorage.getItem('sortBy');
-//     if (sortPref) {
-//       setSortBy(sortPref);
-//     }
-//   };
-//   useEffect(() => {
-//     getSettings();
-//   }, []);
-
-//   return (
-//     <SettingsComponent
-//       modalVisible={modalVisible}
-//       setModalVisible={setModalVisible}
-//       settingsOptions={settingsOptions}
-//       prefArr={prefArr}
-//     />
-//   );
-// };
-
-// export default Settings;

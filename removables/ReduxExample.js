@@ -1,12 +1,19 @@
-import React from 'react';
-import { SafeAreaView, View, Text } from 'react-native';
+// import React from 'react';
+// import { View, Text } from 'react-native';
+// import * as Progress from 'react-native-progress';
+// import { SIZES } from '../app/constants/theme';
 
-const ReduxExample = () => {
-  return (
-    <SafeAreaView style={{ flex: 1, justifyContent: 'center' }}>
-      <Text style={{ color: 'white' }}>DATA</Text>
-    </SafeAreaView>
-  );
-};
-
-export default ReduxExample;
+// export default function LoadingBarIndicator() {
+//   return (
+//     <View style={{ top: 50 }}>
+//       <Progress.Bar
+//         width={SIZES.width}
+//         indeterminate={true}
+//         useNativeDriver={true}
+//         animationType="timing"
+//         borderRadius={0}
+//         height={2}
+//       />
+//     </View>
+//   );
+// }
