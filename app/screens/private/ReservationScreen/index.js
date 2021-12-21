@@ -9,7 +9,7 @@ import {
   ActivityIndicator,
   RefreshControl,
 } from 'react-native';
-import { Card } from 'react-native-elements/dist/card/Card';
+import { Card } from "react-native-elements/dist/card/Card";
 import { Divider } from 'react-native-elements/dist/divider/Divider';
 import moment from 'moment';
 // Theme
@@ -30,16 +30,18 @@ import { wordTruncator, numberWithSpaces } from '../../../helpers';
 import {
   getReservationDataMiddleware,
   getReservationNextPageDataMiddleware,
-} from '../../../redux/actions/reservationActions';
+} from '../../../redux/middlewares';
 import { connect } from 'react-redux';
 
 const ReservationScreen = ({
-  navigation,
   loading,
   reservationData,
   isLastPage,
   hotelID,
+  hotelList
 }) => {
+  console.log('THIS IS HOTEL ID =>>>>>')
+  console.log(hotelList)
 
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
@@ -48,13 +50,17 @@ const ReservationScreen = ({
     wait(500).then(() => getReservationDataMiddleware());
   }, []);
 
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      getReservationDataMiddleware();
-    });
+  // useEffect(() => {
+  //   // const unsubscribe = navigation.addListener('focus', () => {
+  //     getReservationDataMiddleware();
+  //   });
 
-  return unsubscribe;
-  }, [navigation]);
+  // return unsubscribe;
+  // }, [navigation]);
+
+  useEffect(() => {
+      getReservationDataMiddleware({hotelID});
+  }, []);
 
 
   return (
@@ -66,7 +72,9 @@ const ReservationScreen = ({
         <View>
           <View style={styles.topBarButtonsContainer}>
             <TouchableOpacity style={styles.topBarBtn}>
-              <Text style={styles.topBarText}>{typeStayDates[0]}</Text>
+              <Text style={styles.topBarText}>
+                {/* {typeStayDates[0]} */}
+                </Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.topBarBtn}>
               <Text style={styles.topBarText}>01 Sep - 30 Sep</Text>
@@ -205,7 +213,7 @@ const ReservationScreen = ({
           ) : (
             <TouchableOpacity
               style={styles.showMoreButton}
-              onPress={getReservationNextPageData(outgoingData)}>
+              onPress={getReservationNextPageDataMiddleware()}>
               <Text style={styles.showMoreText}>
                 {!isLastPage ? (
                   'Показать ещё'
@@ -229,6 +237,25 @@ const ReservationScreen = ({
     </SafeAreaView>
   );
 };
+
+function mapStateToProps({ reservationReducer, hotelReducer }) {
+  console.log('====================================');
+  console.log('THIS IS STATE =>>>>>');
+  console.log('====================================');
+  console.log(reservationReducer);
+  console.log(hotelReducer);
+  return {
+    loading: reservationReducer.loading,
+    reservationData: reservationReducer.reservationData,
+    isLastPage: reservationReducer.isLastPage,
+    lastPage: reservationReducer.lastPage,
+    pageIndex: reservationReducer.pageIndex,
+    hotelID: hotelReducer.hotelID,
+    hotelList: hotelReducer.hotelList,
+  };
+}
+
+export default connect(mapStateToProps)(ReservationScreen);
 
 const styles = StyleSheet.create({
   container: {
@@ -375,21 +402,3 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
 });
-
-function mapStateToProps({ reservationReducer, hotelReducer }) {
-  console.log('====================================');
-  console.log('THIS IS STATE =>>>>>');
-  console.log('====================================');
-  console.log(reservationReducer);
-  console.log(hotelReducer);
-  return {
-    loading: reservationReducer.loading,
-    reservationData: reservationReducer.reservationData,
-    isLastPage: reservationReducer.isLastPage,
-    lastPage: reservationReducer.lastPage,
-    pageIndex: reservationReducer.pageIndex,
-    hotelID: hotelReducer.hotelID,
-  };
-}
-
-export default connect(mapStateToProps)(ReservationScreen);

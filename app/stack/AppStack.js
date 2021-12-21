@@ -4,14 +4,13 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Alert } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 // Navigator
-import HomeNavigator from '../navigation/TabNavigator';
+import HomeNavigator from "../navigation/TabNavigator";
 // Private Screens
 import {
   DashboardScreen,
   ComparisonScreen,
   ReservationScreen,
-  SettingsScreen,
-  StatsScreen,
+  SettingsScreen, StatsScreen,
   ArrivalsScreen,
 } from '../screens/private';
 // Public Screens

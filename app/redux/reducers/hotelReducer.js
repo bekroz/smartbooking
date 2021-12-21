@@ -2,7 +2,7 @@ import { HOTEL } from '../types';
 
 const initialState = {
   loading: false,
-  hotelID: null,
+  hotelID: 48,
   hotelList: [],
   error: null
 };

@@ -20,18 +20,21 @@ import {
 // Helpers
 import { emailValidator, passwordValidator } from '../../../helpers';
 // API
+import {handleUserTokenizationAPI} from '../../../api'
 import {
   appTokenMiddleware,
-  handleUserTokenizationAPI,
+  loginUserMiddleware,
 } from '../../../redux/middlewares'
 // Utils
-import { setUserSecret } from '../../../utils/useCustomAsyncStorage';
-// Context
-export default function LoginScreen({ navigation }) {
+import { setUser } from '../../../utils/useCustomAsyncStorage';
+
+import { connect } from 'react-redux';
+
+const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState({ value: '', error: '' });
   const [password, setPassword] = useState({ value: '', error: '' });
   const [secureTextEntry, setSecureTextEntry] = useState(true);
-  const [user, setUser] = useState(null);
+
   const [loginRequest, setLoginRequest] = useState(false);
 
   function registerButtonPress() {
@@ -61,17 +64,17 @@ export default function LoginScreen({ navigation }) {
         ],
       );
     }
-    const userSecret = {
-      email: email.value,
+    const user = {
+      username: email.value,
       password: password.value,
     };
     setLoginRequest(true);
-    setUserSecret(userSecret);
+    setUser(user);
     try {
-      await handleUserTokenizationAPI().then(userToken => {
+      await handleUserTokenizationAPI(user).then(userToken => {
         if (userToken) {
           navigation.replace('HomeScreen');
-          setUser(userToken);
+          // setUser(userToken);
         } else {
           console.error(error);
           alert('Your password is invalid');
@@ -170,6 +173,21 @@ export default function LoginScreen({ navigation }) {
   );
 }
 
+function mapStateToProps({ authReducer }) {
+  console.log('====================================');
+  console.log('THIS IS AUTH STATE =>>>>>');
+  console.log('====================================');
+  console.log(authReducer);
+  return {
+    loading: authReducer.loading,
+    appToken: authReducer.appToken,
+    userToken: authReducer.userToken,
+    user: authReducer.user,
+    userLoggedIn: authReducer.userLoggedIn,
+    error: authReducer.error,
+  };
+}
+
 const styles = StyleSheet.create({
   titleBlock: {
     flexGrow: 1,
@@ -258,3 +276,5 @@ const styles = StyleSheet.create({
     fontWeight: SIZES.fontWeight2,
   },
 });
+
+export default connect(mapStateToProps)(LoginScreen) 

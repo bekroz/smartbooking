@@ -6,7 +6,7 @@ import {
   getUserToken,
   setUserToken,
   setUserSecret,
-  getUserSecret,
+  getUser,
   clearStorage,
 } from '../utils/useCustomAsyncStorage';
 
@@ -20,9 +20,9 @@ const handleAppTokenizationAPI = async () => {
         Authorization: `Basic ${Config.IOS_BASE64_CODE}`,
       },
     }).then(response => {
-      // console.log('1. APP TOKEN ===>>>');
-      // console.log(response.data.access_token);
-      // setAppToken(response.data.access_token);
+      console.log('1. APP TOKEN ===>>>');
+      console.log(response.data.access_token);
+      setAppToken(response.data.access_token);
       return response.data.access_token;
     });
   } catch (err) {
@@ -31,9 +31,9 @@ const handleAppTokenizationAPI = async () => {
 };
 
 // #2 API => GET USER token
-const handleUserTokenizationAPI = async (outgoingData) => {
+const handleUserTokenizationAPI = async (user) => {
   const appToken = await getAppToken();
-  const userSecret = await getUserSecret();
+  // const user = await getUser();
   try {
     return await axios({
       url: `${Config.BASE_API_URL}/mobile/auth/login`,
@@ -42,10 +42,7 @@ const handleUserTokenizationAPI = async (outgoingData) => {
         Authorization: `Bearer ${appToken}`,
         'Content-Type': 'application/json',
       },
-     data: {
-        username: userSecret.email,
-        password: userSecret.password,
-      },
+     data: user
       // data: outgoingData.user
       // data: {
       //   username: outgoingData.user.email,
@@ -86,14 +83,14 @@ const getAllHotelPropertiesDataAPI = async () => {
 };
 
 // #4 API => GET Single Hotel Detailed Data of the user
-const getSingleHotelDataAPI = async (outgoingData) => {
-  // const userToken = await getUserToken();
+const getSingleHotelDataAPI = async (hotelID) => {
+  const userToken = await getUserToken();
   try {
     return await axios({
-      url: `${Config.BASE_API_URL}/mobile/properties/${outgoingData.hotelID}`,
+      url: `${Config.BASE_API_URL}/mobile/properties/${hotelID}`,
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${outgoingData.userToken}`,
+        Authorization: `Bearer ${userToken}`,
         'Content-Type': 'application/json',
       },
     });

@@ -39,8 +39,8 @@ const DashboardScreen = ({ navigation, loading, chosenDashbordDate, dashboardDat
   const [hotelListModalVisible, setHotelListModalVisible] = useState(false);
 
   // Button Press handlers
-  function handleChosenHotel(hotelID) {
-    setHotelIDAction(hotelID);
+  function handleChosenHotel(chosenHotelId) {
+    setHotelIDAction(chosenHotelId);
     setHotelListModalVisible(!hotelListModalVisible);
   }
 
@@ -77,7 +77,7 @@ const DashboardScreen = ({ navigation, loading, chosenDashbordDate, dashboardDat
         <View style={POSITIONING.center}>
           <HotelListBar
             onPress={() => setHotelListModalVisible(!hotelListModalVisible)}
-            hotelName={chosenHotelName || 'Загружается...'}
+            hotelName={'Загружается...' || chosenHotelName}
           />
         </View>
         <View style={styles.dateBlock}>

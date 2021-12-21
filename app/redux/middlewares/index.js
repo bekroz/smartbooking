@@ -1,5 +1,5 @@
 // Auth middleware
-import { appTokenMiddleware, loginUserMiddleware } from './authMiddleware';
+import { authMiddleware, appTokenMiddleware, loginUserMiddleware } from './authMiddleware';
 // Hotel middleware
 import { getHotelsDataMiddleware } from './hotelMiddleware';
 // Dashboard middleware
@@ -13,6 +13,7 @@ import getComparisonDataMiddleware from './comparisonMiddleware';
 
 export {
     // Auth
+    authMiddleware,
     appTokenMiddleware,
     loginUserMiddleware, 
     // Hotel

@@ -6,7 +6,7 @@ import { persistStore, persistReducer } from 'redux-persist';
 import rootReducer from '../reducers/index';
 
 // Dev tools
-const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+// const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const persistConfig = {
   key: 'root',

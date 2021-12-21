@@ -32,86 +32,29 @@ import { GoBackButton } from '../../../components/Buttons';
 // API
 import { getReservedRoomsListDataAPI } from '../../../api';
 
-export default function ArrivalsScreen({ navigation, route }) {
-  const [refreshed, setRefreshed] = useState(false);
-  const chosenHotelName = 'Kukaldosh Hotel';
-  const [reservedRoomsListData, setReservedRoomsListData] = useState([]);
-  const [pageIndex, setPageIndex] = useState(1);
-  const [lastPage, setLastPage] = useState(false);
-  const [noData, setNoData] = useState(false);
-  const [pullToRefresh, setPullToRefresh] = useState(false);
-
-  const typeOfStay = route?.params.typeOfStay;
-  const chosenDate = '2021-12-01';
-  const hotelID = 48;
-  const hotelListData = route?.params.hoteListData;
-
-  // console.log(hotelListData);
-
+export default function ArrivalsScreen({ navigation, loading, reservedRoomsListData }) {
   const [hotelListModalVisible, setHotelListModalVisible] = useState(false);
-  function toggleHotelModal() {
+  
+  function handleChosenHotel (chosenHotelId) {
+    setHotelIDAction(chosenHotelId);
     setHotelListModalVisible(!hotelListModalVisible);
-  }
-
-  const handleChosenHotel = hotel => {
-    // setToggleHotelListModal(!toggleHotelListModal);
-    // alert(`CHOSEN HOTEL => ${hotel}`);
-    setHotelID(hotel.id);
-    setChosenHotelName(hotel.name);
-    toggleHotelModal();
-    // console.log(hotel);
   };
-  const onRefresh = useCallback(
-    async (page = pageIndex) => {
-      setPullToRefresh(true);
-      console.log('THIS IS TYPE OF STAY');
-      console.log(typeOfStay);
-      setRefreshed(false);
-      let outgoingData = {
-        hotelID: hotelID,
-        type: typeOfStay,
-        from: chosenDate,
-        by: chosenDate,
-        page: page,
-      };
-      // console.log(outgoingData);
-      try {
-        await getReservedRoomsListDataAPI(outgoingData).then(response => {
-          // console.log('====================================');
-          // console.log(response);
-          // console.log(response.data[0]);
-          // console.log(response.data[0]);
-          // console.log(response.data.length);
-          // console.log('====================================');
 
-          const receivedData = response.data;
-          outgoingData.page = response.meta.currentPage;
-          let nextPageData = reservedRoomsListData;
-          receivedData.forEach(element => {
-            nextPageData.push(element);
-          });
-          setReservedRoomsListData(nextPageData);
-          setRefreshed(true);
-          setPageIndex(pageIndex + 1);
-          if (response.meta.current_page === response.meta.last_page) {
-            setLastPage(true);
-            // console.log('NO MORE DATA TO SHOW');
-          }
-          if (response.data.length < 1) {
-            setNoData(true);
-          }
-        });
-        setPullToRefresh(false);
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    [pullToRefresh],
-  );
+  const wait = timeout => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  };
+  
+  const onPullToRefresh = useCallback(() => {
+    wait(500).then(() => getArrivalsDataMiddleware());
+  }, []);
 
   useEffect(() => {
-    onRefresh();
-  }, []);
+    const unsubscribe = navigation.addListener('focus', () => {
+      getArrivalsDataMiddleware();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
@@ -127,7 +70,7 @@ export default function ArrivalsScreen({ navigation, route }) {
           <GoBackButton navigation={navigation} />
           <HotelListBar
             onPress={toggleHotelModal}
-            hotelName={chosenHotelName || 'Загружается...'}
+            hotelName={'Загружается...' || chosenHotelName}
           />
         </View>
         <View>
@@ -193,14 +136,14 @@ export default function ArrivalsScreen({ navigation, route }) {
           </View>
         </View>
         {/* Card Container */}
-        {refreshed ? (
+        {loading ? (
           // <ScrollView
           //   data={reservedRoomsListData}
           //   renderItem={CardList}
           //   keyExtractor={item => item.id}
           //   refreshControl={
           //     <RefreshControl
-          //       refreshing={pullToRefresh}
+          //       refreshing={loading}
           //       onRefresh={() => onRefresh}
           //     />
           //   }
@@ -471,179 +414,3 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-
-// <ScrollView showsVerticalScrollIndicator={false}>
-// {/* All Card */}
-// {reservedRoomsListData?.map((room, index) => (
-//   <Card key={index} containerStyle={styles.card} title="Guests">
-//     {/* LEFT Side Content */}
-//     <View
-//       style={{
-//         alignItems: 'center',
-//       }}>
-//       <View style={{ marginBottom: 15, alignItems: 'center' }}>
-//         <Text style={{ color: COLORS.grayText, marginBottom: 3 }}>
-//           Дата заезда:
-//         </Text>
-//         <Text style={{ color: COLORS.white }}>
-//           {moment(room.checkin).format('DD.MM.YYYY')}
-//         </Text>
-//       </View>
-
-//       {/* Small Vertical Divider */}
-//       <Divider
-//         orientation="vertical"
-//         width={0.5}
-//         left={45}
-//         top={45}
-//         height={12}
-//         color={COLORS.blue}
-//         position="absolute"
-//       />
-//       <View
-//         style={{
-//           marginBottom: 20,
-//           marginTop: 10,
-//           alignItems: 'center',
-//         }}>
-//         <Text style={{ color: COLORS.grayText, marginBottom: 3 }}>
-//           Дата выезда:
-//         </Text>
-//         <Text style={{ color: COLORS.white }}>
-//           {moment(room?.checkout).format('DD.MM.YYYY')}
-//         </Text>
-//       </View>
-
-//       <View
-//         style={{
-//           flexDirection: 'row',
-//         }}>
-//         <Image source={moonIcon} />
-//         <Text style={{ color: COLORS.white }}>
-//           {' '}
-//           {room?.nights}
-//         </Text>
-//         <Image style={{ marginLeft: 10 }} source={personIcon} />
-//         <Text style={{ color: COLORS.white }}>
-//           {' '}
-//           {room?.total_guests}
-//         </Text>
-//       </View>
-//     </View>
-
-//     <Divider
-//       orientation="vertical"
-//       leftWidth={1}
-//       left={115}
-//       height={130}
-//       color="#404040"
-//       position="absolute"
-//     />
-
-//     {/* LEFT-SIDE content */}
-//     <View
-//       style={{
-//         position: 'absolute',
-//         flexDirection: 'row',
-//         left: 110,
-//         flexDirection: 'row',
-//         marginLeft: 20,
-
-//         flex: 1,
-//         marginRight: 10,
-//       }}>
-//       {/* GuestDetailsView */}
-//       <View
-//         style={{
-//           height: 150,
-//           width: 140,
-//         }}>
-//         <Text style={styles.guestName}>
-//           {wordTruncator(room?.guest.first_name, 8)}
-//         </Text>
-//         <Text style={styles.guestName}>
-//           {wordTruncator(room?.guest.last_name, 8)}
-//         </Text>
-//         <View>
-//           <Text style={[styles.equalMargin, { color: COLORS.white }]}>
-//             {room?.total_rooms} номера
-//           </Text>
-//           <Text style={[styles.equalMargin, { color: COLORS.white }]}>
-//             {moment(room?.created_at).format('DD.MM.YYYY')}
-//           </Text>
-//           <Text
-//             style={[
-//               styles.equalMargin,
-//               { fontSize: 16, color: COLORS.white },
-//             ]}>
-//             {room?.source_name}
-//           </Text>
-//           <Text style={[styles.greenPriceText, styles.equalMargin]}>
-//             {numberWithSpaces(room?.total_sum)} UZS
-//           </Text>
-//         </View>
-//       </View>
-//       <View style={{ paddingRight: 20, marginRight: 50 }}>
-//         {room?.status == 'confirmed' && <ConfirmedStatus />}
-//         {room?.status == 'in_house' && <InHouseStatus />}
-//         {room?.status == 'check_out' && <CheckOutStatus />}
-//         {room?.status == 'canceled' && <CanceledStatus />}
-//         {room?.status == 'no_show' && <NoShowStatus />}
-//       </View>
-//     </View>
-//   </Card>
-// ))}
-// {lastPage ? (
-//   <View
-//     style={{
-//       alignSelf: 'center',
-//       backgroundColor: '#212831',
-//       width: SIZES.width - 20,
-//       height: 40,
-//       alignItems: 'center',
-//       justifyContent: 'center',
-//       marginTop: 15,
-//       borderRadius: 6,
-//     }}>
-//     <Text
-//       style={{
-//         color: COLORS.grayText,
-//         fontWeight: '500',
-//         fontSize: 16,
-//       }}>
-//       Все данные загружены :)
-//     </Text>
-//   </View>
-// ) : (
-//   <TouchableOpacity
-//     style={{
-//       alignSelf: 'center',
-//       backgroundColor: '#212831',
-//       width: SIZES.width - 20,
-//       height: 40,
-//       alignItems: 'center',
-//       justifyContent: 'center',
-//       marginTop: 15,
-//       borderRadius: 6,
-//     }}
-//     onPress={loadNewData}>
-//     <Text
-//       style={{ color: COLORS.blue, fontWeight: '500', fontSize: 16 }}>
-//       {refreshed ? (
-//         'Показать ещё'
-//       ) : (
-//         <ActivityIndicator
-//           animating={true}
-//           color={COLORS.white}
-//           marginTop={5}
-//         />
-//       )}
-//     </Text>
-//   </TouchableOpacity>
-// )}
-// <View
-//   style={{
-//     paddingBottom: 240,
-//   }}
-// />
-// </ScrollView>

@@ -1,3 +1,4 @@
+import {getAllReservationsDataAPI} from '../../api'
 import {
   getReservationDataRequestAction,
   getReservationDataSuccessAction,
