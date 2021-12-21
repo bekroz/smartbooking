@@ -1,4 +1,4 @@
-import {getAllReservationsDataAPI} from '../../api'
+import { getAllReservationsDataAPI } from '../../api';
 import {
   getReservationDataRequestAction,
   getReservationDataSuccessAction,
@@ -6,11 +6,11 @@ import {
   getReservationNextPageDataRequestAction,
   getReservationNextPageDataSuccessAction,
   getReservationNextPageDataFailureAction,
-  reservationLastPageReachedAction
-} from '../actions'
+  reservationLastPageReachedAction,
+} from '../actions';
 
 async function getReservationDataMiddleware(params) {
-    getReservationDataRequestAction();
+  getReservationDataRequestAction();
   try {
     await getAllReservationsDataAPI(params).then(response => {
       const receivedData = response.data;

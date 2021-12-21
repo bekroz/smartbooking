@@ -1,30 +1,30 @@
 import { HOTEL } from '../types';
 
-const getHotelDataRequestAction = (currentHotelID) => {
+const getHotelDataRequestAction = currentHotelID => {
   return {
     type: HOTEL.DATA_REQUEST,
-    payload: currentHotelID
+    payload: currentHotelID,
   };
 };
 
-const getHotelDataSuccessAction = (hotelList) => {
+const getHotelDataSuccessAction = hotelList => {
   return {
     type: HOTEL.DATA_SUCCESS,
     payload: hotelList,
   };
 };
 
-const getHotelDataFailureAction = (error) => {
+const getHotelDataFailureAction = error => {
   return {
     type: HOTEL.DATA_FAILURE,
-    payload: error
+    payload: error,
   };
 };
 
-const setHotelIDAction = (hotelID) => {
+const setHotelIDAction = hotelID => {
   return {
     type: HOTEL.SET_HOTEL_ID,
-    payload: hotelID
+    payload: hotelID,
   };
 };
 
@@ -32,6 +32,5 @@ export {
   getHotelDataRequestAction,
   getHotelDataSuccessAction,
   getHotelDataFailureAction,
-  setHotelIDAction
-}
-
+  setHotelIDAction,
+};

@@ -1,13 +1,13 @@
 import { DASHBOARD } from '../types';
 
-const getDashboardDataRequestAction = (chosenDashbordDate) => {
+const getDashboardDataRequestAction = chosenDashbordDate => {
   return {
     type: DASHBOARD.DATA_REQUEST,
-    payload: chosenDashbordDate 
+    payload: chosenDashbordDate,
   };
 };
 
-const getDashboardDataSuccessAction = (dashboardData) => {
+const getDashboardDataSuccessAction = dashboardData => {
   return {
     type: DASHBOARD.DATA_SUCCESS,
     payload: dashboardData,
@@ -21,4 +21,8 @@ const getDashboardDataFailureAction = error => {
   };
 };
 
-export { getDashboardDataRequestAction, getDashboardDataSuccessAction, getDashboardDataFailureAction };
+export {
+  getDashboardDataRequestAction,
+  getDashboardDataSuccessAction,
+  getDashboardDataFailureAction,
+};

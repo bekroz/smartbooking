@@ -6,7 +6,7 @@ const initialState = {
   chosenStatsYear: '',
   statisticsByCategoryData: [],
   statisticsByYearData: [],
-  error: null
+  error: null,
 };
 
 const statsReducer = (state = initialState, action) => {
@@ -22,13 +22,13 @@ const statsReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        statisticsByCategoryData: action.payload
-    };
+        statisticsByCategoryData: action.payload,
+      };
     case STATS.BY_CATEGORY_DATA_FAILURE:
-        return {
-          ...state,
-          error: action.payload
-        };
+      return {
+        ...state,
+        error: action.payload,
+      };
     // By year data cases
     case STATS.BY_YEAR_DATA_REQUEST:
       return {
@@ -40,13 +40,13 @@ const statsReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        statisticsByYearData: action.payload
-    };
+        statisticsByYearData: action.payload,
+      };
     case STATS.BY_YEAR_DATA_FAILURE:
-        return {
-          ...state,
-          error: action.payload
-        };
+      return {
+        ...state,
+        error: action.payload,
+      };
     default:
       return { ...state };
   }

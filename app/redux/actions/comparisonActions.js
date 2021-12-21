@@ -1,28 +1,28 @@
 import { COMPARISON } from '../types';
 
-const getComparisonDataRequestAction = (chosenComparisonDate) => {
+const getComparisonDataRequestAction = chosenComparisonDate => {
   return {
     type: COMPARISON.DATA_REQUEST,
-    payload: chosenComparisonDate
+    payload: chosenComparisonDate,
   };
 };
 
-const getComparisonDataSuccessAction = (comparisonData) => {
+const getComparisonDataSuccessAction = comparisonData => {
   return {
     type: COMPARISON.DATA_SUCCESS,
-    payload: comparisonData
+    payload: comparisonData,
   };
 };
 
-const getComparisonDataFailureAction = (error) => {
+const getComparisonDataFailureAction = error => {
   return {
     type: COMPARISON.DATA_FAILURE,
-    payload: error
+    payload: error,
   };
 };
 
 export {
   getComparisonDataRequestAction,
   getComparisonDataSuccessAction,
-  getComparisonDataFailureAction
-}
+  getComparisonDataFailureAction,
+};

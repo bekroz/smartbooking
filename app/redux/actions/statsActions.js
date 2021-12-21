@@ -1,52 +1,54 @@
 import { STATS } from '../types';
 
 // By category
-const getStatsByCategoryDataRequestAction = (chosenStatsDateRange) => {
+const getStatsByCategoryDataRequestAction = chosenStatsDateRange => {
   return {
     type: STATS.BY_CATEGORY_DATA_REQUEST,
-    payload: chosenStatsDateRange
+    payload: chosenStatsDateRange,
   };
 };
 
-const getStatsByCategoryDataSuccessAction = (statisticsByCategoryData) => {
+const getStatsByCategoryDataSuccessAction = statisticsByCategoryData => {
   return {
     type: STATS.BY_CATEGORY_DATA_SUCCESS,
-    payload: statisticsByCategoryData
+    payload: statisticsByCategoryData,
   };
 };
 
-const getStatsByCategoryDataFailureAction = (error) => {
+const getStatsByCategoryDataFailureAction = error => {
   return {
     type: STATS.BY_CATEGORY_DATA_FAILURE,
-    payload: error
+    payload: error,
   };
 };
 
 // By year
-const getStatsByYearDataRequestAction = (chosenStatsYear) => {
+const getStatsByYearDataRequestAction = chosenStatsYear => {
   return {
     type: STATS.BY_YEAR_DATA_REQUEST,
-    payload: chosenStatsYear
+    payload: chosenStatsYear,
   };
 };
 
-const getStatsByYearDataSuccessAction = (statisticsByYearData) => {
+const getStatsByYearDataSuccessAction = statisticsByYearData => {
   return {
     type: STATS.BY_YEAR_DATA_SUCCESS,
-    payload: statisticsByYearData
+    payload: statisticsByYearData,
   };
 };
 
-const getStatsByYearDataFailureAction = (error) => {
+const getStatsByYearDataFailureAction = error => {
   return {
     type: STATS.BY_YEAR_DATA_FAILURE,
-    payload: error
+    payload: error,
   };
 };
 
-export { getStatsByCategoryDataRequestAction, 
-  getStatsByCategoryDataSuccessAction, 
-  getStatsByCategoryDataFailureAction, 
-  getStatsByYearDataRequestAction, 
-  getStatsByYearDataSuccessAction, 
-  getStatsByYearDataFailureAction };
+export {
+  getStatsByCategoryDataRequestAction,
+  getStatsByCategoryDataSuccessAction,
+  getStatsByCategoryDataFailureAction,
+  getStatsByYearDataRequestAction,
+  getStatsByYearDataSuccessAction,
+  getStatsByYearDataFailureAction,
+};

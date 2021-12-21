@@ -26,3 +26,46 @@
   // const [chosenHotelName, setChosenHotelName] = useState(null);
 
   // import NetInfo from '@react-native-community/netinfo';
+
+
+
+  const [disconnectionAlert, setDisconnectionAlert] = useState(false);
+
+  // NetInfo.addEventListener(networkState => {
+  //   console.log('Connection type - ', networkState.type);
+  //   console.log('Is connected? - ', networkState.isConnected);
+  //   if (networkState.isConnected === true) {
+  //     setDisconnectionAlert(false);
+  //   } else {
+  //     setTimeout(setDisconnectionAlert(true));
+  //   }
+  // });
+
+  // if (disconnectionAlert) {
+  //   Alert.alert(
+  //     'Нет подключения к Интернету',
+  //     '',
+  //     [
+  //       {
+  //         text: 'Попробовать еще раз',
+  //         onPress: () => {
+  //           // console.log('OK button Pressed');
+  //           setDisconnectionAlert(false);
+  //         },
+  //         style: 'Cancel',
+  //       },
+  //     ],
+  //   );
+  // }
+
+  // useEffect(() => {
+  //   const removeNetInfoSubscription = NetInfo.addEventListener((state) => {
+  //     offline = !(state.isConnected && state.isInternetReachable);
+  //     setOfflineStatus(offline);
+  //   });
+
+  //   if(offline) {
+  //     alert('OFFLINE!')
+  //   }
+  //   return () => removeNetInfoSubscription();
+  // }, []);

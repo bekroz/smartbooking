@@ -25,7 +25,7 @@ export default function ComparisonScreen({ navigation }) {
     month: '12',
   });
   // HARD CODED DATA ===> ENDS
-  
+
   const [dataLoaded, setDataLoaded] = useState(false);
   // Data container
   const [comparisonData, setComparisonData] = useState({});

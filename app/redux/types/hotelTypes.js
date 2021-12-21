@@ -5,4 +5,3 @@ export default HOTEL = {
   DATA_FAILURE: 'HOTEL_DATA_FAILURE',
   SET_HOTEL_ID: 'HOTEL_SET_HOTEL_ID',
 };
-  

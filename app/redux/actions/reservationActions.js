@@ -53,5 +53,5 @@ export {
   getReservationNextPageDataRequestAction,
   getReservationNextPageDataSuccessAction,
   getReservationNextPageDataFailureAction,
-  reservationLastPageReachedAction
-}
+  reservationLastPageReachedAction,
+};

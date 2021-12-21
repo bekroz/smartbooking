@@ -9,7 +9,7 @@ import {
   ActivityIndicator,
   RefreshControl,
 } from 'react-native';
-import { Card } from "react-native-elements/dist/card/Card";
+import { Card } from 'react-native-elements/dist/card/Card';
 import { Divider } from 'react-native-elements/dist/divider/Divider';
 import moment from 'moment';
 // Theme
@@ -38,10 +38,10 @@ const ReservationScreen = ({
   reservationData,
   isLastPage,
   hotelID,
-  hotelList
+  hotelList,
 }) => {
-  console.log('THIS IS HOTEL ID =>>>>>')
-  console.log(hotelList)
+  console.log('THIS IS HOTEL ID =>>>>>');
+  console.log(hotelList);
 
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
@@ -59,9 +59,8 @@ const ReservationScreen = ({
   // }, [navigation]);
 
   useEffect(() => {
-      getReservationDataMiddleware({hotelID});
+    getReservationDataMiddleware({ hotelID });
   }, []);
-
 
   return (
     <SafeAreaView style={styles.container}>
@@ -72,9 +71,7 @@ const ReservationScreen = ({
         <View>
           <View style={styles.topBarButtonsContainer}>
             <TouchableOpacity style={styles.topBarBtn}>
-              <Text style={styles.topBarText}>
-                {/* {typeStayDates[0]} */}
-                </Text>
+              <Text style={styles.topBarText}>{/* {typeStayDates[0]} */}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.topBarBtn}>
               <Text style={styles.topBarText}>01 Sep - 30 Sep</Text>
@@ -82,7 +79,9 @@ const ReservationScreen = ({
           </View>
           <View style={styles.reservationsNumberContainer}>
             <Text style={styles.reservationsNumber}>
-              {loading ? 'Загружается ...' : `${reservationData?.length} бронирования`}
+              {loading
+                ? 'Загружается ...'
+                : `${reservationData?.length} бронирования`}
             </Text>
           </View>
         </View>

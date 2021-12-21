@@ -1,6 +1,5 @@
 import { RESERVATION } from '../types';
 
-
 // const typeStayDates = ['Бронирование', 'Заезд', 'Выезд', 'Проживание'];
 // const statuses = [
 //   'Подтверждено',

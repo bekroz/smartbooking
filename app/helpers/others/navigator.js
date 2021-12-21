@@ -1,3 +1,3 @@
 export default function Navigator(navigation, routeName) {
-    navigation.navigate(routeName);
+  navigation.navigate(routeName);
 }

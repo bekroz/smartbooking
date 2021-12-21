@@ -29,10 +29,17 @@ import {
 import { Calendar } from '../../../components/Calendar';
 // Redux
 import { connect } from 'react-redux';
-import { setHotelIDAction } from '../../../redux/actions' 
+import { setHotelIDAction } from '../../../redux/actions';
 import { getDashboardDataMiddleware } from '../../../redux/middlewares';
 
-const DashboardScreen = ({ navigation, loading, chosenDashbordDate, dashboardData, hotelID, hotelList }) => {
+const DashboardScreen = ({
+  navigation,
+  loading,
+  chosenDashbordDate,
+  dashboardData,
+  hotelID,
+  hotelList,
+}) => {
   // View togglers
   const [percentageView, setPercentageView] = useState(true);
   const [calendarModalVisible, setCalendarModalVisible] = useState(false);
@@ -51,7 +58,7 @@ const DashboardScreen = ({ navigation, loading, chosenDashbordDate, dashboardDat
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
-  
+
   const onPullToRefresh = useCallback(() => {
     wait(500).then(() => getDashboardDataMiddleware());
   }, []);
@@ -84,7 +91,8 @@ const DashboardScreen = ({ navigation, loading, chosenDashbordDate, dashboardDat
           <TouchableOpacity style={styles.arrowIconStyle}>
             <WhiteLeftArrowSvg />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => setCalendarModalVisible(!calendarModalVisible)}>
+          <TouchableOpacity
+            onPress={() => setCalendarModalVisible(!calendarModalVisible)}>
             <Text style={styles.dateText}>Декабрь 2021</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.arrowIconStyle}>
@@ -364,7 +372,7 @@ const DashboardScreen = ({ navigation, loading, chosenDashbordDate, dashboardDat
       )}
     </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -525,7 +533,7 @@ function mapStateToProps({ dashboardReducer, hotelReducer }) {
     chosenDashbordDate: dashboardReducer.chosenDashbordDate,
     dashboardData: dashboardReducer.dashboardData,
     hotelID: hotelReducer.hotelID,
-    hotelList: hotelReducer.hotelList
+    hotelList: hotelReducer.hotelList,
   };
 }
 

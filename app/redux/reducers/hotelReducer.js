@@ -4,7 +4,7 @@ const initialState = {
   loading: false,
   hotelID: 48,
   hotelList: [],
-  error: null
+  error: null,
 };
 
 const hotelReducer = (state = initialState, action) => {
@@ -19,17 +19,17 @@ const hotelReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         hotelList: action.payload,
-      };      
+      };
     case HOTEL.DATA_FAILURE:
       return {
         ...state,
         loading: false,
-        error: action.payload
+        error: action.payload,
       };
     case HOTEL.SET_HOTEL_ID:
       return {
         ...state,
-        hotelID: action.payload
+        hotelID: action.payload,
       };
     default:
       return { ...state };

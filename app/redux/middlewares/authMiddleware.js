@@ -1,15 +1,14 @@
-import { handleAppTokenizationAPI, handleUserTokenizationAPI } from '../../api'
+import { handleAppTokenizationAPI, handleUserTokenizationAPI } from '../../api';
 import { getUser } from '../../utils/useCustomAsyncStorage';
-import { 
+import {
   appTokenRequestAction,
   appTokenSuccessAction,
   appTokenFailureAction,
   loginRequestAction,
   loginSuccessAction,
   loginFailureAction,
- } from '../actions'
+} from '../actions';
 
-  
 async function appTokenMiddleware() {
   appTokenRequestAction();
   try {
@@ -37,14 +36,10 @@ async function loginUserMiddleware() {
 
 const authMiddleware = async () => {
   try {
-    await appTokenMiddleware().then(loginUserMiddleware())
+    await appTokenMiddleware().then(loginUserMiddleware());
   } catch (error) {
     console.error(error);
   }
-}
-
-export {
-    appTokenMiddleware,
-    loginUserMiddleware,
-    authMiddleware,
 };
+
+export { appTokenMiddleware, loginUserMiddleware, authMiddleware };

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
-import { createStackNavigator} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import { NavigationContainer, DarkTheme } from '@react-navigation/native';
 import AuthLoadingScreen from '../screens/AuthLoadingScreen';
@@ -28,53 +28,48 @@ import {
 
 const Stack = createStackNavigator();
 
-  const AppStack = () => {
-    return (
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-        }} 
-        initialRouteName="HomeScreen">
-        <Stack.Screen name="HomeScreen" component={HomeNavigator} />
-        <Stack.Screen name="DashboardScreen" component={DashboardScreen} />
-        <Stack.Screen name="Reservation" component={ReservationScreen} />
-        <Stack.Screen name="ComparisonScreen" component={ComparisonScreen} />
-        <Stack.Screen name="StatsScreen" component={StatsScreen} />
-        <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
-        <Stack.Screen name="ArrivalsScreen" component={ArrivalsScreen} />
-        <Stack.Screen name="LoginScreen" component={LoginScreen} />
-      </Stack.Navigator>
-    );
-  };
+const AppStack = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+      initialRouteName="HomeScreen">
+      <Stack.Screen name="HomeScreen" component={HomeNavigator} />
+      <Stack.Screen name="DashboardScreen" component={DashboardScreen} />
+      <Stack.Screen name="Reservation" component={ReservationScreen} />
+      <Stack.Screen name="ComparisonScreen" component={ComparisonScreen} />
+      <Stack.Screen name="StatsScreen" component={StatsScreen} />
+      <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
+      <Stack.Screen name="ArrivalsScreen" component={ArrivalsScreen} />
+      <Stack.Screen name="LoginScreen" component={LoginScreen} />
+    </Stack.Navigator>
+  );
+};
 
-  
-  const AuthStack = () => {
-    return (
-   <>
-   
-   <Stack.Screen name="LoginScreen" component={LoginScreen} />
-        <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
-        <Stack.Screen name="RestoreScreen" component={RestoreScreen} />
-        <Stack.Screen name="TermsScreen" component={TermsScreen} />
-        <Stack.Screen name="NoFoundScreen" component={NoFoundScreen} />
-  </>
-    );
-  };
-  
+const AuthStack = () => {
+  return (
+    <>
+      <Stack.Screen name="LoginScreen" component={LoginScreen} />
+      <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+      <Stack.Screen name="RestoreScreen" component={RestoreScreen} />
+      <Stack.Screen name="TermsScreen" component={TermsScreen} />
+      <Stack.Screen name="NoFoundScreen" component={NoFoundScreen} />
+    </>
+  );
+};
 
-
-  const RootStack = createSwitchNavigator(
+const RootStack = createSwitchNavigator(
   {
     AuthLoading: AuthLoadingScreen,
     HomeScreen: AppStack,
     LoginScreen: AuthStack,
   },
   {
-    initialRouteName: 'AuthLoading'
-  }
-)
+    initialRouteName: 'AuthLoading',
+  },
+);
 
-  
 const AppContainer = createAppContainer(RootStack);
 
 export default AppContainer;

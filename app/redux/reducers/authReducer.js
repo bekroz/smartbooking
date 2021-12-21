@@ -42,15 +42,15 @@ const authReducer = (state = initialState, action) => {
         userToken: action.payload,
       };
     case AUTH.LOGIN_FAILURE:
-      return { 
-        ...state, 
-        error: action.payload 
+      return {
+        ...state,
+        error: action.payload,
       };
     case AUTH.LOGOUT_REQUEST:
-      return { 
-        ...state, 
-        loading: true, 
-        userLoggedIn: true,  
+      return {
+        ...state,
+        loading: true,
+        userLoggedIn: true,
       };
     case AUTH.LOGOUT_SUCCESS:
       return {
@@ -62,9 +62,10 @@ const authReducer = (state = initialState, action) => {
         loading: false,
       };
     case AUTH.LOGOUT_FAILURE:
-      return { 
-        ...state, 
-        error: action.payload };
+      return {
+        ...state,
+        error: action.payload,
+      };
     default:
       return { ...state };
   }

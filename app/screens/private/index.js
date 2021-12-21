@@ -6,7 +6,6 @@ import ComparisonScreen from './ComparisonScreen';
 import CalendarScreen from './CalendarScreen';
 import SettingsScreen from './SettingsScreen';
 
-
 export {
   DashboardScreen,
   CalendarScreen,

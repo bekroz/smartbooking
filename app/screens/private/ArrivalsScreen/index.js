@@ -32,18 +32,22 @@ import { GoBackButton } from '../../../components/Buttons';
 // API
 import { getReservedRoomsListDataAPI } from '../../../api';
 
-export default function ArrivalsScreen({ navigation, loading, reservedRoomsListData }) {
+export default function ArrivalsScreen({
+  navigation,
+  loading,
+  reservedRoomsListData,
+}) {
   const [hotelListModalVisible, setHotelListModalVisible] = useState(false);
-  
-  function handleChosenHotel (chosenHotelId) {
+
+  function handleChosenHotel(chosenHotelId) {
     setHotelIDAction(chosenHotelId);
     setHotelListModalVisible(!hotelListModalVisible);
-  };
+  }
 
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
-  
+
   const onPullToRefresh = useCallback(() => {
     wait(500).then(() => getArrivalsDataMiddleware());
   }, []);

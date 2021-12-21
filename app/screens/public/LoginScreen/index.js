@@ -20,11 +20,11 @@ import {
 // Helpers
 import { emailValidator, passwordValidator } from '../../../helpers';
 // API
-import {handleUserTokenizationAPI} from '../../../api'
+import { handleUserTokenizationAPI } from '../../../api';
 import {
   appTokenMiddleware,
   loginUserMiddleware,
-} from '../../../redux/middlewares'
+} from '../../../redux/middlewares';
 // Utils
 import { setUser } from '../../../utils/useCustomAsyncStorage';
 
@@ -171,7 +171,7 @@ const LoginScreen = ({ navigation }) => {
       </View>
     </SafeAreaView>
   );
-}
+};
 
 function mapStateToProps({ authReducer }) {
   console.log('====================================');
@@ -277,4 +277,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(mapStateToProps)(LoginScreen) 
+export default connect(mapStateToProps)(LoginScreen);

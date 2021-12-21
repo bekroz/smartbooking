@@ -18,7 +18,7 @@ const appTokenFailureAction = error => ({
 // USER token
 const loginRequestAction = user => ({
   type: AUTH.LOGIN_REQUEST,
-  payload: user
+  payload: user,
 });
 
 const loginSuccessAction = userToken => ({
@@ -38,4 +38,4 @@ export {
   loginRequestAction,
   loginSuccessAction,
   loginFailureAction,
-}
+};

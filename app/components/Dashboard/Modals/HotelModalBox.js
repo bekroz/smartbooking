@@ -122,4 +122,3 @@ const styles = StyleSheet.create({
     fontWeight: SIZES.fontWeight2,
   },
 });
-

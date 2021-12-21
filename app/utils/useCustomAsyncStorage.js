@@ -39,12 +39,12 @@ const clearStorage = async () => {
 
 // #8
 const checkUserStateAsyncStorage = async () => {
-	const user = await getUser();
+  const user = await getUser();
   const userToken = await getUserToken();
-	return {
+  return {
     user: user,
-		userToken: userToken,
-	};
+    userToken: userToken,
+  };
 };
 
 export {

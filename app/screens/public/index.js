@@ -5,4 +5,11 @@ import RestoreScreen from './RestoreScreen';
 import SignUpScreen from './SignUpScreen';
 import TermsScreen from './TermsScreen';
 
-export { SplashScreen, LoginScreen, NoFoundScreen, RestoreScreen, SignUpScreen, TermsScreen };
+export {
+  SplashScreen,
+  LoginScreen,
+  NoFoundScreen,
+  RestoreScreen,
+  SignUpScreen,
+  TermsScreen,
+};

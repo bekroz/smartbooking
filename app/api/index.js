@@ -31,7 +31,7 @@ const handleAppTokenizationAPI = async () => {
 };
 
 // #2 API => GET USER token
-const handleUserTokenizationAPI = async (user) => {
+const handleUserTokenizationAPI = async user => {
   const appToken = await getAppToken();
   // const user = await getUser();
   try {
@@ -42,7 +42,7 @@ const handleUserTokenizationAPI = async (user) => {
         Authorization: `Bearer ${appToken}`,
         'Content-Type': 'application/json',
       },
-     data: user
+      data: user,
       // data: outgoingData.user
       // data: {
       //   username: outgoingData.user.email,
@@ -83,7 +83,7 @@ const getAllHotelPropertiesDataAPI = async () => {
 };
 
 // #4 API => GET Single Hotel Detailed Data of the user
-const getSingleHotelDataAPI = async (hotelID) => {
+const getSingleHotelDataAPI = async hotelID => {
   const userToken = await getUserToken();
   try {
     return await axios({
@@ -183,7 +183,7 @@ const getReservedRoomsListDataAPI = async outgoingData => {
 };
 
 // #9 API => GET Hotel Statistics By Year
-const getStatisticsByYearAPI = async (outgoingData) => {
+const getStatisticsByYearAPI = async outgoingData => {
   // const userToken = await getUserToken();
   try {
     return await axios({
@@ -207,7 +207,7 @@ const getStatisticsByYearAPI = async (outgoingData) => {
 
 // #10 API => GET Hotel Statistics By Category
 
-const getStatisticsByCategoryAPI = async (outgoingData) => {
+const getStatisticsByCategoryAPI = async outgoingData => {
   // const userToken = await getUserToken();
   try {
     return await axios({
@@ -217,7 +217,7 @@ const getStatisticsByCategoryAPI = async (outgoingData) => {
         Authorization: `Bearer ${outgoingData.userToken}`,
         'Content-Type': 'application/json',
       },
-      data: outgoingData
+      data: outgoingData,
     }).then(response => {
       return response;
     });
@@ -248,7 +248,7 @@ const getPropertiesComparisonDataAPI = async outgoingData => {
 };
 
 // #12 API => GET Property Sources Data
-const getSourcesDataAPI = async (outgoingData) => {
+const getSourcesDataAPI = async outgoingData => {
   // const userToken = await getUserToken();
   try {
     return await axios({
