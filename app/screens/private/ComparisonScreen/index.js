@@ -46,7 +46,7 @@ export default function ComparisonScreen({ navigation }) {
 
   // Button handlers
   function handleBackButtonPress() {
-    navigation.navigate('HomeScreen');
+    navigation.navigate('TabNavigator');
   }
 
   useEffect(() => {

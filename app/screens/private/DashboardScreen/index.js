@@ -29,13 +29,17 @@ import {
 import { Calendar } from '../../../components/Calendar';
 // Redux
 import { connect } from 'react-redux';
-import { setHotelIDAction } from '../../../redux/actions';
-import { getDashboardDataMiddleware } from '../../../redux/middlewares';
+import { setUserChosenHotelIDAction } from '../../../redux/actions';
+import {
+  getDashboardDataMiddleware,
+  getHotelsDataMiddleware,
+  setHotelIDMiddleware,
+} from '../../../redux/middlewares';
 
 const DashboardScreen = ({
   navigation,
   loading,
-  chosenDashbordDate,
+  chosenDashboardDate,
   dashboardData,
   hotelID,
   hotelList,
@@ -45,15 +49,29 @@ const DashboardScreen = ({
   const [calendarModalVisible, setCalendarModalVisible] = useState(false);
   const [hotelListModalVisible, setHotelListModalVisible] = useState(false);
 
+  const todayDefaultDate = new Date();
+  const dashboardDefaultDate = chosenDashboardDate
+    ? chosenDashboardDate
+    : todayDefaultDate;
+  const defaultHotelID = hotelID ? hotelID : hotelList[0].id;
+
+  console.log('====================================');
+
+  console.log('====================================');
   // Button Press handlers
   function handleChosenHotel(chosenHotelId) {
-    setHotelIDAction(chosenHotelId);
+    setUserChosenHotelIDAction(chosenHotelId);
     setHotelListModalVisible(!hotelListModalVisible);
   }
 
   function handleArcBarPress() {
     navigation.navigate('ArrivalsScreen');
   }
+
+  const dashboardOutgoingData = {
+    hotelID: defaultHotelID,
+    chosenDashboardDate: dashboardDefaultDate,
+  };
 
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
@@ -64,8 +82,27 @@ const DashboardScreen = ({
   }, []);
 
   useEffect(() => {
+    getHotelsDataMiddleware();
+    if (hotelID === null) {
+      setDefaultHotelIDMiddleware();
+    }
+  }, []);
+
+  const getDataOnTabPress = async () => {
+    try {
+      await getHotelsDataMiddleware().then(hotelList => {
+        setHotelIDMiddleware(hotelList).then(hotelID => {
+          getDashboardDataMiddleware(hotelID);
+        });
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      getDashboardDataMiddleware();
+      getDataOnTabPress();
     });
 
     return unsubscribe;
@@ -363,8 +400,8 @@ const DashboardScreen = ({
       {hotelListModalVisible && (
         <HotelModalBox
           visible={hotelListModalVisible}
-          onTouchOutside={toggleHotelModal}
-          onQuitPress={toggleHotelModal}
+          onTouchOutside={setHotelListModalVisible(!hotelListModalVisible)}
+          onQuitPress={setHotelListModalVisible(!hotelListModalVisible)}
           onHotelChosen={handleChosenHotel}
           hotelList={hotelList}
           chosenHotelID={hotelID}
@@ -524,13 +561,9 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps({ dashboardReducer, hotelReducer }) {
-  console.log('====================================');
-  console.log('THIS IS DASHBOARD STATE =>>>>>');
-  console.log('====================================');
-  console.log(dashboardReducer);
   return {
     loading: dashboardReducer.loading,
-    chosenDashbordDate: dashboardReducer.chosenDashbordDate,
+    chosenDashboardDate: dashboardReducer.chosenDashboardDate,
     dashboardData: dashboardReducer.dashboardData,
     hotelID: hotelReducer.hotelID,
     hotelList: hotelReducer.hotelList,

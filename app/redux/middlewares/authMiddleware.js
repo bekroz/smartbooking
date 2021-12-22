@@ -8,35 +8,36 @@ import {
   loginSuccessAction,
   loginFailureAction,
 } from '../actions';
+import { store } from '../store';
 
 async function appTokenMiddleware() {
-  appTokenRequestAction();
+  // store.dispatch(appTokenRequestAction());
   try {
-    await handleAppTokenizationAPI().then(appToken => {
-      appTokenSuccessAction(appToken);
+    return await handleAppTokenizationAPI().then(appToken => {
+      store.dispatch(appTokenSuccessAction(appToken));
     });
   } catch (error) {
-    appTokenFailureAction(error);
+    store.dispatch(appTokenFailureAction(error));
     console.error(error);
   }
 }
 
-async function loginUserMiddleware() {
-  const user = await getUser();
-  loginRequestAction(user);
+async function loginUserMiddleware(user) {
   try {
-    await handleUserTokenizationAPI(user).then(userToken => {
-      loginSuccessAction(userToken);
+    store.dispatch(loginRequestAction(user));
+    return await handleUserTokenizationAPI(user).then(userToken => {
+      store.dispatch(loginSuccessAction(userToken));
+      return userToken;
     });
   } catch (error) {
-    loginFailureAction(error);
+    store.dispatch(loginFailureAction(error));
     console.error(error);
   }
 }
 
 const authMiddleware = async () => {
   try {
-    await appTokenMiddleware().then(loginUserMiddleware());
+    appTokenMiddleware().then(loginUserMiddleware());
   } catch (error) {
     console.error(error);
   }

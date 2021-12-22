@@ -11,19 +11,14 @@ import rootReducer from '../reducers/index';
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['authReducer'],
-  blacklist: [
-    'dashboardReducer',
-    'reservationReducer',
-    'statsReducer',
-    'comparisonReducer',
-  ],
+  whitelist: ['authReducer', 'dashboardReducer'],
+  blacklist: ['reservationReducer', 'statsReducer', 'comparisonReducer'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = createStore(persistedReducer, applyMiddleware(logger, thunk));
 
-let persistor = persistStore(store);
+const persistor = persistStore(store);
 
 export { store, persistor };

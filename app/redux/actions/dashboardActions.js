@@ -1,9 +1,9 @@
 import { DASHBOARD } from '../types';
 
-const getDashboardDataRequestAction = chosenDashbordDate => {
+const getDashboardDataRequestAction = chosenDashboardDate => {
   return {
     type: DASHBOARD.DATA_REQUEST,
-    payload: chosenDashbordDate,
+    payload: chosenDashboardDate,
   };
 };
 

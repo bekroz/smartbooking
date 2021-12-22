@@ -2,7 +2,7 @@ import DASHBOARD from '../types/dashboardTypes';
 
 const initialState = {
   loading: false,
-  chosenDashbordDate: null,
+  chosenDashboardDate: null,
   dashboardData: [],
   error: '',
 };
@@ -13,7 +13,7 @@ const dashboardReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: true,
-        chosenDashbordDate: action.payload,
+        chosenDashboardDate: action.payload,
       };
     case DASHBOARD.DATA_SUCCESS:
       return {

@@ -1,13 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from '@react-navigation/stack';
-
-import { NavigationContainer, DarkTheme } from '@react-navigation/native';
 import AuthLoadingScreen from '../screens/AuthLoadingScreen';
-import { Alert } from 'react-native';
-import NetInfo from '@react-native-community/netinfo';
-// Navigator
-import HomeNavigator from '../navigation/TabNavigator';
+// TabNavigator
+import TabNavigator from '../navigation/TabNavigator';
 // Private Screens
 import {
   DashboardScreen,
@@ -33,9 +29,8 @@ const AppStack = () => {
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
-      }}
-      initialRouteName="HomeScreen">
-      <Stack.Screen name="HomeScreen" component={HomeNavigator} />
+      }}>
+      <Stack.Screen name="TabNavigator" component={TabNavigator} />
       <Stack.Screen name="DashboardScreen" component={DashboardScreen} />
       <Stack.Screen name="Reservation" component={ReservationScreen} />
       <Stack.Screen name="ComparisonScreen" component={ComparisonScreen} />
@@ -49,21 +44,25 @@ const AppStack = () => {
 
 const AuthStack = () => {
   return (
-    <>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
       <Stack.Screen name="LoginScreen" component={LoginScreen} />
       <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
       <Stack.Screen name="RestoreScreen" component={RestoreScreen} />
       <Stack.Screen name="TermsScreen" component={TermsScreen} />
       <Stack.Screen name="NoFoundScreen" component={NoFoundScreen} />
-    </>
+      <Stack.Screen name="TabNavigator" component={TabNavigator} />
+    </Stack.Navigator>
   );
 };
 
 const RootStack = createSwitchNavigator(
   {
     AuthLoading: AuthLoadingScreen,
-    HomeScreen: AppStack,
-    LoginScreen: AuthStack,
+    App: AppStack,
+    Auth: AuthStack,
   },
   {
     initialRouteName: 'AuthLoading',

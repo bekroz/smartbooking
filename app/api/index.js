@@ -1,29 +1,26 @@
 import axios from 'axios';
 import Config from '../config/config';
 import {
-  getAppToken,
-  setAppToken,
-  getUserToken,
-  setUserToken,
-  setUserSecret,
-  getUser,
-  clearStorage,
-} from '../utils/useCustomAsyncStorage';
+  setAppTokenMMKV,
+  getAppTokenMMKV,
+  setUserTokenMMKV,
+  getUserTokenMMKV,
+  getUserMMKV,
+} from '../utils/useMmkvStorage';
 
 // #1 API => GET APP token
 const handleAppTokenizationAPI = async () => {
   try {
-    await axios({
+    return await axios({
       method: 'POST',
       url: `${Config.BASE_API_URL}/auth/app`,
       headers: {
         Authorization: `Basic ${Config.IOS_BASE64_CODE}`,
       },
     }).then(response => {
-      console.log('1. APP TOKEN ===>>>');
-      console.log(response.data.access_token);
-      setAppToken(response.data.access_token);
-      return response.data.access_token;
+      const appToken = response.data.access_token;
+      setAppTokenMMKV(appToken);
+      return appToken;
     });
   } catch (err) {
     console.error(err);
@@ -32,8 +29,7 @@ const handleAppTokenizationAPI = async () => {
 
 // #2 API => GET USER token
 const handleUserTokenizationAPI = async user => {
-  const appToken = await getAppToken();
-  // const user = await getUser();
+  const appToken = getAppTokenMMKV();
   try {
     return await axios({
       url: `${Config.BASE_API_URL}/mobile/auth/login`,
@@ -43,26 +39,19 @@ const handleUserTokenizationAPI = async user => {
         'Content-Type': 'application/json',
       },
       data: user,
-      // data: outgoingData.user
-      // data: {
-      //   username: outgoingData.user.email,
-      //   password: outgoingData.user.password,
-      // },
     }).then(response => {
-      // console.log('2. USER TOKEN ===>>>');
-      // console.log(response.data.access_token);
-      // setUserToken(response.data.access_token);
-      return response.data.access_token;
+      const userToken = response.data.access_token;
+      setUserTokenMMKV(userToken);
+      return userToken;
     });
   } catch (err) {
     console.error(err);
-    alert(err);
   }
 };
 
 // #3 API => GET All Hotel Properties Data of the user
 const getAllHotelPropertiesDataAPI = async () => {
-  const userToken = await getUserToken();
+  const userToken = getUserTokenMMKV();
   try {
     return await axios({
       url: `${Config.BASE_API_URL}/mobile/properties`,
@@ -72,19 +61,16 @@ const getAllHotelPropertiesDataAPI = async () => {
         'Content-Type': 'application/json',
       },
     }).then(response => {
-      // console.log('3. ALL HOTELS LIST ===>>>');
-      // console.log(response.data.data);
       return response.data.data;
     });
   } catch (err) {
     console.error(err);
-    alert(err);
   }
 };
 
 // #4 API => GET Single Hotel Detailed Data of the user
 const getSingleHotelDataAPI = async hotelID => {
-  const userToken = await getUserToken();
+  const userToken = getUserTokenMMKV();
   try {
     return await axios({
       url: `${Config.BASE_API_URL}/mobile/properties/${hotelID}`,
@@ -96,149 +82,141 @@ const getSingleHotelDataAPI = async hotelID => {
     });
   } catch (err) {
     console.error(err);
-    alert(err);
   }
 };
 
 // #5 API => GET Dashboard Data of the user
-const getDashboardDataAPI = async outgoingData => {
-  // const userToken = await getUserToken();
+const getDashboardDataAPI = async dashboardOutgoingData => {
+  const userToken = getUserTokenMMKV();
   try {
     return await axios({
-      url: `${Config.BASE_API_URL}/mobile/${outgoingData.hotelID}/dashboard`,
+      url: `${Config.BASE_API_URL}/mobile/${dashboardOutgoingData.hotelID}/dashboard`,
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${outgoingData.userToken}`,
+        Authorization: `Bearer ${userToken}`,
         'Content-Type': 'application/json',
       },
-      data: outgoingData.dashboardOutgoingData,
+      data: dashboardOutgoingData,
     }).then(response => {
       return response.data.data;
     });
   } catch (err) {
     console.error(err);
-    alert(err);
   }
 };
 
 // #6 API => GET All Reservations Data
-const getAllReservationsDataAPI = async outgoingData => {
-  // const userToken = await getUserToken();
-
+const getAllReservationsDataAPI = async reservationsOutgoingData => {
+  const userToken = getUserTokenMMKV();
   try {
     return await axios({
-      url: `${Config.BASE_API_URL}/mobile/${outgoingData.hotelID}/reservations`,
+      url: `${Config.BASE_API_URL}/mobile/${reservationsOutgoingData.hotelID}/reservations`,
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${outgoingData.userToken}`,
+        Authorization: `Bearer ${userToken}`,
         'Content-Type': 'application/json',
       },
-      data: outgoingData.reservationsOutgoingData,
+      data: reservationsOutgoingData,
     }).then(response => {
       return response.data;
     });
   } catch (err) {
     console.error(err);
-    alert(err);
   }
 };
 
 // #7 API => GET Hotel Single Reservation Data
-const getHotelSingleReservationDataAPI = async outgoingData => {
-  // const userToken = await getUserToken();
-  try {
-    return await axios({
-      url: `${Config.BASE_API_URL}/mobile/${outgoingData.hotelID}/reservations/${outgoingData.reservationID}`,
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${outgoingData.userToken}`,
-        'Content-Type': 'application/json',
-      },
-    });
-  } catch (err) {
-    console.error(err);
-    alert(err);
-  }
-};
+const getHotelSingleReservationDataAPI =
+  async singleReservationOutgoingData => {
+    try {
+      return await axios({
+        url: `${Config.BASE_API_URL}/mobile/${singleReservationOutgoingData.hotelID}/reservations/${singleReservationOutgoingData.reservationID}`,
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${userToken}`,
+          'Content-Type': 'application/json',
+        },
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
 // #8 API => GET Reserved room list dataSource
-const getReservedRoomsListDataAPI = async outgoingData => {
-  // const userToken = await getUserToken();
+const getReservedRoomsListDataAPI = async reservedRoomsListOutgoingData => {
+  const userToken = getUserTokenMMKV();
   try {
     return await axios({
-      url: `${Config.BASE_API_URL}/mobile/${outgoingData.hotelID}/reservation-rooms`,
+      url: `${Config.BASE_API_URL}/mobile/${reservedRoomsListOutgoingData.hotelID}/reservation-rooms`,
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${outgoingData.userToken}`,
+        Authorization: `Bearer ${userToken}`,
         'Content-Type': 'application/json',
       },
-      data: outgoingData.reservedRoomsOutgoingData,
+      data: reservedRoomsListOutgoingData,
     }).then(response => {
       return response.data;
     });
   } catch (err) {
     console.error(err);
-    alert(err);
   }
 };
 
 // #9 API => GET Hotel Statistics By Year
-const getStatisticsByYearAPI = async outgoingData => {
-  // const userToken = await getUserToken();
+const getStatisticsByYearAPI = async yearStatOutgoingData => {
+  const userToken = getUserTokenMMKV();
   try {
     return await axios({
-      url: `${Config.BASE_API_URL}/mobile/${outgoingData.hotelID}/statistics-by-year`,
+      url: `${Config.BASE_API_URL}/mobile/${yearStatOutgoingData.hotelID}/statistics-by-year`,
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${outgoingData.userToken}`,
+        Authorization: `Bearer ${userToken}`,
         'Content-Type': 'application/json',
       },
       data: {
-        year: outgoingData.chosenStatYear,
+        year: yearStatOutgoingData,
       },
     }).then(response => {
       return response.data.data;
     });
   } catch (err) {
     console.error(err);
-    alert(err);
   }
 };
 
 // #10 API => GET Hotel Statistics By Category
 
-const getStatisticsByCategoryAPI = async outgoingData => {
-  // const userToken = await getUserToken();
+const getStatisticsByCategoryAPI = async categoryStatOutgoingData => {
+  const userToken = getUserTokenMMKV();
   try {
     return await axios({
-      url: `${Config.BASE_API_URL}/mobile/${outgoingData.hotelID}/statistics-by-group`,
+      url: `${Config.BASE_API_URL}/mobile/${categoryStatOutgoingData.hotelID}/statistics-by-group`,
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${outgoingData.userToken}`,
+        Authorization: `Bearer ${userToken}`,
         'Content-Type': 'application/json',
       },
-      data: outgoingData,
+      data: categoryStatOutgoingData,
     }).then(response => {
       return response;
     });
   } catch (err) {
     console.error(err);
-    alert(err);
   }
 };
 
 // #11 API => GET Properties Comparison Data
-const getPropertiesComparisonDataAPI = async outgoingData => {
-  // const userToken = await getUserToken();
+const getPropertiesComparisonDataAPI = async comparisonOutgoingData => {
+  const userToken = getUserTokenMMKV();
   try {
     return await axios({
       url: `${Config.BASE_API_URL}/mobile/compare-properties`,
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${outgoingData.userToken}`,
+        Authorization: `Bearer ${userToken}`,
         'Content-Type': 'application/json',
       },
-      data: outgoingData,
+      data: comparisonOutgoingData,
     }).then(response => {
       return response.data;
     });
@@ -248,24 +226,21 @@ const getPropertiesComparisonDataAPI = async outgoingData => {
 };
 
 // #12 API => GET Property Sources Data
-const getSourcesDataAPI = async outgoingData => {
-  // const userToken = await getUserToken();
+const getSourcesDataAPI = async sourcesOutgoingData => {
+  const userToken = getUserTokenMMKV();
   try {
     return await axios({
-      url: `${Config.BASE_API_URL}/mobile/${outgoingData.hotelID}/sources`,
+      url: `${Config.BASE_API_URL}/mobile/${sourcesOutgoingData.hotelID}/sources`,
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${outgoingData.userToken}`,
+        Authorization: `Bearer ${userToken}`,
         'Content-Type': 'application/json',
       },
     }).then(response => {
-      // console.log('11. SOURCES DATA ===>>>');
-      // console.log(response.data);
       return response.data;
     });
   } catch (err) {
     console.error(err);
-    alert(err);
   }
 };
 

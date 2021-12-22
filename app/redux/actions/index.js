@@ -12,7 +12,9 @@ import {
   getHotelDataRequestAction,
   getHotelDataSuccessAction,
   getHotelDataFailureAction,
-  setHotelIDAction,
+  setUserChosenHotelIDAction,
+  setDefaultHotelIDAction,
+  noHotelFoundAction,
 } from './hotelActions';
 // Dashboard actions
 import {
@@ -54,7 +56,9 @@ export {
   getHotelDataRequestAction,
   getHotelDataSuccessAction,
   getHotelDataFailureAction,
-  setHotelIDAction,
+  setUserChosenHotelIDAction,
+  setDefaultHotelIDAction,
+  noHotelFoundAction,
   // Dashboard
   getDashboardDataRequestAction,
   getDashboardDataSuccessAction,

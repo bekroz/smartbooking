@@ -3,7 +3,7 @@ import { NavigationContainer, DarkTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import NetInfo from '@react-native-community/netinfo';
 // Navigator
-import HomeNavigator from '../navigation/TabNavigator';
+import TabNavigator from '../navigation/TabNavigator';
 // Private Screens
 import {
   DashboardScreen,
@@ -30,8 +30,8 @@ const AppStack = () => {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName="HomeScreen">
-      <Stack.Screen name="HomeScreen" component={HomeNavigator} />
+      initialRouteName="TabNavigator">
+      <Stack.Screen name="TabNavigator" component={TabNavigator} />
       <Stack.Screen name="DashboardScreen" component={DashboardScreen} />
       <Stack.Screen name="Reservation" component={ReservationScreen} />
       <Stack.Screen name="ComparisonScreen" component={ComparisonScreen} />

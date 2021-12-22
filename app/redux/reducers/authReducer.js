@@ -2,7 +2,7 @@ import { AUTH } from '../types';
 
 const initialState = {
   loading: false,
-  user: null,
+  user: {},
   appToken: null,
   userToken: null,
   userLoggedIn: false,

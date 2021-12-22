@@ -1,26 +1,20 @@
 import React, { useEffect } from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
-import { store } from '../redux/store';
 import { LaunchScreenSvg } from '../assets/icons/SvgIcons';
 import { COLORS, SIZES } from '../constants/theme';
-// import navigationService from '../services/navigationService';
+import { useSelector } from 'react-redux';
 
 const AuthLoadingScreen = ({ navigation }) => {
-  console.log('AuthLoadingScreen');
-  console.log(navigation);
+  const userLoggedIn = useSelector(store => store.authReducer.userLoggedIn);
+
+  bootstrapAsync = () => {
+    setTimeout(() => navigation.navigate(!userLoggedIn ? 'App' : 'Auth'), 1000);
+  };
+
   useEffect(() => {
     bootstrapAsync();
   }, []);
 
-  bootstrapAsync = async () => {
-    const { userLoggedIn } = store.getState().authReducer;
-    console.log('STATE');
-    console.log(userLoggedIn);
-    setTimeout(
-      () => navigation.navigate(userLoggedIn ? 'HomeScreen' : 'LoginScreen'),
-      1000,
-    );
-  };
   return (
     <SafeAreaView style={styles.container}>
       <LaunchScreenSvg />

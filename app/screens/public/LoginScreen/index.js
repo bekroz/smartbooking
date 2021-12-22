@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,7 +9,8 @@ import {
   ActivityIndicator,
   Alert,
 } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// Redux
+import { connect } from 'react-redux';
 // Theme
 import { COLORS, POSITIONING, SIZES } from '../../../constants/theme';
 // Icons
@@ -19,18 +20,14 @@ import {
 } from '../../../assets/icons/SvgIcons';
 // Helpers
 import { emailValidator, passwordValidator } from '../../../helpers';
-// API
-import { handleUserTokenizationAPI } from '../../../api';
 import {
   appTokenMiddleware,
   loginUserMiddleware,
 } from '../../../redux/middlewares';
 // Utils
-import { setUser } from '../../../utils/useCustomAsyncStorage';
+import { setUserMMKV } from '../../../utils/useMmkvStorage';
 
-import { connect } from 'react-redux';
-
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = ({ navigation, userLoggedIn, authReducer }) => {
   const [email, setEmail] = useState({ value: '', error: '' });
   const [password, setPassword] = useState({ value: '', error: '' });
   const [secureTextEntry, setSecureTextEntry] = useState(true);
@@ -69,20 +66,20 @@ const LoginScreen = ({ navigation }) => {
       password: password.value,
     };
     setLoginRequest(true);
-    setUser(user);
+    setUserMMKV(user);
     try {
-      await handleUserTokenizationAPI(user).then(userToken => {
+      return await loginUserMiddleware(user).then(userToken => {
+        console.log(userToken);
         if (userToken) {
-          navigation.replace('HomeScreen');
-          // setUser(userToken);
-        } else {
-          console.error(error);
-          alert('Your password is invalid');
+          // console.log('====================================');
+          // console.log();
+          // console.log('====================================');
+          // console.log(userToken);
+          navigation.navigate('TabNavigator');
         }
       });
     } catch (error) {
       console.error(error);
-      alert(error);
       setLoginRequest(false);
     }
   };
@@ -174,10 +171,6 @@ const LoginScreen = ({ navigation }) => {
 };
 
 function mapStateToProps({ authReducer }) {
-  console.log('====================================');
-  console.log('THIS IS AUTH STATE =>>>>>');
-  console.log('====================================');
-  console.log(authReducer);
   return {
     loading: authReducer.loading,
     appToken: authReducer.appToken,
@@ -187,6 +180,8 @@ function mapStateToProps({ authReducer }) {
     error: authReducer.error,
   };
 }
+
+export default connect(mapStateToProps)(LoginScreen);
 
 const styles = StyleSheet.create({
   titleBlock: {
@@ -276,5 +271,3 @@ const styles = StyleSheet.create({
     fontWeight: SIZES.fontWeight2,
   },
 });
-
-export default connect(mapStateToProps)(LoginScreen);

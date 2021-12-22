@@ -5,7 +5,10 @@ import {
   loginUserMiddleware,
 } from './authMiddleware';
 // Hotel middleware
-import { getHotelsDataMiddleware } from './hotelMiddleware';
+import {
+  getHotelsDataMiddleware,
+  setHotelIDMiddleware,
+} from './hotelMiddleware';
 // Dashboard middleware
 import getDashboardDataMiddleware from './dashboardMiddleware';
 // Reservation middleware
@@ -28,6 +31,7 @@ export {
   loginUserMiddleware,
   // Hotel
   getHotelsDataMiddleware,
+  setHotelIDMiddleware,
   // Dashboard
   getDashboardDataMiddleware,
   // Reservation

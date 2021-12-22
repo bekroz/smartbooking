@@ -23,16 +23,10 @@ import {
   CalendarTabSvg,
   CalendarActiveTabSvg,
 } from '../assets/icons/SvgIcons';
-import { persistor, store } from '../redux/store';
 
 const Tab = createBottomTabNavigator();
 
 export default function TabNavigator() {
-  // console.log(store.getState());
-  // console.log('====================================');
-  // console.log(persistor.getState());
-  // console.log('====================================');
-
   return (
     <Tab.Navigator
       screenOptions={{
@@ -54,8 +48,7 @@ export default function TabNavigator() {
         tabBarLabelStyle: {
           fontWeight: SIZES.fontWeight1,
         },
-      }}
-      onChange={() => alert('dsdsad')}>
+      }}>
       <Tab.Screen
         name="Дашборд"
         onPress={() => alert('Pressed dashboard tab')}

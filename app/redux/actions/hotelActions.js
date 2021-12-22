@@ -1,9 +1,8 @@
 import { HOTEL } from '../types';
 
-const getHotelDataRequestAction = currentHotelID => {
+const getHotelDataRequestAction = () => {
   return {
     type: HOTEL.DATA_REQUEST,
-    payload: currentHotelID,
   };
 };
 
@@ -21,10 +20,23 @@ const getHotelDataFailureAction = error => {
   };
 };
 
-const setHotelIDAction = hotelID => {
+const setUserChosenHotelIDAction = hotelID => {
   return {
-    type: HOTEL.SET_HOTEL_ID,
+    type: HOTEL.SET_USER_CHOSEN_HOTEL_ID,
     payload: hotelID,
+  };
+};
+
+const setDefaultHotelIDAction = hotelID => {
+  return {
+    type: HOTEL.SET_DEFAULT_HOTEL_ID,
+    payload: hotelID,
+  };
+};
+
+const noHotelFoundAction = () => {
+  return {
+    type: HOTEL.NO_HOTEL_FOUND,
   };
 };
 
@@ -32,5 +44,7 @@ export {
   getHotelDataRequestAction,
   getHotelDataSuccessAction,
   getHotelDataFailureAction,
-  setHotelIDAction,
+  setUserChosenHotelIDAction,
+  setDefaultHotelIDAction,
+  noHotelFoundAction,
 };
