@@ -7,9 +7,9 @@ import { authMiddleware } from '../redux/middlewares';
 
 const AuthLoadingScreen = ({ navigation }) => {
   const user = useSelector(store => store.authReducer.user);
-  console.log('====================================');
-  console.log(user);
-  console.log('====================================');
+  // console.log('====================================');
+  // console.log(user);
+  // console.log('====================================');
   async function splashRefreshTokenHandler() {
     try {
       return await authMiddleware(user).then(userToken =>

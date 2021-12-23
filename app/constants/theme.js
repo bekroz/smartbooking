@@ -11,6 +11,7 @@ export const COLORS = {
   grayText: '#657282',
   grayCirclePart: '#464545',
   grayDivider: '#383A3C',
+  grayEmptyArc: '#464444',
   blue: '#5F85DB',
   blueCircle: '#5B93FF',
   darkBlue: '#485C8A',

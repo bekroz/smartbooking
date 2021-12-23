@@ -4,12 +4,15 @@ const initialState = {
   loading: true,
   chosenDateRange: null,
   channelsData: [],
+  totalRevenue: null,
+  totalSoldNights: null,
+  totalAverageSum: null,
   error: null,
 };
 
 const channelsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case CHANNELS.DATA_SUCCESS:
+    case CHANNELS.DATA_REQUEST:
       return {
         ...state,
         loading: true,
@@ -19,7 +22,10 @@ const channelsReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        channelsData: action.payload,
+        channelsData: action.payload.channelsData,
+        totalRevenue: action.payload.totalRevenue,
+        totalSoldNights: action.payload.totalSoldNights,
+        totalAverageSum: action.payload.totalAverageSum,
       };
     case CHANNELS.DATA_FAILURE:
       return {

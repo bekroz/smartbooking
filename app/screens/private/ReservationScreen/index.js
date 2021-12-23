@@ -44,12 +44,6 @@ const ReservationScreen = ({
   hotelList,
   pageIndex,
 }) => {
-  const outgoingData = {
-    hotelID: 48,
-    // hotelID,
-    pageIndex: pageIndex,
-  };
-
   async function getDetailsDataOnTabPress() {
     try {
       return await getHotelsDataMiddleware().then(hotelList => {
@@ -79,6 +73,9 @@ const ReservationScreen = ({
     return unsubscribe;
   }, [navigation]);
 
+  console.log('====================================');
+  console.log(reservationData);
+  console.log('====================================');
   return (
     <SafeAreaView style={styles.container}>
       <View>
@@ -91,7 +88,10 @@ const ReservationScreen = ({
               <Text style={styles.topBarText}>{/* {typeStayDates[0]} */}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.topBarBtn}>
-              <Text style={styles.topBarText}>01 Sep - 30 Sep</Text>
+              <Text style={styles.topBarText}>
+                {/* {dayjs(chosenDateRange?.start_date).format('D MMM')} -{' '}
+                {dayjs(chosenDateRange?.end_date).format('D MMM')} */}
+              </Text>
             </TouchableOpacity>
           </View>
           <View style={styles.reservationsNumberContainer}>

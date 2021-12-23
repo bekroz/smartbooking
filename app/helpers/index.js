@@ -6,6 +6,11 @@ import numberWithSpaces from './others/numberWithSpaces';
 import wordTruncator from './others/wordTruncator';
 import capitalize from './others/capitalize';
 import getMonthName from './others/getMonthName';
+import {
+  firstDayOfMonth,
+  today,
+  monthRangeUntilToday,
+} from './others/getMonthRange';
 
 export {
   emailValidator,
@@ -14,4 +19,7 @@ export {
   wordTruncator,
   capitalize,
   getMonthName,
+  firstDayOfMonth,
+  today,
+  monthRangeUntilToday,
 };

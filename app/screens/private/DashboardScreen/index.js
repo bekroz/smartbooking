@@ -56,7 +56,6 @@ const DashboardScreen = ({
   const [hotelListModalVisible, setHotelListModalVisible] = useState(false);
   const today = new Date().getDate();
   const defaultDate = chosenDashboardDate ? chosenDashboardDate : today;
-  const isTabFocused = useIsFocused();
 
   // Button Press handlers
   function handleChosenHotel(chosenHotelId) {
@@ -101,6 +100,47 @@ const DashboardScreen = ({
   // useSelector(
   //   store => store?.hotelReducer.hotelList[0].name,
   // );
+  console.log('====================================');
+  console.log(dashboardData);
+  console.log('====================================');
+
+  const maxArrivedRadius = -140;
+  const maxDepartedRadius = -140;
+  const maxRoomsRadius = -140;
+  const maximumRadius = 280;
+
+  const currentArrivedPercentage = () => {
+    return Math.round(
+      maxArrivedRadius +
+        maximumRadius *
+          (dashboardData?.shouldArrived > 0
+            ? dashboardData?.leftArrived / dashboardData?.shouldArrived
+            : 1),
+    );
+  };
+  // Kamaytirish 140 =>- currentArrivedPercentage
+
+  const currentDeparturePercentage = () => {
+    return Math.round(
+      maxDepartedRadius +
+        maximumRadius *
+          (dashboardData?.shouldCheckout > 0
+            ? dashboardData?.leftCheckout / dashboardData?.shouldCheckout
+            : 1),
+    );
+  };
+
+  const currentLivingPercentage = () => {
+    return Math.round(
+      maxRoomsRadius +
+        maximumRadius *
+          (dashboardData?.live > 0
+            ? dashboardData?.live / dashboardData?.maxRooms
+            : 1),
+    );
+  };
+  console.log(currentLivingPercentage());
+  // Kamaytirish 140 =>- currentArrivedPercentage
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
@@ -146,12 +186,16 @@ const DashboardScreen = ({
                 style={styles.arcBlock}>
                 <MultiArcCircle
                   radius={50}
-                  intervals={[
-                    { start: 0, end: 140 },
-                    { start: 220, end: 360 },
-                  ]}
+                  intervals={[{ start: currentArrivedPercentage(), end: 140 }]}
+                  color={COLORS.grayEmptyArc}
+                  width={10}
+                />
+                <MultiArcCircle
+                  radius={50}
+                  intervals={[{ start: -140, end: currentArrivedPercentage() }]}
                   color={COLORS.greenProgress}
                   width={10}
+                  zIndex={11}
                 />
                 <Text style={styles.arcBarNumber}>
                   {dashboardData?.leftArrived || '0'}
@@ -167,8 +211,15 @@ const DashboardScreen = ({
                 <MultiArcCircle
                   radius={50}
                   intervals={[
-                    { start: 0, end: 140 },
-                    { start: 220, end: 360 },
+                    { start: currentDeparturePercentage(), end: 140 },
+                  ]}
+                  color={COLORS.grayEmptyArc}
+                  width={10}
+                />
+                <MultiArcCircle
+                  radius={50}
+                  intervals={[
+                    { start: -140, end: currentDeparturePercentage() },
                   ]}
                   color={COLORS.yellow}
                   width={10}
@@ -186,10 +237,13 @@ const DashboardScreen = ({
                 style={styles.arcBlock}>
                 <MultiArcCircle
                   radius={50}
-                  intervals={[
-                    { start: 0, end: 140 },
-                    { start: 220, end: 360 },
-                  ]}
+                  intervals={[{ start: currentLivingPercentage(), end: 140 }]}
+                  color={COLORS.grayEmptyArc}
+                  width={10}
+                />
+                <MultiArcCircle
+                  radius={50}
+                  intervals={[{ start: -140, end: currentLivingPercentage() }]}
                   color={COLORS.blue}
                   width={10}
                 />

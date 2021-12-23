@@ -18,48 +18,48 @@ import LineChartData from '../LineChartData/LineChartData';
 // Helpers
 import { numberWithSpaces } from '../../../helpers';
 // API
-import { getStatisticsByYearAPI } from '../../../api';
+// import { getStatisticsByYearAPI } from '../../../api';
 import { useCallback } from 'react';
 import { RefreshControl } from 'react-native';
 
 export default function SoldRooms() {
-  const [statisticsByYearData, setStatisticsByYearData] = useState(null);
+  // const [statisticsByYearData, setStatisticsByYearData] = useState(null);
 
-  const [hotelID, setHotelID] = useState(48);
-  const [chosenYear, setChosenYear] = useState(2021);
-  const [refreshed, setRefreshed] = useState(false);
-  const [cardChosen, setCardChosen] = useState(null);
+  // const [hotelID, setHotelID] = useState(48);
+  // const [chosenYear, setChosenYear] = useState(2021);
+  // const [refreshed, setRefreshed] = useState(false);
+  // const [cardChosen, setCardChosen] = useState(null);
 
-  const getUpdatedData = async () => {
-    try {
-      await getStatisticsByYearAPI({ hotelID, chosenYear }).then(statistics => {
-        setStatisticsByYearData(statistics);
-        setRefreshed(true);
-        // console.log('====================================');
-        // refreshed && console.log(statisticsByYearData);
-        // console.log('====================================');
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const getUpdatedData = async () => {
+  //   try {
+  //     await getStatisticsByYearAPI({ hotelID, chosenYear }).then(statistics => {
+  //       setStatisticsByYearData(statistics);
+  //       setRefreshed(true);
+  //       // console.log('====================================');
+  //       // refreshed && console.log(statisticsByYearData);
+  //       // console.log('====================================');
+  //     });
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
-  const wait = timeout => {
-    return new Promise(resolve => setTimeout(resolve, timeout));
-  };
+  // const wait = timeout => {
+  //   return new Promise(resolve => setTimeout(resolve, timeout));
+  // };
 
-  const [refreshing, setRefreshing] = useState(false);
+  // const [refreshing, setRefreshing] = useState(false);
 
-  const onPullToRefresh = useCallback(() => {
-    setRefreshing(true);
-    wait(500).then(() => setRefreshing(false));
-    getUpdatedData();
-  }, []);
+  // const onPullToRefresh = useCallback(() => {
+  //   setRefreshing(true);
+  //   wait(500).then(() => setRefreshing(false));
+  //   getUpdatedData();
+  // }, []);
 
-  useEffect(() => {
-    setRefreshed(false);
-    getUpdatedData();
-  }, []);
+  // useEffect(() => {
+  //   setRefreshed(false);
+  //   getUpdatedData();
+  // }, []);
 
   return (
     <ScrollView

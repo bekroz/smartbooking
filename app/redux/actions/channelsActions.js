@@ -7,10 +7,20 @@ const getChannelsDataRequestAction = chosenDateRange => {
   };
 };
 
-const getChannelsDataSuccessAction = channelsData => {
+const getChannelsDataSuccessAction = (
+  channelsData,
+  totalRevenue,
+  totalSoldNights,
+  totalAverageSum,
+) => {
   return {
     type: CHANNELS.DATA_SUCCESS,
-    payload: channelsData,
+    payload: {
+      channelsData,
+      totalRevenue,
+      totalSoldNights,
+      totalAverageSum,
+    },
   };
 };
 

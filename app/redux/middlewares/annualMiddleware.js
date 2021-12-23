@@ -3,7 +3,6 @@ import {
   getAnnualDataSuccessAction,
   getAnnualDataFailureAction,
 } from '../actions';
-3;
 import { getAnnualDataAPI } from '../../api';
 
 async function getAnnualDataMiddleware(annualOutgoingData) {

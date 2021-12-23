@@ -187,23 +187,28 @@ const getAnnualDataAPI = async annualOutgoingData => {
 };
 
 // #10 API => GET Hotel Statistics By Channels
-const getChannelsDataAPI = async channelsOutgoingData => {
+const getChannelsDataAPI = async (chosenDateRange, hotelID) => {
   const userToken = getUserTokenMMKV();
-  try {
-    return await axios({
-      url: `${Config.BASE_API_URL}/mobile/${channelsOutgoingData.hotelID}/statistics-by-group`,
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${userToken}`,
-        'Content-Type': 'application/json',
-      },
-      data: channelsOutgoingData,
-    }).then(channelsData => {
-      return channelsData;
+  return await axios({
+    url: `${Config.BASE_API_URL}/mobile/${hotelID}/statistics-by-group`,
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${userToken}`,
+      'Content-Type': 'application/json',
+    },
+    data: {
+      start_date: chosenDateRange.start_date,
+      end_date: chosenDateRange.end_date,
+      date_range_type: 'type_checkin',
+      status: 'confirmed',
+    },
+  })
+    .then(response => {
+      return response.data;
+    })
+    .catch(err => {
+      alert(err);
     });
-  } catch (err) {
-    console.error(err);
-  }
 };
 
 // #11 API => GET Properties Comparison Data
@@ -238,7 +243,7 @@ const getSourcesDataAPI = async sourcesOutgoingData => {
         Authorization: `Bearer ${userToken}`,
         'Content-Type': 'application/json',
       },
-    }).then(sourcesData => {
+    }).then(response => {
       const sourcesData = response.data;
       return sourcesData;
     });
