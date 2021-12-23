@@ -33,8 +33,9 @@ import {
 // API
 import { getStatisticsByCategoryAPI } from '../../../api';
 import { numberWithSpaces } from '../../../helpers';
+import { connect } from 'react-redux';
 
-export default function Details() {
+const Details = ({ navigation, da }) => {
   const currency = 'UZS';
   const hotelRoomPrice = '235 000';
   const maxWidth = 250;
@@ -157,7 +158,8 @@ export default function Details() {
                 </Text>
               </View>
               <Text style={{ color: COLORS.grayText }}>
-                Всего {numberWithSpaces(overallData?.totalAverageSum)} UZS
+                Всего{' '}
+                {numberWithSpaces(overallData?.totalAverageSum) + currency}
               </Text>
             </View>
 
@@ -274,7 +276,7 @@ export default function Details() {
               </View>
 
               <Text style={{ color: COLORS.grayText }}>
-                Всего {numberWithSpaces(overallData?.totalRevenue)} UZS
+                Всего {numberWithSpaces(overallData?.totalRevenue)} {currency}
               </Text>
             </View>
 
@@ -348,7 +350,7 @@ export default function Details() {
       <View style={{ paddingBottom: 100 }} />
     </ScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   topBarBtn: {
@@ -420,3 +422,28 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+
+function mapStateToProps({ statsReducer }) {
+  const {
+    categoryDataLoading,
+    yearDataLoading,
+    chosenStatsDateRange,
+    chosenStatsYear,
+    statisticsByCategoryData,
+    statisticsByYearData,
+    categoryDataError,
+    yearDataError,
+  } = statsReducer;
+  return {
+    categoryDataLoading,
+    yearDataLoading,
+    chosenStatsDateRange,
+    chosenStatsYear,
+    statisticsByCategoryData,
+    statisticsByYearData,
+    categoryDataError,
+    yearDataError,
+  };
+}
+
+export default connect(mapStateToProps)(Details);

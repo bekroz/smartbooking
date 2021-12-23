@@ -20,17 +20,29 @@ const getHotelDataFailureAction = error => {
   };
 };
 
-const setUserChosenHotelIDAction = hotelID => {
+const showHotelModalToChooseAction = () => {
   return {
-    type: HOTEL.SET_USER_CHOSEN_HOTEL_ID,
-    payload: hotelID,
+    type: HOTEL.MODAL_TO_CHOOSE_HOTEL_ID,
   };
 };
 
-const setDefaultHotelIDAction = hotelID => {
+const setUserChosenHotelIDAction = (hotelID, hotelName) => {
+  return {
+    type: HOTEL.SET_USER_CHOSEN_HOTEL_ID,
+    payload: {
+      hotelID,
+      hotelName,
+    },
+  };
+};
+
+const setDefaultHotelIDAction = (hotelID, hotelName) => {
   return {
     type: HOTEL.SET_DEFAULT_HOTEL_ID,
-    payload: hotelID,
+    payload: {
+      hotelID,
+      hotelName,
+    },
   };
 };
 
@@ -45,6 +57,7 @@ export {
   getHotelDataSuccessAction,
   getHotelDataFailureAction,
   setUserChosenHotelIDAction,
+  showHotelModalToChooseAction,
   setDefaultHotelIDAction,
   noHotelFoundAction,
 };

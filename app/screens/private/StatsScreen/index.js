@@ -1,27 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SafeAreaView, View, Text, StyleSheet } from 'react-native';
 import { Divider } from 'react-native-elements/dist/divider/Divider';
-import SegmentedControl from 'rn-segmented-control';
+import SegmentedControl from '@react-native-segmented-control/segmented-control';
 // Theme
-import { COLORS } from '../../../constants/theme';
+import { COLORS, SIZES } from '../../../constants/theme';
 // Components
 import { Details, SoldRooms } from '../../../components/Stats';
 import { ScrollView } from 'react-native';
 
 export default function StatsScreen({ navigation }) {
-  const tabs = ['Обзор', 'Занятость'];
-  const [tabIndex, setTabIndex] = useState(0);
-  const handleTabsChange = index => {
-    setTabIndex(index);
-  };
+  const [segmentIndex, setSegmentIndex] = useState(0);
 
-  React.useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      // getData();
-    });
+  // useEffect(() => {
+  //   const unsubscribe = navigation.addListener('focus', () => {
+  //     // getData();
+  //   });
 
-    return unsubscribe;
-  }, [navigation]);
+  //   return unsubscribe;
+  // }, [navigation]);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#111923' }}>
@@ -32,20 +28,29 @@ export default function StatsScreen({ navigation }) {
           </View>
           <View style={styles.segmentControlTabsContainer}>
             <SegmentedControl
-              tabs={tabs}
-              currentIndex={tabIndex}
-              onChange={handleTabsChange}
-              segmentedControlBackgroundColor={
-                COLORS.segmentedControlBackgroundColor
-              }
-              activeSegmentBackgroundColor={COLORS.darkBlue}
-              activeTextColor={COLORS.white}
-              textColor={COLORS.white}
-              paddingVertical={6}
-              width={220}
-              activeSegmentStyle={{ borderRadius: 6 }}
-              textStyle={{ fontWeight: '500', fontSize: 14 }}
-              activeTextWeight="600"
+              values={['Обзор', 'Занятость']}
+              selectedIndex={segmentIndex}
+              onChange={event => {
+                setSegmentIndex(event.nativeEvent.selectedSegmentIndex);
+              }}
+              activeFontStyle={{
+                fontWeight: SIZES.fontWeight2,
+                fontSize: 15,
+              }}
+              tintColor="#546691"
+              style={{
+                backgroundColor: COLORS.segmentedControlBackgroundColor,
+              }}
+              inactiveFontStyle={{
+                fontWeight: SIZES.fontWeight1,
+                fontSize: SIZES.body6,
+              }}
+              fontStyle={{
+                color: COLORS.white,
+              }}
+              style={{
+                width: SIZES.width / 1.4,
+              }}
             />
           </View>
         </View>
@@ -54,7 +59,7 @@ export default function StatsScreen({ navigation }) {
           leftWidth={0.5}
           color={COLORS.grayPlaceholderBorder}
         />
-        {tabIndex === 0 ? <Details /> : <SoldRooms />}
+        {segmentIndex === 0 ? <Details /> : <SoldRooms />}
       </View>
     </SafeAreaView>
   );
@@ -62,8 +67,8 @@ export default function StatsScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   titleContainer: {
-    marginTop: 10,
     alignItems: 'center',
+    marginBottom: 12,
   },
   headerTitle: {
     fontSize: 30,
@@ -71,9 +76,8 @@ const styles = StyleSheet.create({
     color: COLORS.white,
   },
   segmentControlTabsContainer: {
-    flexDirection: 'row',
-    margin: 10,
     justifyContent: 'center',
-    borderRadius: 6,
+    alignItems: 'center',
+    marginBottom: 12,
   },
 });

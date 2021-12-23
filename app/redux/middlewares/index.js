@@ -16,11 +16,10 @@ import {
   getReservationDataMiddleware,
   getReservationNextPageDataMiddleware,
 } from './reservationMiddleware';
-// Stats middleware
-import {
-  getStatsByCategoryDataMiddleware,
-  getStatsByYearDataMiddleware,
-} from './statsMiddleware';
+// Annual middleware
+import getAnnualDataMiddleware from './annualMiddleware';
+// Channels middleware
+import getChannelsDataMiddleware from './channelsMiddleware';
 // Comparison middleware
 import getComparisonDataMiddleware from './comparisonMiddleware';
 
@@ -37,9 +36,10 @@ export {
   // Reservation
   getReservationDataMiddleware,
   getReservationNextPageDataMiddleware,
-  // Stats
-  getStatsByCategoryDataMiddleware,
-  getStatsByYearDataMiddleware,
+  // Annual
+  getAnnualDataMiddleware,
+  // Channels
+  getChannelsDataMiddleware,
   // Comparison
   getComparisonDataMiddleware,
 };

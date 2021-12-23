@@ -6,7 +6,7 @@ import { Text, View, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { COLORS, POSITIONING, SIZES } from '../../../constants/theme';
 // Icons
 import { CloseSvg } from '../../../assets/icons/SvgIcons';
-
+import { connect } from 'react-redux';
 const HotelModalBox = ({
   visible,
   onTouchOutside,
@@ -98,8 +98,6 @@ const HotelModalBox = ({
   );
 };
 
-export default HotelModalBox;
-
 const styles = StyleSheet.create({
   modalBlock: {
     width: 340,
@@ -122,3 +120,14 @@ const styles = StyleSheet.create({
     fontWeight: SIZES.fontWeight2,
   },
 });
+
+function mapStateToProps({ dashboardReducer, hotelReducer }) {
+  return {
+    loading: dashboardReducer.loading,
+    hotelID: hotelReducer.hotelID,
+    hotelList: hotelReducer.hotelList,
+    hotelName: hotelReducer.hotelName,
+  };
+}
+
+export default connect(mapStateToProps)(HotelModalBox);

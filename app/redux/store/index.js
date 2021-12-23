@@ -11,13 +11,13 @@ import rootReducer from '../reducers/index';
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['authReducer', 'dashboardReducer'],
+  whitelist: ['authReducer', 'hotelReducer'],
   blacklist: ['reservationReducer', 'statsReducer', 'comparisonReducer'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
-
-const store = createStore(persistedReducer, applyMiddleware(logger, thunk));
+// applyMiddleware(logger, thunk)
+const store = createStore(persistedReducer);
 
 const persistor = persistStore(store);
 

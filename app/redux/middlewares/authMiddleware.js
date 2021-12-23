@@ -35,9 +35,9 @@ async function loginUserMiddleware(user) {
   }
 }
 
-const authMiddleware = async () => {
+const authMiddleware = async user => {
   try {
-    appTokenMiddleware().then(loginUserMiddleware());
+    return await appTokenMiddleware().then(loginUserMiddleware(user));
   } catch (error) {
     console.error(error);
   }

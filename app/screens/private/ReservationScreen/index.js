@@ -28,39 +28,56 @@ import {
 import { wordTruncator, numberWithSpaces } from '../../../helpers';
 // API
 import {
+  getHotelsDataMiddleware,
   getReservationDataMiddleware,
   getReservationNextPageDataMiddleware,
+  setHotelIDMiddleware,
 } from '../../../redux/middlewares';
 import { connect } from 'react-redux';
 
 const ReservationScreen = ({
+  navigation,
   loading,
   reservationData,
   isLastPage,
   hotelID,
   hotelList,
+  pageIndex,
 }) => {
-  console.log('THIS IS HOTEL ID =>>>>>');
-  console.log(hotelList);
-
-  const wait = timeout => {
-    return new Promise(resolve => setTimeout(resolve, timeout));
+  const outgoingData = {
+    hotelID: 48,
+    // hotelID,
+    pageIndex: pageIndex,
   };
+
+  async function getDetailsDataOnTabPress() {
+    try {
+      return await getHotelsDataMiddleware().then(hotelList => {
+        setHotelIDMiddleware(hotelList).then(receivedHotelID => {
+          const reservationsOutgoingData = {
+            hotelID: 48,
+            // receivedHotelID,
+            pageIndex: pageIndex,
+          };
+          getReservationDataMiddleware(reservationsOutgoingData);
+        });
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   const onPullToRefresh = useCallback(() => {
-    wait(500).then(() => getReservationDataMiddleware());
+    getDetailsDataOnTabPress();
   }, []);
-
-  // useEffect(() => {
-  //   // const unsubscribe = navigation.addListener('focus', () => {
-  //     getReservationDataMiddleware();
-  //   });
-
-  // return unsubscribe;
-  // }, [navigation]);
 
   useEffect(() => {
-    getReservationDataMiddleware({ hotelID });
-  }, []);
+    const unsubscribe = navigation.addListener('focus', () => {
+      getDetailsDataOnTabPress();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -95,11 +112,8 @@ const ReservationScreen = ({
           showsVerticalScrollIndicator={false}
           refreshControl={
             <RefreshControl
-              loading={loading}
-              onRefresh={
-                {}
-                // onPullToRefresh
-              }
+              refreshing={loading}
+              onRefresh={onPullToRefresh}
               tintColor={'white'}
             />
           }>
@@ -203,29 +217,33 @@ const ReservationScreen = ({
                 </Card>
               ))
             : null}
-          {isLastPage ? (
-            <View style={styles.noMoreDataContainer}>
-              <Text style={styles.noMoreDataAlertText}>
-                Все данные загружены
-              </Text>
-            </View>
-          ) : (
-            <TouchableOpacity
-              style={styles.showMoreButton}
-              onPress={getReservationNextPageDataMiddleware()}>
-              <Text style={styles.showMoreText}>
-                {!isLastPage ? (
-                  'Показать ещё'
-                ) : (
-                  <ActivityIndicator
-                    animating={true}
-                    color={COLORS.white}
-                    marginTop={5}
-                  />
-                )}
-              </Text>
-            </TouchableOpacity>
-          )}
+          {pageIndex > 1 ? (
+            isLastPage ? (
+              <View style={styles.noMoreDataContainer}>
+                <Text style={styles.noMoreDataAlertText}>
+                  Все данные загружены
+                </Text>
+              </View>
+            ) : (
+              <TouchableOpacity
+                style={styles.showMoreButton}
+                onPress={() =>
+                  getReservationNextPageDataMiddleware(outgoingData)
+                }>
+                <Text style={styles.showMoreText}>
+                  {!isLastPage ? (
+                    'Показать ещё'
+                  ) : (
+                    <ActivityIndicator
+                      animating={true}
+                      color={COLORS.white}
+                      marginTop={5}
+                    />
+                  )}
+                </Text>
+              </TouchableOpacity>
+            )
+          ) : null}
           <View
             style={{
               paddingBottom: 240,
@@ -238,11 +256,6 @@ const ReservationScreen = ({
 };
 
 function mapStateToProps({ reservationReducer, hotelReducer }) {
-  console.log('====================================');
-  console.log('THIS IS STATE =>>>>>');
-  console.log('====================================');
-  console.log(reservationReducer);
-  console.log(hotelReducer);
   return {
     loading: reservationReducer.loading,
     reservationData: reservationReducer.reservationData,

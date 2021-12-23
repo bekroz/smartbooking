@@ -20,9 +20,10 @@ const getReservationDataFailureAction = error => {
   };
 };
 
-const getReservationNextPageDataRequestAction = () => {
+const getReservationNextPageDataRequestAction = pageIndex => {
   return {
     type: RESERVATION.NEXT_PAGE_REQUEST,
+    payload: pageIndex,
   };
 };
 

@@ -8,40 +8,41 @@ import {
   getReservationNextPageDataFailureAction,
   reservationLastPageReachedAction,
 } from '../actions';
+import { store } from '../store';
 
 async function getReservationDataMiddleware(params) {
-  getReservationDataRequestAction();
+  store.dispatch(getReservationDataRequestAction());
   try {
-    await getAllReservationsDataAPI(params).then(response => {
+    return await getAllReservationsDataAPI(params).then(response => {
       const receivedData = response.data;
-      params.page = response.meta.currentPage;
-      getReservationDataSuccessAction(receivedData);
+      params.pageIndex = response.meta.currentPage;
+      store.dispatch(getReservationDataSuccessAction(receivedData));
     });
   } catch (error) {
-    getReservationDataFailureAction(error);
+    store.dispatch(getReservationDataFailureAction(error));
     console.error(error);
   }
 }
 
 async function getReservationNextPageDataMiddleware(params) {
-  params.page++;
-  getReservationNextPageDataRequestAction(params.page);
+  const newPageIndex = params.pageIndex++;
+  store.dispatch(getReservationNextPageDataRequestAction(newPageIndex));
   try {
-    await getAllReservationsDataAPI(params).then(response => {
+    return await getAllReservationsDataAPI(params).then(response => {
       const receivedData = response.data;
-      params.page = response.meta.currentPage;
-      let lastData = store.getState().reservationState.reservationData;
+      newPageIndex = response.meta.currentPage;
+      let lastData = store.getState().reservationReducer.reservationData;
       receivedData.forEach(element => {
         lastData.push(element);
       });
 
-      getReservationNextPageDataSuccessAction(lastData);
+      store.dispatch(getReservationNextPageDataSuccessAction(lastData));
       if (response.meta.current_page === response.meta.last_page) {
-        reservationLastPageReachedAction();
+        store.dispatch(reservationLastPageReachedAction());
       }
     });
   } catch (error) {
-    getReservationNextPageDataFailureAction(error);
+    store.dispatch(getReservationNextPageDataFailureAction(error));
     console.error(error);
   }
 }

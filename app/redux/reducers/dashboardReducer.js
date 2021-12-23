@@ -1,7 +1,7 @@
 import DASHBOARD from '../types/dashboardTypes';
 
 const initialState = {
-  loading: false,
+  loading: true,
   chosenDashboardDate: null,
   dashboardData: [],
   error: '',

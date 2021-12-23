@@ -10,11 +10,12 @@ import { RESERVATION } from '../types';
 // ];
 
 const initialState = {
-  loading: false,
+  initialLoading: true,
   chosenReservationDateRange: {},
   chosenReservationStatus: '',
   chosenReservationType: '',
   reservationData: [],
+  nextPageLoading: false,
   pageIndex: 1,
   lastPage: 1,
   isLastPage: false,

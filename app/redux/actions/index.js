@@ -13,6 +13,7 @@ import {
   getHotelDataSuccessAction,
   getHotelDataFailureAction,
   setUserChosenHotelIDAction,
+  showHotelModalToChooseAction,
   setDefaultHotelIDAction,
   noHotelFoundAction,
 } from './hotelActions';
@@ -32,17 +33,24 @@ import {
   getReservationNextPageDataFailureAction,
   reservationLastPageReachedAction,
 } from './reservationActions';
-// Stats actions
+// Annual actions
 import {
-  getStatsByCategoryDataRequestAction,
-  getStatsByCategoryDataSuccessAction,
-  getStatsByCategoryDataFailureAction,
-  getStatsByYearDataRequestAction,
-  getStatsByYearDataSuccessAction,
-  getStatsByYearDataFailureAction,
-} from './statsActions';
+  getAnnualDataRequestAction,
+  getAnnualDataSuccessAction,
+  getAnnualDataFailureAction,
+} from './annualActions';
+// Channels actions
+import {
+  getChannelsDataRequestAction,
+  getChannelsDataSuccessAction,
+  getChannelsDataFailureAction,
+} from './channelsActions';
 // Comparison actions
-import getComparisonData from './comparisonActions';
+import {
+  getComparisonDataRequestAction,
+  getComparisonDataSuccessAction,
+  getComparisonDataFailureAction,
+} from './comparisonActions';
 
 export {
   // Auth
@@ -57,6 +65,7 @@ export {
   getHotelDataSuccessAction,
   getHotelDataFailureAction,
   setUserChosenHotelIDAction,
+  showHotelModalToChooseAction,
   setDefaultHotelIDAction,
   noHotelFoundAction,
   // Dashboard
@@ -71,11 +80,12 @@ export {
   getReservationNextPageDataSuccessAction,
   getReservationNextPageDataFailureAction,
   reservationLastPageReachedAction,
-  // Stats
-  getStatsByCategoryDataRequestAction,
-  getStatsByCategoryDataSuccessAction,
-  getStatsByCategoryDataFailureAction,
-  getStatsByYearDataRequestAction,
-  getStatsByYearDataSuccessAction,
-  getStatsByYearDataFailureAction,
+  // Annual
+  getAnnualDataRequestAction,
+  getAnnualDataSuccessAction,
+  getAnnualDataFailureAction,
+  // Channels
+  getChannelsDataRequestAction,
+  getChannelsDataSuccessAction,
+  getChannelsDataFailureAction,
 };

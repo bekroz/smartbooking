@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { MultiArcCircle } from 'react-native-circles';
 import { Overlay } from 'react-native-elements';
+import { useIsFocused } from '@react-navigation/native';
 // Theme
 import { COLORS, POSITIONING, SIZES } from '../../../constants/theme';
 // Icons
@@ -28,13 +29,17 @@ import {
 } from '../../../components/Dashboard';
 import { Calendar } from '../../../components/Calendar';
 // Redux
-import { connect } from 'react-redux';
-import { setUserChosenHotelIDAction } from '../../../redux/actions';
+import { connect, useDispatch, useSelector } from 'react-redux';
+import {
+  getHotelDataRequestAction,
+  setUserChosenHotelIDAction,
+} from '../../../redux/actions';
 import {
   getDashboardDataMiddleware,
   getHotelsDataMiddleware,
   setHotelIDMiddleware,
 } from '../../../redux/middlewares';
+import { store } from '../../../redux/store';
 
 const DashboardScreen = ({
   navigation,
@@ -43,21 +48,16 @@ const DashboardScreen = ({
   dashboardData,
   hotelID,
   hotelList,
+  hotelName,
 }) => {
   // View togglers
   const [percentageView, setPercentageView] = useState(true);
   const [calendarModalVisible, setCalendarModalVisible] = useState(false);
   const [hotelListModalVisible, setHotelListModalVisible] = useState(false);
+  const today = new Date().getDate();
+  const defaultDate = chosenDashboardDate ? chosenDashboardDate : today;
+  const isTabFocused = useIsFocused();
 
-  const todayDefaultDate = new Date();
-  const dashboardDefaultDate = chosenDashboardDate
-    ? chosenDashboardDate
-    : todayDefaultDate;
-  const defaultHotelID = hotelID ? hotelID : hotelList[0].id;
-
-  console.log('====================================');
-
-  console.log('====================================');
   // Button Press handlers
   function handleChosenHotel(chosenHotelId) {
     setUserChosenHotelIDAction(chosenHotelId);
@@ -68,52 +68,45 @@ const DashboardScreen = ({
     navigation.navigate('ArrivalsScreen');
   }
 
-  const dashboardOutgoingData = {
-    hotelID: defaultHotelID,
-    chosenDashboardDate: dashboardDefaultDate,
-  };
-
-  const wait = timeout => {
-    return new Promise(resolve => setTimeout(resolve, timeout));
-  };
-
-  const onPullToRefresh = useCallback(() => {
-    wait(500).then(() => getDashboardDataMiddleware());
-  }, []);
-
-  useEffect(() => {
-    getHotelsDataMiddleware();
-    if (hotelID === null) {
-      setDefaultHotelIDMiddleware();
-    }
-  }, []);
-
-  const getDataOnTabPress = async () => {
+  async function getDashboardDataOnTabPress() {
     try {
-      await getHotelsDataMiddleware().then(hotelList => {
+      return await getHotelsDataMiddleware().then(hotelList => {
         setHotelIDMiddleware(hotelList).then(hotelID => {
-          getDashboardDataMiddleware(hotelID);
+          const dashboardOutgoingData = {
+            hotelID: 48,
+            // hotelID,
+            chosenDashboardDate: defaultDate,
+          };
+          getDashboardDataMiddleware(dashboardOutgoingData);
         });
       });
     } catch (error) {
       console.error(error);
     }
-  };
+  }
+
+  const onPullToRefresh = useCallback(() => {
+    getDashboardDataOnTabPress();
+  }, []);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      getDataOnTabPress();
+      getDashboardDataOnTabPress();
     });
 
     return unsubscribe;
   }, [navigation]);
-
+  // console.log(store.getState().hotelReducer.hotelList[0].name);
+  // const temporaryHotelName = store?.getState().hotelReducer.hotelList[0].name;
+  // useSelector(
+  //   store => store?.hotelReducer.hotelList[0].name,
+  // );
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
         refreshControl={
           <RefreshControl
-            loading={loading}
+            refreshing={loading}
             onRefresh={onPullToRefresh}
             tintColor={'white'}
           />
@@ -121,7 +114,7 @@ const DashboardScreen = ({
         <View style={POSITIONING.center}>
           <HotelListBar
             onPress={() => setHotelListModalVisible(!hotelListModalVisible)}
-            hotelName={'Загружается...' || chosenHotelName}
+            hotelName={loading ? 'Загружается...' : hotelName}
           />
         </View>
         <View style={styles.dateBlock}>
@@ -567,6 +560,7 @@ function mapStateToProps({ dashboardReducer, hotelReducer }) {
     dashboardData: dashboardReducer.dashboardData,
     hotelID: hotelReducer.hotelID,
     hotelList: hotelReducer.hotelList,
+    hotelName: hotelReducer.hotelName,
   };
 }
 

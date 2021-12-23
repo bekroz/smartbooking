@@ -1,11 +1,12 @@
-import { useSelector } from 'react-redux';
 import { getAllHotelPropertiesDataAPI } from '../../api';
 import {
   getHotelDataRequestAction,
   getHotelDataSuccessAction,
   getHotelDataFailureAction,
+  showHotelModalToChooseAction,
+  setDefaultHotelIDAction,
+  noHotelFoundAction,
 } from '../actions';
-import { setUserChosenHotelIDAction } from '../actions/hotelActions';
 import { store } from '../store';
 
 async function getHotelsDataMiddleware() {
@@ -13,6 +14,7 @@ async function getHotelsDataMiddleware() {
   try {
     return await getAllHotelPropertiesDataAPI().then(hotelList => {
       store.dispatch(getHotelDataSuccessAction(hotelList));
+      return hotelList;
     });
   } catch (error) {
     store.dispatch(getHotelDataFailureAction(error));
@@ -20,12 +22,17 @@ async function getHotelsDataMiddleware() {
   }
 }
 
-const setHotelIDMiddleware = hotelList => {
-  const hotelID = useSelector(store => store.hotelReducer.hotelID);
+async function setHotelIDMiddleware(hotelList) {
+  const hotelID = await store.getState().hotelReducer.hotelID;
   if (hotelID === null) {
-    if (hotelList.length == 1) {
+    if (hotelList.length > 1) {
+      store.dispatch(showHotelModalToChooseAction());
+    } else if (hotelList.length == 1) {
       const defaultOneHotelID = hotelList[0].id;
-      store.dispatch(setDefaultHotelIDAction(defaultOneHotelID));
+      const defaultOneHotelName = hotelList[0].name;
+      store.dispatch(
+        setDefaultHotelIDAction(defaultOneHotelID, defaultOneHotelName),
+      );
       return defaultOneHotelID;
     } else {
       store.dispatch(noHotelFoundAction());
@@ -33,6 +40,6 @@ const setHotelIDMiddleware = hotelList => {
   } else {
     return hotelID;
   }
-};
+}
 
 export { getHotelsDataMiddleware, setHotelIDMiddleware };

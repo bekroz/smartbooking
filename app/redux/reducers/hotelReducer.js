@@ -3,8 +3,10 @@ import { HOTEL } from '../types';
 const initialState = {
   loading: false,
   hotelID: null,
+  hotelName: null,
   hotelList: [],
   noHotelFoundModalVisible: false,
+  chooseHotelModalVisible: false,
   error: null,
 };
 
@@ -27,18 +29,26 @@ const hotelReducer = (state = initialState, action) => {
         loading: false,
         error: action.payload,
       };
+    case HOTEL.MODAL_TO_CHOOSE_HOTEL_ID:
+      return {
+        ...state,
+        chooseHotelModalVisible: true,
+      };
     case HOTEL.SET_USER_CHOSEN_HOTEL_ID:
       return {
         ...state,
-        hotelID: action.payload,
-        noHotelFoundModalVisible: false,
+        hotelID: action.payload.hotelID,
+        hotelName: action.payload.hotelName,
+        chooseHotelModalVisible: false,
       };
     // If hotel is only one on the hotel list, default hotelID will be set to that hotel's ID
     case HOTEL.SET_DEFAULT_HOTEL_ID:
       return {
         ...state,
-        hotelID: action.payload,
+        hotelID: action.payload.hotelID,
+        hotelName: action.payload.hotelName,
         noHotelFoundModalVisible: false,
+        chooseHotelModalVisible: false,
       };
     case HOTEL.NO_HOTEL_FOUND:
       return {

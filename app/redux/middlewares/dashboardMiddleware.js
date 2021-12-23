@@ -8,7 +8,9 @@ import {
 import { store } from '../store';
 
 async function getDashboardDataMiddleware(dashboardOutgoingData) {
-  store.dispatch(getDashboardDataRequestAction(dashboardOutgoingData.chosenDashboardDate));
+  store.dispatch(
+    getDashboardDataRequestAction(dashboardOutgoingData.chosenDashboardDate),
+  );
   try {
     await getDashboardDataAPI(dashboardOutgoingData).then(response => {
       const byDateData = response.by_date_data;

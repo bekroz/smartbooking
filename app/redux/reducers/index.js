@@ -5,17 +5,18 @@ import authReducer from './authReducer';
 import hotelReducer from './hotelReducer';
 import dashboardReducer from './dashboardReducer';
 import reservationReducer from './reservationReducer';
-import statsReducer from './statsReducer';
 import comparisonReducer from './comparisonReducer';
+import annualReducer from './annualReducer';
+import channelsReducer from './channelsReducer';
 
-// Redux: Root Reducer
 const rootReducer = combineReducers({
-  authReducer: authReducer,
-  hotelReducer: hotelReducer,
-  dashboardReducer: dashboardReducer,
-  reservationReducer: reservationReducer,
-  statsReducer: statsReducer,
-  comparisonReducer: comparisonReducer,
+  authReducer,
+  hotelReducer,
+  dashboardReducer,
+  reservationReducer,
+  comparisonReducer,
+  annualReducer,
+  channelsReducer,
 });
 
 export default rootReducer;

@@ -155,50 +155,51 @@ const getReservedRoomsListDataAPI = async reservedRoomsListOutgoingData => {
       },
       data: reservedRoomsListOutgoingData,
     }).then(response => {
-      return response.data;
+      const reservedRoomsListData = response.data;
+      return reservedRoomsListData;
     });
   } catch (err) {
     console.error(err);
   }
 };
 
-// #9 API => GET Hotel Statistics By Year
-const getStatisticsByYearAPI = async yearStatOutgoingData => {
+// #9 API => GET Hotel Annual Statistics
+const getAnnualDataAPI = async annualOutgoingData => {
   const userToken = getUserTokenMMKV();
   try {
     return await axios({
-      url: `${Config.BASE_API_URL}/mobile/${yearStatOutgoingData.hotelID}/statistics-by-year`,
+      url: `${Config.BASE_API_URL}/mobile/${annualOutgoingData.hotelID}/statistics-by-year`,
       method: 'POST',
       headers: {
         Authorization: `Bearer ${userToken}`,
         'Content-Type': 'application/json',
       },
       data: {
-        year: yearStatOutgoingData,
+        year: annualOutgoingData,
       },
     }).then(response => {
-      return response.data.data;
+      const annualData = response.data.data;
+      return annualData;
     });
   } catch (err) {
     console.error(err);
   }
 };
 
-// #10 API => GET Hotel Statistics By Category
-
-const getStatisticsByCategoryAPI = async categoryStatOutgoingData => {
+// #10 API => GET Hotel Statistics By Channels
+const getChannelsDataAPI = async channelsOutgoingData => {
   const userToken = getUserTokenMMKV();
   try {
     return await axios({
-      url: `${Config.BASE_API_URL}/mobile/${categoryStatOutgoingData.hotelID}/statistics-by-group`,
+      url: `${Config.BASE_API_URL}/mobile/${channelsOutgoingData.hotelID}/statistics-by-group`,
       method: 'POST',
       headers: {
         Authorization: `Bearer ${userToken}`,
         'Content-Type': 'application/json',
       },
-      data: categoryStatOutgoingData,
-    }).then(response => {
-      return response;
+      data: channelsOutgoingData,
+    }).then(channelsData => {
+      return channelsData;
     });
   } catch (err) {
     console.error(err);
@@ -218,7 +219,8 @@ const getPropertiesComparisonDataAPI = async comparisonOutgoingData => {
       },
       data: comparisonOutgoingData,
     }).then(response => {
-      return response.data;
+      const comparisonData = response.data;
+      return comparisonData;
     });
   } catch (e) {
     console.error(e);
@@ -236,8 +238,9 @@ const getSourcesDataAPI = async sourcesOutgoingData => {
         Authorization: `Bearer ${userToken}`,
         'Content-Type': 'application/json',
       },
-    }).then(response => {
-      return response.data;
+    }).then(sourcesData => {
+      const sourcesData = response.data;
+      return sourcesData;
     });
   } catch (err) {
     console.error(err);
@@ -261,9 +264,9 @@ export {
   // #8
   getReservedRoomsListDataAPI,
   // #9
-  getStatisticsByYearAPI,
+  getAnnualDataAPI,
   // #10
-  getStatisticsByCategoryAPI,
+  getChannelsDataAPI,
   // #11
   getPropertiesComparisonDataAPI,
   // #12
