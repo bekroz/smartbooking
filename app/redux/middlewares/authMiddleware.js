@@ -15,6 +15,7 @@ async function appTokenMiddleware() {
   try {
     return await handleAppTokenizationAPI().then(appToken => {
       store.dispatch(appTokenSuccessAction(appToken));
+      return appToken;
     });
   } catch (error) {
     store.dispatch(appTokenFailureAction(error));
@@ -27,6 +28,9 @@ async function loginUserMiddleware(user) {
     store.dispatch(loginRequestAction(user));
     return await handleUserTokenizationAPI(user).then(userToken => {
       store.dispatch(loginSuccessAction(userToken));
+      console.log('====================================');
+      console.log(userToken);
+      console.log('====================================');
       return userToken;
     });
   } catch (error) {

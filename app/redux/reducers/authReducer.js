@@ -1,8 +1,8 @@
 import { AUTH } from '../types';
 
 const initialState = {
-  loading: false,
-  user: {},
+  loading: true,
+  user: null,
   appToken: null,
   userToken: null,
   userLoggedIn: false,
@@ -26,6 +26,7 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
+        userLoggedIn: false,
         error: action.payload,
       };
     case AUTH.LOGIN_REQUEST:
@@ -44,6 +45,9 @@ const authReducer = (state = initialState, action) => {
     case AUTH.LOGIN_FAILURE:
       return {
         ...state,
+        user: null,
+        loading: false,
+        userLoggedIn: false,
         error: action.payload,
       };
     case AUTH.LOGOUT_REQUEST:
@@ -64,10 +68,11 @@ const authReducer = (state = initialState, action) => {
     case AUTH.LOGOUT_FAILURE:
       return {
         ...state,
+        loading: false,
         error: action.payload,
       };
     default:
-      return { ...state };
+      return state;
   }
 };
 export default authReducer;

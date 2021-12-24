@@ -56,7 +56,7 @@ const hotelReducer = (state = initialState, action) => {
         noHotelFoundModalVisible: true,
       };
     default:
-      return { ...state };
+      return state;
   }
 };
 

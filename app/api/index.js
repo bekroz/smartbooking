@@ -197,8 +197,8 @@ const getChannelsDataAPI = async (chosenDateRange, hotelID) => {
       'Content-Type': 'application/json',
     },
     data: {
-      start_date: chosenDateRange.start_date,
-      end_date: chosenDateRange.end_date,
+      start_date: chosenDateRange.startDate,
+      end_date: chosenDateRange.endDate,
       date_range_type: 'type_checkin',
       status: 'confirmed',
     },

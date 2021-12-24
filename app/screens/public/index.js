@@ -4,6 +4,7 @@ import NoFoundScreen from './NoFoundScreen';
 import RestoreScreen from './RestoreScreen';
 import SignUpScreen from './SignUpScreen';
 import TermsScreen from './TermsScreen';
+import AuthLoadingScreen from './AuthLoadingScreen';
 
 export {
   SplashScreen,
@@ -12,4 +13,5 @@ export {
   RestoreScreen,
   SignUpScreen,
   TermsScreen,
+  AuthLoadingScreen,
 };

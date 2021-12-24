@@ -1,7 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // Theme
-import { COLORS, SIZES } from '../constants/theme';
+import { COLORS, SIZES } from '../../../constants/theme';
 // Screens
 import {
   DashboardScreen,
@@ -9,7 +9,7 @@ import {
   StatsScreen,
   SettingsScreen,
   CalendarScreen,
-} from '../screens/private';
+} from '..';
 // Tab Icons
 import {
   DashboardTabSvg,
@@ -22,7 +22,7 @@ import {
   MoreActiveTabSvg,
   CalendarTabSvg,
   CalendarActiveTabSvg,
-} from '../assets/icons/SvgIcons';
+} from '../../../assets/icons/SvgIcons';
 
 const Tab = createBottomTabNavigator();
 

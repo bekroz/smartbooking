@@ -1,10 +1,7 @@
 import React from 'react';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from '@react-navigation/stack';
-import AuthLoadingScreen from '../screens/AuthLoadingScreen';
-// TabNavigator
-import TabNavigator from '../navigation/TabNavigator';
-// Private Screens
+// Private Screens & TabNavigators
 import {
   DashboardScreen,
   ComparisonScreen,
@@ -12,6 +9,7 @@ import {
   SettingsScreen,
   StatsScreen,
   ArrivalsScreen,
+  TabNavigator,
 } from '../screens/private';
 // Public Screens
 import {
@@ -20,6 +18,7 @@ import {
   RestoreScreen,
   NoFoundScreen,
   TermsScreen,
+  AuthLoadingScreen,
 } from '../screens/public';
 
 const Stack = createStackNavigator();
@@ -61,8 +60,8 @@ const AuthStack = () => {
 const RootStack = createSwitchNavigator(
   {
     AuthLoading: AuthLoadingScreen,
-    App: AppStack,
-    Auth: AuthStack,
+    AppStack: AppStack,
+    AuthStack: AuthStack,
   },
   {
     initialRouteName: 'AuthLoading',

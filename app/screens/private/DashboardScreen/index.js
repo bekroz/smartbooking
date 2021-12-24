@@ -100,10 +100,6 @@ const DashboardScreen = ({
   // useSelector(
   //   store => store?.hotelReducer.hotelList[0].name,
   // );
-  console.log('====================================');
-  console.log(dashboardData);
-  console.log('====================================');
-
   const maxArrivedRadius = -140;
   const maxDepartedRadius = -140;
   const maxRoomsRadius = -140;

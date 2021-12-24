@@ -5,6 +5,7 @@ import StatsScreen from './StatsScreen';
 import ComparisonScreen from './ComparisonScreen';
 import CalendarScreen from './CalendarScreen';
 import SettingsScreen from './SettingsScreen';
+import TabNavigator from './TabNavigator';
 
 export {
   DashboardScreen,
@@ -14,4 +15,5 @@ export {
   SettingsScreen,
   ComparisonScreen,
   ArrivalsScreen,
+  TabNavigator,
 };

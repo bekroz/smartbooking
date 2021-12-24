@@ -31,12 +31,11 @@ async function getReservationNextPageDataMiddleware(params) {
     return await getAllReservationsDataAPI(params).then(response => {
       const receivedData = response.data;
       newPageIndex = response.meta.currentPage;
-      let lastData = store.getState().reservationReducer.reservationData;
-      receivedData.forEach(element => {
-        lastData.push(element);
-      });
-
-      store.dispatch(getReservationNextPageDataSuccessAction(lastData));
+      // let lastData = store.getState().reservationReducer.reservationData;
+      // receivedData.forEach(element => {
+      //   lastData.push(element);
+      // });
+      store.dispatch(getReservationNextPageDataSuccessAction(receivedData));
       if (response.meta.current_page === response.meta.last_page) {
         store.dispatch(reservationLastPageReachedAction());
       }
