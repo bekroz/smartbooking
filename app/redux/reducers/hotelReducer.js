@@ -1,10 +1,10 @@
 import { HOTEL } from '../types';
 
 const initialState = {
-  loading: false,
+  loading: true,
+  hotelList: [],
   hotelID: null,
   hotelName: null,
-  hotelList: [],
   noHotelFoundModalVisible: false,
   chooseHotelModalVisible: false,
   error: null,
@@ -45,10 +45,10 @@ const hotelReducer = (state = initialState, action) => {
     case HOTEL.SET_DEFAULT_HOTEL_ID:
       return {
         ...state,
-        hotelID: action.payload.hotelID,
-        hotelName: action.payload.hotelName,
         noHotelFoundModalVisible: false,
         chooseHotelModalVisible: false,
+        hotelID: action.payload.hotelID,
+        hotelName: action.payload.hotelName,
       };
     case HOTEL.NO_HOTEL_FOUND:
       return {

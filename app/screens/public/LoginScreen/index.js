@@ -27,7 +27,7 @@ import {
 // Utils
 import { setUserMMKV } from '../../../utils/useMmkvStorage';
 
-const LoginScreen = ({ navigation, userLoggedIn, authReducer }) => {
+const LoginScreen = ({ navigation, userLoggedIn }) => {
   const [email, setEmail] = useState({ value: '', error: '' });
   const [password, setPassword] = useState({ value: '', error: '' });
   const [secureTextEntry, setSecureTextEntry] = useState(true);
@@ -66,21 +66,28 @@ const LoginScreen = ({ navigation, userLoggedIn, authReducer }) => {
       password: password.value,
     };
     setLoginRequest(true);
-    setUserMMKV(user);
     try {
       return await loginUserMiddleware(user).then(userToken => {
-        console.log(userToken);
-        if (userToken) {
-          // console.log('====================================');
-          // console.log();
-          // console.log('====================================');
-          // console.log(userToken);
-          navigation.navigate('TabNavigator');
+        if (userToken && userLoggedIn) {
+          navigation.replace('TabNavigator');
+        } else {
+          Alert.alert(
+            'Неверные данные',
+            'Такого адреса нет или неправильный пароль',
+            [
+              {
+                text: 'Окей',
+                onPress: () => console.log('OK button Pressed'),
+                style: 'cancel',
+              },
+            ],
+          );
+          setLoginRequest(false);
         }
       });
     } catch (error) {
-      console.error(error);
       setLoginRequest(false);
+      console.error(error);
     }
   };
 

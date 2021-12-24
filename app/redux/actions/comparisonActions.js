@@ -1,9 +1,8 @@
 import { COMPARISON } from '../types';
 
-const getComparisonDataRequestAction = chosenComparisonDate => {
+const getComparisonDataRequestAction = () => {
   return {
     type: COMPARISON.DATA_REQUEST,
-    payload: chosenComparisonDate,
   };
 };
 

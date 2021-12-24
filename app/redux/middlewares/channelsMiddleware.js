@@ -7,22 +7,21 @@ import { getChannelsDataAPI } from '../../api';
 import { numberWithSpaces } from '../../helpers';
 import { store } from '../store';
 
-async function getChannelsDataMiddleware(chosenDateRange, hotelID) {
-  store.dispatch(getChannelsDataRequestAction(chosenDateRange));
+async function getChannelsDataMiddleware() {
+  store.dispatch(getChannelsDataRequestAction());
   try {
-    return await getChannelsDataAPI(chosenDateRange, hotelID).then(response => {
-      let channelsData = response?.data;
-      let totalRevenue = response?.total_revenue;
-      let totalSoldNights = response?.total_sold_night;
-      let totalAverageSum = response?.total_average_sum;
-
+    return await getChannelsDataAPI().then(response => {
+      let channelsData = response.data;
+      let totalRevenue = response.total_revenue;
+      let totalSoldNights = response.total_sold_night;
+      let totalAverageSum = response.total_average_sum;
       store.dispatch(
         getChannelsDataSuccessAction(
           channelsData,
           totalRevenue,
           totalSoldNights,
           totalAverageSum,
-        )
+        ),
       );
     });
   } catch (error) {

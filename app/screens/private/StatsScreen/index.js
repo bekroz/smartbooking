@@ -30,20 +30,20 @@ const StatsScreen = ({
   const dateRange = chosenDateRange ? chosenDateRange : monthRangeUntilToday;
   const hotelID = 48;
 
-  async function getStatsDataOnTabPress() {
-    try {
-      await getChannelsDataMiddleware(dateRange, hotelID);
-    } catch (error) {
-      alert(error);
-    }
-  }
+  // async function getStatsDataOnTabPress() {
+  //   try {
+  //     await getChannelsDataMiddleware(dateRange, hotelID);
+  //   } catch (error) {
+  //     alert(error);
+  //   }
+  // }
 
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      getStatsDataOnTabPress();
-    });
-    return unsubscribe;
-  }, [navigation]);
+  // useEffect(() => {
+  //   const unsubscribe = navigation.addListener('focus', () => {
+  //     getStatsDataOnTabPress();
+  //   });
+  //   return unsubscribe;
+  // }, [navigation]);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#111923' }}>
@@ -90,7 +90,7 @@ const StatsScreen = ({
           <Details
             navigation={navigation}
             loading={loading}
-            dateRange={dateRange}
+            chosenDateRange={chosenDateRange}
             channelsData={channelsData}
             totalRevenue={totalRevenue}
             totalRevenue={totalRevenue}
@@ -141,9 +141,6 @@ function mapStateToProps({ channelsReducer, annualReducer, hotelReducer }) {
     totalAverageSum,
     error,
   } = channelsReducer;
-  console.log('====================================');
-  console.log(channelsReducer);
-  console.log('====================================');
   const { chosenYear, annualData } = annualReducer;
   const { hotelID } = hotelReducer;
   return {

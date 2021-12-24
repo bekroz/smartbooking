@@ -1,14 +1,15 @@
 import axios from 'axios';
 import Config from '../config/config';
-import {
-  setAppTokenMMKV,
-  getAppTokenMMKV,
-  setUserTokenMMKV,
-  getUserTokenMMKV,
-  getUserMMKV,
-} from '../utils/useMmkvStorage';
+import { store } from '../redux/store';
 
 // #1 API => GET APP token
+const { appToken, userToken, user } = store.getState().authReducer;
+const { hotelID } = store.getState().hotelReducer;
+const { chosenDay, chosenMonth, chosenMonthRange, chosenYear } =
+  store.getState().dateReducer;
+const { reservationType, reservationStatus, reservationID } =
+  store.getState().reservationReducer;
+
 const handleAppTokenizationAPI = async () => {
   try {
     return await axios({
@@ -18,9 +19,7 @@ const handleAppTokenizationAPI = async () => {
         Authorization: `Basic ${Config.IOS_BASE64_CODE}`,
       },
     }).then(response => {
-      const appToken = response.data.access_token;
-      setAppTokenMMKV(appToken);
-      return appToken;
+      return response.data.access_token;
     });
   } catch (err) {
     console.error(err);
@@ -29,7 +28,6 @@ const handleAppTokenizationAPI = async () => {
 
 // #2 API => GET USER token
 const handleUserTokenizationAPI = async user => {
-  const appToken = getAppTokenMMKV();
   try {
     return await axios({
       url: `${Config.BASE_API_URL}/mobile/auth/login`,
@@ -40,9 +38,7 @@ const handleUserTokenizationAPI = async user => {
       },
       data: user,
     }).then(response => {
-      const userToken = response.data.access_token;
-      setUserTokenMMKV(userToken);
-      return userToken;
+      return response.data.access_token;
     });
   } catch (err) {
     console.error(err);
@@ -51,7 +47,6 @@ const handleUserTokenizationAPI = async user => {
 
 // #3 API => GET All Hotel Properties Data of the user
 const getAllHotelPropertiesDataAPI = async () => {
-  const userToken = getUserTokenMMKV();
   try {
     return await axios({
       url: `${Config.BASE_API_URL}/mobile/properties`,
@@ -69,8 +64,7 @@ const getAllHotelPropertiesDataAPI = async () => {
 };
 
 // #4 API => GET Single Hotel Detailed Data of the user
-const getSingleHotelDataAPI = async hotelID => {
-  const userToken = getUserTokenMMKV();
+const getSingleHotelDataAPI = async () => {
   try {
     return await axios({
       url: `${Config.BASE_API_URL}/mobile/properties/${hotelID}`,
@@ -86,17 +80,16 @@ const getSingleHotelDataAPI = async hotelID => {
 };
 
 // #5 API => GET Dashboard Data of the user
-const getDashboardDataAPI = async dashboardOutgoingData => {
-  const userToken = getUserTokenMMKV();
+const getDashboardDataAPI = async () => {
   try {
     return await axios({
-      url: `${Config.BASE_API_URL}/mobile/${dashboardOutgoingData.hotelID}/dashboard`,
+      url: `${Config.BASE_API_URL}/mobile/${hotelID}/dashboard`,
       method: 'POST',
       headers: {
         Authorization: `Bearer ${userToken}`,
         'Content-Type': 'application/json',
       },
-      data: dashboardOutgoingData,
+      data: chosenDay,
     }).then(response => {
       return response.data.data;
     });
@@ -106,17 +99,20 @@ const getDashboardDataAPI = async dashboardOutgoingData => {
 };
 
 // #6 API => GET All Reservations Data
-const getAllReservationsDataAPI = async reservationsOutgoingData => {
-  const userToken = getUserTokenMMKV();
+const getAllReservationsDataAPI = async () => {
   try {
     return await axios({
-      url: `${Config.BASE_API_URL}/mobile/${reservationsOutgoingData.hotelID}/reservations`,
+      url: `${Config.BASE_API_URL}/mobile/${hotelID}/reservations`,
       method: 'POST',
       headers: {
         Authorization: `Bearer ${userToken}`,
         'Content-Type': 'application/json',
       },
-      data: reservationsOutgoingData,
+      data: {
+        date_range_type: reservationType,
+        start_date: chosenMonthRange.startDate,
+        end_date: chosenMonthRange.endDate,
+      },
     }).then(response => {
       return response.data;
     });
@@ -126,37 +122,38 @@ const getAllReservationsDataAPI = async reservationsOutgoingData => {
 };
 
 // #7 API => GET Hotel Single Reservation Data
-const getHotelSingleReservationDataAPI =
-  async singleReservationOutgoingData => {
-    try {
-      return await axios({
-        url: `${Config.BASE_API_URL}/mobile/${singleReservationOutgoingData.hotelID}/reservations/${singleReservationOutgoingData.reservationID}`,
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${userToken}`,
-          'Content-Type': 'application/json',
-        },
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-// #8 API => GET Reserved room list dataSource
-const getReservedRoomsListDataAPI = async reservedRoomsListOutgoingData => {
-  const userToken = getUserTokenMMKV();
+const getHotelSingleReservationDataAPI = async () => {
   try {
     return await axios({
-      url: `${Config.BASE_API_URL}/mobile/${reservedRoomsListOutgoingData.hotelID}/reservation-rooms`,
+      url: `${Config.BASE_API_URL}/mobile/${hotelID}/reservations/${reservationID}`,
       method: 'POST',
       headers: {
         Authorization: `Bearer ${userToken}`,
         'Content-Type': 'application/json',
       },
-      data: reservedRoomsListOutgoingData,
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+// #8 API => GET Reserved room list dataSource
+const getReservedRoomsListDataAPI = async () => {
+  try {
+    return await axios({
+      url: `${Config.BASE_API_URL}/mobile/${hotelID}/reservation-rooms`,
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${userToken}`,
+        'Content-Type': 'application/json',
+      },
+      data: {
+        type: reservationType,
+        from: chosenDay,
+        by: chosenDay,
+      },
     }).then(response => {
-      const reservedRoomsListData = response.data;
-      return reservedRoomsListData;
+      return response.data;
     });
   } catch (err) {
     console.error(err);
@@ -164,22 +161,20 @@ const getReservedRoomsListDataAPI = async reservedRoomsListOutgoingData => {
 };
 
 // #9 API => GET Hotel Annual Statistics
-const getAnnualDataAPI = async annualOutgoingData => {
-  const userToken = getUserTokenMMKV();
+const getAnnualDataAPI = async () => {
   try {
     return await axios({
-      url: `${Config.BASE_API_URL}/mobile/${annualOutgoingData.hotelID}/statistics-by-year`,
+      url: `${Config.BASE_API_URL}/mobile/${hotelID}/statistics-by-year`,
       method: 'POST',
       headers: {
         Authorization: `Bearer ${userToken}`,
         'Content-Type': 'application/json',
       },
       data: {
-        year: annualOutgoingData,
+        year: chosenYear,
       },
     }).then(response => {
-      const annualData = response.data.data;
-      return annualData;
+      return response.data.data;
     });
   } catch (err) {
     console.error(err);
@@ -187,33 +182,31 @@ const getAnnualDataAPI = async annualOutgoingData => {
 };
 
 // #10 API => GET Hotel Statistics By Channels
-const getChannelsDataAPI = async (chosenDateRange, hotelID) => {
-  const userToken = getUserTokenMMKV();
-  return await axios({
-    url: `${Config.BASE_API_URL}/mobile/${hotelID}/statistics-by-group`,
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${userToken}`,
-      'Content-Type': 'application/json',
-    },
-    data: {
-      start_date: chosenDateRange.startDate,
-      end_date: chosenDateRange.endDate,
-      date_range_type: 'type_checkin',
-      status: 'confirmed',
-    },
-  })
-    .then(response => {
+const getChannelsDataAPI = async () => {
+  try {
+    return await axios({
+      url: `${Config.BASE_API_URL}/mobile/${hotelID}/statistics-by-group`,
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${userToken}`,
+        'Content-Type': 'application/json',
+      },
+      data: {
+        start_date: chosenMonthRange.startDate,
+        end_date: chosenMonthRange.endDate,
+        date_range_type: reservationType,
+        status: reservationStatus,
+      },
+    }).then(response => {
       return response.data;
-    })
-    .catch(err => {
-      alert(err);
     });
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 // #11 API => GET Properties Comparison Data
-const getPropertiesComparisonDataAPI = async comparisonOutgoingData => {
-  const userToken = getUserTokenMMKV();
+const getPropertiesComparisonDataAPI = async () => {
   try {
     return await axios({
       url: `${Config.BASE_API_URL}/mobile/compare-properties`,
@@ -222,10 +215,12 @@ const getPropertiesComparisonDataAPI = async comparisonOutgoingData => {
         Authorization: `Bearer ${userToken}`,
         'Content-Type': 'application/json',
       },
-      data: comparisonOutgoingData,
+      data: {
+        year: chosenYear,
+        month: chosenMonth,
+      },
     }).then(response => {
-      const comparisonData = response.data;
-      return comparisonData;
+      return response.data;
     });
   } catch (e) {
     console.error(e);
@@ -233,19 +228,17 @@ const getPropertiesComparisonDataAPI = async comparisonOutgoingData => {
 };
 
 // #12 API => GET Property Sources Data
-const getSourcesDataAPI = async sourcesOutgoingData => {
-  const userToken = getUserTokenMMKV();
+const getSourcesDataAPI = async () => {
   try {
     return await axios({
-      url: `${Config.BASE_API_URL}/mobile/${sourcesOutgoingData.hotelID}/sources`,
+      url: `${Config.BASE_API_URL}/mobile/${hotelID}/sources`,
       method: 'POST',
       headers: {
         Authorization: `Bearer ${userToken}`,
         'Content-Type': 'application/json',
       },
     }).then(response => {
-      const sourcesData = response.data;
-      return sourcesData;
+      return response.data;
     });
   } catch (err) {
     console.error(err);

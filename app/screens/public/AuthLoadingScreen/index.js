@@ -14,16 +14,16 @@ const AuthLoadingScreen = ({
   error,
 }) => {
   async function splashRefreshTokenHandler() {
-    if (user === null) {
-      navigation.navigate('Auth');
-    } else {
-      try {
+    try {
+      if (user === null) {
+        navigation.navigate('AuthStack');
+      } else {
         return await authMiddleware(user).then(userToken => {
           navigation.navigate(userToken ? 'AppStack' : 'AuthStack');
         });
-      } catch (error) {
-        console.error(error);
       }
+    } catch (error) {
+      console.error(error);
     }
   }
 

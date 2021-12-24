@@ -1,15 +1,17 @@
 import { RESERVATION } from '../types';
+import {
+  RESERVATION_STATUS,
+  RESERVATION_TYPE,
+} from '../../constants/dataTypes';
 
 const initialState = {
   initialLoading: true,
-  chosenReservationDateRange: null,
-  chosenReservationStatus: '',
-  chosenReservationType: '',
   reservationData: [],
   nextPageLoading: false,
   pageIndex: 1,
-  lastPage: 1,
   isLastPage: false,
+  reservationStatus: RESERVATION_STATUS.confirmed,
+  reservationType: RESERVATION_TYPE.checkin,
   error: '',
 };
 
@@ -25,7 +27,8 @@ const reservationReducer = (state = initialState, action) => {
       return {
         ...state,
         initialLoading: false,
-        reservationData: action.payload,
+        reservationData: action.payload.reservationData,
+        pageIndex: action.payload.pageIndex,
       };
     case RESERVATION.DATA_FAILURE:
       return {
@@ -38,13 +41,16 @@ const reservationReducer = (state = initialState, action) => {
         ...state,
         initialLoading: false,
         nextPageLoading: true,
-        pageIndex: action.payload,
       };
     case RESERVATION.NEXT_PAGE_SUCCESS:
       return {
         ...state,
         nextPageLoading: false,
-        reservationData: [...state.reservationData, ...action.payload],
+        reservationData: [
+          ...state.reservationData,
+          ...action.payload.reservationData,
+        ],
+        pageIndex: action.payload.pageIndex,
       };
     case RESERVATION.NEXT_PAGE_FAILURE:
       return {
@@ -56,6 +62,18 @@ const reservationReducer = (state = initialState, action) => {
       return {
         ...state,
         lastPage: true,
+      };
+    // Reservation search status change
+    case RESERVATION.STATUS_CHANGE:
+      return {
+        ...state,
+        reservationStatus: action.payload,
+      };
+    // Reservation search type change
+    case RESERVATION.TYPE_CHANGE:
+      return {
+        ...state,
+        reservationType: action.payload,
       };
     default:
       return state;

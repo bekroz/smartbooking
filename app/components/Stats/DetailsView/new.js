@@ -1,35 +1,9 @@
 <Card containerStyle={styles.card} title="Revenue">
+
 {/* Card Content */}
 {!loading ? (
   <>
-    <View
-      style={{
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginBottom: 15,
-      }}>
-      <View>
-        <Text
-          style={{
-            fontWeight: SIZES.fontWeight1,
-            fontSize: 16,
-            color: COLORS.white,
-          }}>
-          Доход
-        </Text>
-        <Text
-          style={{
-            fontWeight: SIZES.fontWeight1,
-            fontSize: 10,
-            color: COLORS.grayText,
-          }}>
-          Revenue
-        </Text>
-      </View>
-      <Text style={{ color: COLORS.grayText }}>
-        Всего {totalAverageSum} UZS
-      </Text>
-    </View>
+    
 
     <View style={{ flexDirection: 'row' }}>
       {/* LEFT Donut View */}

@@ -1,9 +1,8 @@
 import { ANNUAL } from '../types';
 
-const getAnnualDataRequestAction = chosenYear => {
+const getAnnualDataRequestAction = () => {
   return {
     type: ANNUAL.DATA_REQUEST,
-    payload: chosenYear,
   };
 };
 

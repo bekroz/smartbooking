@@ -135,7 +135,6 @@ const DashboardScreen = ({
             : 1),
     );
   };
-  console.log(currentLivingPercentage());
   // Kamaytirish 140 =>- currentArrivedPercentage
   return (
     <SafeAreaView style={styles.container}>

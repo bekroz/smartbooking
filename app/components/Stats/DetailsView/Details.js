@@ -27,21 +27,24 @@ import { DonutView } from '..';
 // API
 import { numberWithSpaces } from '../../../helpers';
 import { getChannelsDataMiddleware } from '../../../redux/middlewares';
+import { connect } from 'react-redux';
+import { firstDayOfMonth, today, monthRangeUntilToday } from '../../../helpers';
 
 const Details = ({
   navigation,
   loading,
-  dateRange,
+  chosenDateRange,
   channelsData,
   totalRevenue,
   totalSoldNights,
   totalAverageSum,
-  hotelID,
   error,
+  chosenYear,
+  annualData,
+  hotelID,
 }) => {
-  console.log(channelsData);
   const onPullToRefresh = useCallback(() => {
-    getChannelsDataMiddleware(dateRange, hotelID);
+    getChannelsDataMiddleware(chosenDateRange, hotelID);
   }, []);
 
   useEffect(() => {
@@ -81,7 +84,36 @@ const Details = ({
           paddingTop: 5,
         }}></View>
       {/* FIRST Card */}
-
+      <Card containerStyle={styles.card} title="Revenue">
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginBottom: 15,
+          }}>
+          <View>
+            <Text
+              style={{
+                fontWeight: SIZES.fontWeight1,
+                fontSize: 16,
+                color: COLORS.white,
+              }}>
+              Доход
+            </Text>
+            <Text
+              style={{
+                fontWeight: SIZES.fontWeight1,
+                fontSize: 10,
+                color: COLORS.grayText,
+              }}>
+              Revenue
+            </Text>
+          </View>
+          <Text style={{ color: COLORS.grayText }}>
+            Всего {totalAverageSum} UZS
+          </Text>
+        </View>
+      </Card>
       <View style={{ paddingBottom: 100 }} />
     </ScrollView>
   );
@@ -157,4 +189,30 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Details;
+function mapStateToProps({ channelsReducer, annualReducer, hotelReducer }) {
+  const {
+    loading,
+    chosenDateRange,
+    channelsData,
+    totalRevenue,
+    totalSoldNights,
+    totalAverageSum,
+    error,
+  } = channelsReducer;
+  const { chosenYear, annualData } = annualReducer;
+  const { hotelID } = hotelReducer;
+  return {
+    loading,
+    chosenDateRange,
+    channelsData,
+    totalRevenue,
+    totalSoldNights,
+    totalAverageSum,
+    error,
+    chosenYear,
+    annualData,
+    hotelID,
+  };
+}
+
+export default connect(mapStateToProps)(Details);

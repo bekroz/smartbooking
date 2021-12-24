@@ -22,23 +22,27 @@ async function getHotelsDataMiddleware() {
   }
 }
 
-async function setHotelIDMiddleware(hotelList) {
-  const hotelID = await store.getState().hotelReducer.hotelID;
-  if (hotelID === null) {
-    if (hotelList.length > 1) {
-      store.dispatch(showHotelModalToChooseAction());
-    } else if (hotelList.length == 1) {
-      const defaultOneHotelID = hotelList[0].id;
-      const defaultOneHotelName = hotelList[0].name;
-      store.dispatch(
-        setDefaultHotelIDAction(defaultOneHotelID, defaultOneHotelName),
-      );
-      return defaultOneHotelID;
+async function setHotelIDMiddleware() {
+  const { hotelList, hotelID } = store.getState().hotelReducer;
+  try {
+    if (hotelID === null) {
+      if (hotelList.length > 1) {
+        store.dispatch(showHotelModalToChooseAction());
+        alert('Choose hotel id');
+      } else if (hotelList.length == 1) {
+        const defaultHotel = {
+          hotelID: hotelList[0].id,
+          hotelName: hotelList[0].name,
+        };
+        store.dispatch(setDefaultHotelIDAction(defaultHotel));
+      } else {
+        store.dispatch(noHotelFoundAction());
+      }
     } else {
-      store.dispatch(noHotelFoundAction());
+      return hotelID;
     }
-  } else {
-    return hotelID;
+  } catch (error) {
+    console.error(error);
   }
 }
 

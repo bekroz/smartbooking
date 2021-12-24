@@ -4,17 +4,16 @@ import {
   getComparisonDataFailureAction,
 } from '../actions';
 import { getPropertiesComparisonDataAPI } from '../../api';
+import { store } from '../store';
 
-async function getComparisonDataMiddleware(chosenComparisonDate) {
-  getComparisonDataRequestAction(chosenComparisonDate);
+async function getComparisonDataMiddleware() {
+  store.dispatch(getComparisonDataRequestAction());
   try {
-    await getPropertiesComparisonDataAPI(chosenComparisonDate).then(
-      comparisonData => {
-        getComparisonDataSuccessAction(comparisonData);
-      },
+    await getPropertiesComparisonDataAPI().then(comparisonData =>
+      store.dispatch(getComparisonDataSuccessAction(comparisonData)),
     );
   } catch (error) {
-    getComparisonDataFailureAction(error);
+    store.dispatch(getComparisonDataFailureAction(error));
     console.error(error);
   }
 }

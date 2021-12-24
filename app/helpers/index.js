@@ -7,10 +7,11 @@ import wordTruncator from './others/wordTruncator';
 import capitalize from './others/capitalize';
 import getMonthName from './others/getMonthName';
 import {
-  firstDayOfMonth,
   today,
+  currentMonth,
   monthRangeUntilToday,
-} from './others/getMonthRange';
+  currentYear,
+} from './others/defaultDateSetter';
 
 export {
   emailValidator,
@@ -19,7 +20,8 @@ export {
   wordTruncator,
   capitalize,
   getMonthName,
-  firstDayOfMonth,
   today,
+  currentMonth,
   monthRangeUntilToday,
+  currentYear,
 };

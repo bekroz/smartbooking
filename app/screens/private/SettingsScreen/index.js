@@ -13,6 +13,7 @@ import { Divider } from 'react-native-elements';
 import { COLORS, POSITIONING, SIZES } from '../../../constants/theme';
 // Util
 import { clearStorage } from '../../../utils/useCustomAsyncStorage';
+import { clearStorageMMKV } from '../../../utils/useMmkvStorage';
 
 export default function SettingsScreen({ navigation }) {
   function logOutButtonPress() {
@@ -32,6 +33,7 @@ export default function SettingsScreen({ navigation }) {
   async function handleLogOut() {
     try {
       await clearStorage();
+       clearStorageMMKV();
       navigation.replace('LoginScreen');
     } catch (error) {
       console.error(error);

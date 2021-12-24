@@ -3671,6 +3671,11 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/netinfo/-/netinfo-7.1.7.tgz#10e96922c90a0ff9755dcfbfc92a9d83ec45cd87"
   integrity sha512-QCEuvbTAD7vyCsSsgbWedhTfXlClp4TVHVWYYMjnN7nz6xgZbSp+MI3oo7X5C4JlDHpRm/Q+63hsCgAqKt3WVA==
 
+"@react-native-community/picker@^1.8.1":
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/@react-native-community/picker/-/picker-1.8.1.tgz#94f14f0aad98fa7592967b941be97deec95c3805"
+  integrity sha512-Sj9DzX1CSnmYiuEQ5fQhExoo4XjSKoZkqLPAAybycq6RHtCuWppf+eJXRMCOJki25BlKSSt+qVqg0fIe//ujNQ==
+
 "@react-native-community/progress-view@^1.3.1":
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/@react-native-community/progress-view/-/progress-view-1.3.1.tgz#2c9ade158ae14838d7efbe2e50b5ef06964d5415"
@@ -4570,6 +4575,11 @@
   version "0.0.31"
   resolved "https://registry.yarnpkg.com/@webgpu/types/-/types-0.0.31.tgz#c05ec6e60024bf1836f31236ecd7677a969a2a2c"
   integrity sha512-cvvCMSZBT4VsRNtt0lI6XQqvOIIWw6+NRUtnPUMDVDgsI4pCZColz3qzF5QcP9wIYOHEc3jssIBse8UWONKhlQ==
+
+"@wowmaking/react-native-ios-scroll-picker@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@wowmaking/react-native-ios-scroll-picker/-/react-native-ios-scroll-picker-1.0.3.tgz#c431afa417cb7d26f359cb9a309662c5124caac9"
+  integrity sha512-9sHZpZHvDIwEb72caVxmYCaBnbmywMpCElADnOr93L1Va/eVHIORuHPiZOFIzDq3/oyOYQTZlqVOFP7RBxYCLg==
 
 "@xmldom/xmldom@~0.7.0":
   version "0.7.5"
@@ -12621,6 +12631,13 @@ react-native-codegen@^0.0.7:
     jscodeshift "^0.11.0"
     nullthrows "^1.1.1"
 
+react-native-collapse-view@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-collapse-view/-/react-native-collapse-view-1.0.0.tgz#6f730aceb2ecfeecc6ff8b265ba05c4aee63a2ef"
+  integrity sha1-b3MKzrLs/uzG/4smW6BcSu5jou8=
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-config@^1.4.5:
   version "1.4.5"
   resolved "https://registry.yarnpkg.com/react-native-config/-/react-native-config-1.4.5.tgz#6fe5895410b75e44fe4f4bf00caaf894a0981f3a"
@@ -12830,6 +12847,13 @@ react-native-ios-kit@^0.0.22:
     babel-plugin-module-resolver "^4.0.0"
     color "^3.1.2"
 
+react-native-ios-picker@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-ios-picker/-/react-native-ios-picker-1.0.0.tgz#a2cdf43871b4c932dda9758a50d2c2c4dad02c86"
+  integrity sha512-/QDeij2wxGWwPD9EaFqHXdfB7zQsxHpknBqH5Mxmnetj3zQPZ4OzQf2k+WM+9MYXZUyIsMKGb2NBvHP5MIkLOA==
+  dependencies:
+    react-native-collapse-view "1.0.0"
+
 react-native-iphone-x-helper@^1.3.1:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.3.1.tgz#20c603e9a0e765fd6f97396638bdeb0e5a60b010"
@@ -12929,6 +12953,11 @@ react-native-picker-horizontal@^0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/react-native-picker-horizontal/-/react-native-picker-horizontal-0.1.2.tgz#882f6cb63474e9dd4d829353c42e9d19310e1803"
   integrity sha512-E4FWPo8kxgPXteYfYVvS2PNQvVwzNWOgtPP98ZJkIddw4XwU9xqguBUaRHUBiIe1W1xEucE7A0ZHNJ5BwsAKhQ==
+
+react-native-picker-module@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/react-native-picker-module/-/react-native-picker-module-2.0.4.tgz#4a08d8fd2cf18a4ab6a4d55152aa5789b5d898aa"
+  integrity sha512-oWvWNach+ajFu9E5AcqZ6W6PHtb3L0vjKuCelk6IdZTqbKP7wNqoSJWhAegza4kvf91qfmwVs8ihfQE4AS9CSw==
 
 react-native-pie-chart@^2.0.2:
   version "2.0.2"

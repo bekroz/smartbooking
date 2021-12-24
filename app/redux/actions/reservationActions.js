@@ -6,10 +6,13 @@ const getReservationDataRequestAction = () => {
   };
 };
 
-const getReservationDataSuccessAction = reservationData => {
+const getReservationDataSuccessAction = ({ reservationData, pageIndex }) => {
   return {
     type: RESERVATION.DATA_SUCCESS,
-    payload: reservationData,
+    payload: {
+      reservationData,
+      pageIndex,
+    },
   };
 };
 
@@ -20,17 +23,22 @@ const getReservationDataFailureAction = error => {
   };
 };
 
-const getReservationNextPageDataRequestAction = pageIndex => {
+const getReservationNextPageDataRequestAction = () => {
   return {
     type: RESERVATION.NEXT_PAGE_REQUEST,
-    payload: pageIndex,
   };
 };
 
-const getReservationNextPageDataSuccessAction = reservationData => {
+const getReservationNextPageDataSuccessAction = ({
+  reservationData,
+  pageIndex,
+}) => {
   return {
     type: RESERVATION.NEXT_PAGE_SUCCESS,
-    payload: reservationData,
+    payload: {
+      reservationData,
+      pageIndex,
+    },
   };
 };
 

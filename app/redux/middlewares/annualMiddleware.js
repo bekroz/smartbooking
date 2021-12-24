@@ -5,10 +5,10 @@ import {
 } from '../actions';
 import { getAnnualDataAPI } from '../../api';
 
-async function getAnnualDataMiddleware(annualOutgoingData) {
-  store.dispatch(getAnnualDataRequestAction(annualOutgoingData.chosenYear));
+async function getAnnualDataMiddleware() {
+  store.dispatch(getAnnualDataRequestAction());
   try {
-    await getAnnualDataAPI(annualOutgoingData).then(annualData => {
+    await getAnnualDataAPI().then(annualData => {
       store.dispatch(getAnnualDataSuccessAction(annualData));
     });
   } catch (error) {

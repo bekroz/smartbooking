@@ -1,10 +1,9 @@
-import DASHBOARD from '../types/dashboardTypes';
+import { DASHBOARD } from '../types';
 
 const initialState = {
   loading: true,
-  chosenDashboardDate: null,
   dashboardData: [],
-  error: '',
+  error: null,
 };
 
 const dashboardReducer = (state = initialState, action) => {
@@ -13,7 +12,6 @@ const dashboardReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: true,
-        chosenDashboardDate: action.payload,
       };
     case DASHBOARD.DATA_SUCCESS:
       return {

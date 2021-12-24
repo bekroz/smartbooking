@@ -2,7 +2,6 @@ import { CHANNELS } from '../types';
 
 const initialState = {
   loading: true,
-  chosenDateRange: null,
   channelsData: [],
   totalRevenue: null,
   totalSoldNights: null,
@@ -16,7 +15,6 @@ const channelsReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: true,
-        chosenDateRange: action.payload,
       };
     case CHANNELS.DATA_SUCCESS:
       return {

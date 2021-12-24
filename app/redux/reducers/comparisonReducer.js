@@ -1,9 +1,9 @@
 import { COMPARISON } from '../types';
 
 const initialState = {
-  loading: false,
-  comparisonData: {},
-  error: '',
+  loading: true,
+  comparisonData: null,
+  error: null,
 };
 
 const comparisonReducer = (state = initialState, action) => {

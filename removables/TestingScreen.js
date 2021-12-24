@@ -65,7 +65,6 @@ export default function App() {
           'http://www.mocky.io/v2/5e3315753200008abe94d3d8?mocky-delay=2000ms',
         );
         let responseJson = await response.json();
-        // console.log(responseJson);
         setListData(responseJson.result.concat(initialData));
         setRefreshing(false);
       } catch (error) {

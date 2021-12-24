@@ -13,15 +13,14 @@ import * as Sentry from '@sentry/react-native';
 import AppContainer from './app/container/AppContainer';
 // Navigator
 import navigationService from './app/services/navigationService';
-
+import ModalBox from './app/components/Dashboard/Modals/DashboardModal';
 // Crash tracker setup
 Sentry.init({
   dsn: 'https://1329c9b248134401acc8ae1a7a34cc54@o1092790.ingest.sentry.io/6111610',
 
   integrations: [
     new Sentry.ReactNativeTracing({
-      tracingOrigins: ['localhost', 'my-site-url.com', /^\//],
-      // ... other options
+      tracingOrigins: ['localhost', 'smartbooking.uz', /^\//],
     }),
   ],
 });
@@ -34,11 +33,12 @@ const App = () => {
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
             <NavigationContainer
-              ref={navigatorRef => {
-                navigationService.setTopLevelNavigator(navigatorRef);
-              }}
+              ref={navigatorRef =>
+                navigationService.setTopLevelNavigator(navigatorRef)
+              }
               theme={DarkTheme}>
               <AppContainer />
+              {/* <ModalBox /> */}
             </NavigationContainer>
           </PersistGate>
         </Provider>

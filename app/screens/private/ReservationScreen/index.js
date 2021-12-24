@@ -73,9 +73,9 @@ const ReservationScreen = ({
     return unsubscribe;
   }, [navigation]);
 
-  console.log('====================================');
-  console.log(reservationData);
-  console.log('====================================');
+  // console.log('====================================');
+  // console.log(reservationData);
+  // console.log('====================================');
   return (
     <SafeAreaView style={styles.container}>
       <View>

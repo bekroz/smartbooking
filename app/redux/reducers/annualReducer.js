@@ -2,7 +2,6 @@ import { ANNUAL } from '../types';
 
 const initialState = {
   loading: true,
-  chosenYear: null,
   annualData: [],
   error: null,
 };
@@ -13,7 +12,6 @@ const annualReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: true,
-        chosenYear: action.payload,
       };
     case ANNUAL.DATA_SUCCESS:
       return {

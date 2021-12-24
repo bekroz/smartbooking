@@ -11,7 +11,7 @@ import {
 import { store } from '../store';
 
 async function appTokenMiddleware() {
-  // store.dispatch(appTokenRequestAction());
+  store.dispatch(appTokenRequestAction());
   try {
     return await handleAppTokenizationAPI().then(appToken => {
       store.dispatch(appTokenSuccessAction(appToken));
@@ -28,9 +28,6 @@ async function loginUserMiddleware(user) {
     store.dispatch(loginRequestAction(user));
     return await handleUserTokenizationAPI(user).then(userToken => {
       store.dispatch(loginSuccessAction(userToken));
-      console.log('====================================');
-      console.log(userToken);
-      console.log('====================================');
       return userToken;
     });
   } catch (error) {

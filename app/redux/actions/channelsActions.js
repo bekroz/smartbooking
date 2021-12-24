@@ -1,9 +1,8 @@
 import { CHANNELS } from '../types';
 
-const getChannelsDataRequestAction = chosenDateRange => {
+const getChannelsDataRequestAction = () => {
   return {
     type: CHANNELS.DATA_REQUEST,
-    payload: chosenDateRange,
   };
 };
 

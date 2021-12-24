@@ -10,13 +10,15 @@ import {
 } from '../actions';
 import { store } from '../store';
 
-async function getReservationDataMiddleware(params) {
+async function getReservationDataMiddleware() {
   store.dispatch(getReservationDataRequestAction());
   try {
-    return await getAllReservationsDataAPI(params).then(response => {
-      const receivedData = response.data;
-      params.pageIndex = response.meta.currentPage;
-      store.dispatch(getReservationDataSuccessAction(receivedData));
+    return await getAllReservationsDataAPI().then(response => {
+      const data = {
+        reservationData: response.data,
+        pageIndex: response.meta.currentPage,
+      };
+      store.dispatch(getReservationDataSuccessAction(data));
     });
   } catch (error) {
     store.dispatch(getReservationDataFailureAction(error));
@@ -24,21 +26,18 @@ async function getReservationDataMiddleware(params) {
   }
 }
 
-async function getReservationNextPageDataMiddleware(params) {
-  const newPageIndex = params.pageIndex++;
-  store.dispatch(getReservationNextPageDataRequestAction(newPageIndex));
+async function getReservationNextPageDataMiddleware() {
+  store.dispatch(getReservationNextPageDataRequestAction());
   try {
-    return await getAllReservationsDataAPI(params).then(response => {
-      const receivedData = response.data;
-      newPageIndex = response.meta.currentPage;
-      // let lastData = store.getState().reservationReducer.reservationData;
-      // receivedData.forEach(element => {
-      //   lastData.push(element);
-      // });
-      store.dispatch(getReservationNextPageDataSuccessAction(receivedData));
+    return await getAllReservationsDataAPI().then(response => {
       if (response.meta.current_page === response.meta.last_page) {
         store.dispatch(reservationLastPageReachedAction());
       }
+      const data = {
+        reservationData: response.data,
+        pageIndex: response.meta.currentPage,
+      };
+      store.dispatch(getReservationNextPageDataSuccessAction(data));
     });
   } catch (error) {
     store.dispatch(getReservationNextPageDataFailureAction(error));
