@@ -10,7 +10,10 @@ import { store } from '../store';
 async function getDashboardDataMiddleware() {
   store.dispatch(getDashboardDataRequestAction());
   try {
-    await getDashboardDataAPI().then(response => {
+    return await getDashboardDataAPI().then(response => {
+      console.log('====================================');
+      console.log(response);
+      console.log('====================================');
       const {
         available_rooms,
         current_load,

@@ -3,7 +3,6 @@ import Config from '../config/config';
 import { store } from '../redux/store';
 
 // #1 API => GET APP token
-const { appToken, userToken, user } = store.getState().authReducer;
 const { hotelID } = store.getState().hotelReducer;
 const { chosenDay, chosenMonth, chosenMonthRange, chosenYear } =
   store.getState().dateReducer;
@@ -28,6 +27,7 @@ const handleAppTokenizationAPI = async () => {
 
 // #2 API => GET USER token
 const handleUserTokenizationAPI = async user => {
+  const { appToken } = await store.getState().authReducer;
   try {
     return await axios({
       url: `${Config.BASE_API_URL}/mobile/auth/login`,
@@ -47,6 +47,7 @@ const handleUserTokenizationAPI = async user => {
 
 // #3 API => GET All Hotel Properties Data of the user
 const getAllHotelPropertiesDataAPI = async () => {
+  const { userToken } = await store.getState().authReducer;
   try {
     return await axios({
       url: `${Config.BASE_API_URL}/mobile/properties`,
@@ -65,6 +66,8 @@ const getAllHotelPropertiesDataAPI = async () => {
 
 // #4 API => GET Single Hotel Detailed Data of the user
 const getSingleHotelDataAPI = async () => {
+  const { hotelID } = await store.getState().hotelReducer;
+  const { userToken } = await store.getState().authReducer;
   try {
     return await axios({
       url: `${Config.BASE_API_URL}/mobile/properties/${hotelID}`,
@@ -81,6 +84,9 @@ const getSingleHotelDataAPI = async () => {
 
 // #5 API => GET Dashboard Data of the user
 const getDashboardDataAPI = async () => {
+  const { hotelID } = await store.getState().hotelReducer;
+  const { userToken } = await store.getState().authReducer;
+  const { chosenDay } = await store.getState().dateReducer;
   try {
     return await axios({
       url: `${Config.BASE_API_URL}/mobile/${hotelID}/dashboard`,
@@ -100,6 +106,10 @@ const getDashboardDataAPI = async () => {
 
 // #6 API => GET All Reservations Data
 const getAllReservationsDataAPI = async () => {
+  const { hotelID } = await store.getState().hotelReducer;
+  const { userToken } = await store.getState().authReducer;
+  const { reservationType } = await store.getState().reservationReducer;
+  const { chosenMonthRange } = await store.getState().dateReducer;
   try {
     return await axios({
       url: `${Config.BASE_API_URL}/mobile/${hotelID}/reservations`,
@@ -123,6 +133,9 @@ const getAllReservationsDataAPI = async () => {
 
 // #7 API => GET Hotel Single Reservation Data
 const getHotelSingleReservationDataAPI = async () => {
+  const { hotelID } = await store.getState().hotelReducer;
+  const { userToken } = await store.getState().authReducer;
+  const { reservationID } = await store.getState().reservationReducer;
   try {
     return await axios({
       url: `${Config.BASE_API_URL}/mobile/${hotelID}/reservations/${reservationID}`,
@@ -139,6 +152,10 @@ const getHotelSingleReservationDataAPI = async () => {
 
 // #8 API => GET Reserved room list dataSource
 const getReservedRoomsListDataAPI = async () => {
+  const { hotelID } = await store.getState().hotelReducer;
+  const { userToken } = await store.getState().authReducer;
+  const { reservationType } = await store.getState().reservationReducer;
+  const { chosenDay } = await store.getState().chosenDay;
   try {
     return await axios({
       url: `${Config.BASE_API_URL}/mobile/${hotelID}/reservation-rooms`,
@@ -162,6 +179,9 @@ const getReservedRoomsListDataAPI = async () => {
 
 // #9 API => GET Hotel Annual Statistics
 const getAnnualDataAPI = async () => {
+  const { hotelID } = await store.getState().hotelReducer;
+  const { userToken } = await store.getState().authReducer;
+  const { chosenYear } = await store.getState().chosenYear;
   try {
     return await axios({
       url: `${Config.BASE_API_URL}/mobile/${hotelID}/statistics-by-year`,
@@ -183,6 +203,11 @@ const getAnnualDataAPI = async () => {
 
 // #10 API => GET Hotel Statistics By Channels
 const getChannelsDataAPI = async () => {
+  const { hotelID } = await store.getState().hotelReducer;
+  const { userToken } = await store.getState().authReducer;
+  const { chosenMonthRange } = await store.getState().dateReducer;
+  const { reservationType, reservationStatus } = await store.getState()
+    .reservationReducer;
   try {
     return await axios({
       url: `${Config.BASE_API_URL}/mobile/${hotelID}/statistics-by-group`,
@@ -207,6 +232,8 @@ const getChannelsDataAPI = async () => {
 
 // #11 API => GET Properties Comparison Data
 const getPropertiesComparisonDataAPI = async () => {
+  const { userToken } = await store.getState().authReducer;
+  const { chosenYear, chosenMonth } = await store.getState().dateReducer;
   try {
     return await axios({
       url: `${Config.BASE_API_URL}/mobile/compare-properties`,
@@ -229,6 +256,8 @@ const getPropertiesComparisonDataAPI = async () => {
 
 // #12 API => GET Property Sources Data
 const getSourcesDataAPI = async () => {
+  const { hotelID } = await store.getState().hotelReducer;
+  const { userToken } = await store.getState().authReducer;
   try {
     return await axios({
       url: `${Config.BASE_API_URL}/mobile/${hotelID}/sources`,

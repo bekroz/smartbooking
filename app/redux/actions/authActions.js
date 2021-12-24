@@ -16,36 +16,16 @@ const appTokenFailureAction = error => ({
 });
 
 // USER token
-const loginRequestAction = user => ({
+const loginRequestAction = () => ({
   type: AUTH.LOGIN_REQUEST,
-  payload: user,
 });
 
-// const loginRequestAction = user => {
-//   return function (dispatch) {
-//     dispatch({
-//       type: AUTH.LOGIN_REQUEST,
-//       appToken: user,
-//     });
-//   };
-// };
-
-// const loginRequestAction = user => ({
-//   return function (dispatch) {
-//     dispatch({
-//       type: AUTH.LOGIN_REQUEST,
-//       payload: user,
-//     });
-//   }
-// })
-
-//   type: AUTH.LOGIN_REQUEST,
-//   payload: user,
-// });
-
-const loginSuccessAction = userToken => ({
+const loginSuccessAction = ({ user, userToken }) => ({
   type: AUTH.LOGIN_SUCCESS,
-  payload: userToken,
+  payload: {
+    user,
+    userToken,
+  },
 });
 
 const loginFailureAction = error => ({

@@ -23,24 +23,23 @@ async function getHotelsDataMiddleware() {
 }
 
 async function setHotelIDMiddleware() {
-  const { hotelList, hotelID } = store.getState().hotelReducer;
+  const { hotelList, hotelID } = await store.getState().hotelReducer;
   try {
     if (hotelID === null) {
       if (hotelList.length > 1) {
         store.dispatch(showHotelModalToChooseAction());
-        alert('Choose hotel id');
       } else if (hotelList.length == 1) {
         const defaultHotel = {
           hotelID: hotelList[0].id,
           hotelName: hotelList[0].name,
         };
         store.dispatch(setDefaultHotelIDAction(defaultHotel));
+        return defaultHotel;
       } else {
         store.dispatch(noHotelFoundAction());
       }
-    } else {
-      return hotelID;
     }
+    return hotelID;
   } catch (error) {
     console.error(error);
   }

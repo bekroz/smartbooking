@@ -71,12 +71,11 @@ const DashboardScreen = ({
     try {
       return await getHotelsDataMiddleware().then(hotelList => {
         setHotelIDMiddleware(hotelList).then(hotelID => {
-          const dashboardOutgoingData = {
-            hotelID: 48,
-            // hotelID,
-            chosenDashboardDate: defaultDate,
-          };
-          getDashboardDataMiddleware(dashboardOutgoingData);
+          if (hotelID !== null || hotelID !== undefined) {
+            getDashboardDataMiddleware();
+          } else {
+            setHotelListModalVisible(true);
+          }
         });
       });
     } catch (error) {

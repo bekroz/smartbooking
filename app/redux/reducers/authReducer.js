@@ -33,14 +33,14 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: true,
-        user: action.payload,
       };
     case AUTH.LOGIN_SUCCESS:
       return {
         ...state,
         loading: false,
         userLoggedIn: true,
-        userToken: action.payload,
+        user: action.payload.user,
+        userToken: action.payload.userToken,
       };
     case AUTH.LOGIN_FAILURE:
       return {

@@ -3,7 +3,7 @@ import { HOTEL } from '../types';
 const initialState = {
   loading: true,
   hotelList: [],
-  hotelID: null,
+  hotelID: 48,
   hotelName: null,
   noHotelFoundModalVisible: false,
   chooseHotelModalVisible: false,
