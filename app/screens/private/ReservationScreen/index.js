@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import {
   View,
   Text,
@@ -38,6 +38,8 @@ import {
   SpaceForScroll,
 } from '../../../components';
 import { connect } from 'react-redux';
+import { LoadingCard } from '../../../components/ScreenComponents/Reservation';
+import FadeInView from '../../../components/FadeInView/FadeInView';
 
 const ReservationScreen = ({
   navigation,
@@ -72,6 +74,9 @@ const ReservationScreen = ({
 
     return unsubscribe;
   }, [navigation]);
+
+  const [refreshing, setRefreshing] = useState(false);
+
   return (
     <SafeAreaView style={styles.container}>
       <View>
@@ -111,16 +116,17 @@ const ReservationScreen = ({
           showsVerticalScrollIndicator={false}
           refreshControl={
             <RefreshControl
-              refreshing={initialLoading}
+              refreshing={refreshing}
               onRefresh={onPullToRefresh}
               tintColor={'white'}
             />
           }>
           {/* All Cards */}
-          {!initialLoading
-            ? reservationData.map((reservation, index) => (
-                <Card key={index} containerStyle={styles.card} title="Guests">
-                  {/* LEFT Side Content */}
+          {!initialLoading ? (
+            reservationData.map((reservation, index) => (
+              <Card key={index} containerStyle={styles.card} title="Guests">
+                {/* LEFT Side Content */}
+                <FadeInView>
                   <View style={styles.cardLeftSideContent}>
                     <View style={styles.dateContainer}>
                       <View styles={styles.dateDescriptionContainer}>
@@ -213,9 +219,12 @@ const ReservationScreen = ({
                       {reservation.status == 'no_show' && <NoShowStatus />}
                     </View>
                   </View>
-                </Card>
-              ))
-            : null}
+                </FadeInView>
+              </Card>
+            ))
+          ) : (
+            <LoadingCard />
+          )}
           {!initialLoading && !isLastPage ? (
             <TouchableOpacity
               style={styles.showMoreButton}
@@ -227,7 +236,7 @@ const ReservationScreen = ({
               )}
             </TouchableOpacity>
           ) : (
-            <NoMoreDataAlert />
+            isLastPage && <NoMoreDataAlert />
           )}
           <SpaceForScroll />
         </ScrollView>

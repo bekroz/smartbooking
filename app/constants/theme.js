@@ -5,7 +5,7 @@ export const COLORS = {
   blackBackground: '#000000',
   black: '#0F0F0F',
   darkBackground: '#15191E',
-  segmentedControlBackgroundColor: '#292F3A',
+  segmentedControlBackgroundColor: '#29303B',
   grayPlaceholder: '#212831',
   grayPlaceholderBorder: '#404040',
   grayText: '#657282',

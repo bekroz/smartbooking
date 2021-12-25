@@ -3,6 +3,7 @@ import CheckOutStatus from './StatusView/CheckOutStatus';
 import ConfirmedStatus from './StatusView/ConfirmedStatus';
 import InHouseStatus from './StatusView/InHouseStatus';
 import NoShowStatus from './StatusView/NoShowStatus';
+import LoadingCard from './LoadingCard';
 
 export {
   CanceledStatus,
@@ -10,4 +11,5 @@ export {
   ConfirmedStatus,
   InHouseStatus,
   NoShowStatus,
+  LoadingCard,
 };

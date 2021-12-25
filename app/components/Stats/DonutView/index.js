@@ -72,123 +72,126 @@ const DonutView = () => {
   // const coralAngle = blueCircleAngle + orangeCircleAngle + yellowCircleAngle + greenCircleAngle + pinkCircleAngle;
 
   return (
-    <View style={styles.container}>
-      <View style={styles.graphWrapper}>
-        <Svg height="160" width="160" viewBox="0 0 180 180">
-          <G rotation={-90} originX="90" originY="90">
-            <>
-              {/* CORAL Circle */}
+    <View style={styles.donutBlock}>
+      <View style={styles.container}>
+        <View style={styles.graphWrapper}>
+          <Svg height="160" width="160" viewBox="0 0 180 180">
+            <G rotation={-90} originX="90" originY="90">
+              <>
+                {/* CORAL Circle */}
 
-              {/* YELLOW Circle */}
-              <Circle
-                cx="50%"
-                cy="50%"
-                r={radius}
-                stroke={COLORS.yellow}
-                fill="transparent"
-                strokeWidth="15"
-                strokeDasharray={circleCircumference}
-                strokeDashoffset={yellowStrokeDashoffset}
-                rotation={yellowCircleAngle}
-                originX="90"
-                originY="90"
-                strokeLinecap="round"
-              />
-              <Circle
-                cx="50%"
-                cy="50%"
-                r={radius}
-                stroke={COLORS.coral}
-                fill="transparent"
-                strokeWidth="15"
-                strokeDasharray={circleCircumference}
-                strokeDashoffset={coralStrokeDashoffset}
-                rotation={coralAngle}
-                originX="90"
-                originY="90"
-                strokeLinecap="round"
-              />
-              {/* PINK Circle */}
-              <Circle
-                cx="50%"
-                cy="50%"
-                r={radius}
-                stroke={COLORS.pinkCircle}
-                fill="transparent"
-                strokeWidth="15"
-                strokeDasharray={circleCircumference}
-                strokeDashoffset={pinkStrokeDashoffset}
-                rotation={pinkCircleAngle}
-                originX="90"
-                originY="90"
-                strokeLinecap="round"
-              />
-              {/* ORANGE Circle */}
-              <Circle
-                cx="50%"
-                cy="50%"
-                r={radius}
-                stroke={COLORS.orange}
-                fill="transparent"
-                strokeWidth="15"
-                strokeDasharray={circleCircumference}
-                strokeDashoffset={orangeStrokeDashoffset}
-                rotation={orangeCircleAngle}
-                originX="90"
-                originY="90"
-                strokeLinecap="round"
-              />
+                {/* YELLOW Circle */}
+                <Circle
+                  cx="50%"
+                  cy="50%"
+                  r={radius}
+                  stroke={COLORS.yellow}
+                  fill="transparent"
+                  strokeWidth="15"
+                  strokeDasharray={circleCircumference}
+                  strokeDashoffset={yellowStrokeDashoffset}
+                  rotation={yellowCircleAngle}
+                  originX="90"
+                  originY="90"
+                  strokeLinecap="round"
+                />
+                <Circle
+                  cx="50%"
+                  cy="50%"
+                  r={radius}
+                  stroke={COLORS.coral}
+                  fill="transparent"
+                  strokeWidth="15"
+                  strokeDasharray={circleCircumference}
+                  strokeDashoffset={coralStrokeDashoffset}
+                  rotation={coralAngle}
+                  originX="90"
+                  originY="90"
+                  strokeLinecap="round"
+                />
+                {/* PINK Circle */}
+                <Circle
+                  cx="50%"
+                  cy="50%"
+                  r={radius}
+                  stroke={COLORS.pinkCircle}
+                  fill="transparent"
+                  strokeWidth="15"
+                  strokeDasharray={circleCircumference}
+                  strokeDashoffset={pinkStrokeDashoffset}
+                  rotation={pinkCircleAngle}
+                  originX="90"
+                  originY="90"
+                  strokeLinecap="round"
+                />
+                {/* ORANGE Circle */}
+                <Circle
+                  cx="50%"
+                  cy="50%"
+                  r={radius}
+                  stroke={COLORS.orange}
+                  fill="transparent"
+                  strokeWidth="15"
+                  strokeDasharray={circleCircumference}
+                  strokeDashoffset={orangeStrokeDashoffset}
+                  rotation={orangeCircleAngle}
+                  originX="90"
+                  originY="90"
+                  strokeLinecap="round"
+                />
 
-              <Circle
-                cx="50%"
-                cy="50%"
-                r={radius}
-                stroke={COLORS.blue}
-                fill="transparent"
-                strokeWidth="15"
-                strokeDasharray={circleCircumference}
-                strokeDashoffset={blueStrokeDashoffset}
-                rotation={blueCircleAngle}
-                originX="90"
-                originY="90"
-                strokeLinecap="round"
-              />
-              <Circle
-                cx="50%"
-                cy="50%"
-                r={radius}
-                stroke={COLORS.greenCircle}
-                fill="transparent"
-                strokeWidth="15"
-                strokeDasharray={circleCircumference}
-                strokeDashoffset={blueStrokeDashoffset}
-                rotation={blueCircleAngle}
-                originX="90"
-                originY="90"
-                strokeLinecap="round"
-              />
-            </>
-          </G>
-        </Svg>
-        {/* <Text style={styles.label}>{totalAmount}</Text> */}
-        <View
-          style={{
-            alignItems: 'center',
-            position: 'absolute',
-            alignSelf: 'center',
-          }}>
-          <Text style={{ color: COLORS.white, fontWeight: SIZES.fontWeight0 }}>
-            Booking.com
-          </Text>
-          <Text
+                <Circle
+                  cx="50%"
+                  cy="50%"
+                  r={radius}
+                  stroke={COLORS.blue}
+                  fill="transparent"
+                  strokeWidth="15"
+                  strokeDasharray={circleCircumference}
+                  strokeDashoffset={blueStrokeDashoffset}
+                  rotation={blueCircleAngle}
+                  originX="90"
+                  originY="90"
+                  strokeLinecap="round"
+                />
+                <Circle
+                  cx="50%"
+                  cy="50%"
+                  r={radius}
+                  stroke={COLORS.greenCircle}
+                  fill="transparent"
+                  strokeWidth="15"
+                  strokeDasharray={circleCircumference}
+                  strokeDashoffset={blueStrokeDashoffset}
+                  rotation={blueCircleAngle}
+                  originX="90"
+                  originY="90"
+                  strokeLinecap="round"
+                />
+              </>
+            </G>
+          </Svg>
+          {/* <Text style={styles.label}>{totalAmount}</Text> */}
+          <View
             style={{
-              color: COLORS.white,
-              fontSize: SIZES.body5,
-              fontWeight: SIZES.fontWeight2,
-              bottom: -5,
+              alignItems: 'center',
+              position: 'absolute',
+              alignSelf: 'center',
             }}>
-            28%
-          </Text>
+            <Text
+              style={{ color: COLORS.white, fontWeight: SIZES.fontWeight0 }}>
+              Booking.com
+            </Text>
+            <Text
+              style={{
+                color: COLORS.white,
+                fontSize: SIZES.body5,
+                fontWeight: SIZES.fontWeight2,
+                bottom: -5,
+              }}>
+              28%
+            </Text>
+          </View>
         </View>
       </View>
     </View>
@@ -200,6 +203,14 @@ export default DonutView;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  donutBlock: {
+    width: 140,
+    marginRight: 50,
+    marginTop: 5,
+    height: 120,
     justifyContent: 'center',
     alignItems: 'center',
   },

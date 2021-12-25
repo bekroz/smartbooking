@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import {
   View,
   Text,
@@ -13,49 +13,46 @@ import { Card } from 'react-native-elements/dist/card/Card';
 // Theme
 import { COLORS, SIZES } from '../../../constants/theme';
 // Components
-import {
-  ByUserDot,
-  SitesDot,
-  TelephoneDot,
-  BookingDot,
-  TraminaDot,
-  DoloresDot,
-  OtherDot,
-} from '../../ScreenComponents/Reservation';
+import { SpaceForScroll } from '../../../components';
+import { DotView } from '../../../components';
 // Middleware
 import { getChannelsDataMiddleware } from '../../../redux/middlewares';
 import { connect } from 'react-redux';
-import { SpaceForScroll } from '../..';
+import DonutView from '../DonutView';
+import LineView from '../LineView';
+import FadeInView from '../../FadeInView/FadeInView';
+import { numberWithSpaces } from '../../../helpers';
 
 const ChannelsDataShow = ({
   navigation,
   loading,
-  chosenDateRange,
   channelsData,
   totalRevenue,
   totalSoldNights,
   totalAverageSum,
   error,
-  chosenYear,
+  chosenMonthRange,
   annualData,
   hotelID,
 }) => {
   const onPullToRefresh = useCallback(() => {
-    getChannelsDataMiddleware(chosenDateRange, hotelID);
+    getChannelsDataMiddleware();
   }, []);
 
   useEffect(() => {
     getChannelsDataMiddleware();
   }, []);
 
+  const [refreshing, setRefreshing] = useState(false);
+
   return (
     <ScrollView
-      showsHorizontalScrollIndicator={false}
+      showsVerticalScrollIndicator={false}
       refreshControl={
         <RefreshControl
-          refreshing={loading}
+          refreshing={refreshing}
           onRefresh={onPullToRefresh}
-          tintColor={'white'}
+          tintColor={COLORS.white}
         />
       }>
       <View
@@ -66,37 +63,192 @@ const ChannelsDataShow = ({
           marginTop: 5,
           paddingBottom: 0,
           paddingTop: 5,
-        }}></View>
-      {/* FIRST Card */}
-      <Card containerStyle={styles.card} title="Revenue">
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginBottom: 15,
-          }}>
-          <View>
-            <Text
-              style={{
-                fontWeight: SIZES.fontWeight1,
-                fontSize: 16,
-                color: COLORS.white,
-              }}>
-              Доход
-            </Text>
-            <Text
-              style={{
-                fontWeight: SIZES.fontWeight1,
-                fontSize: 10,
-                color: COLORS.grayText,
-              }}>
-              Revenue
-            </Text>
-          </View>
-          <Text style={{ color: COLORS.grayText }}>
-            Всего {totalAverageSum} UZS
+        }}>
+        <TouchableOpacity
+          style={[
+            styles.topBarBtn,
+            {
+              backgroundColor: '#292F3A',
+              borderColor: '#5F85DB',
+              width: SIZES.width - 30,
+              height: 35,
+            },
+          ]}>
+          <Text style={[styles.topBarText, { fontSize: 15 }]}>
+            {dayjs(chosenMonthRange.startDate).format('D MMM')} -{' '}
+            {dayjs(chosenMonthRange.endDate).format('D MMM')}
           </Text>
-        </View>
+        </TouchableOpacity>
+      </View>
+
+      {/* FIRST Card */}
+      {!loading ? (
+        <Card containerStyle={styles.card} title="Revenue">
+          <FadeInView>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                marginBottom: 15,
+              }}>
+              <View>
+                <Text
+                  style={{
+                    fontWeight: SIZES.fontWeight1,
+                    fontSize: 16,
+                    color: COLORS.white,
+                  }}>
+                  Доход
+                </Text>
+                <Text
+                  style={{
+                    fontWeight: SIZES.fontWeight1,
+                    fontSize: 10,
+                    color: COLORS.grayText,
+                  }}>
+                  Revenue
+                </Text>
+              </View>
+              <Text style={styles.totalAverageSumText}>
+                Всего {totalAverageSum} UZS
+              </Text>
+            </View>
+
+            <View style={{ flexDirection: 'row' }}>
+              <DonutView />
+              {/* Color and Title */}
+              <View style={{ flex: 1, top: -15 }}>
+                {/* Dots */}
+                {channelsData.map((channel, index) => (
+                  <View key={index}>
+                    <DotView sourceName={channel.source_name} />
+                  </View>
+                ))}
+              </View>
+            </View>
+          </FadeInView>
+        </Card>
+      ) : null}
+      {/* Second Card */}
+      <Card containerStyle={styles.card} title="Revenue">
+        {/* Card Context View */}
+        {!loading ? (
+          <FadeInView>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                marginBottom: 15,
+              }}>
+              <View>
+                <Text
+                  style={{
+                    fontWeight: SIZES.fontWeight1,
+                    fontSize: 16,
+                    color: COLORS.white,
+                  }}>
+                  К-ство проданных ночей
+                </Text>
+                <Text
+                  style={{
+                    fontWeight: SIZES.fontWeight1,
+                    fontSize: 10,
+                    color: COLORS.grayText,
+                  }}>
+                  Room Nights
+                </Text>
+              </View>
+              <Text style={{ color: COLORS.grayText }}>
+                {totalSoldNights} ночей
+              </Text>
+            </View>
+            <View style={{ flexDirection: 'row' }}>
+              {/* LEFT Donut View */}
+
+              {/* <Donut /> */}
+              <DonutView />
+
+              {/* Color and Title */}
+              <View style={{ flex: 1, top: -15 }}>
+                {/* Dots */}
+                {channelsData.map((channel, index) => (
+                  <View>
+                    <DotView key={index} sourceName={channel?.source_name} />
+                  </View>
+                ))}
+              </View>
+            </View>
+          </FadeInView>
+        ) : (
+          <ActivityIndicator
+            animating={true}
+            color={COLORS.white}
+            marginTop={70}
+          />
+        )}
+      </Card>
+      {/* Third Card */}
+      <Card containerStyle={[styles.card, { height: 280 }]} title="Revenue">
+        {/* Card Context View */}
+        {!loading ? (
+          <FadeInView>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                marginBottom: 15,
+              }}>
+              <View
+                style={{
+                  width: 167,
+                  marginRight: 10,
+                }}>
+                <Text
+                  style={{
+                    fontWeight: SIZES.fontWeight1,
+                    fontSize: 16,
+                    color: COLORS.white,
+                  }}>
+                  Средняя цена номера
+                </Text>
+              </View>
+
+              <Text style={{ color: COLORS.grayText }}>
+                Всего {totalRevenue} UZS
+              </Text>
+            </View>
+
+            {/* Color Line and Title */}
+
+            <View
+              style={{
+                marginBottom: 5,
+              }}>
+              {channelsData?.map((channel, index) => (
+                <>
+                  <View style={styles.dotBlock} key={index}>
+                    {channel.source_name === 'От стойки' && (
+                      <LineView lineWidth={100} />
+                    )}
+
+                    <Text style={{ color: COLORS.white }}>
+                      {numberWithSpaces(channel.average_revenue)}{' '}
+                      {channel.source_name}
+                    </Text>
+                    {/* <BookingLine  */}
+                  </View>
+                  {/* DOTS */}
+                </>
+              ))}
+            </View>
+          </FadeInView>
+        ) : (
+          <ActivityIndicator
+            animating={true}
+            color={COLORS.white}
+            marginTop={110}
+          />
+        )}
       </Card>
       <SpaceForScroll />
     </ScrollView>
@@ -171,29 +323,36 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  totalAverageSumText: {
+    color: COLORS.grayText,
+  },
 });
 
-function mapStateToProps({ channelsReducer, annualReducer, hotelReducer }) {
+function mapStateToProps({
+  channelsReducer,
+  annualReducer,
+  hotelReducer,
+  dateReducer,
+}) {
   const {
     loading,
-    chosenDateRange,
     channelsData,
     totalRevenue,
     totalSoldNights,
     totalAverageSum,
     error,
   } = channelsReducer;
-  const { chosenYear, annualData } = annualReducer;
+  const { annualData } = annualReducer;
   const { hotelID } = hotelReducer;
+  const { chosenMonthRange } = dateReducer;
   return {
     loading,
-    chosenDateRange,
+    chosenMonthRange,
     channelsData,
     totalRevenue,
     totalSoldNights,
     totalAverageSum,
     error,
-    chosenYear,
     annualData,
     hotelID,
   };

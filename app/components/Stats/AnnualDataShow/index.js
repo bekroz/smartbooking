@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import {
   View,
   TouchableOpacity,
@@ -20,6 +20,7 @@ import { SpaceForScroll, BlueColumns, LineChartData } from '../..';
 
 import { connect } from 'react-redux';
 import { getAnnualDataMiddleware } from '../../../redux/middlewares';
+import FadeInView from '../../../components/FadeInView/FadeInView';
 
 const AnnualDataShow = ({
   navigation,
@@ -36,12 +37,14 @@ const AnnualDataShow = ({
     getAnnualDataMiddleware();
   }, []);
 
+  const [refreshing, setRefreshing] = useState(false);
+
   return (
     <ScrollView
-      showsHorizontalScrollIndicator={false}
+      showsVerticalScrollIndicator={false}
       refreshControl={
         <RefreshControl
-          refreshing={loading}
+          refreshing={refreshing}
           onRefresh={onPullToRefresh}
           tintColor={'white'}
         />
@@ -92,18 +95,10 @@ const AnnualDataShow = ({
           containerStyle={{
             justifyContent: 'center',
           }}>
-          {!loading ? (
-            <>
-              <BlueColumns />
-              <LineChartData />
-            </>
-          ) : (
-            <ActivityIndicator
-              animating={true}
-              color={COLORS.white}
-              left={180}
-            />
-          )}
+          <>
+            <BlueColumns />
+            <LineChartData />
+          </>
         </ScrollView>
       </View>
       <Divider
@@ -111,8 +106,16 @@ const AnnualDataShow = ({
         leftWidth={0.5}
         color={COLORS.grayPlaceholderBorder}
       />
-      <View style={{ alignSelf: 'flex-start' }}>
-        <Text style={styles.soldNightsText}>Количество проданных ночей</Text>
+      <View
+        style={{
+          flexDirection: 'row',
+        }}>
+        <View style={{ alignSelf: 'flex-start' }}>
+          <Text style={styles.soldNightsText}>Количество проданных ночей</Text>
+        </View>
+        <TouchableOpacity style={styles.chosenYearButton}>
+          <Text style={styles.topBarText}>{chosenYear}</Text>
+        </TouchableOpacity>
       </View>
       {!loading ? (
         annualData?.map((stat, index) => (
@@ -121,44 +124,46 @@ const AnnualDataShow = ({
               containerStyle={[styles.card, styles.chosenCardStyle]}
               title="SoldRooms">
               {/* Card Content View */}
-              <View style={{ flexDirection: 'row' }}>
-                {/* LEFT-Side context */}
-                <View style={{ marginRight: 20, flex: 1 }}>
-                  <View style={{ marginBottom: 15 }}>
-                    <Text style={{ color: COLORS.grayText }}>Дата:</Text>
-                    <Text style={{ paddingTop: 5, color: COLORS.white }}>
-                      {dayjs(stat?.start_date).format('DD MMM')} -{' '}
-                      {dayjs(stat?.end_date).format('DD MMM')}
-                    </Text>
+              <FadeInView>
+                <View style={{ flexDirection: 'row' }}>
+                  {/* LEFT-Side context */}
+                  <View style={{ marginRight: 20, flex: 1 }}>
+                    <View style={{ marginBottom: 15 }}>
+                      <Text style={{ color: COLORS.grayText }}>Дата:</Text>
+                      <Text style={{ paddingTop: 5, color: COLORS.white }}>
+                        {dayjs(stat?.start_date).format('DD MMM')} -{' '}
+                        {dayjs(stat?.end_date).format('DD MMM')}
+                      </Text>
+                    </View>
+                    <View style={{ marginBottom: 15 }}>
+                      <Text style={{ color: COLORS.grayText }}>
+                        Проданных номеров
+                      </Text>
+                      <Text style={{ paddingTop: 5, color: COLORS.white }}>
+                        {numberWithSpaces(stat?.reserved)}
+                      </Text>
+                    </View>
                   </View>
-                  <View style={{ marginBottom: 15 }}>
-                    <Text style={{ color: COLORS.grayText }}>
-                      Проданных номеров
-                    </Text>
-                    <Text style={{ paddingTop: 5, color: COLORS.white }}>
-                      {numberWithSpaces(stat?.reserved)}
-                    </Text>
-                  </View>
-                </View>
-                {/* RIGHT-Side context */}
-                <View style={{ flex: 1 }}>
-                  <View style={{ marginBottom: 15 }}>
-                    <Text style={{ color: COLORS.grayText }}>
-                      Занято номеров:
-                    </Text>
-                    <Text style={{ paddingTop: 5, color: COLORS.white }}>
-                      {stat?.load_by_period} %
-                    </Text>
-                  </View>
+                  {/* RIGHT-Side context */}
+                  <View style={{ flex: 1 }}>
+                    <View style={{ marginBottom: 15 }}>
+                      <Text style={{ color: COLORS.grayText }}>
+                        Занято номеров:
+                      </Text>
+                      <Text style={{ paddingTop: 5, color: COLORS.white }}>
+                        {stat?.load_by_period} %
+                      </Text>
+                    </View>
 
-                  <View style={{ marginBottom: 15 }}>
-                    <Text style={{ color: COLORS.grayText }}>Доход UZS</Text>
-                    <Text style={{ paddingTop: 5, color: COLORS.white }}>
-                      {numberWithSpaces(stat?.revenue)}
-                    </Text>
+                    <View style={{ marginBottom: 15 }}>
+                      <Text style={{ color: COLORS.grayText }}>Доход UZS</Text>
+                      <Text style={{ paddingTop: 5, color: COLORS.white }}>
+                        {numberWithSpaces(stat?.revenue)}
+                      </Text>
+                    </View>
                   </View>
                 </View>
-              </View>
+              </FadeInView>
             </Card>
           </TouchableOpacity>
         ))
@@ -223,6 +228,19 @@ const styles = StyleSheet.create({
     fontSize: SIZES.body5,
     fontWeight: SIZES.fontWeight1,
     color: COLORS.white,
+  },
+  chosenYearButton: {
+    backgroundColor: '#2E3641',
+    borderRadius: 5,
+    borderWidth: 0.167,
+    borderColor: COLORS.blue,
+    height: 30,
+    width: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
+    top: -3,
+    alignSelf: 'flex-end',
+    right: 5,
   },
 });
 

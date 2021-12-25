@@ -18,9 +18,9 @@ async function getChannelsDataMiddleware() {
       store.dispatch(
         getChannelsDataSuccessAction(
           channelsData,
-          totalRevenue,
+          numberWithSpaces(totalRevenue),
           totalSoldNights,
-          totalAverageSum,
+          numberWithSpaces(totalAverageSum),
         ),
       );
     });

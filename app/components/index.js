@@ -1,14 +1,15 @@
 import NoMoreDataAlert from './NoMoreDataAlert/NoMoreDataAlert';
-import LoadingIndicator from './ActivityIndicator/LoadingIndicator';
-import SpaceForScroll from './SpaceForScroll';
+import LoadingIndicator from './LoadingIndicator';
 import BlueColumns from './Stats/BlueColumns/BlueColumns';
 import LineChartData from './Stats/LineChartData/LineChartData';
 
+import SpaceForScroll from './SpaceForScroll';
 // StatsScreen Components
 import DonutView from './Stats/DonutView';
 import AnnualDataShow from '../components/Stats/AnnualDataShow';
 import ChannelsDataShow from '../components/Stats/ChannelsDataShow';
 import StatsSegmentControl from './Stats/SegmentedControl';
+import DotView from './Stats/DotView';
 
 import {
   CanceledStatus,
@@ -19,6 +20,7 @@ import {
 } from '../components/ScreenComponents/Reservation';
 
 export {
+  SpaceForScroll,
   // ReservationScreen components
   ConfirmedStatus,
   InHouseStatus,
@@ -28,10 +30,10 @@ export {
   // AnnualDataShow Segment components
   NoMoreDataAlert,
   LoadingIndicator,
-  SpaceForScroll,
   BlueColumns,
   LineChartData,
   // StatsScreen Components
+  DotView,
   DonutView,
   StatsSegmentControl,
   AnnualDataShow,

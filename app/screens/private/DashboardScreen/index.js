@@ -121,14 +121,16 @@ const DashboardScreen = ({
     return Math.round(minPoint + maxPoint * (live > 0 ? live / maxRooms : 1));
   };
   // Kamaytirish 140 =>- currentArrivedPercentage
+
+  const [refreshing, setRefreshing] = useState(false);
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
         refreshControl={
           <RefreshControl
-            refreshing={loading}
+            refreshing={refreshing}
             onRefresh={onPullToRefresh}
-            tintColor={'white'}
+            tintColor={COLORS.white}
           />
         }>
         <View style={POSITIONING.center}>
@@ -156,253 +158,247 @@ const DashboardScreen = ({
         <View style={styles.dayPickerContainer}>
           <DayPicker />
         </View>
-        {!loading ? (
-          <>
-            {/* Arc Bars Container */}
-            <View style={styles.arcBarsContainer}>
-              {/* FIRST ARC */}
-              <TouchableOpacity
-                onPress={() => handleArcBarPress('arrived')}
-                style={styles.arcBlock}>
-                <MultiArcCircle
-                  radius={50}
-                  intervals={[{ start: currentArrivedPercentage(), end: 140 }]}
-                  color={COLORS.grayEmptyArc}
-                  width={10}
-                />
-                <MultiArcCircle
-                  radius={50}
-                  intervals={[{ start: -140, end: currentArrivedPercentage() }]}
-                  color={COLORS.greenProgress}
-                  width={10}
-                  zIndex={11}
-                />
-                <Text style={styles.arcBarNumber}>{leftArrived}</Text>
-                <View style={styles.arcBarDescContainer}>
-                  <Text style={styles.arcBarDescription}>Заезд</Text>
-                </View>
-              </TouchableOpacity>
-              {/* SECOND ARC */}
-              <TouchableOpacity
-                onPress={() => handleArcBarPress('left')}
-                style={styles.arcBlock}>
-                <MultiArcCircle
-                  radius={50}
-                  intervals={[
-                    { start: currentDeparturePercentage(), end: 140 },
-                  ]}
-                  color={COLORS.grayEmptyArc}
-                  width={10}
-                />
-                <MultiArcCircle
-                  radius={50}
-                  intervals={[
-                    { start: -140, end: currentDeparturePercentage() },
-                  ]}
-                  color={COLORS.yellow}
-                  width={10}
-                />
-                <Text style={styles.arcBarNumber}>{leftCheckout}</Text>
-                <View style={styles.arcBarDescContainer}>
-                  <Text style={styles.arcBarDescription}>Выезд</Text>
-                </View>
-              </TouchableOpacity>
-              {/* THIRD ARC */}
-              <TouchableOpacity
-                onPress={() => handleArcBarPress('living')}
-                style={styles.arcBlock}>
-                <MultiArcCircle
-                  radius={50}
-                  intervals={[{ start: currentLivingPercentage(), end: 140 }]}
-                  color={COLORS.grayEmptyArc}
-                  width={10}
-                />
-                <MultiArcCircle
-                  radius={50}
-                  intervals={[{ start: -140, end: currentLivingPercentage() }]}
-                  color={COLORS.blue}
-                  width={10}
-                />
-                <Text style={styles.arcBarNumber}>{live}</Text>
-                <View style={styles.arcBarDescContainer}>
-                  <Text style={styles.arcBarDescription}>Проживают</Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-            {/* GRAY Boxes container */}
-            <View style={{ marginBottom: 25 }}>
-              {/* First Gray Box */}
-              <TouchableOpacity style={styles.grayBlockContainer}>
-                <View style={styles.grayBlock}>
-                  <View style={styles.grayBlockLeftSideView}>
-                    <View style={styles.blueBox}>
-                      <Text
-                        style={{
-                          fontWeight: SIZES.fontWeight2,
-                          color: COLORS.white,
-                        }}>
-                        {confirmedQuantity}
-                      </Text>
-                    </View>
-                    <View>
-                      <Text
-                        style={{
-                          fontSize: 18,
-                          fontWeight: SIZES.fontWeight2,
-                          color: COLORS.white,
-                        }}>
-                        Новые
-                      </Text>
-                    </View>
-                  </View>
-                  <View style={styles.grayBlockRightSideView}>
-                    <View style={{ marginRight: 10 }}>
-                      <Text
-                        style={{
-                          fontSize: 18,
-                          fontWeight: SIZES.fontWeight0,
-                          color: COLORS.grayText,
-                        }}>
-                        {confirmedRevenue}
-                      </Text>
-                    </View>
-                    <View style={{ right: 5 }}>
-                      <Text
-                        style={{
-                          fontSize: 18,
-                          fontWeight: SIZES.fontWeight0,
-                          color: COLORS.grayText,
-                        }}>
-                        UZS
-                      </Text>
-                    </View>
-                    <View
+        <>
+          {/* Arc Bars Container */}
+          <View style={styles.arcBarsContainer}>
+            {/* FIRST ARC */}
+            <TouchableOpacity
+              onPress={() => handleArcBarPress('arrived')}
+              style={styles.arcBlock}>
+              <MultiArcCircle
+                radius={50}
+                intervals={[{ start: currentArrivedPercentage(), end: 140 }]}
+                color={COLORS.grayEmptyArc}
+                width={10}
+              />
+              <MultiArcCircle
+                radius={50}
+                intervals={[{ start: -140, end: currentArrivedPercentage() }]}
+                color={COLORS.greenProgress}
+                width={10}
+                zIndex={11}
+              />
+              <Text style={styles.arcBarNumber}>{leftArrived}</Text>
+              <View style={styles.arcBarDescContainer}>
+                <Text style={styles.arcBarDescription}>Заезд</Text>
+              </View>
+            </TouchableOpacity>
+            {/* SECOND ARC */}
+            <TouchableOpacity
+              onPress={() => handleArcBarPress('left')}
+              style={styles.arcBlock}>
+              <MultiArcCircle
+                radius={50}
+                intervals={[{ start: currentDeparturePercentage(), end: 140 }]}
+                color={COLORS.grayEmptyArc}
+                width={10}
+              />
+              <MultiArcCircle
+                radius={50}
+                intervals={[{ start: -140, end: currentDeparturePercentage() }]}
+                color={COLORS.yellow}
+                width={10}
+              />
+              <Text style={styles.arcBarNumber}>{leftCheckout}</Text>
+              <View style={styles.arcBarDescContainer}>
+                <Text style={styles.arcBarDescription}>Выезд</Text>
+              </View>
+            </TouchableOpacity>
+            {/* THIRD ARC */}
+            <TouchableOpacity
+              onPress={() => handleArcBarPress('living')}
+              style={styles.arcBlock}>
+              <MultiArcCircle
+                radius={50}
+                intervals={[{ start: currentLivingPercentage(), end: 140 }]}
+                color={COLORS.grayEmptyArc}
+                width={10}
+              />
+              <MultiArcCircle
+                radius={50}
+                intervals={[{ start: -140, end: currentLivingPercentage() }]}
+                color={COLORS.blue}
+                width={10}
+              />
+              <Text style={styles.arcBarNumber}>{live}</Text>
+              <View style={styles.arcBarDescContainer}>
+                <Text style={styles.arcBarDescription}>Проживают</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          {/* GRAY Boxes container */}
+          <View style={{ marginBottom: 25 }}>
+            {/* First Gray Box */}
+            <TouchableOpacity style={styles.grayBlockContainer}>
+              <View style={styles.grayBlock}>
+                <View style={styles.grayBlockLeftSideView}>
+                  <View style={styles.blueBox}>
+                    <Text
                       style={{
-                        backgroundColor: '#212831',
+                        fontWeight: SIZES.fontWeight2,
+                        color: COLORS.white,
                       }}>
-                      <View style={{ marginLeft: 5 }}>
-                        <GrayRightArrowSvg />
-                      </View>
-                    </View>
+                      {confirmedQuantity}
+                    </Text>
                   </View>
-                </View>
-              </TouchableOpacity>
-              {/* Second Gray Box */}
-              <TouchableOpacity style={styles.grayBlockContainer}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                  }}>
-                  <View style={styles.grayBlockLeftSideView}>
-                    <View style={styles.blueTextBlock}>
-                      <Text
-                        style={{
-                          fontWeight: SIZES.fontWeight2,
-                          color: COLORS.blue,
-                        }}>
-                        {canceledQuantity}
-                      </Text>
-                    </View>
-                    <View>
-                      <Text style={styles.grayBlockText}>Отмена</Text>
-                    </View>
-                  </View>
-                  <View style={styles.grayBlockRightSideView}>
-                    <View style={{ marginRight: 10 }}>
-                      <Text
-                        style={{
-                          fontSize: 18,
-                          fontWeight: SIZES.fontWeight0,
-                          color: COLORS.grayText,
-                        }}>
-                        {canceledRevenue}
-                      </Text>
-                    </View>
-                    <View style={{ right: 5 }}>
-                      <Text
-                        style={{
-                          fontSize: 18,
-                          fontWeight: SIZES.fontWeight0,
-                          color: COLORS.grayText,
-                        }}>
-                        UZS
-                      </Text>
-                    </View>
-                    <View
+                  <View>
+                    <Text
                       style={{
-                        backgroundColor: '#212831',
+                        fontSize: 18,
+                        fontWeight: SIZES.fontWeight2,
+                        color: COLORS.white,
                       }}>
-                      <View style={{ marginLeft: 5 }}>
-                        <GrayRightArrowSvg />
-                      </View>
-                    </View>
+                      Новые
+                    </Text>
                   </View>
                 </View>
-              </TouchableOpacity>
-              {/* Third Gray Box */}
-              <TouchableOpacity style={styles.grayBlockContainer}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                  }}>
-                  <View style={styles.grayBlockLeftSideView}>
-                    <View style={styles.blueTextBlock}>
-                      <Text
-                        style={{
-                          fontWeight: SIZES.fontWeight2,
-                          color: COLORS.blue,
-                        }}>
-                        0
-                      </Text>
-                    </View>
-                    <View>
-                      <Text style={styles.grayBlockText}>Сообщения</Text>
-                    </View>
+                <View style={styles.grayBlockRightSideView}>
+                  <View style={{ marginRight: 10 }}>
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        fontWeight: SIZES.fontWeight0,
+                        color: COLORS.grayText,
+                      }}>
+                      {confirmedRevenue}
+                    </Text>
                   </View>
-                  <View style={styles.grayBlockRightSideView}>
-                    <View style={{ marginRight: 10 }}>
-                      <Text
-                        style={{
-                          fontSize: 18,
-                          fontWeight: SIZES.fontWeight0,
-                          color: COLORS.grayText,
-                        }}>
-                        {messageCount}
-                      </Text>
-                    </View>
+                  <View style={{ right: 5 }}>
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        fontWeight: SIZES.fontWeight0,
+                        color: COLORS.grayText,
+                      }}>
+                      UZS
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      backgroundColor: '#212831',
+                    }}>
                     <View style={{ marginLeft: 5 }}>
                       <GrayRightArrowSvg />
                     </View>
                   </View>
                 </View>
-              </TouchableOpacity>
-            </View>
-            {/* Left Text */}
-            <TouchableOpacity
-              style={styles.loadDescCircleContainer}
-              onPress={() => setPercentageView(!percentageView)}>
-              <View style={styles.loadDescriptionContainer}>
-                <Text style={styles.loadDescriptionText}>
-                  {percentageView ? 'Загрузка' : 'Свободно'}
-                </Text>
-                <Text style={styles.loadBottomText}>на сегодня</Text>
               </View>
-              {/* Middle Circle */}
-              {percentageView ? (
-                <PercentageCircle currentPercentage={currentLoad} />
-              ) : (
-                <EmptyRoomsCircle
-                  initialValue={maxRooms}
-                  value={availableRooms}
-                />
-              )}
             </TouchableOpacity>
-          </>
-        ) : null}
+            {/* Second Gray Box */}
+            <TouchableOpacity style={styles.grayBlockContainer}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                }}>
+                <View style={styles.grayBlockLeftSideView}>
+                  <View style={styles.blueTextBlock}>
+                    <Text
+                      style={{
+                        fontWeight: SIZES.fontWeight2,
+                        color: COLORS.blue,
+                      }}>
+                      {canceledQuantity}
+                    </Text>
+                  </View>
+                  <View>
+                    <Text style={styles.grayBlockText}>Отмена</Text>
+                  </View>
+                </View>
+                <View style={styles.grayBlockRightSideView}>
+                  <View style={{ marginRight: 10 }}>
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        fontWeight: SIZES.fontWeight0,
+                        color: COLORS.grayText,
+                      }}>
+                      {canceledRevenue}
+                    </Text>
+                  </View>
+                  <View style={{ right: 5 }}>
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        fontWeight: SIZES.fontWeight0,
+                        color: COLORS.grayText,
+                      }}>
+                      UZS
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      backgroundColor: '#212831',
+                    }}>
+                    <View style={{ marginLeft: 5 }}>
+                      <GrayRightArrowSvg />
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </TouchableOpacity>
+            {/* Third Gray Box */}
+            <TouchableOpacity style={styles.grayBlockContainer}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                }}>
+                <View style={styles.grayBlockLeftSideView}>
+                  <View style={styles.blueTextBlock}>
+                    <Text
+                      style={{
+                        fontWeight: SIZES.fontWeight2,
+                        color: COLORS.blue,
+                      }}>
+                      0
+                    </Text>
+                  </View>
+                  <View>
+                    <Text style={styles.grayBlockText}>Сообщения</Text>
+                  </View>
+                </View>
+                <View style={styles.grayBlockRightSideView}>
+                  <View style={{ marginRight: 10 }}>
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        fontWeight: SIZES.fontWeight0,
+                        color: COLORS.grayText,
+                      }}>
+                      {messageCount}
+                    </Text>
+                  </View>
+                  <View style={{ marginLeft: 5 }}>
+                    <GrayRightArrowSvg />
+                  </View>
+                </View>
+              </View>
+            </TouchableOpacity>
+          </View>
+          {/* Left Text */}
+          <TouchableOpacity
+            style={styles.loadDescCircleContainer}
+            onPress={() => setPercentageView(!percentageView)}>
+            <View style={styles.loadDescriptionContainer}>
+              <Text style={styles.loadDescriptionText}>
+                {percentageView ? 'Загрузка' : 'Свободно'}
+              </Text>
+              <Text style={styles.loadBottomText}>на сегодня</Text>
+            </View>
+            {/* Middle Circle */}
+            {percentageView ? (
+              <PercentageCircle currentPercentage={currentLoad} />
+            ) : (
+              <EmptyRoomsCircle
+                initialValue={maxRooms}
+                value={availableRooms}
+              />
+            )}
+          </TouchableOpacity>
+        </>
       </ScrollView>
 
       {/* Calendar Modal */}
