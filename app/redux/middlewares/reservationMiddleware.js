@@ -17,6 +17,7 @@ async function getReservationDataMiddleware() {
       const data = {
         reservationData: response.data,
         pageIndex: response.meta.currentPage,
+        reservationLength: response.data.length,
       };
       store.dispatch(getReservationDataSuccessAction(data));
     });
@@ -36,6 +37,7 @@ async function getReservationNextPageDataMiddleware() {
       const data = {
         reservationData: response.data,
         pageIndex: response.meta.currentPage,
+        reservationLength: response.data.length,
       };
       store.dispatch(getReservationNextPageDataSuccessAction(data));
     });

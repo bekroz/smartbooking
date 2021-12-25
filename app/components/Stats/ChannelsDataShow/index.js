@@ -21,16 +21,13 @@ import {
   TraminaDot,
   DoloresDot,
   OtherDot,
-} from '../../Reservations';
-import { ByUserLine } from '../Lines';
-import { DonutView } from '..';
-// API
-import { numberWithSpaces } from '../../../helpers';
+} from '../../ScreenComponents/Reservation';
+// Middleware
 import { getChannelsDataMiddleware } from '../../../redux/middlewares';
 import { connect } from 'react-redux';
-import { firstDayOfMonth, today, monthRangeUntilToday } from '../../../helpers';
+import { SpaceForScroll } from '../..';
 
-const Details = ({
+const ChannelsDataShow = ({
   navigation,
   loading,
   chosenDateRange,
@@ -48,21 +45,8 @@ const Details = ({
   }, []);
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      getChannelsDataMiddleware();
-    });
-
-    return unsubscribe;
-  }, [navigation]);
-
-  const sourceNameArray = [
-    'От стойки',
-    'Телефон',
-    'Dolores',
-    'Сайт',
-    'Booking.com',
-    'Трамина',
-  ];
+    getChannelsDataMiddleware();
+  }, []);
 
   return (
     <ScrollView
@@ -114,7 +98,7 @@ const Details = ({
           </Text>
         </View>
       </Card>
-      <View style={{ paddingBottom: 100 }} />
+      <SpaceForScroll />
     </ScrollView>
   );
 };
@@ -215,4 +199,4 @@ function mapStateToProps({ channelsReducer, annualReducer, hotelReducer }) {
   };
 }
 
-export default connect(mapStateToProps)(Details);
+export default connect(mapStateToProps)(ChannelsDataShow);

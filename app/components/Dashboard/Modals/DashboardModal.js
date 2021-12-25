@@ -11,7 +11,7 @@ import {
 import { COLORS, POSITIONING, SIZES } from '../../../constants/theme';
 // Icons
 import { QuitSvg } from '../../../assets/icons/SvgIcons';
-import { connect, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import ReactNativePickerModule from 'react-native-picker-module';
 import { Picker } from '@react-native-picker/picker';
 
@@ -28,11 +28,6 @@ const DashboardModal = ({ hotelID, hotelList }) => {
   //     onRequestClose={modalClose}
   //   />
   // );
-  console.log('====================================');
-  console.log('THIS IS HOTEL LIST =>>>>>>');
-  console.log(hotelList);
-  console.log('====================================');
-
   const pickerRef = useRef();
   const [value, setValue] = useState();
 
@@ -63,7 +58,6 @@ const DashboardModal = ({ hotelID, hotelList }) => {
   //     ));
   //   }
   // };
-  // console.log(hotelList);
 
   renderHotelNames = () => {
     {

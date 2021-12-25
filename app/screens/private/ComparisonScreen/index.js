@@ -34,8 +34,6 @@ export default function ComparisonScreen({ navigation }) {
     setDataLoaded(false);
     try {
       await getPropertiesComparisonDataAPI(date).then(response => {
-        // console.log('10. PROPERTIES COMPARISON DATA ===>>>');
-        // console.log(response.data[0]);
         setComparisonData(response.data[0]);
         setDataLoaded(true);
       });

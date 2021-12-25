@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import { MultiArcCircle } from 'react-native-circles';
 import { Overlay } from 'react-native-elements';
-import { useIsFocused } from '@react-navigation/native';
 // Theme
 import { COLORS, POSITIONING, SIZES } from '../../../constants/theme';
 // Icons
@@ -29,38 +28,43 @@ import {
 } from '../../../components/Dashboard';
 import { Calendar } from '../../../components/Calendar';
 // Redux
-import { connect, useDispatch, useSelector } from 'react-redux';
-import {
-  getHotelDataRequestAction,
-  setUserChosenHotelIDAction,
-} from '../../../redux/actions';
+import { connect } from 'react-redux';
+import { setUserChosenHotelIDAction } from '../../../redux/actions';
 import {
   getDashboardDataMiddleware,
   getHotelsDataMiddleware,
   setHotelIDMiddleware,
 } from '../../../redux/middlewares';
-import { store } from '../../../redux/store';
 
 const DashboardScreen = ({
   navigation,
   loading,
-  chosenDashboardDate,
-  dashboardData,
+  availableRooms,
+  currentLoad,
+  shouldArrived,
+  leftArrived,
+  shouldCheckout,
+  leftCheckout,
+  live,
+  maxRooms,
+  confirmedQuantity,
+  confirmedRevenue,
+  canceledQuantity,
+  canceledRevenue,
+  messageCount,
   hotelID,
   hotelList,
   hotelName,
+  chosenDay,
 }) => {
   // View togglers
   const [percentageView, setPercentageView] = useState(true);
   const [calendarModalVisible, setCalendarModalVisible] = useState(false);
   const [hotelListModalVisible, setHotelListModalVisible] = useState(false);
-  const today = new Date().getDate();
-  const defaultDate = chosenDashboardDate ? chosenDashboardDate : today;
 
   // Button Press handlers
   function handleChosenHotel(chosenHotelId) {
     setUserChosenHotelIDAction(chosenHotelId);
-    setHotelListModalVisible(!hotelListModalVisible);
   }
 
   function handleArcBarPress() {
@@ -69,15 +73,15 @@ const DashboardScreen = ({
 
   async function getDashboardDataOnTabPress() {
     try {
-      return await getHotelsDataMiddleware().then(hotelList => {
-        setHotelIDMiddleware(hotelList).then(hotelID => {
-          if (hotelID !== null || hotelID !== undefined) {
+      return await getHotelsDataMiddleware().then(
+        setHotelIDMiddleware().then(() => {
+          if (hotelID !== null) {
             getDashboardDataMiddleware();
           } else {
             setHotelListModalVisible(true);
           }
-        });
-      });
+        }),
+      );
     } catch (error) {
       console.error(error);
     }
@@ -94,45 +98,27 @@ const DashboardScreen = ({
 
     return unsubscribe;
   }, [navigation]);
-  // console.log(store.getState().hotelReducer.hotelList[0].name);
-  // const temporaryHotelName = store?.getState().hotelReducer.hotelList[0].name;
-  // useSelector(
-  //   store => store?.hotelReducer.hotelList[0].name,
-  // );
-  const maxArrivedRadius = -140;
-  const maxDepartedRadius = -140;
-  const maxRoomsRadius = -140;
-  const maximumRadius = 280;
+
+  const minPoint = -140;
+  const maxPoint = 280;
 
   const currentArrivedPercentage = () => {
     return Math.round(
-      maxArrivedRadius +
-        maximumRadius *
-          (dashboardData?.shouldArrived > 0
-            ? dashboardData?.leftArrived / dashboardData?.shouldArrived
-            : 1),
+      minPoint +
+        maxPoint * (shouldArrived > 0 ? leftArrived / shouldArrived : 1),
     );
   };
   // Kamaytirish 140 =>- currentArrivedPercentage
 
   const currentDeparturePercentage = () => {
     return Math.round(
-      maxDepartedRadius +
-        maximumRadius *
-          (dashboardData?.shouldCheckout > 0
-            ? dashboardData?.leftCheckout / dashboardData?.shouldCheckout
-            : 1),
+      minPoint +
+        maxPoint * (shouldCheckout > 0 ? leftCheckout / shouldCheckout : 1),
     );
   };
 
   const currentLivingPercentage = () => {
-    return Math.round(
-      maxRoomsRadius +
-        maximumRadius *
-          (dashboardData?.live > 0
-            ? dashboardData?.live / dashboardData?.maxRooms
-            : 1),
-    );
+    return Math.round(minPoint + maxPoint * (live > 0 ? live / maxRooms : 1));
   };
   // Kamaytirish 140 =>- currentArrivedPercentage
   return (
@@ -191,9 +177,7 @@ const DashboardScreen = ({
                   width={10}
                   zIndex={11}
                 />
-                <Text style={styles.arcBarNumber}>
-                  {dashboardData?.leftArrived || '0'}
-                </Text>
+                <Text style={styles.arcBarNumber}>{leftArrived}</Text>
                 <View style={styles.arcBarDescContainer}>
                   <Text style={styles.arcBarDescription}>Заезд</Text>
                 </View>
@@ -218,9 +202,7 @@ const DashboardScreen = ({
                   color={COLORS.yellow}
                   width={10}
                 />
-                <Text style={styles.arcBarNumber}>
-                  {dashboardData?.leftCheckout || '0'}
-                </Text>
+                <Text style={styles.arcBarNumber}>{leftCheckout}</Text>
                 <View style={styles.arcBarDescContainer}>
                   <Text style={styles.arcBarDescription}>Выезд</Text>
                 </View>
@@ -241,9 +223,7 @@ const DashboardScreen = ({
                   color={COLORS.blue}
                   width={10}
                 />
-                <Text style={styles.arcBarNumber}>
-                  {dashboardData?.live || '0'}
-                </Text>
+                <Text style={styles.arcBarNumber}>{live}</Text>
                 <View style={styles.arcBarDescContainer}>
                   <Text style={styles.arcBarDescription}>Проживают</Text>
                 </View>
@@ -261,7 +241,7 @@ const DashboardScreen = ({
                           fontWeight: SIZES.fontWeight2,
                           color: COLORS.white,
                         }}>
-                        {dashboardData?.confirmedQuantity || '0'}
+                        {confirmedQuantity}
                       </Text>
                     </View>
                     <View>
@@ -283,7 +263,7 @@ const DashboardScreen = ({
                           fontWeight: SIZES.fontWeight0,
                           color: COLORS.grayText,
                         }}>
-                        {dashboardData?.confirmedRevenue || '0'}
+                        {confirmedRevenue}
                       </Text>
                     </View>
                     <View style={{ right: 5 }}>
@@ -322,7 +302,7 @@ const DashboardScreen = ({
                           fontWeight: SIZES.fontWeight2,
                           color: COLORS.blue,
                         }}>
-                        {dashboardData?.canceledQuantity || '0'}
+                        {canceledQuantity}
                       </Text>
                     </View>
                     <View>
@@ -337,7 +317,7 @@ const DashboardScreen = ({
                           fontWeight: SIZES.fontWeight0,
                           color: COLORS.grayText,
                         }}>
-                        {dashboardData?.canceledRevenue || '0'}
+                        {canceledRevenue}
                       </Text>
                     </View>
                     <View style={{ right: 5 }}>
@@ -391,7 +371,7 @@ const DashboardScreen = ({
                           fontWeight: SIZES.fontWeight0,
                           color: COLORS.grayText,
                         }}>
-                        0
+                        {messageCount}
                       </Text>
                     </View>
                     <View style={{ marginLeft: 5 }}>
@@ -413,13 +393,11 @@ const DashboardScreen = ({
               </View>
               {/* Middle Circle */}
               {percentageView ? (
-                <PercentageCircle
-                  currentPercentage={dashboardData?.currentLoad}
-                />
+                <PercentageCircle currentPercentage={currentLoad} />
               ) : (
                 <EmptyRoomsCircle
-                  initialValue={dashboardData?.maxRooms}
-                  value={dashboardData?.availableRooms}
+                  initialValue={maxRooms}
+                  value={availableRooms}
                 />
               )}
             </TouchableOpacity>
@@ -601,14 +579,44 @@ const styles = StyleSheet.create({
   },
 });
 
-function mapStateToProps({ dashboardReducer, hotelReducer }) {
+function mapStateToProps({ dashboardReducer, hotelReducer, dateReducer }) {
+  const {
+    loading,
+    availableRooms,
+    currentLoad,
+    shouldArrived,
+    leftArrived,
+    shouldCheckout,
+    leftCheckout,
+    live,
+    maxRooms,
+    confirmedQuantity,
+    confirmedRevenue,
+    canceledQuantity,
+    canceledRevenue,
+    messageCount,
+  } = dashboardReducer;
+  const { hotelList, hotelID, hotelName } = hotelReducer;
+  const { chosenDay } = dateReducer;
   return {
-    loading: dashboardReducer.loading,
-    chosenDashboardDate: dashboardReducer.chosenDashboardDate,
-    dashboardData: dashboardReducer.dashboardData,
-    hotelID: hotelReducer.hotelID,
-    hotelList: hotelReducer.hotelList,
-    hotelName: hotelReducer.hotelName,
+    loading,
+    availableRooms,
+    currentLoad,
+    shouldArrived,
+    leftArrived,
+    shouldCheckout,
+    leftCheckout,
+    live,
+    maxRooms,
+    confirmedQuantity,
+    confirmedRevenue,
+    canceledQuantity,
+    canceledRevenue,
+    messageCount,
+    hotelID,
+    hotelList,
+    hotelName,
+    chosenDay,
   };
 }
 

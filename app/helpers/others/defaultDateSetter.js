@@ -5,11 +5,9 @@ const today = dayjs().startOf('day').format('YYYY-MM-DD');
 const currentMonth = dayjs().startOf('month').format('YY');
 const currentYear = dayjs().startOf('year').format('YYYY');
 
-console.log(currentMonth);
-
 const monthRangeUntilToday = {
   startDate: firstDayOfMonth,
   endDate: today,
 };
 
-export { today, currentMonth, monthRangeUntilToday, currentYear,  };
+export { today, currentMonth, monthRangeUntilToday, currentYear };

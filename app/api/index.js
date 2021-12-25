@@ -84,9 +84,9 @@ const getSingleHotelDataAPI = async () => {
 
 // #5 API => GET Dashboard Data of the user
 const getDashboardDataAPI = async () => {
-  const { hotelID } = await store.getState().hotelReducer;
-  const { userToken } = await store.getState().authReducer;
-  const { chosenDay } = await store.getState().dateReducer;
+  const { hotelID } = store.getState().hotelReducer;
+  const { userToken } = store.getState().authReducer;
+  const { chosenDay } = store.getState().dateReducer;
   try {
     return await axios({
       url: `${Config.BASE_API_URL}/mobile/${hotelID}/dashboard`,
@@ -95,7 +95,7 @@ const getDashboardDataAPI = async () => {
         Authorization: `Bearer ${userToken}`,
         'Content-Type': 'application/json',
       },
-      data: chosenDay,
+      date: '2021-01-01',
     }).then(response => {
       return response.data.data;
     });
@@ -179,9 +179,9 @@ const getReservedRoomsListDataAPI = async () => {
 
 // #9 API => GET Hotel Annual Statistics
 const getAnnualDataAPI = async () => {
-  const { hotelID } = await store.getState().hotelReducer;
-  const { userToken } = await store.getState().authReducer;
-  const { chosenYear } = await store.getState().chosenYear;
+  const { hotelID } = store.getState().hotelReducer;
+  const { userToken } = store.getState().authReducer;
+  const { chosenYear } = store.getState().dateReducer;
   try {
     return await axios({
       url: `${Config.BASE_API_URL}/mobile/${hotelID}/statistics-by-year`,

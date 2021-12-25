@@ -24,7 +24,6 @@ const HotelModalBox = ({
   //   try {
   //     await getAllHotelPropertiesData().then(response => {
   //       setHotelList(response);
-  //       // console.log(response[0].name);
   //       setLoaded(true);
   //       setToggleHotelListModal(true);
   //     });
@@ -35,9 +34,6 @@ const HotelModalBox = ({
 
   // function handleChosenHotel(hotelID) {
   //   // setToggleHotelListModal(!toggleHotelListModal);
-  //   // alert(`CHOSEN HOTEL => ${hotel}`);
-  //   setChosenHotelID(hotelID);
-  //   // console.log(hotelID);
   // }
 
   // useEffect(async () => {

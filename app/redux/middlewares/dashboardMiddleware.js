@@ -11,9 +11,6 @@ async function getDashboardDataMiddleware() {
   store.dispatch(getDashboardDataRequestAction());
   try {
     return await getDashboardDataAPI().then(response => {
-      console.log('====================================');
-      console.log(response);
-      console.log('====================================');
       const {
         available_rooms,
         current_load,
@@ -27,11 +24,11 @@ async function getDashboardDataMiddleware() {
       const confirmedQuantity =
         response.today_data.confirmed_reservations_data.quantity;
       const confirmedRevenue =
-        response.todayData.confirmed_reservations_data.revenue;
+        response.today_data.confirmed_reservations_data.revenue;
       const canceledQuantity =
-        response.todayData.canceled_reservations_data.quantity;
+        response.today_data.canceled_reservations_data.quantity;
       const canceledRevenue =
-        response.todayData.canceled_reservations_data.revenue;
+        response.today_data.canceled_reservations_data.revenue;
 
       store.dispatch(
         getDashboardDataSuccessAction({

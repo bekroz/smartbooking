@@ -6,10 +6,36 @@ const getDashboardDataRequestAction = () => {
   };
 };
 
-const getDashboardDataSuccessAction = dashboardData => {
+const getDashboardDataSuccessAction = ({
+  availableRooms,
+  currentLoad,
+  shouldArrived,
+  leftArrived,
+  shouldCheckout,
+  leftCheckout,
+  live,
+  maxRooms,
+  confirmedQuantity,
+  confirmedRevenue,
+  canceledQuantity,
+  canceledRevenue,
+}) => {
   return {
     type: DASHBOARD.DATA_SUCCESS,
-    payload: dashboardData,
+    payload: {
+      availableRooms,
+      currentLoad,
+      shouldArrived,
+      leftArrived,
+      shouldCheckout,
+      leftCheckout,
+      live,
+      maxRooms,
+      confirmedQuantity,
+      confirmedRevenue,
+      canceledQuantity,
+      canceledRevenue,
+    },
   };
 };
 

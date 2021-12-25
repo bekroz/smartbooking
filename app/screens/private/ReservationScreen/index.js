@@ -6,24 +6,23 @@ import {
   TouchableOpacity,
   SafeAreaView,
   ScrollView,
-  ActivityIndicator,
   RefreshControl,
 } from 'react-native';
 import { Card } from 'react-native-elements/dist/card/Card';
 import { Divider } from 'react-native-elements/dist/divider/Divider';
-import moment from 'moment';
+import dayjs from 'dayjs';
 // Theme
 import { COLORS, SIZES } from '../../../constants/theme';
 // Icons
 import { MoonSvg, PersonSvg } from '../../../assets/icons/SvgIcons';
 // Components
 import {
+  CanceledStatus,
+  CheckOutStatus,
   ConfirmedStatus,
   InHouseStatus,
-  CheckOutStatus,
-  CanceledStatus,
   NoShowStatus,
-} from '../../../components/Reservations';
+} from '../../../components/ScreenComponents/Reservation';
 // Helpers
 import { wordTruncator, numberWithSpaces } from '../../../helpers';
 // API
@@ -33,29 +32,30 @@ import {
   getReservationNextPageDataMiddleware,
   setHotelIDMiddleware,
 } from '../../../redux/middlewares';
+import {
+  NoMoreDataAlert,
+  LoadingIndicator,
+  SpaceForScroll,
+} from '../../../components';
 import { connect } from 'react-redux';
 
 const ReservationScreen = ({
   navigation,
-  loading,
+  initialLoading,
+  nextPageLoading,
   reservationData,
   isLastPage,
-  hotelID,
-  hotelList,
   pageIndex,
+  reservationLength,
+  chosenMonthRange,
+  reservationStatus,
+  reservationType,
 }) => {
   async function getDetailsDataOnTabPress() {
     try {
-      return await getHotelsDataMiddleware().then(hotelList => {
-        setHotelIDMiddleware(hotelList).then(receivedHotelID => {
-          const reservationsOutgoingData = {
-            hotelID: 48,
-            // receivedHotelID,
-            pageIndex: pageIndex,
-          };
-          getReservationDataMiddleware(reservationsOutgoingData);
-        });
-      });
+      await getHotelsDataMiddleware();
+      await setHotelIDMiddleware();
+      await getReservationDataMiddleware();
     } catch (error) {
       console.error(error);
     }
@@ -72,10 +72,6 @@ const ReservationScreen = ({
 
     return unsubscribe;
   }, [navigation]);
-
-  // console.log('====================================');
-  // console.log(reservationData);
-  // console.log('====================================');
   return (
     <SafeAreaView style={styles.container}>
       <View>
@@ -85,20 +81,23 @@ const ReservationScreen = ({
         <View>
           <View style={styles.topBarButtonsContainer}>
             <TouchableOpacity style={styles.topBarBtn}>
-              <Text style={styles.topBarText}>{/* {typeStayDates[0]} */}</Text>
+              <Text style={styles.topBarText}>{reservationStatus}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.topBarBtn}>
+              <Text style={styles.topBarText}>{reservationType}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.topBarBtn}>
               <Text style={styles.topBarText}>
-                {/* {dayjs(chosenDateRange?.start_date).format('D MMM')} -{' '}
-                {dayjs(chosenDateRange?.end_date).format('D MMM')} */}
+                {dayjs(chosenMonthRange.startDate).locale('ru').format('D MMM')}{' '}
+                - {dayjs(chosenMonthRange.endDate).locale('ru').format('D MMM')}
               </Text>
             </TouchableOpacity>
           </View>
           <View style={styles.reservationsNumberContainer}>
             <Text style={styles.reservationsNumber}>
-              {loading
+              {initialLoading
                 ? 'Загружается ...'
-                : `${reservationData?.length} бронирования`}
+                : `${reservationLength} бронирования`}
             </Text>
           </View>
         </View>
@@ -112,14 +111,14 @@ const ReservationScreen = ({
           showsVerticalScrollIndicator={false}
           refreshControl={
             <RefreshControl
-              refreshing={loading}
+              refreshing={initialLoading}
               onRefresh={onPullToRefresh}
               tintColor={'white'}
             />
           }>
           {/* All Cards */}
-          {!loading
-            ? reservationData?.map((reservation, index) => (
+          {!initialLoading
+            ? reservationData.map((reservation, index) => (
                 <Card key={index} containerStyle={styles.card} title="Guests">
                   {/* LEFT Side Content */}
                   <View style={styles.cardLeftSideContent}>
@@ -128,7 +127,7 @@ const ReservationScreen = ({
                         <Text style={styles.dateDescription}>Дата заезда:</Text>
                       </View>
                       <Text style={styles.date}>
-                        {moment(reservation.checkin).format('DD.MM.YYYY')}
+                        {dayjs(reservation.checkin).format('DD.MM.YYYY')}
                       </Text>
                     </View>
                     {/* Small Divider */}
@@ -146,7 +145,7 @@ const ReservationScreen = ({
                         <Text style={styles.dateDescription}>Дата выезда:</Text>
                       </View>
                       <Text style={styles.date}>
-                        {moment(reservation.checkout).format('DD.MM.YYYY')}
+                        {dayjs(reservation.checkout).format('DD.MM.YYYY')}
                       </Text>
                     </View>
                     <View
@@ -191,7 +190,7 @@ const ReservationScreen = ({
                         </Text>
                         <Text
                           style={[styles.equalMargin, { color: COLORS.white }]}>
-                          {moment(reservation.created_at).format('DD.MM.YYYY')}
+                          {dayjs(reservation.created_at).format('DD.MM.YYYY')}
                         </Text>
                         <Text
                           style={[
@@ -217,53 +216,52 @@ const ReservationScreen = ({
                 </Card>
               ))
             : null}
-          {pageIndex > 1 ? (
-            isLastPage ? (
-              <View style={styles.noMoreDataContainer}>
-                <Text style={styles.noMoreDataAlertText}>
-                  Все данные загружены
-                </Text>
-              </View>
-            ) : (
-              <TouchableOpacity
-                style={styles.showMoreButton}
-                onPress={() =>
-                  getReservationNextPageDataMiddleware(outgoingData)
-                }>
-                <Text style={styles.showMoreText}>
-                  {!isLastPage ? (
-                    'Показать ещё'
-                  ) : (
-                    <ActivityIndicator
-                      animating={true}
-                      color={COLORS.white}
-                      marginTop={5}
-                    />
-                  )}
-                </Text>
-              </TouchableOpacity>
-            )
-          ) : null}
-          <View
-            style={{
-              paddingBottom: 240,
-            }}
-          />
+          {!initialLoading && !isLastPage ? (
+            <TouchableOpacity
+              style={styles.showMoreButton}
+              onPress={() => getReservationNextPageDataMiddleware()}>
+              {nextPageLoading ? (
+                <LoadingIndicator />
+              ) : (
+                <Text style={styles.showMoreText}>Показать ещё</Text>
+              )}
+            </TouchableOpacity>
+          ) : (
+            <NoMoreDataAlert />
+          )}
+          <SpaceForScroll />
         </ScrollView>
       </View>
     </SafeAreaView>
   );
 };
 
-function mapStateToProps({ reservationReducer, hotelReducer }) {
+function mapStateToProps({ reservationReducer, hotelReducer, dateReducer }) {
+  const {
+    initialLoading,
+    nextPageLoading,
+    reservationData,
+    isLastPage,
+    pageIndex,
+    reservationLength,
+    reservationStatus,
+    reservationType,
+  } = reservationReducer;
+  const { hotelList, hotelID } = hotelReducer;
+  const { chosenMonthRange } = dateReducer;
+
   return {
-    loading: reservationReducer.loading,
-    reservationData: reservationReducer.reservationData,
-    isLastPage: reservationReducer.isLastPage,
-    lastPage: reservationReducer.lastPage,
-    pageIndex: reservationReducer.pageIndex,
-    hotelID: hotelReducer.hotelID,
-    hotelList: hotelReducer.hotelList,
+    initialLoading,
+    nextPageLoading,
+    reservationData,
+    isLastPage,
+    pageIndex,
+    reservationLength,
+    hotelList,
+    hotelID,
+    chosenMonthRange,
+    reservationStatus,
+    reservationType,
   };
 }
 
@@ -361,21 +359,6 @@ const styles = StyleSheet.create({
   },
   equalMargin: {
     marginTop: 5,
-  },
-  noMoreDataContainer: {
-    alignSelf: 'center',
-    backgroundColor: '#212831',
-    width: SIZES.width - 20,
-    height: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 15,
-    borderRadius: 6,
-  },
-  noMoreDataAlertText: {
-    color: COLORS.grayText,
-    fontWeight: '500',
-    fontSize: 16,
   },
   showMoreButton: {
     alignSelf: 'center',

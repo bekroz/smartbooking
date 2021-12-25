@@ -39,7 +39,6 @@ async function setHotelIDMiddleware() {
         store.dispatch(noHotelFoundAction());
       }
     }
-    return hotelID;
   } catch (error) {
     console.error(error);
   }

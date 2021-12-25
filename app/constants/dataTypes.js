@@ -25,4 +25,21 @@ const SOURCE_TYPE = {
   company: 'company',
 };
 
-export { RESERVATION_TYPE, RESERVATION_STATUS, GUEST_TYPE, SOURCE_TYPE };
+const SOURCE_NAME = [
+  'От стойки',
+  'Телефон',
+  'Dolores',
+  'Сайт',
+  'Booking.com',
+  'Трамина',
+];
+
+const SEGMENT_VALUES = ['Обзор', 'Занятость'];
+
+export {
+  RESERVATION_TYPE,
+  RESERVATION_STATUS,
+  GUEST_TYPE,
+  SOURCE_TYPE,
+  SEGMENT_VALUES,
+};

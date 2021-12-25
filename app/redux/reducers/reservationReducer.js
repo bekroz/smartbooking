@@ -6,13 +6,14 @@ import {
 
 const initialState = {
   initialLoading: true,
-  reservationData: [],
   nextPageLoading: false,
+  reservationData: [],
+  reservationLength: 0,
   pageIndex: 1,
   isLastPage: false,
   reservationStatus: RESERVATION_STATUS.confirmed,
   reservationType: RESERVATION_TYPE.checkin,
-  error: '',
+  error: null,
 };
 
 const reservationReducer = (state = initialState, action) => {
@@ -29,6 +30,7 @@ const reservationReducer = (state = initialState, action) => {
         initialLoading: false,
         reservationData: action.payload.reservationData,
         pageIndex: action.payload.pageIndex,
+        reservationLength: action.payload.reservationLength,
       };
     case RESERVATION.DATA_FAILURE:
       return {
@@ -50,6 +52,7 @@ const reservationReducer = (state = initialState, action) => {
           ...state.reservationData,
           ...action.payload.reservationData,
         ],
+        reservationLength: action.payload.reservationLength,
         pageIndex: action.payload.pageIndex,
       };
     case RESERVATION.NEXT_PAGE_FAILURE:

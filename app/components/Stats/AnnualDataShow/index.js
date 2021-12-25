@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import {
   View,
   TouchableOpacity,
@@ -6,68 +6,42 @@ import {
   ScrollView,
   StyleSheet,
   ActivityIndicator,
+  RefreshControl,
 } from 'react-native';
 import { Card } from 'react-native-elements/dist/card/Card';
 import { Divider } from 'react-native-elements/dist/divider/Divider';
-import moment from 'moment';
+import dayjs from 'dayjs';
 // Theme
 import { COLORS, SIZES } from '../../../constants/theme';
-// Components
-import BlueColumns from '../BlueColumns/BlueColumns';
-import LineChartData from '../LineChartData/LineChartData';
 // Helpers
 import { numberWithSpaces } from '../../../helpers';
-// API
-// import { getStatisticsByYearAPI } from '../../../api';
-import { useCallback } from 'react';
-import { RefreshControl } from 'react-native';
+// Components
+import { SpaceForScroll, BlueColumns, LineChartData } from '../..';
 
-export default function SoldRooms() {
-  // const [statisticsByYearData, setStatisticsByYearData] = useState(null);
+import { connect } from 'react-redux';
+import { getAnnualDataMiddleware } from '../../../redux/middlewares';
 
-  // const [hotelID, setHotelID] = useState(48);
-  // const [chosenYear, setChosenYear] = useState(2021);
-  // const [refreshed, setRefreshed] = useState(false);
-  // const [cardChosen, setCardChosen] = useState(null);
+const AnnualDataShow = ({
+  navigation,
+  loading,
+  annualData,
+  chosenYear,
+  error,
+}) => {
+  const onPullToRefresh = useCallback(() => {
+    getAnnualDataMiddleware();
+  }, []);
 
-  // const getUpdatedData = async () => {
-  //   try {
-  //     await getStatisticsByYearAPI({ hotelID, chosenYear }).then(statistics => {
-  //       setStatisticsByYearData(statistics);
-  //       setRefreshed(true);
-  //       // console.log('====================================');
-  //       // refreshed && console.log(statisticsByYearData);
-  //       // console.log('====================================');
-  //     });
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-  // const wait = timeout => {
-  //   return new Promise(resolve => setTimeout(resolve, timeout));
-  // };
-
-  // const [refreshing, setRefreshing] = useState(false);
-
-  // const onPullToRefresh = useCallback(() => {
-  //   setRefreshing(true);
-  //   wait(500).then(() => setRefreshing(false));
-  //   getUpdatedData();
-  // }, []);
-
-  // useEffect(() => {
-  //   setRefreshed(false);
-  //   getUpdatedData();
-  // }, []);
+  useEffect(() => {
+    getAnnualDataMiddleware();
+  }, []);
 
   return (
     <ScrollView
-      refreshing={refreshing}
       showsHorizontalScrollIndicator={false}
       refreshControl={
         <RefreshControl
-          refreshing={refreshing}
+          refreshing={loading}
           onRefresh={onPullToRefresh}
           tintColor={'white'}
         />
@@ -97,7 +71,7 @@ export default function SoldRooms() {
             margin: 15,
             marginLeft: 30,
             fontSize: 16,
-            fontWeight: '500',
+            fontWeight: SIZES.fontWeight1,
             color: COLORS.white,
           }}>
           Количество проданных ночей
@@ -118,7 +92,7 @@ export default function SoldRooms() {
           containerStyle={{
             justifyContent: 'center',
           }}>
-          {refreshed ? (
+          {!loading ? (
             <>
               <BlueColumns />
               <LineChartData />
@@ -138,32 +112,23 @@ export default function SoldRooms() {
         color={COLORS.grayPlaceholderBorder}
       />
       <View style={{ alignSelf: 'flex-start' }}>
-        <Text
-          style={{
-            margin: 15,
-            marginBottom: 10,
-            fontSize: 16,
-            fontWeight: '500',
-            color: COLORS.white,
-          }}>
-          Количество проданных ночей
-        </Text>
+        <Text style={styles.soldNightsText}>Количество проданных ночей</Text>
       </View>
-      {refreshed ? (
-        statisticsByYearData?.map((stat, index) => (
+      {!loading ? (
+        annualData?.map((stat, index) => (
           <TouchableOpacity key={index}>
             <Card
               containerStyle={[styles.card, styles.chosenCardStyle]}
               title="SoldRooms">
-              {/* Card Context View */}
+              {/* Card Content View */}
               <View style={{ flexDirection: 'row' }}>
                 {/* LEFT-Side context */}
                 <View style={{ marginRight: 20, flex: 1 }}>
                   <View style={{ marginBottom: 15 }}>
                     <Text style={{ color: COLORS.grayText }}>Дата:</Text>
                     <Text style={{ paddingTop: 5, color: COLORS.white }}>
-                      {moment(stat?.start_date).format('DD MMM')} -{' '}
-                      {moment(stat?.end_date).format('DD MMM')}
+                      {dayjs(stat?.start_date).format('DD MMM')} -{' '}
+                      {dayjs(stat?.end_date).format('DD MMM')}
                     </Text>
                   </View>
                   <View style={{ marginBottom: 15 }}>
@@ -208,17 +173,17 @@ export default function SoldRooms() {
           />
         </Card>
       )}
-      <View style={{ paddingBottom: 100 }} />
+      <SpaceForScroll />
     </ScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   topBarBtn: {
     backgroundColor: '#2E3641',
     borderRadius: 5,
     borderWidth: 0.167,
-    borderColor: '#000000',
+    borderColor: COLORS.blackBackground,
     height: 30,
     width: 114,
     alignItems: 'center',
@@ -226,7 +191,7 @@ const styles = StyleSheet.create({
   },
   topBarText: {
     fontWeight: SIZES.fontWeight1,
-    fontSize: 14,
+    fontSize: SIZES.body6,
     textAlign: 'center',
     color: COLORS.white,
     // fontFamily: 'SF Pro Display',
@@ -249,7 +214,22 @@ const styles = StyleSheet.create({
   },
   guestName: {
     color: COLORS.softBlue,
-    fontSize: 16,
+    fontSize: SIZES.body5,
     fontWeight: SIZES.fontWeight3,
   },
+  soldNightsText: {
+    margin: 15,
+    marginBottom: 10,
+    fontSize: SIZES.body5,
+    fontWeight: SIZES.fontWeight1,
+    color: COLORS.white,
+  },
 });
+
+function mapStateToProps({ annualReducer, dateReducer }) {
+  const { loading, annualData, error } = annualReducer;
+  const { chosenYear } = dateReducer;
+  return { loading, annualData, chosenYear, error };
+}
+
+export default connect(mapStateToProps)(AnnualDataShow);

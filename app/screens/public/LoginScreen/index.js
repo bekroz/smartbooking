@@ -25,7 +25,6 @@ import {
   loginUserMiddleware,
 } from '../../../redux/middlewares';
 // Utils
-import { setUserMMKV } from '../../../utils/useMmkvStorage';
 
 const LoginScreen = ({ navigation, userLoggedIn }) => {
   const [email, setEmail] = useState({ value: '', error: '' });
@@ -45,7 +44,6 @@ const LoginScreen = ({ navigation, userLoggedIn }) => {
   const handleLogin = async () => {
     const emailError = emailValidator(email.value);
     const passwordError = passwordValidator(password.value);
-
     if (emailError || passwordError) {
       setEmail({ ...email, error: emailError });
       setPassword({ ...password, error: passwordError });

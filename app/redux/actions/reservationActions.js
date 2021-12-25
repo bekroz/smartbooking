@@ -6,12 +6,17 @@ const getReservationDataRequestAction = () => {
   };
 };
 
-const getReservationDataSuccessAction = ({ reservationData, pageIndex }) => {
+const getReservationDataSuccessAction = ({
+  reservationData,
+  pageIndex,
+  reservationLength,
+}) => {
   return {
     type: RESERVATION.DATA_SUCCESS,
     payload: {
       reservationData,
       pageIndex,
+      reservationLength,
     },
   };
 };
@@ -32,12 +37,14 @@ const getReservationNextPageDataRequestAction = () => {
 const getReservationNextPageDataSuccessAction = ({
   reservationData,
   pageIndex,
+  reservationLength,
 }) => {
   return {
     type: RESERVATION.NEXT_PAGE_SUCCESS,
     payload: {
       reservationData,
       pageIndex,
+      reservationLength,
     },
   };
 };

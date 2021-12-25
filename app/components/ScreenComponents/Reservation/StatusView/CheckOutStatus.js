@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { COLORS, SIZES } from '../../../constants/theme';
-
+import { COLORS, SIZES } from '../../../../constants/theme';
 const CheckOutStatus = () => (
   <View style={styles.statusCheckOutViewStyle}>
     <Text style={styles.statusCheckOutTextStyle}>Выехал</Text>

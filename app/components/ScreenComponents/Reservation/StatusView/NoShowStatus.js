@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native';
-import { COLORS, SIZES } from '../../../constants/theme';
+import { COLORS, SIZES } from '../../../../constants/theme';
 
 export default function NoShowStatus() {
   <View style={styles.statusNoShowViewStyle}>

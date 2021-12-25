@@ -4,7 +4,7 @@ const initialState = {
   loading: true,
   hotelList: [],
   hotelID: 48,
-  hotelName: null,
+  hotelName: 'Выбирайте отель',
   noHotelFoundModalVisible: false,
   chooseHotelModalVisible: false,
   error: null,

@@ -4,6 +4,7 @@ import {
   getAnnualDataFailureAction,
 } from '../actions';
 import { getAnnualDataAPI } from '../../api';
+import { store } from '../store';
 
 async function getAnnualDataMiddleware() {
   store.dispatch(getAnnualDataRequestAction());

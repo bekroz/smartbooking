@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { COLORS, SIZES } from '../../../constants/theme';
+import { COLORS, SIZES } from '../../../../constants/theme';
 
 const ConfirmedStatus = () => (
   <View style={styles.statusConfirmedViewStyle}>
