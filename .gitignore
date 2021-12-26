@@ -1,7 +1,10 @@
 # OSX
 #
 .DS_Store
-
+.env
+.gitattributes
+.idea
+.vscode
 # Xcode
 #
 build/
