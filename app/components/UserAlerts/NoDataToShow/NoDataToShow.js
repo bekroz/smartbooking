@@ -6,15 +6,19 @@ import { NoDataToShowSvg } from '../../../assets/icons/SvgIcons';
 
 export default function NoDataToShow() {
   return (
-    <FadeInView
-      style={{
-        alignSelf: 'center',
-        bottom: -50,
-      }}>
-      <View style={{ marginBottom: 30 }}>
-        <NoDataToShowSvg />
+    <FadeInView style={{}}>
+      <View
+        style={{
+          width: SIZES.width,
+          height: 300,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <View style={{ marginBottom: 30 }}>
+          <NoDataToShowSvg />
+        </View>
+        <Text style={styles.noDataToShowText}>Нет данных для показа</Text>
       </View>
-      <Text style={styles.noDataToShowText}>{`Нет данных для показа`}</Text>
     </FadeInView>
   );
 }

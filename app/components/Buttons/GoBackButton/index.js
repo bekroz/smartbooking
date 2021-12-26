@@ -6,7 +6,12 @@ const GoBackButton = ({ navigation }) => {
   return (
     <TouchableOpacity
       onPress={() => navigation.goBack()}
-      style={{ position: 'absolute', left: 0, marginLeft: 24 }}>
+      style={{
+        position: 'absolute',
+        left: 0,
+        marginLeft: 20,
+        padding: 15,
+      }}>
       <GoBackSvg />
     </TouchableOpacity>
   );

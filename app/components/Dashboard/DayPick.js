@@ -14,6 +14,7 @@ export default function DayPick() {
   return (
     <View>
       <Picker
+        initialScrollIndex={selected}
         data={CalendarArray}
         renderItem={renderItem}
         itemWidth={dayWidth}

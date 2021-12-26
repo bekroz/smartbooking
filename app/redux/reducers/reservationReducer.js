@@ -13,6 +13,7 @@ const initialState = {
   isLastPage: false,
   reservationStatus: RESERVATION_STATUS.confirmed,
   reservationType: RESERVATION_TYPE.checkin,
+  noData: false,
   error: null,
 };
 
@@ -52,7 +53,6 @@ const reservationReducer = (state = initialState, action) => {
           ...state.reservationData,
           ...action.payload.reservationData,
         ],
-        reservationLength: action.payload.reservationLength,
         pageIndex: action.payload.pageIndex,
       };
     case RESERVATION.NEXT_PAGE_FAILURE:

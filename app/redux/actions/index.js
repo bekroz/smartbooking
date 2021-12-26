@@ -51,6 +51,17 @@ import {
   getComparisonDataSuccessAction,
   getComparisonDataFailureAction,
 } from './comparisonActions';
+// Arrivals
+import {
+  getArrivalsDataRequestAction,
+  getArrivalsDataSuccessAction,
+  getArrivalsDataFailureAction,
+  getArrivalsNextPageDataRequestAction,
+  getArrivalsNextPageDataSuccessAction,
+  getArrivalsNextPageDataFailureAction,
+  arrivalsLastPageReachedAction,
+  setArrivalsTypeChangeAction,
+} from './arrivalsActions';
 
 export {
   // Auth
@@ -88,4 +99,17 @@ export {
   getChannelsDataRequestAction,
   getChannelsDataSuccessAction,
   getChannelsDataFailureAction,
+  // Arrivals
+  getArrivalsDataRequestAction,
+  getArrivalsDataSuccessAction,
+  getArrivalsDataFailureAction,
+  getArrivalsNextPageDataRequestAction,
+  getArrivalsNextPageDataSuccessAction,
+  getArrivalsNextPageDataFailureAction,
+  arrivalsLastPageReachedAction,
+  setArrivalsTypeChangeAction,
+  // Comparison
+  getComparisonDataRequestAction,
+  getComparisonDataSuccessAction,
+  getComparisonDataFailureAction,
 };

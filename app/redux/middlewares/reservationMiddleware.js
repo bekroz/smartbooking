@@ -14,10 +14,11 @@ async function getReservationDataMiddleware() {
   store.dispatch(getReservationDataRequestAction());
   try {
     return await getAllReservationsDataAPI().then(response => {
+      const pageIndex = response.meta.current_page + 1;
       const data = {
         reservationData: response.data,
-        pageIndex: response.meta.currentPage,
-        reservationLength: response.data.length,
+        pageIndex: pageIndex,
+        reservationLength: response.meta.total,
       };
       store.dispatch(getReservationDataSuccessAction(data));
     });
@@ -34,10 +35,10 @@ async function getReservationNextPageDataMiddleware() {
       if (response.meta.current_page === response.meta.last_page) {
         store.dispatch(reservationLastPageReachedAction());
       }
+      const pageIndex = response.meta.currentPage + 1;
       const data = {
         reservationData: response.data,
-        pageIndex: response.meta.currentPage,
-        reservationLength: response.data.length,
+        pageIndex: pageIndex,
       };
       store.dispatch(getReservationNextPageDataSuccessAction(data));
     });

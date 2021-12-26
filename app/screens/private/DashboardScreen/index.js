@@ -29,12 +29,17 @@ import {
 import { Calendar } from '../../../components/Calendar';
 // Redux
 import { connect } from 'react-redux';
-import { setUserChosenHotelIDAction } from '../../../redux/actions';
+import {
+  getArrivalsDataRequestAction,
+  setUserChosenHotelIDAction,
+} from '../../../redux/actions';
 import {
   getDashboardDataMiddleware,
   getHotelsDataMiddleware,
   setHotelIDMiddleware,
 } from '../../../redux/middlewares';
+import { store } from '../../../redux/store';
+import { ARRIVALS_TYPE } from '../../../constants/dataTypes';
 
 const DashboardScreen = ({
   navigation,
@@ -67,8 +72,9 @@ const DashboardScreen = ({
     setUserChosenHotelIDAction(chosenHotelId);
   }
 
-  function handleArcBarPress() {
+  function handleArcBarPress(arrivalsType) {
     navigation.navigate('ArrivalsScreen');
+    store.dispatch(getArrivalsDataRequestAction(arrivalsType));
   }
 
   async function getDashboardDataOnTabPress() {

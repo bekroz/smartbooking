@@ -45,6 +45,11 @@ const ChannelsDataShow = ({
 
   const [refreshing, setRefreshing] = useState(false);
 
+  const monthStart = dayjs(chosenMonthRange.startDate)
+    .locale('ru')
+    .format('D MMM');
+  const monthEnd = dayjs(chosenMonthRange.endDate).locale('ru').format('D MMM');
+
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -75,8 +80,7 @@ const ChannelsDataShow = ({
             },
           ]}>
           <Text style={[styles.topBarText, { fontSize: 15 }]}>
-            {dayjs(chosenMonthRange.startDate).format('D MMM')} -{' '}
-            {dayjs(chosenMonthRange.endDate).format('D MMM')}
+            {monthStart} - {monthEnd}
           </Text>
         </TouchableOpacity>
       </View>

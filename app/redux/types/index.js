@@ -6,6 +6,7 @@ import COMPARISON from './comparisonTypes';
 import ANNUAL from './annualTypes';
 import CHANNELS from './channelsTypes';
 import DATE from './dateTypes';
+import ARRIVALS from './arrivalsTypes';
 
 export {
   AUTH,
@@ -16,4 +17,5 @@ export {
   ANNUAL,
   CHANNELS,
   DATE,
+  ARRIVALS,
 };

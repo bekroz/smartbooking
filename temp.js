@@ -1,8 +1,10 @@
-// const typeStayDates = ['Бронирование', 'Заезд', 'Выезд', 'Проживание'];
-// const statuses = [
-//   'Подтверждено',
-//   'Оплачено',
-//   'В номере',
-//   'Выехал',
-//   'Не заезд',
-// ];
+{/* {hotelListModalVisible && (
+        <HotelModalBox
+          visible={hotelListModalVisible}
+          onTouchOutside={toggleHotelModal}
+          onQuitPress={toggleHotelModal}
+          onHotelChosen={handleChosenHotel}
+          hotelList={hotelListData}
+          chosenHotelID={hotelID}
+        />
+      )} */}

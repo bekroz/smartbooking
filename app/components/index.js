@@ -10,6 +10,12 @@ import AnnualDataShow from '../components/Stats/AnnualDataShow';
 import ChannelsDataShow from '../components/Stats/ChannelsDataShow';
 import StatsSegmentControl from './Stats/SegmentedControl';
 import DotView from './Stats/DotView';
+// ArrivalsScreen Components
+import StatusCarousel from './ScreenComponents/Arrivals/StatusCarousel';
+import DayCarousel from './ScreenComponents/Arrivals/DayCarousel';
+// Others
+import FadeInView from './FadeInView/FadeInView';
+import GoBackButton from '../components/Buttons/GoBackButton';
 
 import {
   CanceledStatus,
@@ -38,4 +44,10 @@ export {
   StatsSegmentControl,
   AnnualDataShow,
   ChannelsDataShow,
+  // ArrivalsScreen Components
+  StatusCarousel,
+  DayCarousel,
+  // Others
+  FadeInView,
+  GoBackButton,
 };

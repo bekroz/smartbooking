@@ -2,7 +2,8 @@ import { COMPARISON } from '../types';
 
 const initialState = {
   loading: true,
-  comparisonData: null,
+  comparisonData: [],
+  comparisonName: '',
   error: null,
 };
 

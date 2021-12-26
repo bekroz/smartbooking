@@ -5,7 +5,7 @@ import passwordValidator from './validators/passwordValidator';
 import numberWithSpaces from './others/numberWithSpaces';
 import wordTruncator from './others/wordTruncator';
 import capitalize from './others/capitalize';
-import getMonthName from './others/getMonthName';
+import { getMonthNameLong, getMonthNameShort } from './others/getMonthName';
 import {
   today,
   currentMonth,
@@ -19,7 +19,8 @@ export {
   numberWithSpaces,
   wordTruncator,
   capitalize,
-  getMonthName,
+  getMonthNameLong,
+  getMonthNameShort,
   today,
   currentMonth,
   monthRangeUntilToday,

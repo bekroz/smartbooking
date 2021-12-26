@@ -22,7 +22,10 @@ import getAnnualDataMiddleware from './annualMiddleware';
 import getChannelsDataMiddleware from './channelsMiddleware';
 // Comparison middleware
 import getComparisonDataMiddleware from './comparisonMiddleware';
-
+import {
+  getArrivalsDataMiddleware,
+  getArrivalsNextPageDataMiddleware,
+} from './arrivalsMiddleware';
 export {
   // Auth
   authMiddleware,
@@ -42,4 +45,7 @@ export {
   getChannelsDataMiddleware,
   // Comparison
   getComparisonDataMiddleware,
+  // Arrivals
+  getArrivalsDataMiddleware,
+  getArrivalsNextPageDataMiddleware,
 };

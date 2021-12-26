@@ -27,7 +27,7 @@ export const COLORS = {
   white: '#FFFFFF',
   red: '#FF0000',
 };
-export const SIZES = {
+export const  SIZES = {
   // global sizes
   base: 8,
   radius1: 6,

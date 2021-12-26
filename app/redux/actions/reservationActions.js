@@ -37,14 +37,12 @@ const getReservationNextPageDataRequestAction = () => {
 const getReservationNextPageDataSuccessAction = ({
   reservationData,
   pageIndex,
-  reservationLength,
 }) => {
   return {
     type: RESERVATION.NEXT_PAGE_SUCCESS,
     payload: {
       reservationData,
       pageIndex,
-      reservationLength,
     },
   };
 };
@@ -62,6 +60,20 @@ const reservationLastPageReachedAction = () => {
   };
 };
 
+const setReservationStatusChangeAction = reservationStatus => {
+  return {
+    type: RESERVATION.STATUS_CHANGE,
+    payload: reservationStatus,
+  };
+};
+
+const setReservationTypeChangeAction = reservationType => {
+  return {
+    type: RESERVATION.TYPE_CHANGE,
+    payload: reservationType,
+  };
+};
+
 export {
   getReservationDataRequestAction,
   getReservationDataSuccessAction,
@@ -70,4 +82,6 @@ export {
   getReservationNextPageDataSuccessAction,
   getReservationNextPageDataFailureAction,
   reservationLastPageReachedAction,
+  setReservationStatusChangeAction,
+  setReservationTypeChangeAction,
 };

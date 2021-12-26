@@ -9,6 +9,7 @@ import comparisonReducer from './comparisonReducer';
 import annualReducer from './annualReducer';
 import channelsReducer from './channelsReducer';
 import dateReducer from './dateReducer';
+import arrivalsReducer from './arrivalsReducer';
 
 const rootReducer = combineReducers({
   authReducer,
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   annualReducer,
   channelsReducer,
   dateReducer,
+  arrivalsReducer,
 });
 
 export default rootReducer;

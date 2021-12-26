@@ -1,5 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
-import { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -7,15 +6,16 @@ import {
   ActivityIndicator,
   ScrollView,
   SafeAreaView,
+  RefreshControl,
 } from 'react-native';
-// TODO: Replace moment with another light package
-import moment from 'moment';
+import dayjs from 'dayjs';
+import 'dayjs/locale/ru';
 import { Card } from 'react-native-elements/dist/card/Card';
 import { Divider } from 'react-native-elements/dist/divider/Divider';
 // Theme
 import { COLORS, SIZES } from '../../../constants/theme';
 // Components
-import { HotelListBar, HotelModalBox } from '../../../components/Dashboard';
+import { HotelListBar } from '../../../components/Dashboard';
 import { NoDataToShow } from '../../../components/UserAlerts';
 // Helpers
 import { numberWithSpaces, wordTruncator } from '../../../helpers';
@@ -27,295 +27,259 @@ import {
   GreenLineIndicatorSvg,
   BlueLineIndicatorSvg,
 } from '../../../assets/icons/SvgIcons';
-// Buttons
-import { GoBackButton } from '../../../components/Buttons';
-// API
-import { getReservedRoomsListDataAPI } from '../../../api';
+// Components
+import {
+  StatusCarousel,
+  DayCarousel,
+  FadeInView,
+  GoBackButton,
+} from '../../../components';
+// Redux
+import { connect } from 'react-redux';
+import {
+  getArrivalsDataMiddleware,
+  getArrivalsNextPageDataMiddleware,
+} from '../../../redux/middlewares';
 
-export default function ArrivalsScreen({
+const ArrivalsScreen = ({
   navigation,
-  loading,
-  reservedRoomsListData,
-}) {
-  const [hotelListModalVisible, setHotelListModalVisible] = useState(false);
-
-  function handleChosenHotel(chosenHotelId) {
-    setHotelIDAction(chosenHotelId);
-    setHotelListModalVisible(!hotelListModalVisible);
-  }
-
-  const wait = timeout => {
-    return new Promise(resolve => setTimeout(resolve, timeout));
-  };
+  initialLoading,
+  arrivalsData,
+  arrivalsType,
+  arrivalsLength,
+  hotelName,
+  chosenDay,
+}) => {
+  const [refreshing, setRefreshing] = useState(false);
 
   const onPullToRefresh = useCallback(() => {
-    wait(500).then(() => getArrivalsDataMiddleware());
+    getArrivalsDataMiddleware();
   }, []);
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      getArrivalsDataMiddleware();
-    });
-
-    return unsubscribe;
-  }, [navigation]);
+    getArrivalsDataMiddleware();
+  }, []);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginBottom: 23,
-            height: 30,
-          }}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onPullToRefresh}
+            tintColor={COLORS.white}
+          />
+        }>
+        <View style={styles.topBarContainer}>
           <GoBackButton navigation={navigation} />
           <HotelListBar
-            onPress={toggleHotelModal}
-            hotelName={'Загружается...' || chosenHotelName}
+            onPress={() => alert('Working on that')}
+            hotelName={initialLoading ? 'Загружается...' : hotelName}
           />
         </View>
-        <View>
-          <View
-            style={{
-              marginLeft: 22,
-              marginBottom: 35,
-            }}>
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              style={{ marginBottom: 20 }}>
-              <View
-                style={{
-                  width: 300,
-                  flexDirection: 'row',
-                  // backgroundColor: 'red',
-                  alignItems: 'center',
-                }}>
-                <Text style={styles.status}>Заезды</Text>
-                <View style={[styles.indicatorContainer]}>
-                  <Text style={styles.indicatorNumber}>12</Text>
-                </View>
-              </View>
-              <View
-                style={{
-                  width: 300,
-                  flexDirection: 'row',
-                  // backgroundColor: 'red',
-                  alignItems: 'center',
-                }}>
-                <Text style={styles.status}>Выезды</Text>
-                <View style={[styles.indicatorContainer]}>
-                  <Text style={styles.indicatorNumber}>12</Text>
-                </View>
-              </View>
-
-              <View
-                style={{
-                  width: 300,
-                  flexDirection: 'row',
-                  // backgroundColor: 'red',
-                  alignItems: 'center',
-                }}>
-                <Text style={styles.status}>Проживают</Text>
-                <View style={[styles.indicatorContainer]}>
-                  <Text style={styles.indicatorNumber}>12</Text>
-                </View>
-              </View>
-            </ScrollView>
-
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              <View style={{ marginRight: 200 }}>
-                <Text style={styles.chosenDate}>Среда, 26 дек</Text>
-              </View>
-              <View style={{ marginRight: 200 }}>
-                <Text style={styles.chosenDate}>Среда, 26 дек</Text>
-              </View>
-              <View style={{ marginRight: 200 }}>
-                <Text style={styles.chosenDate}>Среда, 26 дек</Text>
-              </View>
-            </ScrollView>
+        <View style={styles.carouselsContainer}>
+          <View style={{ backgroundColor: 'yellow', marginBottom: 40 }}>
+            <StatusCarousel indicatorNumber={arrivalsLength} />
+          </View>
+          <View>
+            <DayCarousel showDay={chosenDay} />
           </View>
         </View>
+
         {/* Card Container */}
-        {loading ? (
-          // <ScrollView
-          //   data={reservedRoomsListData}
-          //   renderItem={CardList}
-          //   keyExtractor={item => item.id}
-          //   refreshControl={
-          //     <RefreshControl
-          //       refreshing={loading}
-          //       onRefresh={() => onRefresh}
-          //     />
-          //   }
-          //   contentContainerStyle={styles.list}
-          //   style={{ backgroundColor: 'red' }}
-          // />
-          reservedRoomsListData?.map((room, index) => (
-            <Card key={index} containerStyle={styles.card} title="Guests">
-              {/* LEFT Side Content */}
-              <View
-                style={{
-                  position: 'absolute',
-                  alignSelf: 'flex-start',
-                  left: -15,
-                }}>
-                {typeOfStay === 'arrived' && <GreenLineIndicatorSvg />}
-                {typeOfStay === 'left' && <YellowLineIndicatorSvg />}
-                {typeOfStay === 'living' && <BlueLineIndicatorSvg />}
-              </View>
-              <View
-                style={{
-                  alignItems: 'center',
-                }}>
-                <View style={{ marginBottom: 15, alignItems: 'center' }}>
-                  <Text style={{ color: COLORS.grayText, marginBottom: 3 }}>
-                    Дата заезда:
-                  </Text>
-                  <Text style={{ color: COLORS.white }}>
-                    {moment(room?.checkin).format('DD.MM.YYYY')}
-                  </Text>
-                </View>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={() => onRefresh}
+            />
+          }
+          contentContainerStyle={styles.list}>
+          {initialLoading
+            ? null
+            : arrivalsData.map(
+                (
+                  {
+                    checkin,
+                    checkout,
+                    source,
+                    room,
+                    name,
+                    roomType,
+                    sum,
+                    nights,
+                    adults,
+                    created_at,
+                    guests,
+                  },
+                  index,
+                ) => (
+                  <Card key={index} containerStyle={styles.card} title="Guests">
+                    {/* LEFT Side Content */}
+                    <FadeInView>
+                      <View
+                        style={{
+                          position: 'absolute',
+                          alignSelf: 'flex-start',
+                          left: -15,
+                        }}>
+                        {arrivalsType === 'arrived' && (
+                          <GreenLineIndicatorSvg />
+                        )}
+                        {arrivalsType === 'left' && <YellowLineIndicatorSvg />}
+                        {arrivalsType === 'living' && <BlueLineIndicatorSvg />}
+                      </View>
+                      <View
+                        style={{
+                          alignItems: 'center',
+                        }}>
+                        <View
+                          style={{ marginBottom: 15, alignItems: 'center' }}>
+                          <Text
+                            style={{ color: COLORS.grayText, marginBottom: 3 }}>
+                            Дата заезда:
+                          </Text>
+                          <Text style={{ color: COLORS.white }}>
+                            {dayjs(checkin).format('DD.MM.YYYY')}
+                          </Text>
+                        </View>
 
-                {/* Small Vertical Divider */}
-                <Divider
-                  orientation="vertical"
-                  width={0.5}
-                  left={45}
-                  top={45}
-                  height={12}
-                  color={COLORS.blue}
-                  position="absolute"
-                />
-                <View
-                  style={{
-                    marginBottom: 20,
-                    marginTop: 10,
-                    alignItems: 'center',
-                  }}>
-                  <Text style={{ color: COLORS.grayText, marginBottom: 3 }}>
-                    Дата выезда:
-                  </Text>
-                  <Text style={{ color: COLORS.white }}>
-                    {moment(room?.checkout).format('DD.MM.YYYY')}
-                  </Text>
-                </View>
+                        {/* Small Vertical Divider */}
+                        <Divider
+                          orientation="vertical"
+                          width={0.5}
+                          left={45}
+                          top={45}
+                          height={12}
+                          color={COLORS.blue}
+                          position="absolute"
+                        />
+                        <View
+                          style={{
+                            marginBottom: 20,
+                            marginTop: 10,
+                            alignItems: 'center',
+                          }}>
+                          <Text
+                            style={{ color: COLORS.grayText, marginBottom: 3 }}>
+                            Дата выезда:
+                          </Text>
+                          <Text style={{ color: COLORS.white }}>
+                            {dayjs(checkout).format('DD.MM.YYYY')}
+                          </Text>
+                        </View>
 
-                <View
-                  style={{
-                    flexDirection: 'row',
-                  }}>
-                  <MoonSvg />
-                  <Text style={{ color: COLORS.white }}> {room?.nights}</Text>
-                  <View style={{ marginLeft: 10 }}>
-                    <PersonSvg />
-                  </View>
-                  <Text style={{ color: COLORS.white }}> {room?.adults}</Text>
-                </View>
-              </View>
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                          }}>
+                          <MoonSvg />
+                          <Text style={{ color: COLORS.white }}> {nights}</Text>
+                          <View style={{ marginLeft: 10 }}>
+                            <PersonSvg />
+                          </View>
+                          <Text style={{ color: COLORS.white }}> {adults}</Text>
+                        </View>
+                      </View>
 
-              <Divider
-                orientation="vertical"
-                leftWidth={1}
-                left={115}
-                height={130}
-                color="#404040"
-                position="absolute"
-              />
+                      <Divider
+                        orientation="vertical"
+                        leftWidth={1}
+                        left={115}
+                        height={130}
+                        color="#404040"
+                        position="absolute"
+                      />
 
-              {/* LEFT-SIDE content */}
-              <View
-                style={{
-                  position: 'absolute',
-                  flexDirection: 'row',
-                  left: 110,
-                  marginLeft: 20,
-                  flex: 1,
-                  marginRight: 10,
-                }}>
-                {/* GuestDetailsView */}
-                <View
-                  style={{
-                    height: 150,
-                    width: 170,
-                  }}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                    }}>
-                    <Text style={styles.channelName}>
-                      {wordTruncator(room?.source, 15)}
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: SIZES.body7,
-                        color: COLORS.white,
-                        fontWeight: SIZES.fontWeight0,
-                      }}>
-                      22 Окт
-                    </Text>
-                  </View>
+                      {/* LEFT-SIDE content */}
+                      <View
+                        style={{
+                          position: 'absolute',
+                          flexDirection: 'row',
+                          left: 110,
+                          marginLeft: 20,
+                          flex: 1,
+                          marginRight: 10,
+                        }}>
+                        <View
+                          style={{
+                            height: 150,
+                            width: 170,
+                          }}>
+                          <View
+                            style={{
+                              flexDirection: 'row',
+                              width: 210,
+                            }}>
+                            <Text style={styles.channelName}>
+                              {wordTruncator(source, 15)}
+                            </Text>
+                            <View style={styles.dateContainer}>
+                              <Text
+                                style={{
+                                  fontSize: SIZES.body7,
+                                  color: COLORS.white,
+                                  fontWeight: SIZES.fontWeight0,
+                                }}>
+                                {dayjs(created_at)
+                                  .locale('ru')
+                                  .format('DD MMM')}
+                              </Text>
+                            </View>
+                          </View>
 
-                  <View>
-                    <Text
-                      style={{
-                        color: '#657282',
-                        fontSize: 16,
-                        fontWeight: SIZES.fontWeight2,
-                        marginBottom: 4,
-                      }}>
-                      Shahzoda Test
-                    </Text>
-                    <Text style={{ color: COLORS.white, marginBottom: 4 }}>
-                      {room?.room
-                        ? wordTruncator(room?.name, 20)
-                        : wordTruncator(room?.roomType.name, 20)}
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: 16,
-                        color: COLORS.white,
-                        marginBottom: 18,
-                      }}>
-                      {room?.room ? room?.name : room?.roomType.short_name}
-                    </Text>
-                    <Text style={[styles.greenPriceText, styles.equalMargin]}>
-                      {numberWithSpaces(room?.sum)} UZS
-                    </Text>
-                  </View>
-                </View>
-              </View>
-            </Card>
-          ))
-        ) : (
-          <ActivityIndicator animating={true} color={COLORS.white} top={200} />
-        )}
-        {noData && <NoDataToShow />}
+                          <View>
+                            <Text
+                              style={{
+                                color: '#657282',
+                                fontSize: 16,
+                                fontWeight: SIZES.fontWeight2,
+                                marginBottom: 4,
+                              }}>
+                              {guests[0].first_name} {guests[0].last_name}
+                            </Text>
+                            <Text
+                              style={{ color: COLORS.white, marginBottom: 4 }}>
+                              {room
+                                ? wordTruncator(roomType.name, 18)
+                                : roomType.short_name}
+                            </Text>
+                            <Text
+                              style={{
+                                fontSize: 16,
+                                color: COLORS.white,
+                                marginBottom: 18,
+                              }}>
+                              {room
+                                ? wordTruncator(room.name, 20)
+                                : wordTruncator(roomType.name, 20)}
+                            </Text>
+                            <Text
+                              style={[
+                                styles.greenPriceText,
+                                styles.equalMargin,
+                              ]}>
+                              {numberWithSpaces(sum)} UZS
+                            </Text>
+                          </View>
+                        </View>
+                      </View>
+                    </FadeInView>
+                  </Card>
+                ),
+              )}
+          {!initialLoading && arrivalsData.length === 0 && <NoDataToShow />}
+        </ScrollView>
         <View
           style={{
             paddingBottom: 150,
           }}
         />
       </ScrollView>
-
-      {/* Hotel List Modal Box */}
-
-      {hotelListModalVisible && (
-        <HotelModalBox
-          visible={hotelListModalVisible}
-          onTouchOutside={toggleHotelModal}
-          onQuitPress={toggleHotelModal}
-          onHotelChosen={handleChosenHotel}
-          hotelList={hotelListData}
-          chosenHotelID={hotelID}
-        />
-      )}
     </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   hotelBar: {
@@ -371,7 +335,14 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     left: 15,
   },
-
+  topBarContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    top: 10,
+    marginBottom: 23,
+    height: 30,
+  },
   topBarText: {
     // fontFamily: 'SF Pro Display',
     fontStyle: 'normal',
@@ -411,10 +382,35 @@ const styles = StyleSheet.create({
     marginBottom: 9,
     marginRight: 40,
   },
+  dateContainer: {
+    position: 'absolute',
+    right: 0,
+  },
   list: {
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
     width: SIZES.width,
     flex: 1,
   },
+  carouselsContainer: {
+    flexDirection: 'column',
+    marginLeft: 20,
+  },
 });
+
+function mapStateToProps({ arrivalsReducer, hotelReducer, dateReducer }) {
+  const { initialLoading, arrivalsData, arrivalsType, arrivalsLength } =
+    arrivalsReducer;
+  const { hotelName } = hotelReducer;
+  const { chosenDay } = dateReducer;
+  return {
+    initialLoading,
+    arrivalsData,
+    arrivalsType,
+    arrivalsLength,
+    hotelName,
+    chosenDay,
+  };
+}
+
+export default connect(mapStateToProps)(ArrivalsScreen);

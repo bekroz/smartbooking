@@ -1,2 +1,2 @@
-import GoBackButton from './GoBackButton/GoBackButton';
+import GoBackButton from './GoBackButton';
 export { GoBackButton };
