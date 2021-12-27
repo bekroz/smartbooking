@@ -14,7 +14,7 @@ import AppContainer from './app/container/AppContainer';
 // Navigator
 import navigationService from './app/services/navigationService';
 // Crash tracker setup
-import StatusCarousel from './TESTA/StatusCarousel';
+import Testing from './TestingScreen';
 
 Sentry.init({
   dsn: 'https://1329c9b248134401acc8ae1a7a34cc54@o1092790.ingest.sentry.io/6111610',
@@ -35,8 +35,8 @@ const App = () => {
             <NavigationContainer
               ref={navRef => navigationService.setTopLevelNavigator(navRef)}
               theme={DarkTheme}>
-              <AppContainer />
-              {/* <StatusCarousel /> */}
+              {/* <AppContainer /> */}
+              <Testing />
             </NavigationContainer>
           </PersistGate>
         </Provider>

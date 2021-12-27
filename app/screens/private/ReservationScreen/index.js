@@ -44,8 +44,8 @@ import {
 } from '../../../components';
 import { connect } from 'react-redux';
 import { LoadingCard } from '../../../components/ScreenComponents/Reservation';
-import FadeInView from '../../../components/FadeInView/FadeInView';
-import { NoDataToShow } from '../../../components/UserAlerts';
+import FadeInView from '../../../components/FadeInView';
+import { NoDataToShow } from '../../../components/Alerts/UserAlerts';
 
 const ReservationScreen = ({
   navigation,

@@ -268,9 +268,6 @@ const getSourcesDataAPI = async () => {
         'Content-Type': 'application/json',
       },
     }).then(response => {
-      console.log('====================================');
-      console.log(response);
-      console.log('====================================');
       return response.data;
     });
   } catch (err) {

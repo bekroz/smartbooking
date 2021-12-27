@@ -8,7 +8,7 @@ import {
   ChannelsDataShow,
   AnnualDataShow,
   StatsSegmentControl,
-} from '../../../components';
+} from '../../../components/ScreenComponents/Stats';
 
 const StatsScreen = () => {
   const [index, setIndex] = useState(0);
