@@ -1,20 +1,18 @@
-import NoMoreDataAlert from './NoMoreDataAlert/NoMoreDataAlert';
-import LoadingIndicator from './LoadingIndicator';
-import BlueColumns from './Stats/BlueColumns/BlueColumns';
-import LineChartData from './Stats/LineChartData/LineChartData';
+import NoMoreDataAlert from './ScreenComponents/Reservation/NoMoreDataAlert/NoMoreDataAlert';
+import LoadingIndicator from './Loaders/LoadingIndicator';
 
 import SpaceForScroll from './SpaceForScroll';
 // StatsScreen Components
-import DonutView from './Stats/DonutView';
-import AnnualDataShow from '../components/Stats/AnnualDataShow';
-import ChannelsDataShow from '../components/Stats/ChannelsDataShow';
-import StatsSegmentControl from './Stats/SegmentedControl';
-import DotView from './Stats/DotView';
+// import DonutView from './Stats/DonutView';
+// import AnnualDataShow from '../components/Stats/AnnualDataShow';
+// import ChannelsDataShow from '../components/Stats/ChannelsDataShow';
+// import StatsSegmentControl from './Stats/SegmentedControl';
+// import DotView from './Stats/DotView';
 // ArrivalsScreen Components
 import StatusCarousel from './ScreenComponents/Arrivals/StatusCarousel';
 import DayCarousel from './ScreenComponents/Arrivals/DayCarousel';
 // Others
-import FadeInView from './FadeInView/FadeInView';
+import FadeInView from './FadeInView';
 import GoBackButton from '../components/Buttons/GoBackButton';
 
 import {
@@ -36,14 +34,6 @@ export {
   // AnnualDataShow Segment components
   NoMoreDataAlert,
   LoadingIndicator,
-  BlueColumns,
-  LineChartData,
-  // StatsScreen Components
-  DotView,
-  DonutView,
-  StatsSegmentControl,
-  AnnualDataShow,
-  ChannelsDataShow,
   // ArrivalsScreen Components
   StatusCarousel,
   DayCarousel,

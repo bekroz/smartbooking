@@ -14,9 +14,6 @@ async function getArrivalsDataMiddleware() {
   try {
     return await getArrivalsDataAPI().then(response => {
       const pageIndex = response.meta.current_page + 1;
-      console.log('====================================');
-      console.log(response.data[0]);
-      console.log('====================================');
       const data = {
         arrivalsData: response.data,
         pageIndex: pageIndex,

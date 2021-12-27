@@ -12,12 +12,11 @@ import { Card } from 'react-native-elements/dist/card/Card';
 // Theme
 import { COLORS, SIZES } from '../../../constants/theme';
 // Components
-import SpaceForScroll from '../../../components/SpaceForScroll';
-import { GoBackButton } from '../../../components/Buttons';
+import { SpaceForScroll, GoBackButton } from '../../../components';
 // Helpers
 import { numberWithSpaces, getMonthNameLong } from '../../../helpers';
-// ConstantData
-import { COMPARISON_CARD_VALUES } from '../../../constants/dataTypes';
+// Constants
+import { COMPARISON_CARD_VALUES } from '../../../constants';
 // Redux
 import { connect } from 'react-redux';
 import { getComparisonDataMiddleware } from '../../../redux/middlewares';

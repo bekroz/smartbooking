@@ -1,8 +1,8 @@
 import React from 'react';
 import { Text, StyleSheet } from 'react-native';
 import { SIZES } from '../../../../constants/theme';
-import FadeInView from '../../../../components/FadeInView/FadeInView';
-import LoadingIndicator from '../../../LoadingIndicator';
+import FadeInView from '../../../FadeInView';
+import LoadingIndicator from '../../../Loaders/LoadingIndicator';
 import { Card } from 'react-native-elements/dist/card/Card';
 
 export default function LoadingCard() {

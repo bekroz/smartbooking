@@ -3,7 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  ActivityIndicator,
   ScrollView,
   SafeAreaView,
   RefreshControl,
@@ -16,7 +15,7 @@ import { Divider } from 'react-native-elements/dist/divider/Divider';
 import { COLORS, SIZES } from '../../../constants/theme';
 // Components
 import { HotelListBar } from '../../../components/Dashboard';
-import { NoDataToShow } from '../../../components/UserAlerts';
+import { NoDataToShow } from '../../../components/Alerts/UserAlerts';
 // Helpers
 import { numberWithSpaces, wordTruncator } from '../../../helpers';
 // Icons
