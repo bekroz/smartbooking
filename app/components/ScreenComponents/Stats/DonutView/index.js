@@ -3,20 +3,20 @@ import { View, StyleSheet, Text } from 'react-native';
 import Svg, { G, Circle } from 'react-native-svg';
 import { COLORS, SIZES } from '../../../../constants/theme';
 
-const DonutView = () => {
+const DonutView = ({ data }) => {
   const radius = 65;
   const circleCircumference = 4 * Math.PI * radius;
 
   const coralCircleData = 30;
   const blueCircleData = 10;
-  const orangeCircleData = 20;
+  const orangeCircleData = 200;
 
   const yellowCircleData = 0;
   const greenCircleData = 0;
   const pinkCircleData = 0;
 
   // Total View
-  const totalAmount =
+  const totalAmount = 
     blueCircleData +
     orangeCircleData +
     yellowCircleData +
@@ -78,9 +78,6 @@ const DonutView = () => {
           <Svg height="160" width="160" viewBox="0 0 180 180">
             <G rotation={-90} originX="90" originY="90">
               <>
-                {/* CORAL Circle */}
-
-                {/* YELLOW Circle */}
                 <Circle
                   cx="50%"
                   cy="50%"

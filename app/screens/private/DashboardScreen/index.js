@@ -129,7 +129,7 @@ const DashboardScreen = ({
   // Kamaytirish 140 =>- currentArrivedPercentage
 
   const [refreshing, setRefreshing] = useState(false);
-  
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
