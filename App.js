@@ -1,20 +1,50 @@
-import React, { useEffect, useState } from 'react';
-import { View, StatusBar } from 'react-native';
-// Components
-import { SAFEAREASTYLE, LOADERSTYLE } from './constants/theme';
-import Loader from './components/Loader';
-import AppStack from './AppStack';
+import React from 'react';
+import { StatusBar } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { NavigationContainer, DarkTheme } from '@react-navigation/native';
+import { ModalPortal } from 'react-native-modals';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/es/integration/react';
+// Redux store
+import { store, persistor } from './app/redux/store';
+// Crash tracker
+import * as Sentry from '@sentry/react-native';
+// Main container
+import AppContainer from './app/container/AppContainer';
+// Navigator
+import navigationService from './app/services/navigationService';
+// Crash tracker setup
 
-export default function App() {
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    setTimeout(() => setLoading(false), 3000);
-  }, []);
+// import Modal from './app/components/Dashboard/Modals/DashboardModal';
+import Test from './app/components/ScreenComponents/Stats/RevenueDonut';
 
+Sentry.init({
+  dsn: 'https://1329c9b248134401acc8ae1a7a34cc54@o1092790.ingest.sentry.io/6111610',
+  integrations: [
+    new Sentry.ReactNativeTracing({
+      tracingOrigins: ['localhost', 'smartbooking.uz', /^\//],
+    }),
+  ],
+});
+
+const App = () => {
   return (
-    <View style={loading ? LOADERSTYLE : SAFEAREASTYLE}>
-      <StatusBar animated={true} barStyle="light-content" />
-      {loading ? <Loader /> : <AppStack />}
-    </View>
+    <Sentry.TouchEventBoundary>
+      <SafeAreaProvider>
+        <StatusBar animated={true} barStyle="light-content" />
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <NavigationContainer
+              ref={navRef => navigationService.setTopLevelNavigator(navRef)}
+              theme={DarkTheme}>
+              <AppContainer />
+            </NavigationContainer>
+          </PersistGate>
+        </Provider>
+        <ModalPortal />
+      </SafeAreaProvider>
+    </Sentry.TouchEventBoundary>
   );
-}
+};
+
+export default Sentry.wrap(App);
