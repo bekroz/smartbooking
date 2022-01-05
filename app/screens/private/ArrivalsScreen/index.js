@@ -17,7 +17,7 @@ import { COLORS, SIZES } from '../../../constants/theme';
 import { HotelListBar } from '../../../components/Dashboard';
 import { NoDataToShow } from '../../../components/Alerts/UserAlerts';
 // Helpers
-import { numberWithSpaces, wordTruncator } from '../../../helpers';
+import { numberWithSpaces, dottedTruncator } from '../../../helpers';
 // Icons
 import {
   MoonSvg,
@@ -212,7 +212,7 @@ const ArrivalsScreen = ({
                               width: 210,
                             }}>
                             <Text style={styles.channelName}>
-                              {wordTruncator(source, 15)}
+                              {dottedTruncator(source, 15)}
                             </Text>
                             <View style={styles.dateContainer}>
                               <Text
@@ -241,7 +241,7 @@ const ArrivalsScreen = ({
                             <Text
                               style={{ color: COLORS.white, marginBottom: 4 }}>
                               {room
-                                ? wordTruncator(roomType.name, 18)
+                                ? dottedTruncator(roomType.name, 18)
                                 : roomType.short_name}
                             </Text>
                             <Text
@@ -251,8 +251,8 @@ const ArrivalsScreen = ({
                                 marginBottom: 18,
                               }}>
                               {room
-                                ? wordTruncator(room.name, 20)
-                                : wordTruncator(roomType.name, 20)}
+                                ? dottedTruncator(room.name, 20)
+                                : dottedTruncator(roomType.name, 20)}
                             </Text>
                             <Text
                               style={[

@@ -6,6 +6,7 @@ import LineChartData from './LineChartData/LineChartData';
 import ChannelsDataShow from './ChannelsDataShow';
 import AnnualDataShow from './AnnualDataShow';
 import StatsSegmentControl from './SegmentedControl';
+import YearPicker from './YearPicker.js';
 
 export {
   LineView,
@@ -16,4 +17,5 @@ export {
   ChannelsDataShow,
   AnnualDataShow,
   StatsSegmentControl,
+  YearPicker,
 };

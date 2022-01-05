@@ -22,7 +22,6 @@ import {
   InHouseStatus,
   NoShowStatus,
 } from '../components/ScreenComponents/Reservation';
-
 export {
   SpaceForScroll,
   // ReservationScreen components

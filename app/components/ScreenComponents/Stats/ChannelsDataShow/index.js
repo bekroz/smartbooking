@@ -15,11 +15,13 @@ import { COLORS, SIZES } from '../../../../constants/theme';
 // Components
 import { SpaceForScroll } from '../../../../components';
 import { DonutView, LineView, DotView } from '../../../ScreenComponents/Stats';
+import RevenueDonut from '../RevenueDonut';
 // Middleware
 import { getChannelsDataMiddleware } from '../../../../redux/middlewares';
 import { connect } from 'react-redux';
 import FadeInView from '../../../../components/FadeInView';
 import { numberWithSpaces } from '../../../../helpers';
+import CollapserButton from '../CollapserButton';
 
 const ChannelsDataShow = ({
   navigation,
@@ -92,6 +94,7 @@ const ChannelsDataShow = ({
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 marginBottom: 15,
+                zIndex: 1,
               }}>
               <View>
                 <Text
@@ -117,7 +120,8 @@ const ChannelsDataShow = ({
             </View>
 
             <View style={{ flexDirection: 'row' }}>
-              <DonutView />
+              {/* <DonutView /> */}
+              <RevenueDonut />
               {/* Color and Title */}
               <View style={{ flex: 1, top: -15 }}>
                 {/* Dots */}
@@ -128,6 +132,7 @@ const ChannelsDataShow = ({
                 ))}
               </View>
             </View>
+            <CollapserButton />
           </FadeInView>
         </Card>
       ) : null}
@@ -168,8 +173,8 @@ const ChannelsDataShow = ({
               {/* LEFT Donut View */}
 
               {/* <Donut /> */}
-              <DonutView />
-
+              <RevenueDonut />
+              {/* <FusionDonut /> */}
               {/* Color and Title */}
               <View style={{ flex: 1, top: -15 }}>
                 {/* Dots */}
@@ -180,6 +185,7 @@ const ChannelsDataShow = ({
                 ))}
               </View>
             </View>
+            <CollapserButton />
           </FadeInView>
         ) : (
           <ActivityIndicator

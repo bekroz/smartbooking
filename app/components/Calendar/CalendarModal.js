@@ -13,7 +13,7 @@ export default function CalendarModal({
       <Overlay
         isVisible={calendarModalVisible}
         onBackdropPress={toggleCalendarModal}>
-        <Calendar handleAcceptButtonPress={toggleCalendarModal} />
+        <Calendar toggleCalendarModal={toggleCalendarModal} />
       </Overlay>
     </View>
   );

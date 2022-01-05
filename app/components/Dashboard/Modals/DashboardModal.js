@@ -93,7 +93,7 @@ const DashboardModal = ({ hotelID, hotelList }) => {
           </TouchableOpacity>
         </View>
         <View style={POSITIONING.align}>
-          {/* <Picker
+          <Picker
             style={{ borderBottomColor: 'black' }}
             selectedValue={chosenHotelID}
             onValueChange={hotelID => setChosenHotelID(hotelID)}>
@@ -106,7 +106,7 @@ const DashboardModal = ({ hotelID, hotelList }) => {
                   key={index}
                 />
               ))}
-          </Picker> */}
+          </Picker>
           <FlatList
             data={hotelList}
             renderItem={renderHotelNames}

@@ -1,60 +1,184 @@
-import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
-import FusionCharts from 'react-native-fusioncharts';
+import React, { useState, useRef } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  SafeAreaView,
+  FlatList,
+} from 'react-native';
+// Theme
+import { COLORS, POSITIONING, SIZES } from './app/constants/theme';
+// Icons
+import { QuitSvg } from './app/assets/icons/SvgIcons';
+import { connect } from 'react-redux';
+import ReactNativePickerModule from 'react-native-picker-module';
+import { Picker } from '@react-native-picker/picker';
 
-export default class PlainColumn2D extends Component {
-  constructor(props) {
-    super(props);
+const DashboardModal = ({ hotelID, hotelList }) => {
+  // const modalShow
+  // const modalClose = () => {
+  //   // console.log('Modal closed');
+  // };
+  // return (
+  //   <Modal
+  //     animationType={'fade'}
+  //     transparent={true}
+  //     visible={modalShow}
+  //     onRequestClose={modalClose}
+  //   />
+  // );
+  const pickerRef = useRef();
+  const [value, setValue] = useState();
 
-    this.state = {
-      type: 'column2d',
-      width: '100%',
-      height: '100%',
-      dataFormat: 'json',
-      dataSource: {
-        /* see data tab */
-      },
-    };
-    this.libraryPath = Platform.select({
-      // Specify fusioncharts.html file location
-      ios: require('./assets/fusioncharts.html'),
-      android: { uri: 'file:///android_asset/fusioncharts.html' },
-    });
-  }
+  // const getHotelName = hotelList => {
+  //   hotelList.map(hotel => {
+  //     if (hotel.id) {
+  //       return hotel;
+  //     }
+  //   });
+  // };
+  // const dataset_2 = [
+  //   {
+  //     value: 101,
+  //     label: 'Javascript',
+  //   },
+  // ];
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.header}>A Column 2D Chart</Text>
-        <View style={styles.chartContainer}>
-          <FusionCharts
-            type={this.state.type}
-            width={this.state.width}
-            height={this.state.height}
-            dataFormat={this.state.dataFormat}
-            dataSource={this.state.dataSource}
-            libraryPath={this.libraryPath} // set the libraryPath property
+  const [chosenHotelID, setChosenHotelID] = useState(hotelID);
+
+  // const hotelName = hotelList => {
+  //   {
+  //     hotelList.map(hotel => (
+  //       <TouchableOpacity style={{ marginBottom: SIZES.base }} key={hotel.id}>
+  //         <Text style={[styles.options, styles.chosenOptionStyle]}>
+  //           {hotel.name}
+  //         </Text>
+  //       </TouchableOpacity>
+  //     ));
+  //   }
+  // };
+
+  renderHotelNames = () => {
+    {
+      hotelList?.map(hotel => (
+        <TouchableOpacity style={{ marginBottom: SIZES.base }} key={hotel.id}>
+          <Text style={[styles.options, styles.chosenOptionStyle]}>
+            {hotel.name}
+          </Text>
+        </TouchableOpacity>
+      ));
+    }
+  };
+
+  return (
+    <SafeAreaView
+      style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={styles.modalBlock}>
+        <View
+          style={{
+            flexDirection: 'row',
+            margin: 15,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Text style={styles.optionsTopTitle}>Выберите объект</Text>
+          <TouchableOpacity
+            style={{
+              right: 0,
+              position: 'absolute',
+              padding: 5,
+            }}>
+            <QuitSvg />
+          </TouchableOpacity>
+        </View>
+        <View style={POSITIONING.align}>
+          {/* <Picker
+            style={{ borderBottomColor: 'black' }}
+            selectedValue={chosenHotelID}
+            onValueChange={hotelID => setChosenHotelID(hotelID)}>
+            {hotelList &&
+              hotelList?.map(hotel, index => (
+                <Picker.Item
+                  style={styles.input}
+                  label={hotel.name}
+                  value={hotel.name}
+                  key={index}
+                />
+              ))}
+          </Picker> */}
+          <FlatList
+            data={hotelList}
+            renderItem={renderHotelNames}
+            keyExtractor={(hotel, index) => hotel.toString()}
+            numColumns={2}
           />
+          {/* <>
+          
+            <ReactNativePickerModule
+              pickerRef={pickerRef}
+              value={value}
+              title={'Select a language'}
+              items={{}}
+              titleStyle={{ color: 'white' }}
+              itemStyle={{ color: 'white' }}
+              selectedColor="#FC0"
+              selectedValue={'red'}
+              confirmButtonEnabledTextStyle={{ color: 'white' }}
+              confirmButtonDisabledTextStyle={{ color: 'grey' }}
+              cancelButtonTextStyle={{ color: 'white' }}
+              confirmButtonStyle={{
+                backgroundColor: 'rgba(0,0,0,1)',
+              }}
+              cancelButtonStyle={{
+                backgroundColor: 'rgba(0,0,0,1)',
+              }}
+              contentContainerStyle={{
+                backgroundColor: 'rgba(0,0,0,1)',
+              }}
+              onCancel={() => {
+                console.log('Cancelled');
+              }}
+              onValueChange={value => {
+                // console.log('value: ', value);
+                setValue(value);
+              }}
+            />
+          </> */}
         </View>
       </View>
-    );
-  }
-}
+    </SafeAreaView>
+  );
+};
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 10,
+  modalBlock: {
+    backgroundColor: '#0F0F0F',
+    width: 340,
+    height: 175,
+    borderRadius: 12,
   },
-  header: {
-    fontWeight: 'bold',
-    fontSize: 20,
-    textAlign: 'center',
-    paddingBottom: 10,
+  optionsTopTitle: {
+    color: COLORS.white,
+    fontSize: 26,
+    fontWeight: SIZES.fontWeight3,
   },
-  chartContainer: {
-    height: 400,
-    borderColor: '#000',
-    borderWidth: 1,
+  options: {
+    fontSize: SIZES.body4,
+    color: COLORS.white,
+  },
+  chosenOptionStyle: {
+    color: COLORS.blue,
+    fontWeight: SIZES.fontWeight2,
   },
 });
+
+function mapStateToProps({ hotelReducer }) {
+  const { hotelID, hotelList } = hotelReducer;
+  return {
+    hotelID,
+    hotelList,
+  };
+}
+
+export default connect(mapStateToProps)(DashboardModal);

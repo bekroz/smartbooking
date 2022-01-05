@@ -15,6 +15,9 @@ import AppContainer from './app/container/AppContainer';
 import navigationService from './app/services/navigationService';
 // Crash tracker setup
 
+import Modal from './app/components/Dashboard/Modals/DashboardModal';
+import Test from './app/components/ScreenComponents/Stats/RevenueDonut';
+
 Sentry.init({
   dsn: 'https://1329c9b248134401acc8ae1a7a34cc54@o1092790.ingest.sentry.io/6111610',
   integrations: [
@@ -35,6 +38,8 @@ const App = () => {
               ref={navRef => navigationService.setTopLevelNavigator(navRef)}
               theme={DarkTheme}>
               <AppContainer />
+              {/* <Modal /> */}
+              {/* <Test /> */}
             </NavigationContainer>
           </PersistGate>
         </Provider>

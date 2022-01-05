@@ -3,7 +3,7 @@ import emailValidator from './validators/emailValidator';
 import passwordValidator from './validators/passwordValidator';
 // Others
 import numberWithSpaces from './others/numberWithSpaces';
-import wordTruncator from './others/wordTruncator';
+import { dottedTruncator, noDottedTruncator } from './others/wordTruncator';
 import capitalize from './others/capitalize';
 import { getMonthNameLong, getMonthNameShort } from './others/getMonthName';
 import {
@@ -13,11 +13,14 @@ import {
   currentYear,
 } from './others/defaultDateSetter';
 
+import yearsArray from './others/yearArray';
+
 export {
   emailValidator,
   passwordValidator,
   numberWithSpaces,
-  wordTruncator,
+  dottedTruncator,
+  noDottedTruncator,
   capitalize,
   getMonthNameLong,
   getMonthNameShort,
@@ -25,4 +28,5 @@ export {
   currentMonth,
   monthRangeUntilToday,
   currentYear,
+  yearsArray,
 };

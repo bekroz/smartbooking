@@ -4,14 +4,26 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import Calendar from '../Additionals/date-picker';
 // Theme
 import { COLORS, SIZES } from '../../constants/theme';
+import { store } from '../../redux/store';
+import { setChosenMonthRange } from '../../redux/actions';
+import { connect } from 'react-redux';
 
-const App = ({ handleAcceptButtonPress }) => {
-  const [range, setRange] = useState({});
+const MonthRangePickerModal = ({ toggleCalendarModal, chosenMonthRange }) => {
+  const [updatedMonthRange, setUpdatedMonthRange] = useState(chosenMonthRange);
   const [dateRangeValue, setDateRangeValue] = useState(null);
 
+  function handleAcceptButtonPress() {
+    store.dateReducer.dispatch(setChosenMonthRange(updatedMonthRange));
+    toggleCalendarModal();
+  }
+
+  function handleClearButtonPress() {
+    setUpdatedMonthRange({});
+  }
+
   return (
-    <View style={{ backgroundColor: '#212831', borderRadius: 12 }}>
-      {/* <View style={styles.container}>
+    <View style={styles.rangeModalContainer}>
+      {/* <View style={styles.pickerWrapper}>
         <DateRangePicker
           onSelectDateRange={range => {
             setDateRangeValue(range);
@@ -34,7 +46,7 @@ const App = ({ handleAcceptButtonPress }) => {
           format="YYYY-MM-DD"
           showControls={true}
           userColors={{ title: '#FFFFFF' }}
-          onDateChange={range => setRange(range)}
+          onDateChange={range => setUpdatedMonthRange(range)}
           mode="range"
           locale="ru"
           style={styles.container}
@@ -58,7 +70,8 @@ const App = ({ handleAcceptButtonPress }) => {
             height: 36,
             alignItems: 'center',
             justifyContent: 'center',
-          }}>
+          }}
+          onPress={handleClearButtonPress()}>
           <Text
             style={{
               color: COLORS.blue,
@@ -70,7 +83,7 @@ const App = ({ handleAcceptButtonPress }) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.acceptButtonStyle}
-          onPress={handleAcceptButtonPress}>
+          onPress={handleAcceptButtonPress()}>
           <Text style={styles.acceptTextstyle}>Подтвердить</Text>
         </TouchableOpacity>
       </View>
@@ -88,7 +101,11 @@ const App = ({ handleAcceptButtonPress }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  rangeModalContainer: {
+    backgroundColor: '#212831',
+    borderRadius: 12,
+  },
+  pickerWrapper: {
     margin: 50,
   },
   selectedDateContainerStyle: {
@@ -117,4 +134,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+function mapStateToProps({ dateReducer }) {
+  const { chosenMonthRange } = dateReducer;
+  return {
+    chosenMonthRange,
+  };
+}
+
+export default connect(mapStateToProps)(MonthRangePickerModal);

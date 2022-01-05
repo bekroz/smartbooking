@@ -25,13 +25,10 @@ import {
 import { connect } from 'react-redux';
 import { getAnnualDataMiddleware } from '../../../../redux/middlewares';
 import FadeInView from '../../../../components/FadeInView';
+import { store } from '../../../../redux/store';
+import YearPicker from '../YearPicker.js';
 
-const AnnualDataShow = ({
-  loading,
-  annualData,
-  chosenYear,
-  error,
-}) => {
+const AnnualDataShow = ({ loading, annualData, chosenYear, error }) => {
   const onPullToRefresh = useCallback(() => {
     getAnnualDataMiddleware();
   }, []);
@@ -41,6 +38,11 @@ const AnnualDataShow = ({
   }, []);
 
   const [refreshing, setRefreshing] = useState(false);
+  const [yearModalVisible, setYearModalVisible] = useState(false);
+
+  function handleYearPickerModal() {
+    setYearModalVisible(!yearModalVisible);
+  }
 
   return (
     <ScrollView
@@ -116,7 +118,9 @@ const AnnualDataShow = ({
         <View style={{ alignSelf: 'flex-start' }}>
           <Text style={styles.soldNightsText}>Количество проданных ночей</Text>
         </View>
-        <TouchableOpacity style={styles.chosenYearButton}>
+        <TouchableOpacity
+          style={styles.chosenYearButton}
+          onPress={() => handleYearPickerModal()}>
           <Text style={styles.topBarText}>{chosenYear}</Text>
         </TouchableOpacity>
       </View>
@@ -182,6 +186,12 @@ const AnnualDataShow = ({
         </Card>
       )}
       <SpaceForScroll />
+      {yearModalVisible && (
+        <YearPicker
+          chosenYear={chosenYear}
+          setYearModalVisible={setYearModalVisible}
+        />
+      )}
     </ScrollView>
   );
 };

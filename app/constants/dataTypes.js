@@ -28,6 +28,8 @@ const RESERVATION_TYPE_LABEL = {
   stay: 'Проживание',
 };
 
+
+
 const RESERVATION_TYPE_CAROUSEL = [
   {
     status: 'checkins',
