@@ -21,12 +21,12 @@ import {
   BlueColumns,
   LineChartData,
 } from '../../../../components/ScreenComponents/Stats';
-
+import Columns from '../../Stats/Columns';
 import { connect } from 'react-redux';
 import { getAnnualDataMiddleware } from '../../../../redux/middlewares';
 import FadeInView from '../../../../components/FadeInView';
-import { store } from '../../../../redux/store';
 import YearPicker from '../YearPicker.js';
+import Spline from '../Spline';
 
 const AnnualDataShow = ({ loading, annualData, chosenYear, error }) => {
   const onPullToRefresh = useCallback(() => {
@@ -37,7 +37,7 @@ const AnnualDataShow = ({ loading, annualData, chosenYear, error }) => {
     getAnnualDataMiddleware();
   }, []);
 
-  const [refreshing, setRefreshing] = useState(false);
+  const [refreshing] = useState(false);
   const [yearModalVisible, setYearModalVisible] = useState(false);
 
   function handleYearPickerModal() {
@@ -101,8 +101,10 @@ const AnnualDataShow = ({ loading, annualData, chosenYear, error }) => {
             justifyContent: 'center',
           }}>
           <>
-            <BlueColumns />
-            <LineChartData />
+            {/* <BlueColumns /> */}
+            <Columns />
+            <Spline />
+            {/* <LineChartData /> */}
           </>
         </ScrollView>
       </View>

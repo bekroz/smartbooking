@@ -14,7 +14,7 @@ import { Card } from 'react-native-elements/dist/card/Card';
 import { COLORS, SIZES } from '../../../../constants/theme';
 // Components
 import { SpaceForScroll } from '../../../../components';
-import { DonutView, LineView, DotView } from '../../../ScreenComponents/Stats';
+import { LineView, DotView } from '../../../ScreenComponents/Stats';
 import RevenueDonut from '../RevenueDonut';
 // Middleware
 import { getChannelsDataMiddleware } from '../../../../redux/middlewares';
@@ -44,7 +44,7 @@ const ChannelsDataShow = ({
     getChannelsDataMiddleware();
   }, []);
 
-  const [refreshing, setRefreshing] = useState(false);
+  const [refreshing] = useState(false);
 
   const monthStart = dayjs(chosenMonthRange.startDate)
     .locale('ru')

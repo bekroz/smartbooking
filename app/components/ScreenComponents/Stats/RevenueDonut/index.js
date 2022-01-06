@@ -1,9 +1,7 @@
-import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { Platform, StyleSheet, View } from 'react-native';
 import FusionCharts from 'react-native-fusioncharts';
-import { connect } from 'react-redux';
-import { COLORS, SIZES } from '../../../../constants';
-import { noDottedTruncator, numberWithSpaces } from '../../../../helpers';
+import { noDottedTruncator } from '../../../../helpers';
 import { DONUT_PALETTE } from '../../../../constants/theme';
 const RevenueDonut = ({ channelsData }) => {
   const donutData = channelsData?.map(source => {
@@ -31,7 +29,6 @@ const RevenueDonut = ({ channelsData }) => {
       // labelDistance: 20,
       thousandSeparator: '$value',
       plottooltext: '$value UZS',
-      decimals: '0',
       theme: 'fusion',
       plotBorderThickness: 5,
       startingAngle: 90,

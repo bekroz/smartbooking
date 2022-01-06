@@ -3329,6 +3329,11 @@
   dependencies:
     invariant "^2.2.4"
 
+"@react-native-community/viewpager@^1.1.7":
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/@react-native-community/viewpager/-/viewpager-1.1.7.tgz#7d3b1631f1ec91145db92a8e25c80d53027e96ba"
+  integrity sha512-k9v2KJtAprNPq7IZmedD2VLMePvPW+ohX3uDnkpoKritBji+/RtRmTKrdtPi3Uvp0toq/KtPttAds1dr7AZNpw==
+
 "@react-native-firebase/app@^14.1.0":
   version "14.1.0"
   resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-14.1.0.tgz#f3a26c893c86e9cb50f9735bc9ab0b1fef6462aa"
@@ -7096,6 +7101,13 @@ dom-walk@^0.1.0:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/dom-walk/-/dom-walk-0.1.2.tgz#0c548bef048f4d1f2a97249002236060daa3fd84"
   integrity sha512-6QvTW9mrGeIegrFXdtQi9pk7O/nSK6lSdXW2eqUspN5LWD7UTji2Fqw5V2YLjBpHEoU9Xl/eUWNpDeZvoyOv2w==
+
+dom7@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/dom7/-/dom7-4.0.2.tgz#b3595f34c9658d72e88bb6fa6a6e7b430d4bd5fd"
+  integrity sha512-Ji4t3Y/vNQg6Q9bR+Syx6Td8qiq8116LE9h4OzbPuxdxK7DyyX7i8EXkYgBX6+EiX6+oYXDTH5BSN29G/n4jug==
+  dependencies:
+    ssr-window "^4.0.0"
 
 domelementtype@1:
   version "1.3.1"
@@ -12241,6 +12253,14 @@ react-native-carousel-control@^2.0.1:
   resolved "https://registry.yarnpkg.com/react-native-carousel-control/-/react-native-carousel-control-2.0.1.tgz#5c6ec3e61a695128af584ba3bf335c38cb936b49"
   integrity sha512-4yyVlWRiNkBt8xKanGS3R+UwOe+yZoc6D8yd5Wyd3i/1S4fg4YysuFHq5ZjAKjQtJud95Q1oWjhkfzVB2C+cgA==
 
+react-native-carousel@^0.12.0:
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/react-native-carousel/-/react-native-carousel-0.12.0.tgz#3297b965b5b233e351bd8995597d85c65775ca9b"
+  integrity sha512-quuOYsEYPJ0g8YLWNyZ8mc6BVye4kHavQ+Ba/FlNbb4LdVqAyL3jo3Pd9doa96XBh65JCY2B2XNtaGlnHk3t5w==
+  dependencies:
+    "@react-native-community/viewpager" "^1.1.7"
+    react-timer-mixin "^0.13.3"
+
 react-native-chart-kit@^6.11.0:
   version "6.11.0"
   resolved "https://registry.yarnpkg.com/react-native-chart-kit/-/react-native-chart-kit-6.11.0.tgz#513e0944cd8f946e1827facc17fe766ae487d91b"
@@ -12884,6 +12904,13 @@ react-native-web-refresh-control@^1.1.0:
   resolved "https://registry.yarnpkg.com/react-native-web-refresh-control/-/react-native-web-refresh-control-1.1.0.tgz#1db8fa744e88a8f6a171166d6743ea3ef1ec0d82"
   integrity sha512-cOO5WKM7gYXPv9yBc8XXDoRSj/a7GEt0dJ0sOlpwbZyfAiLXA5pS+4XEh10cHG3J+S6yth4Oe5srsebsQTpe+A==
 
+react-native-web-swiper@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/react-native-web-swiper/-/react-native-web-swiper-2.2.2.tgz#5a3bf2df3b1d692d81d9ab5e57609b399d2f7eeb"
+  integrity sha512-w3ZcJAulo8FmGpLJ3OA+0ZctHpZR4JLL9Rv7kVLeA3JSTIPoJZZA5MVdWksIXy6MUT2UbBVCZYTzSK7mE+x9/g==
+  dependencies:
+    prop-types "^15.6.2"
+
 react-native-web@^0.17.5:
   version "0.17.5"
   resolved "https://registry.yarnpkg.com/react-native-web/-/react-native-web-0.17.5.tgz#2c27452b4654fb098c3c412cb04c379add1015a6"
@@ -13043,6 +13070,11 @@ react-test-renderer@^17.0.2:
     react-is "^17.0.2"
     react-shallow-renderer "^16.13.1"
     scheduler "^0.20.2"
+
+react-timer-mixin@^0.13.3:
+  version "0.13.4"
+  resolved "https://registry.yarnpkg.com/react-timer-mixin/-/react-timer-mixin-0.13.4.tgz#75a00c3c94c13abe29b43d63b4c65a88fc8264d3"
+  integrity sha512-4+ow23tp/Tv7hBM5Az5/Be/eKKF7DIvJ09voz5LyHGQaqqz9WV8YMs31eFvcYQs7d451LSg7kDJV70XYN/Ug/Q==
 
 react-top-loading-bar@^2.1.0:
   version "2.1.0"
@@ -14076,6 +14108,11 @@ sprintf-js@~1.0.2:
   resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.0.3.tgz#04e6926f662895354f3dd015203633b857297e2c"
   integrity sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw=
 
+ssr-window@^4.0.0, ssr-window@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/ssr-window/-/ssr-window-4.0.2.tgz#dc6b3ee37be86ac0e3ddc60030f7b3bc9b8553be"
+  integrity sha512-ISv/Ch+ig7SOtw7G2+qkwfVASzazUnvlDTwypdLoPoySv+6MqlOV10VwPSE6EWkGjhW50lUmghPmpYZXMu/+AQ==
+
 stable@^0.1.8:
   version "0.1.8"
   resolved "https://registry.yarnpkg.com/stable/-/stable-0.1.8.tgz#836eb3c8382fe2936feaf544631017ce7d47a3cf"
@@ -14448,6 +14485,14 @@ svgo@^1.2.2:
     stable "^0.1.8"
     unquote "~1.1.1"
     util.promisify "~1.0.0"
+
+swiper@^7.4.1:
+  version "7.4.1"
+  resolved "https://registry.yarnpkg.com/swiper/-/swiper-7.4.1.tgz#99fc586d1335b45250d2c6b3128dc91f8047d3e7"
+  integrity sha512-dhbL4tpYFvHug1J7GnKElfTi6EYhlZy/vNZRhHkWFyUsWZ1Vovipxj3la5gqllMogygXJMe3zvVv+f6eppvWiA==
+  dependencies:
+    dom7 "^4.0.2"
+    ssr-window "^4.0.2"
 
 symbol-tree@^3.2.4:
   version "3.2.4"

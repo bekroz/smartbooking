@@ -19,7 +19,7 @@ export const COLORS = {
   yellow: '#E3C763',
   orange: '#E46B45',
   coral: '#E3766F',
-  coralStatLine: '#EB6161',
+  statsLine: '#EB6161',
   greenProgress: '#0ECC38',
   greenCircle: '#4BBD64',
   purple: '#740DF7',
@@ -126,6 +126,8 @@ export const DONUT_PALETTE = [
   '#E3766F',
 ];
 
-const theme = { COLORS, SIZES, FONTS, DONUT_PALETTE };
+export const COLUMN_PALETTE = '#5B93FF';
+
+const theme = { COLORS, SIZES, FONTS, DONUT_PALETTE, COLUMN_PALETTE };
 
 export default theme;

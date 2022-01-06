@@ -1,12 +1,10 @@
-import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { Platform, StyleSheet, View } from 'react-native';
 import FusionCharts from 'react-native-fusioncharts';
-import { connect } from 'react-redux';
-import { COLORS, SIZES } from '../../../../constants';
-import { noDottedTruncator, numberWithSpaces } from '../../../../helpers';
+import { noDottedTruncator } from '../../../../helpers';
 
 const RevenueDonut = ({ donutData }) => {
-  const filteredData = donut?.map(source => {
+  const filteredData = donutData?.map(source => {
     const { source_name, revenue } = source;
     return {
       label: noDottedTruncator(source_name, 12),
@@ -42,7 +40,6 @@ const RevenueDonut = ({ donutData }) => {
       // labelDistance: 20,
       thousandSeparator: '$value',
       plottooltext: '$value UZS',
-      decimals: '0',
       theme: 'fusion',
       plotBorderThickness: 5,
       startingAngle: 90,
@@ -71,7 +68,7 @@ const RevenueDonut = ({ donutData }) => {
       minimiseWrappingInLegend: 0,
       // showPercentInToolTip: 1,
     },
-    data: donutData,
+    data: filteredData,
   };
 
   const libraryPath = Platform.select({
