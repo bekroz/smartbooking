@@ -7,6 +7,8 @@ import { COLORS, POSITIONING, SIZES } from '../../../constants/theme';
 // Icons
 import { CloseSvg } from '../../../assets/icons/SvgIcons';
 import { connect } from 'react-redux';
+
+
 const HotelModalBox = ({
   visible,
   onTouchOutside,

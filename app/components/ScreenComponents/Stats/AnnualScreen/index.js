@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useCallback, useState, useRef } from 'react';
 import {
   View,
   TouchableOpacity,
@@ -16,17 +16,16 @@ import { COLORS, SIZES } from '../../../../constants/theme';
 // Helpers
 import { numberWithSpaces } from '../../../../helpers';
 // Components
-import { SpaceForScroll } from '../../../../components';
-import {
-  BlueColumns,
-  LineChartData,
-} from '../../../../components/ScreenComponents/Stats';
-
+import { SpaceForScroll } from '../../..';
+import { BlueColumns, LineChartData } from '..';
+import Columns from '../Columns';
 import { connect } from 'react-redux';
 import { getAnnualDataMiddleware } from '../../../../redux/middlewares';
-import FadeInView from '../../../../components/FadeInView';
-import { store } from '../../../../redux/store';
-import YearPicker from '../YearPicker.js';
+import FadeInView from '../../../FadeInView';
+import YearPicker from '../YearPicker/index.js';
+import Spline from '../ColumnLineChart';
+import ColumnLineChart from '../ColumnLineChart';
+import YearPickerModal from '../YearPicker/index.js';
 
 const AnnualDataShow = ({ loading, annualData, chosenYear, error }) => {
   const onPullToRefresh = useCallback(() => {
@@ -37,13 +36,16 @@ const AnnualDataShow = ({ loading, annualData, chosenYear, error }) => {
     getAnnualDataMiddleware();
   }, []);
 
-  const [refreshing, setRefreshing] = useState(false);
+  const [refreshing] = useState(false);
   const [yearModalVisible, setYearModalVisible] = useState(false);
 
-  function handleYearPickerModal() {
+  const handleYearPickerModal = () => {
     setYearModalVisible(!yearModalVisible);
-  }
+    // pickerRef.current.show();
+  };
 
+  // onPress={() => pickerRef.current.show()}
+  const [visible, setVisible] = useState(false);
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -54,6 +56,13 @@ const AnnualDataShow = ({ loading, annualData, chosenYear, error }) => {
           tintColor={'white'}
         />
       }>
+      <YearPickerModal
+        chosenYear={chosenYear}
+        visible={yearModalVisible}
+        // yearModalVisible={yearModalVisible}
+        setYearModalVisible={setYearModalVisible}
+      />
+
       <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
         {/* <TouchableOpacity
           style={[
@@ -100,10 +109,9 @@ const AnnualDataShow = ({ loading, annualData, chosenYear, error }) => {
           containerStyle={{
             justifyContent: 'center',
           }}>
-          <>
-            <BlueColumns />
-            <LineChartData />
-          </>
+          {/* <BlueColumns /> */}
+          <ColumnLineChart annualData={annualData} />
+          {/* <LineChartData /> */}
         </ScrollView>
       </View>
       <Divider
@@ -120,7 +128,7 @@ const AnnualDataShow = ({ loading, annualData, chosenYear, error }) => {
         </View>
         <TouchableOpacity
           style={styles.chosenYearButton}
-          onPress={() => handleYearPickerModal()}>
+          onPress={handleYearPickerModal}>
           <Text style={styles.topBarText}>{chosenYear}</Text>
         </TouchableOpacity>
       </View>
@@ -186,12 +194,6 @@ const AnnualDataShow = ({ loading, annualData, chosenYear, error }) => {
         </Card>
       )}
       <SpaceForScroll />
-      {yearModalVisible && (
-        <YearPicker
-          chosenYear={chosenYear}
-          setYearModalVisible={setYearModalVisible}
-        />
-      )}
     </ScrollView>
   );
 };

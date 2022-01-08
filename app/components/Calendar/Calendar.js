@@ -6,21 +6,26 @@ import Calendar from '../Additionals/date-picker';
 import { COLORS, SIZES } from '../../constants/theme';
 import { store } from '../../redux/store';
 import { setChosenMonthRange } from '../../redux/actions';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 
 const MonthRangePickerModal = ({ toggleCalendarModal, chosenMonthRange }) => {
   const [updatedMonthRange, setUpdatedMonthRange] = useState(chosenMonthRange);
   const [dateRangeValue, setDateRangeValue] = useState(null);
-
+  const dispatch = useDispatch();
   function handleAcceptButtonPress() {
-    store.dateReducer.dispatch(setChosenMonthRange(updatedMonthRange));
-    toggleCalendarModal();
+    dispatch(setChosenMonthRange(updatedMonthRange));
+    // toggleCalendarModal();
   }
 
   function handleClearButtonPress() {
     setUpdatedMonthRange({});
   }
-
+  console.log('====================================');
+  console.log(store.getState().dateReducer);
+  console.log('====================================');
+  console.log('====================================');
+  console.log(updatedMonthRange);
+  console.log('====================================');
   return (
     <View style={styles.rangeModalContainer}>
       {/* <View style={styles.pickerWrapper}>
@@ -50,6 +55,7 @@ const MonthRangePickerModal = ({ toggleCalendarModal, chosenMonthRange }) => {
           mode="range"
           locale="ru"
           style={styles.container}
+          useNativeDriver={true}
         />
       </View>
       <View
@@ -71,7 +77,7 @@ const MonthRangePickerModal = ({ toggleCalendarModal, chosenMonthRange }) => {
             alignItems: 'center',
             justifyContent: 'center',
           }}
-          onPress={handleClearButtonPress()}>
+          onPress={() => handleClearButtonPress()}>
           <Text
             style={{
               color: COLORS.blue,

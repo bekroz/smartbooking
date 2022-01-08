@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
   View,
   Text,
@@ -40,6 +40,30 @@ import {
 } from '../../../redux/middlewares';
 import { store } from '../../../redux/store';
 import { ARRIVALS_TYPE } from '../../../constants/dataTypes';
+import Animated, {
+  useSharedValue,
+  withTiming,
+  useAnimatedProps,
+  withDelay,
+  runOnJS,
+  useDerivedValue,
+} from 'react-native-reanimated';
+
+const useAnimatedValue = () => {
+  const initialValue = useRef(new Animated.Value(10)).current;
+  const increaseValue = () => {
+    Animated.timing(initialValue, {
+      toValue: 500,
+      duration: 5000,
+      useNativeDriver: false,
+    }).start();
+  };
+
+  useEffect(() => {
+    setTimeout(() => useAnimatedValue());
+  }, []);
+  return initialValue;
+};
 
 const DashboardScreen = ({
   navigation,
@@ -127,12 +151,109 @@ const DashboardScreen = ({
     return Math.round(minPoint + maxPoint * (live > 0 ? live / maxRooms : 1));
   };
   // Kamaytirish 140 =>- currentArrivedPercentage
+  // const ArcAnimatedRadius = useRef(new Animated.Value(115)).current;
+  // const [animate, setAnimate] = useState(true);
+
+  // const arcAnimatedRadiusValue = useRef(new Animated.Value(115)).current;
+  // const [clicked, setClicked] = useState(false);
+
+  // if (!percentageView) {
+  //   Animated.timing(arcAnimatedRadiusValue, {
+  //     toValue: 10,
+  //     duration: 5000,
+  //     useNativeDriver: false,
+  //   }).start();
+  // }
+  // const backgroundColor = arcAnimatedRadiusValue.interpolate({
+  //   inputRange: [0, 500],
+  //   outputRange: [0, 450],
+  // });
+
+  // console.log('====================================');
+  // console.log(arcAnimatedRadiusValue);
+  // setTimeout(() => {
+  //   console.log('CHANGE ===>');
+  //   console.log(arcAnimatedRadiusValue);
+  // }, 4000);
+  // console.log('====================================');
+
+  // if (animate) {
+  //   Animated.timing(ArcAnimatedRadius, {
+  //     toValue: 115,
+  //     duration: 300,
+  //     useNativeDriver: false,
+  //   }).start();
+  // } else {
+  //   animate
+  //     .timing(ArcAnimatedRadius, {
+  //       toValue: 300,
+  //       duration: 300,
+  //       useNativeDriver: false,
+  //     })
+  //     .start();
+  // }
+
+  // useEffect(() => {
+  //   Animated.timing(ArcAnimatedRadius, {
+  //     toValue: 78,
+  //     duration: 300,
+  //     useNativeDriver: false,
+  //   }).start();
+  // }, []);
+  // const activeStrokeWidth = 10;
+  // const inActiveStrokeWidth = 10;
+  // const radius = 60;
+
+  // const initialValue = 10;
+  // const maxValue = 280;
+
+  // const ArcAnimatedRadius = useRef(new Animated.Value(115)).current;
+  // const [animate, setAnimate] = useState(true);
+
+  // if (animate) {
+  //   Animated.timing(ArcAnimatedRadius, {
+  //     toValue: 115,
+  //     duration: 300,
+  //     useNativeDriver: false,
+  //   }).start();
+  // } else {
+  //   animate
+  //     .timing(ArcAnimatedRadius, {
+  //       toValue: 300,
+  //       duration: 300,
+  //       useNativeDriver: false,
+  //     })
+  //     .start();
+  // }
+
+  // const animatedValue = useSharedValue(initialValue);
+
+  // const animatedArcValue = useAnimatedProps(() => {
+  //   let biggestValue = Math.max(initialValue, maxValue);
+  //   biggestValue = biggestValue <= 0 ? 1 : biggestValue;
+  //   const maxPercentage = (100 * animatedValue.value) / biggestValue;
+  //   return maxPercentage;
+  // });
+
+  // useEffect(() => {
+  //   effect
+  //   return () => {
+  //     cleanup
+  //   }
+  // }, [])
 
   const [refreshing, setRefreshing] = useState(false);
+  const flatListRef = useRef();
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
+        onScrollToIndexFailed={() => {
+          flatListRef.current?.scrollToOffset({
+            offset: 1,
+            animated: true,
+          });
+        }}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}

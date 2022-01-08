@@ -2,9 +2,9 @@ import React from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 import FusionCharts from 'react-native-fusioncharts';
 import { noDottedTruncator } from '../../../../helpers';
-import { COLOR_PALETTE } from '../../../../constants/theme';
-const RevenueDonut = ({ channelsData }) => {
-  const donutData = channelsData?.map(source => {
+
+const RevenueDonut = ({ donutData }) => {
+  const filteredData = donutData?.map(source => {
     const { source_name, revenue } = source;
     return {
       label: noDottedTruncator(source_name, 12),
@@ -14,11 +14,22 @@ const RevenueDonut = ({ channelsData }) => {
     };
   });
 
+  const palette = [
+    '#5B93FF',
+    '#E46B45',
+    '#E3C763',
+    '#4BBD64',
+    '#BE66D4',
+    '#E3766F',
+  ];
   const defaultDataLabel = donutData[0]?.label;
   const defaultDataValue = donutData[0]?.value;
 
   const chartDataConfig = {
     chart: {
+      // caption: 'Split of Revenue by Product Categories',
+      // subCaption: 'Last year',
+      // numberPrefix: 'UZS',
       numberSuffix: ' UZS',
       defaultCenterLabel: `${defaultDataLabel}: ${defaultDataValue}`,
       centerLabel: '$label: $value',
@@ -36,7 +47,7 @@ const RevenueDonut = ({ channelsData }) => {
       enableSlicing: 1,
       bgColor: '#212831',
       doughnutRadius: '80%',
-      paletteColors: COLOR_PALETTE,
+      paletteColors: palette,
       borderThickness: 20,
       patternAngle: 120,
       enableSmartLabels: 1,
@@ -52,9 +63,12 @@ const RevenueDonut = ({ channelsData }) => {
       // legendItemFont: 'SF Pro Display',
       // interactiveLegend: 1,
       // legendScrollEnabled: 0,
+      loadMessage:
+        'https://media2.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
       minimiseWrappingInLegend: 0,
+      // showPercentInToolTip: 1,
     },
-    data: donutData,
+    data: filteredData,
   };
 
   const libraryPath = Platform.select({

@@ -10,6 +10,10 @@ import {
 import rootReducer from '../reducers/index';
 
 // Dev tools
+// if (DEV) {
+//   return applyMiddleware(/*...Middlewares...*/, Logger);
+// }
+// applyMiddleware(logger, thunk)
 // const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const persistConfig = {
@@ -20,7 +24,7 @@ const persistConfig = {
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
-// applyMiddleware(logger, thunk)
+
 const store = createStore(persistedReducer);
 
 const persistor = persistStore(store);

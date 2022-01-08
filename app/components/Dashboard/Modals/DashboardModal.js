@@ -98,28 +98,27 @@ const DashboardModal = ({ hotelID, hotelList }) => {
             selectedValue={chosenHotelID}
             onValueChange={hotelID => setChosenHotelID(hotelID)}>
             {hotelList &&
-              hotelList?.map(hotel, index => (
+              hotelList?.map(hotel => (
                 <Picker.Item
                   style={styles.input}
                   label={hotel.name}
                   value={hotel.name}
-                  key={index}
+                  // key={hotelID}
                 />
               ))}
           </Picker>
           <FlatList
             data={hotelList}
             renderItem={renderHotelNames}
-            keyExtractor={(hotel, index) => hotel.toString()}
+            keyExtractor={hotel => hotel.toString()}
             numColumns={2}
           />
-          {/* <>
-          
+          <>
             <ReactNativePickerModule
               pickerRef={pickerRef}
               value={value}
               title={'Select a language'}
-              items={{}}
+              items={hotelList}
               titleStyle={{ color: 'white' }}
               itemStyle={{ color: 'white' }}
               selectedColor="#FC0"
@@ -144,7 +143,7 @@ const DashboardModal = ({ hotelID, hotelList }) => {
                 setValue(value);
               }}
             />
-          </> */}
+          </>
         </View>
       </View>
     </SafeAreaView>

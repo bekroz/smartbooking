@@ -4,9 +4,9 @@ import DotView from './DotView';
 import BlueColumns from './BlueColumns/BlueColumns';
 import LineChartData from './LineChartData/LineChartData';
 import ChannelsDataShow from './ChannelsDataShow';
-import AnnualDataShow from './AnnualDataShow';
+import AnnualDataShow from './AnnualScreen';
 import StatsSegmentControl from './SegmentedControl';
-import YearPicker from './YearPicker.js';
+import YearPicker from './YearPicker/index.js';
 
 export {
   LineView,
