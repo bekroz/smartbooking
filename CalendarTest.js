@@ -1,65 +1,39 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import CalendarPicker from 'react-native-calendar-picker';
-import { COLORS, SIZES } from './app/constants';
+import React from 'react';
+import { StyleSheet, View, Text } from 'react-native';
+import DateRangePicker from 'react-native-daterange-picker';
 
-export default class App extends Component {
+import moment from 'moment/min/moment-with-locales';
+moment.locale('ru');
+
+export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedStartDate: null,
-      selectedEndDate: null,
+      startDate: null,
+      endDate: null,
+      displayedDate: moment(),
     };
-    this.onDateChange = this.onDateChange.bind(this);
   }
 
-  onDateChange(date, type) {
-    if (type === 'END_DATE') {
-      this.setState({
-        selectedEndDate: date,
-      });
-    } else {
-      this.setState({
-        selectedStartDate: date,
-        selectedEndDate: null,
-      });
-    }
-  }
+  setDates = dates => {
+    this.setState({
+      ...dates,
+    });
+  };
 
   render() {
-    const { selectedStartDate, selectedEndDate } = this.state;
-    const minDate = new Date(2020, 6, 3);
-    const maxDate = new Date(2023, 6, 3);
-    const startDate = selectedStartDate ? selectedStartDate.toString() : '';
-    const endDate = selectedEndDate ? selectedEndDate.toString() : '';
-
+    const { startDate, endDate, displayedDate } = this.state;
     return (
       <View style={styles.container}>
-        <CalendarPicker
-          startFromMonday={true}
-          allowRangeSelection={true}
-          minDate={minDate}
-          maxDate={maxDate}
-          todayBackgroundColor="#f2e6ff"
-          selectedDayColor="#7300e6"
-          selectedDayTextColor="#FFFFFF"
-          onDateChange={this.onDateChange}
-          format="YYYY-MM-DD"
-          showControls={true}
-          userColors={{ title: '#FFFFFF' }}
-          // onDateChange={range => setUpdatedMonthRange(range)}
-          mode="range"
-          locale="ru"
-          style={styles.container}
-          useNativeDriver={true}
-          // scrollable={true}
-          // resets
-        />
-
-        <View>
-          <Text>SELECTED START DATE:{startDate}</Text>
-          <Text>SELECTED END DATE:{endDate}</Text>
-        </View>
+        <DateRangePicker
+          onChange={this.setDates}
+          endDate={endDate}
+          startDate={startDate}
+          displayedDate={displayedDate}
+          range
+          moment={moment}>
+          <Text>Click me!</Text>
+        </DateRangePicker>
       </View>
     );
   }
@@ -68,38 +42,8 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
-    marginTop: 100,
-  },
-  rangeModalContainer: {
-    backgroundColor: '#212831',
-    borderRadius: 12,
-  },
-  pickerWrapper: {
-    margin: 50,
-  },
-  selectedDateContainerStyle: {
-    height: 35,
-    width: '100%',
+    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'blue',
-  },
-  selectedDateStyle: {
-    fontWeight: 'bold',
-    color: 'white',
-  },
-  acceptButtonStyle: {
-    backgroundColor: '#5E85DB',
-    borderRadius: 6,
-    width: 108,
-    height: 36,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  acceptTextstyle: {
-    color: COLORS.white,
-    fontSize: 13,
-    fontWeight: SIZES.fontWeight3,
   },
 });
