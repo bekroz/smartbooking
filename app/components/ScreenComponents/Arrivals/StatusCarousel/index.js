@@ -5,14 +5,14 @@ import Carousel from 'react-native-snap-carousel';
 import { RESERVATION_TYPE_CAROUSEL } from '../../../../constants/dataTypes';
 import { COLORS, SIZES } from '../../../../constants/theme';
 
-const StatusCarousel = ({ indicatorNumber = 0 }) => {
+const StatusCarousel = ({ indicatorNumber }) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  function renderStatusArray({ item, index }) {
+  function renderStatusArray({ item }, index) {
     return (
       <View
+        key={index}
         style={{
-          // backgroundColor: 'red',
           flexDirection: 'row',
           alignItems: 'center',
         }}>
@@ -28,14 +28,13 @@ const StatusCarousel = ({ indicatorNumber = 0 }) => {
     <View
       style={{
         flex: 1,
-        // backgroundColor: 'green',
         marginLeft: 0,
         position: 'absolute',
         left: -120,
       }}>
       <Carousel
         layout={'default'}
-        ref={ref => (this.carousel = ref)}
+        // ref={ref => (this.carousel = ref)}
         data={RESERVATION_TYPE_CAROUSEL}
         sliderHeight={100}
         sliderWidth={500}

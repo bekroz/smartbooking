@@ -78,7 +78,7 @@ const DashboardScreen = ({
     setCalendarModalVisible(!calendarModalVisible);
   };
 
-  const handleChosenHotel = (updatedHotel) => {
+  const handleChosenHotel = updatedHotel => {
     console.log(updatedHotel);
     if (typeof updatedHotel !== 'undefined' && updatedHotel !== null) {
       dispatch(setUserChosenHotelIDAction(updatedHotel));
@@ -87,10 +87,17 @@ const DashboardScreen = ({
     } else {
       alert('Hotel not found. Please, try again later');
     }
-  }
+  };
 
   function handleArcBarPress(arrivalsType) {
-    navigation.navigate('ArrivalsScreen');
+    navigation.navigate('ArrivalsScreen', {
+      hotelListModalVisible,
+      toggleHotelModal,
+      toggleHotelModal,
+      handleChosenHotel,
+      hotelList,
+      hotelID,
+    });
     dispatch(getArrivalsDataRequestAction(arrivalsType));
   }
 
@@ -391,14 +398,7 @@ const DashboardScreen = ({
                 </View>
                 <View style={styles.grayBlockRightSideView}>
                   <View style={{ marginRight: 10 }}>
-                    <Text
-                      style={{
-                        fontSize: 18,
-                        fontWeight: SIZES.fontWeight0,
-                        color: COLORS.grayText,
-                      }}>
-                      {messageCount}
-                    </Text>
+                    <Text style={styles.messageCount}>{messageCount}</Text>
                   </View>
                   <View style={{ marginLeft: 5 }}>
                     <GrayRightArrowSvg />
@@ -429,7 +429,7 @@ const DashboardScreen = ({
           </TouchableOpacity>
         </>
       </ScrollView>
-      {/* Calendar Modal */}
+      {/* Modals */}
       <CalendarModal
         isVisible={calendarModalVisible}
         toggleCalendarModal={toggleCalendarModal}
@@ -510,6 +510,11 @@ const styles = StyleSheet.create({
     width: 60,
     marginRight: 10,
     marginLeft: 20,
+  },
+  messageCount: {
+    fontSize: 18,
+    fontWeight: SIZES.fontWeight0,
+    color: COLORS.grayText,
   },
   grayBlock: {
     flexDirection: 'row',
