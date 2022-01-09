@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { Overlay } from 'react-native-elements';
 // Components
-import Calendar from './Calendar';
+import MonthRangePicker from '../MonthRangePicker';
 
 export default function CalendarModal({
   toggleCalendarModal,
@@ -13,7 +13,7 @@ export default function CalendarModal({
       <Overlay
         isVisible={calendarModalVisible}
         onBackdropPress={toggleCalendarModal}>
-        <Calendar toggleCalendarModal={toggleCalendarModal} />
+        <MonthRangePicker toggleCalendarModal={toggleCalendarModal} />
       </Overlay>
     </View>
   );

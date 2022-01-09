@@ -14,8 +14,8 @@ import navigationService from './app/services/navigationService';
 // Crash tracker setup
 import * as Sentry from '@sentry/react-native';
 // import Test from './app/components/Calendar/Calendar';
-import Test from './Removables/Test';
-import CalendarTest from './CalendarTest';
+import Test from './Modal';
+
 Sentry.init({
   dsn: 'https://1329c9b248134401acc8ae1a7a34cc54@o1092790.ingest.sentry.io/6111610',
   integrations: [
@@ -37,7 +37,6 @@ const App = () => {
               theme={DarkTheme}>
               <AppContainer />
               {/* <Test /> */}
-              {/* <CalendarTest /> */}
             </NavigationContainer>
           </PersistGate>
         </Provider>

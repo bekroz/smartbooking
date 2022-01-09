@@ -25,13 +25,15 @@ import {
   PercentageCircle,
   EmptyRoomsCircle,
   DayPicker,
-} from '../../../components/Dashboard';
-import { Calendar } from '../../../components/Calendar';
+  HotelModal,
+  Calendar,
+} from '../../../components/ScreenComponents/Dashboard';
 // Redux
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import {
   getArrivalsDataRequestAction,
   setUserChosenHotelIDAction,
+  showHotelModalToChooseAction,
 } from '../../../redux/actions';
 import {
   getDashboardDataMiddleware,
@@ -85,6 +87,8 @@ const DashboardScreen = ({
   hotelList,
   hotelName,
   chosenDay,
+  hotelModalVisible,
+  noHotelFoundAlertVisible,
 }) => {
   // View togglers
   const [percentageView, setPercentageView] = useState(true);
@@ -92,8 +96,21 @@ const DashboardScreen = ({
   const [hotelListModalVisible, setHotelListModalVisible] = useState(false);
 
   // Button Press handlers
-  function handleChosenHotel(chosenHotelId) {
-    setUserChosenHotelIDAction(chosenHotelId);
+  const dispatch = useDispatch();
+
+  const toggleHotelModal = () => {
+    setHotelListModalVisible(!hotelListModalVisible);
+  };
+
+  function handleChosenHotel(updatedHotel) {
+    console.log(updatedHotel);
+    if (typeof updatedHotel !== 'undefined' && updatedHotel !== null) {
+      dispatch(setUserChosenHotelIDAction(updatedHotel));
+      setHotelListModalVisible(false);
+      getDashboardDataOnTabPress();
+    } else {
+      alert('Hotel not found. Please, try again later');
+    }
   }
 
   function handleArcBarPress(arrivalsType) {
@@ -108,7 +125,7 @@ const DashboardScreen = ({
           if (hotelID !== null) {
             getDashboardDataMiddleware();
           } else {
-            setHotelListModalVisible(true);
+            dispatch(showHotelModalToChooseAction());
           }
         }),
       );
@@ -116,17 +133,18 @@ const DashboardScreen = ({
       console.error(error);
     }
   }
+  const closeHotelModal = () => {
+    dispatch(showHotelModalToChooseAction());
+  };
 
   const onPullToRefresh = useCallback(() => {
     getDashboardDataOnTabPress();
   }, []);
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
+    navigation.addListener('focus', () => {
       getDashboardDataOnTabPress();
     });
-
-    return unsubscribe;
   }, [navigation]);
 
   const minPoint = -140;
@@ -263,7 +281,7 @@ const DashboardScreen = ({
         }>
         <View style={POSITIONING.center}>
           <HotelListBar
-            onPress={() => setHotelListModalVisible(!hotelListModalVisible)}
+            onPress={() => setHotelListModalVisible(true)}
             hotelName={loading ? 'Загружается...' : hotelName}
           />
         </View>
@@ -543,13 +561,15 @@ const DashboardScreen = ({
       {hotelListModalVisible && (
         <HotelModalBox
           visible={hotelListModalVisible}
-          onTouchOutside={setHotelListModalVisible(!hotelListModalVisible)}
-          onQuitPress={setHotelListModalVisible(!hotelListModalVisible)}
+          onTouchOutside={toggleHotelModal}
+          onQuitPress={toggleHotelModal}
           onHotelChosen={handleChosenHotel}
           hotelList={hotelList}
           chosenHotelID={hotelID}
+          
         />
       )}
+      {hotelModalVisible && <HotelModal />}
     </SafeAreaView>
   );
 };
@@ -720,7 +740,13 @@ function mapStateToProps({ dashboardReducer, hotelReducer, dateReducer }) {
     canceledRevenue,
     messageCount,
   } = dashboardReducer;
-  const { hotelList, hotelID, hotelName } = hotelReducer;
+  const {
+    hotelList,
+    hotelID,
+    hotelName,
+    hotelModalVisible,
+    noHotelFoundAlertVisible,
+  } = hotelReducer;
   const { chosenDay } = dateReducer;
   return {
     loading,
@@ -741,6 +767,8 @@ function mapStateToProps({ dashboardReducer, hotelReducer, dateReducer }) {
     hotelList,
     hotelName,
     chosenDay,
+    hotelModalVisible,
+    noHotelFoundAlertVisible,
   };
 }
 

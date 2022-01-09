@@ -8,67 +8,29 @@ import {
   FlatList,
 } from 'react-native';
 // Theme
-import { COLORS, POSITIONING, SIZES } from '../../../constants/theme';
+import { COLORS, POSITIONING, SIZES } from '../../../../constants/theme';
 // Icons
-import { QuitSvg } from '../../../assets/icons/SvgIcons';
+import { QuitSvg } from '../../../../assets/icons/SvgIcons';
 import { connect } from 'react-redux';
 import ReactNativePickerModule from 'react-native-picker-module';
 import { Picker } from '@react-native-picker/picker';
 
 const DashboardModal = ({ hotelID, hotelList }) => {
-  // const modalShow
-  // const modalClose = () => {
-  //   // console.log('Modal closed');
-  // };
-  // return (
-  //   <Modal
-  //     animationType={'fade'}
-  //     transparent={true}
-  //     visible={modalShow}
-  //     onRequestClose={modalClose}
-  //   />
-  // );
   const pickerRef = useRef();
   const [value, setValue] = useState();
 
-  // const getHotelName = hotelList => {
-  //   hotelList.map(hotel => {
-  //     if (hotel.id) {
-  //       return hotel;
-  //     }
-  //   });
-  // };
-  // const dataset_2 = [
-  //   {
-  //     value: 101,
-  //     label: 'Javascript',
-  //   },
-  // ];
-
   const [chosenHotelID, setChosenHotelID] = useState(hotelID);
 
-  // const hotelName = hotelList => {
-  //   {
-  //     hotelList.map(hotel => (
-  //       <TouchableOpacity style={{ marginBottom: SIZES.base }} key={hotel.id}>
-  //         <Text style={[styles.options, styles.chosenOptionStyle]}>
-  //           {hotel.name}
-  //         </Text>
-  //       </TouchableOpacity>
-  //     ));
-  //   }
-  // };
-
-  renderHotelNames = () => {
-    {
-      hotelList?.map(hotel => (
+  const renderHotelNames = () => {
+    hotelList.map(hotel => {
+      return (
         <TouchableOpacity style={{ marginBottom: SIZES.base }} key={hotel.id}>
           <Text style={[styles.options, styles.chosenOptionStyle]}>
             {hotel.name}
           </Text>
         </TouchableOpacity>
-      ));
-    }
+      );
+    });
   };
 
   return (

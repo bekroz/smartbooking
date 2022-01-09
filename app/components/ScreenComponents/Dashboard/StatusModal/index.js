@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 // Theme
-import { COLORS, POSITIONING, SIZES } from '../../../constants/theme';
+import { COLORS, POSITIONING, SIZES } from '../../../../constants/theme';
 // Icons
 import quit from '../../images/quit.png';
 

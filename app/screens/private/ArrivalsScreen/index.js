@@ -14,7 +14,7 @@ import { Divider } from 'react-native-elements/dist/divider/Divider';
 // Theme
 import { COLORS, SIZES } from '../../../constants/theme';
 // Components
-import { HotelListBar } from '../../../components/Dashboard';
+import { HotelListBar } from '../../../components/ScreenComponents/Dashboard';
 import { NoDataToShow } from '../../../components/Alerts/UserAlerts';
 // Helpers
 import { numberWithSpaces, dottedTruncator } from '../../../helpers';

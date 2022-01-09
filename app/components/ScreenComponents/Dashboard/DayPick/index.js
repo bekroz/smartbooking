@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import Picker from 'react-native-picker-horizontal';
-import { COLORS, SIZES } from '../../constants/theme';
+import { COLORS, SIZES } from '../../../../constants/theme';
 
 const CalendarArray = [
   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,

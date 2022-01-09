@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import CircularProgress from 'react-native-circular-progress-indicator';
-import { COLORS, SIZES } from '../../constants/theme';
+import { COLORS, SIZES } from '../../../../constants/theme';
 
 export default function PercentageCircle({ currentPercentage = 0 }) {
   return (

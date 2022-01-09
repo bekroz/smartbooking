@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { COLORS, SIZES } from '../../../constants/theme';
-import { DropDownSvg } from '../../../assets/icons/SvgIcons';
+import { COLORS, SIZES } from '../../../../constants';
+import { DropDownSvg } from '../../../../assets/icons/SvgIcons';
 
 export default function HotelListBar({ onPress, hotelName }) {
   return (

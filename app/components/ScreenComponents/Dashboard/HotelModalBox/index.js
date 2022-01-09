@@ -1,13 +1,14 @@
 import React from 'react';
-import { Modal } from 'react-native-modals';
-import { ModalContent as LandingModalContent } from 'react-native-modals';
-import { Text, View, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+  Modal,
+  ModalContent as LandingModalContent,
+} from 'react-native-modals';
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 // Theme
-import { COLORS, POSITIONING, SIZES } from '../../../constants/theme';
+import { COLORS, POSITIONING, SIZES } from '../../../../constants/theme';
 // Icons
-import { CloseSvg } from '../../../assets/icons/SvgIcons';
+import { CloseSvg } from '../../../../assets/icons/SvgIcons';
 import { connect } from 'react-redux';
-
 
 const HotelModalBox = ({
   visible,
@@ -42,6 +43,18 @@ const HotelModalBox = ({
   //   getHotelList();
   // }, []);
 
+  // isVisible={hotelModalVisible}
+  //     onSwipeComplete={() => setModalVisible(false)}
+  //     animationIn="fadeIn"
+  //     animationOut="fadeOut"
+  //     coverScreen={true}
+  //     onBackdropPress={handleHotelPress}
+  //     propagateSwipe="true"
+  //     // onModalWillHide={() => alert('API call')}
+  //     // Android back button press event handler
+  //     onBackButtonPress={() => setModalVisible(false)}
+  //     animationInTiming={560}
+  //     animationOutTiming={560}>
   return (
     <Modal visible={visible} onTouchOutside={onTouchOutside}>
       <View style={{ backgroundColor: '#202020' }}>

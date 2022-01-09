@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 // Components
-import Calendar from '../Additionals/date-picker';
+import Calendar from '../../../Additionals/date-picker';
 // Theme
-import { COLORS, SIZES } from '../../constants/theme';
-import { store } from '../../redux/store';
-import { setChosenMonthRange } from '../../redux/actions';
+import { COLORS, SIZES } from '../../../../constants/theme';
+import { store } from '../../../../redux/store';
+import { setChosenMonthRange } from '../../../../redux/actions';
 import { connect, useDispatch } from 'react-redux';
 
-const MonthRangePickerModal = ({ toggleCalendarModal, chosenMonthRange }) => {
+const MonthRangePicker = ({ toggleCalendarModal, chosenMonthRange }) => {
   const [updatedMonthRange, setUpdatedMonthRange] = useState(chosenMonthRange);
   const [dateRangeValue, setDateRangeValue] = useState(null);
   const dispatch = useDispatch();
@@ -28,7 +28,7 @@ const MonthRangePickerModal = ({ toggleCalendarModal, chosenMonthRange }) => {
   console.log('====================================');
   return (
     <View style={styles.rangeModalContainer}>
-      {/* <View style={styles.pickerWrapper}>
+      <View style={styles.pickerWrapper}>
         <DateRangePicker
           onSelectDateRange={range => {
             setDateRangeValue(range);
@@ -42,7 +42,7 @@ const MonthRangePickerModal = ({ toggleCalendarModal, chosenMonthRange }) => {
           <Text>first date: {range.start}</Text>
           <Text>second date: {range.end}</Text>
         </View>
-      </View> */}
+      </View>
       <View
         style={{
           width: SIZES.width,
@@ -147,4 +147,4 @@ function mapStateToProps({ dateReducer }) {
   };
 }
 
-export default connect(mapStateToProps)(MonthRangePickerModal);
+export default connect(mapStateToProps)(MonthRangePicker);

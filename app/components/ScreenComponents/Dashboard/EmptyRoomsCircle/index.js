@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 // Theme
-import { COLORS, SIZES } from '../../constants/theme';
+import { COLORS, SIZES } from '../../../../constants';
 // Changed NPM Component
-import CircularProgress from '../Additionals/circleanimator';
+import CircularProgress from '../../../Additionals/circleanimator';
 
 export default function EmptyRoomsCircle({ initialValue, value }) {
   return (

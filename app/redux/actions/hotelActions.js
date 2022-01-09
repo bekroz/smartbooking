@@ -26,12 +26,12 @@ const showHotelModalToChooseAction = () => {
   };
 };
 
-const setUserChosenHotelIDAction = ({ hotelID, hotelName }) => {
+const setUserChosenHotelIDAction = ({ id, name }) => {
   return {
     type: HOTEL.SET_USER_CHOSEN_HOTEL_ID,
     payload: {
-      hotelID,
-      hotelName,
+      hotelID: id,
+      hotelName: name,
     },
   };
 };
