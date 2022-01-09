@@ -2,7 +2,7 @@ import React from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 import FusionCharts from 'react-native-fusioncharts';
 import { noDottedTruncator } from '../../../../helpers';
-import { DONUT_PALETTE } from '../../../../constants/theme';
+import { COLOR_PALETTE } from '../../../../constants/theme';
 const RevenueDonut = ({ channelsData }) => {
   const donutData = channelsData?.map(source => {
     const { source_name, revenue } = source;
@@ -36,7 +36,7 @@ const RevenueDonut = ({ channelsData }) => {
       enableSlicing: 1,
       bgColor: '#212831',
       doughnutRadius: '80%',
-      paletteColors: DONUT_PALETTE,
+      paletteColors: COLOR_PALETTE,
       borderThickness: 20,
       patternAngle: 120,
       enableSmartLabels: 1,

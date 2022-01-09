@@ -1,12 +1,12 @@
 import DonutView from './DonutView';
 import LineView from './LineView';
 import DotView from './DotView';
-import BlueColumns from './BlueColumns/BlueColumns';
-import LineChartData from './LineChartData/LineChartData';
+import BlueColumns from './BlueColumns';
+import LineChartData from './LineChartData';
 import ChannelsDataShow from './ChannelsDataShow';
-import AnnualDataShow from './AnnualDataShow';
+import AnnualDataShow from './AnnualScreen';
 import StatsSegmentControl from './SegmentedControl';
-import YearPicker from './YearPicker.js';
+import YearPicker from './YearPicker';
 
 export {
   LineView,

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
   View,
   Text,
@@ -9,7 +9,6 @@ import {
   RefreshControl,
 } from 'react-native';
 import { MultiArcCircle } from 'react-native-circles';
-import { Overlay } from 'react-native-elements';
 // Theme
 import { COLORS, POSITIONING, SIZES } from '../../../constants/theme';
 // Icons
@@ -20,26 +19,25 @@ import {
 } from '../../../assets/icons/SvgIcons';
 // Components
 import {
-  HotelListBar,
-  HotelModalBox,
+  HotelNameBar,
+  HotelModal,
+  CalendarModal,
+  DayPicker,
   PercentageCircle,
   EmptyRoomsCircle,
-  DayPicker,
-} from '../../../components/Dashboard';
-import { Calendar } from '../../../components/Calendar';
+} from '../../../components/ScreenComponents/Dashboard';
 // Redux
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import {
   getArrivalsDataRequestAction,
   setUserChosenHotelIDAction,
+  showHotelModalToChooseAction,
 } from '../../../redux/actions';
 import {
   getDashboardDataMiddleware,
   getHotelsDataMiddleware,
   setHotelIDMiddleware,
 } from '../../../redux/middlewares';
-import { store } from '../../../redux/store';
-import { ARRIVALS_TYPE } from '../../../constants/dataTypes';
 
 const DashboardScreen = ({
   navigation,
@@ -61,6 +59,8 @@ const DashboardScreen = ({
   hotelList,
   hotelName,
   chosenDay,
+  hotelModalVisible,
+  noHotelFoundAlertVisible,
 }) => {
   // View togglers
   const [percentageView, setPercentageView] = useState(true);
@@ -68,13 +68,37 @@ const DashboardScreen = ({
   const [hotelListModalVisible, setHotelListModalVisible] = useState(false);
 
   // Button Press handlers
-  function handleChosenHotel(chosenHotelId) {
-    setUserChosenHotelIDAction(chosenHotelId);
-  }
+  const dispatch = useDispatch();
+
+  const toggleHotelModal = () => {
+    setHotelListModalVisible(!hotelListModalVisible);
+  };
+
+  const toggleCalendarModal = () => {
+    setCalendarModalVisible(!calendarModalVisible);
+  };
+
+  const handleChosenHotel = updatedHotel => {
+    console.log(updatedHotel);
+    if (typeof updatedHotel !== 'undefined' && updatedHotel !== null) {
+      dispatch(setUserChosenHotelIDAction(updatedHotel));
+      setHotelListModalVisible(false);
+      getDashboardDataOnTabPress();
+    } else {
+      alert('Hotel not found. Please, try again later');
+    }
+  };
 
   function handleArcBarPress(arrivalsType) {
-    navigation.navigate('ArrivalsScreen');
-    store.dispatch(getArrivalsDataRequestAction(arrivalsType));
+    navigation.navigate('ArrivalsScreen', {
+      hotelListModalVisible,
+      toggleHotelModal,
+      toggleHotelModal,
+      handleChosenHotel,
+      hotelList,
+      hotelID,
+    });
+    dispatch(getArrivalsDataRequestAction(arrivalsType));
   }
 
   async function getDashboardDataOnTabPress() {
@@ -84,7 +108,7 @@ const DashboardScreen = ({
           if (hotelID !== null) {
             getDashboardDataMiddleware();
           } else {
-            setHotelListModalVisible(true);
+            dispatch(showHotelModalToChooseAction());
           }
         }),
       );
@@ -92,17 +116,18 @@ const DashboardScreen = ({
       console.error(error);
     }
   }
+  const closeHotelModal = () => {
+    dispatch(showHotelModalToChooseAction());
+  };
 
   const onPullToRefresh = useCallback(() => {
     getDashboardDataOnTabPress();
   }, []);
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
+    navigation.addListener('focus', () => {
       getDashboardDataOnTabPress();
     });
-
-    return unsubscribe;
   }, [navigation]);
 
   const minPoint = -140;
@@ -114,7 +139,6 @@ const DashboardScreen = ({
         maxPoint * (shouldArrived > 0 ? leftArrived / shouldArrived : 1),
     );
   };
-  // Kamaytirish 140 =>- currentArrivedPercentage
 
   const currentDeparturePercentage = () => {
     return Math.round(
@@ -126,13 +150,19 @@ const DashboardScreen = ({
   const currentLivingPercentage = () => {
     return Math.round(minPoint + maxPoint * (live > 0 ? live / maxRooms : 1));
   };
-  // Kamaytirish 140 =>- currentArrivedPercentage
 
   const [refreshing, setRefreshing] = useState(false);
+  const flatListRef = useRef();
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
+        onScrollToIndexFailed={() => {
+          flatListRef.current?.scrollToOffset({
+            offset: 1,
+            animated: true,
+          });
+        }}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
@@ -141,8 +171,8 @@ const DashboardScreen = ({
           />
         }>
         <View style={POSITIONING.center}>
-          <HotelListBar
-            onPress={() => setHotelListModalVisible(!hotelListModalVisible)}
+          <HotelNameBar
+            onPress={toggleHotelModal}
             hotelName={loading ? 'Загружается...' : hotelName}
           />
         </View>
@@ -150,8 +180,7 @@ const DashboardScreen = ({
           <TouchableOpacity style={styles.arrowIconStyle}>
             <WhiteLeftArrowSvg />
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => setCalendarModalVisible(!calendarModalVisible)}>
+          <TouchableOpacity onPress={() => setCalendarModalVisible(true)}>
             <Text style={styles.dateText}>Декабрь 2021</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.arrowIconStyle}>
@@ -163,7 +192,7 @@ const DashboardScreen = ({
         </View>
         {/* Horizontal Calendar Day Picker */}
         <View style={styles.dayPickerContainer}>
-          <DayPicker />
+          <DayPicker chosenDay={chosenDay} />
         </View>
         <>
           {/* Arc Bars Container */}
@@ -369,14 +398,7 @@ const DashboardScreen = ({
                 </View>
                 <View style={styles.grayBlockRightSideView}>
                   <View style={{ marginRight: 10 }}>
-                    <Text
-                      style={{
-                        fontSize: 18,
-                        fontWeight: SIZES.fontWeight0,
-                        color: COLORS.grayText,
-                      }}>
-                      {messageCount}
-                    </Text>
+                    <Text style={styles.messageCount}>{messageCount}</Text>
                   </View>
                   <View style={{ marginLeft: 5 }}>
                     <GrayRightArrowSvg />
@@ -407,28 +429,19 @@ const DashboardScreen = ({
           </TouchableOpacity>
         </>
       </ScrollView>
-
-      {/* Calendar Modal */}
-      {calendarModalVisible && (
-        <Overlay
-          isVisible={calendarModalVisible}
-          onBackdropPress={toggleCalendarModal}
-          overlayStyle={styles.overlayStyle}>
-          <Calendar handleAcceptButtonPress={toggleCalendarModal} />
-        </Overlay>
-      )}
-
-      {/* Hotel List Modal */}
-      {hotelListModalVisible && (
-        <HotelModalBox
-          visible={hotelListModalVisible}
-          onTouchOutside={setHotelListModalVisible(!hotelListModalVisible)}
-          onQuitPress={setHotelListModalVisible(!hotelListModalVisible)}
-          onHotelChosen={handleChosenHotel}
-          hotelList={hotelList}
-          chosenHotelID={hotelID}
-        />
-      )}
+      {/* Modals */}
+      <CalendarModal
+        isVisible={calendarModalVisible}
+        toggleCalendarModal={toggleCalendarModal}
+      />
+      <HotelModal
+        visible={hotelListModalVisible}
+        onTouchOutside={toggleHotelModal}
+        onQuitPress={toggleHotelModal}
+        onHotelChosen={handleChosenHotel}
+        hotelList={hotelList}
+        chosenHotelID={hotelID}
+      />
     </SafeAreaView>
   );
 };
@@ -497,6 +510,11 @@ const styles = StyleSheet.create({
     width: 60,
     marginRight: 10,
     marginLeft: 20,
+  },
+  messageCount: {
+    fontSize: 18,
+    fontWeight: SIZES.fontWeight0,
+    color: COLORS.grayText,
   },
   grayBlock: {
     flexDirection: 'row',
@@ -583,6 +601,7 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps({ dashboardReducer, hotelReducer, dateReducer }) {
+  const { chosenDay } = dateReducer;
   const {
     loading,
     availableRooms,
@@ -599,8 +618,14 @@ function mapStateToProps({ dashboardReducer, hotelReducer, dateReducer }) {
     canceledRevenue,
     messageCount,
   } = dashboardReducer;
-  const { hotelList, hotelID, hotelName } = hotelReducer;
-  const { chosenDay } = dateReducer;
+  const {
+    hotelList,
+    hotelID,
+    hotelName,
+    hotelModalVisible,
+    noHotelFoundAlertVisible,
+  } = hotelReducer;
+
   return {
     loading,
     availableRooms,
@@ -620,6 +645,8 @@ function mapStateToProps({ dashboardReducer, hotelReducer, dateReducer }) {
     hotelList,
     hotelName,
     chosenDay,
+    hotelModalVisible,
+    noHotelFoundAlertVisible,
   };
 }
 

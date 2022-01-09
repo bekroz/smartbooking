@@ -1,30 +1,23 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { COLORS } from '../../../../constants';
 
-const WaterMarkHider = () => {
-  return (
-    <View style={styles.container}>
-      <Text
-        style={{
-          color: 'black',
-        }}>
-        {/* HIDER */}
-      </Text>
-    </View>
-  );
-};
+export default function WaterMarkHider() {
+  return <View style={styles.container} />;
+}
 
-export default WaterMarkHider;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: 170,
+    width: 150,
     height: 36,
     backgroundColor: COLORS.grayPlaceholder,
     position: 'absolute',
     bottom: 30,
     zIndex: 1,
-    left: -10,
+    alignSelf: 'flex-start',
+    backgroundColor: 'red',
+    opacity: 0.5,
+    left: 0,
   },
 });

@@ -3,8 +3,10 @@
 .DS_Store
 .env
 .gitattributes
+.dccache
 .idea
 .vscode
+Removables
 # Xcode
 #
 build/

@@ -1,8 +1,8 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { FAB, Portal, Provider } from 'react-native-paper';
 
 const SpeedDialer = () => {
-  const [state, setState] = React.useState({ open: false });
+  const [state, setState] = useState({ open: false });
 
   const onStateChange = ({ open }) => setState({ open });
 

@@ -1,4 +1,4 @@
-import { DONUT_PALETTE } from '../../../../../constants/theme';
+import { COLOR_PALETTE } from '../../../../../constants/theme';
 
 export const chartConfig = {
   // caption: 'Split of Revenue by Product Categories',
@@ -22,7 +22,7 @@ export const chartConfig = {
   enableSlicing: 1,
   bgColor: '#212831',
   doughnutRadius: '80%',
-  paletteColors: DONUT_PALETTE,
+  paletteColors: COLOR_PALETTE,
   borderThickness: 20,
   patternAngle: 120,
   enableSmartLabels: 1,
