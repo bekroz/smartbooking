@@ -80,6 +80,9 @@ const COMPARISON_CARD_VALUES = [
   'Средний чек',
   'RevPAR',
 ];
+
+const YEARS_ARRAY = ['2019', '2020', '2021', '2022', '2023', '2024', '2025'];
+
 export {
   RESERVATION_TYPE,
   RESERVATION_TYPE_LABEL,
@@ -92,4 +95,5 @@ export {
   SEGMENT_VALUES,
   RESERVATION_TYPE_CAROUSEL,
   COMPARISON_CARD_VALUES,
+  YEARS_ARRAY,
 };

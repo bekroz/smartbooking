@@ -19,7 +19,7 @@ export const COLORS = {
   yellow: '#E3C763',
   orange: '#E46B45',
   coral: '#E3766F',
-  coralStatLine: '#EB6161',
+  statsLine: '#EB6161',
   greenProgress: '#0ECC38',
   greenCircle: '#4BBD64',
   purple: '#740DF7',
@@ -27,7 +27,7 @@ export const COLORS = {
   white: '#FFFFFF',
   red: '#FF0000',
 };
-export const  SIZES = {
+export const SIZES = {
   // global sizes
   base: 8,
   radius1: 6,
@@ -63,41 +63,41 @@ export const  SIZES = {
   width,
   height,
 };
-export const FONTS = {
-  mediumTitle: { fontFamily: 'SF Pro Display', fontSize: SIZES.mediumTitle },
-  largeTitle: { fontFamily: 'SF Pro Display', fontSize: SIZES.largeTitle },
-  mainTitle: { fontFamily: 'SF Pro Display', fontSize: SIZES.mainTitle },
-  h1: { fontFamily: 'SF Pro Display', fontSize: SIZES.h1, lineHeight: 36 },
-  h2: { fontFamily: 'SF Pro Display', fontSize: SIZES.h2, lineHeight: 30 },
-  h3: { fontFamily: 'SF Pro Display', fontSize: SIZES.h3, lineHeight: 22 },
-  h4: { fontFamily: 'SF Pro Display', fontSize: SIZES.h4, lineHeight: 22 },
-  h5: { fontFamily: 'SF Pro Display', fontSize: SIZES.h5, lineHeight: 22 },
-  body1: {
-    fontFamily: 'Roboto-Regular',
-    fontSize: SIZES.body1,
-    lineHeight: 36,
-  },
-  body2: {
-    fontFamily: 'Roboto-Regular',
-    fontSize: SIZES.body2,
-    lineHeight: 30,
-  },
-  body3: {
-    fontFamily: 'SF Pro Display',
-    fontSize: SIZES.body3,
-    lineHeight: 22,
-  },
-  body4: {
-    fontFamily: 'SF Pro Display',
-    fontSize: SIZES.body4,
-    lineHeight: 22,
-  },
-  body5: {
-    fontFamily: 'SF Pro Display',
-    fontSize: SIZES.body5,
-    lineHeight: 22,
-  },
-};
+// export const FONTS = {
+//   mediumTitle: { fontFamily: 'SF Pro Display', fontSize: SIZES.mediumTitle },
+//   largeTitle: { fontFamily: 'SF Pro Display', fontSize: SIZES.largeTitle },
+//   mainTitle: { fontFamily: 'SF Pro Display', fontSize: SIZES.mainTitle },
+//   h1: { fontFamily: 'SF Pro Display', fontSize: SIZES.h1, lineHeight: 36 },
+//   h2: { fontFamily: 'SF Pro Display', fontSize: SIZES.h2, lineHeight: 30 },
+//   h3: { fontFamily: 'SF Pro Display', fontSize: SIZES.h3, lineHeight: 22 },
+//   h4: { fontFamily: 'SF Pro Display', fontSize: SIZES.h4, lineHeight: 22 },
+//   h5: { fontFamily: 'SF Pro Display', fontSize: SIZES.h5, lineHeight: 22 },
+//   body1: {
+//     fontFamily: 'Roboto-Regular',
+//     fontSize: SIZES.body1,
+//     lineHeight: 36,
+//   },
+//   body2: {
+//     fontFamily: 'Roboto-Regular',
+//     fontSize: SIZES.body2,
+//     lineHeight: 30,
+//   },
+//   body3: {
+//     fontFamily: 'SF Pro Display',
+//     fontSize: SIZES.body3,
+//     lineHeight: 22,
+//   },
+//   body4: {
+//     fontFamily: 'SF Pro Display',
+//     fontSize: SIZES.body4,
+//     lineHeight: 22,
+//   },
+//   body5: {
+//     fontFamily: 'SF Pro Display',
+//     fontSize: SIZES.body5,
+//     lineHeight: 22,
+//   },
+// };
 
 export const POSITIONING = {
   center: {
@@ -117,6 +117,15 @@ export const DarkTheme = {
   backgroundColor: COLORS.darkBackground,
 };
 
-const theme = { COLORS, SIZES, FONTS };
+export const COLOR_PALETTE = [
+  '#5B93FF',
+  '#E46B45',
+  '#E3C763',
+  '#4BBD64',
+  '#BE66D4',
+  '#E3766F',
+];
+
+const theme = { COLORS, SIZES, COLOR_PALETTE };
 
 export default theme;

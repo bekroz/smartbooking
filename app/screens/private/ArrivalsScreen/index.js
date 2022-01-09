@@ -14,10 +14,13 @@ import { Divider } from 'react-native-elements/dist/divider/Divider';
 // Theme
 import { COLORS, SIZES } from '../../../constants/theme';
 // Components
-import { HotelListBar } from '../../../components/Dashboard';
+import {
+  HotelModal,
+  HotelNameBar,
+} from '../../../components/ScreenComponents/Dashboard';
 import { NoDataToShow } from '../../../components/Alerts/UserAlerts';
 // Helpers
-import { numberWithSpaces, wordTruncator } from '../../../helpers';
+import { numberWithSpaces, dottedTruncator } from '../../../helpers';
 // Icons
 import {
   MoonSvg,
@@ -34,11 +37,12 @@ import {
   GoBackButton,
 } from '../../../components';
 // Redux
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import {
   getArrivalsDataMiddleware,
   getArrivalsNextPageDataMiddleware,
 } from '../../../redux/middlewares';
+import { setUserChosenHotelIDAction } from '../../../redux/actions';
 
 const ArrivalsScreen = ({
   navigation,
@@ -48,17 +52,42 @@ const ArrivalsScreen = ({
   arrivalsLength,
   hotelName,
   chosenDay,
+  hotelList,
+  hotelID,
 }) => {
-  const [refreshing, setRefreshing] = useState(false);
+  console.log('====================================');
+  console.log(hotelList);
+  console.log('====================================');
+
+  const [hotelListModalVisible, setHotelListModalVisible] = useState(false);
+
+  // Button Press handlers
+  const dispatch = useDispatch();
+
+  const toggleHotelModal = () => {
+    setHotelListModalVisible(!hotelListModalVisible);
+  };
+
+  const handleChosenHotel = updatedHotel => {
+    console.log(updatedHotel);
+    if (typeof updatedHotel !== 'undefined' && updatedHotel !== null) {
+      dispatch(setUserChosenHotelIDAction(updatedHotel));
+      setHotelListModalVisible(false);
+      onPullToRefresh();
+    } else {
+      alert('Hotel not found. Please, try again later');
+    }
+  };
 
   const onPullToRefresh = useCallback(() => {
     getArrivalsDataMiddleware();
   }, []);
 
   useEffect(() => {
-    getArrivalsDataMiddleware();
+    onPullToRefresh();
   }, []);
 
+  let refreshing = false;
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
       <ScrollView
@@ -72,20 +101,21 @@ const ArrivalsScreen = ({
         }>
         <View style={styles.topBarContainer}>
           <GoBackButton navigation={navigation} />
-          <HotelListBar
-            onPress={() => alert('Working on that')}
+          <HotelNameBar
+            onPress={toggleHotelModal}
             hotelName={initialLoading ? 'Загружается...' : hotelName}
           />
         </View>
         <View style={styles.carouselsContainer}>
           <View style={{ backgroundColor: 'yellow', marginBottom: 40 }}>
-            <StatusCarousel indicatorNumber={arrivalsLength} />
+            <StatusCarousel
+              indicatorNumber={initialLoading ? 0 : arrivalsLength}
+            />
           </View>
           <View>
             <DayCarousel showDay={chosenDay} />
           </View>
         </View>
-
         {/* Card Container */}
         <ScrollView
           refreshControl={
@@ -212,7 +242,7 @@ const ArrivalsScreen = ({
                               width: 210,
                             }}>
                             <Text style={styles.channelName}>
-                              {wordTruncator(source, 15)}
+                              {dottedTruncator(source, 15)}
                             </Text>
                             <View style={styles.dateContainer}>
                               <Text
@@ -241,7 +271,7 @@ const ArrivalsScreen = ({
                             <Text
                               style={{ color: COLORS.white, marginBottom: 4 }}>
                               {room
-                                ? wordTruncator(roomType.name, 18)
+                                ? dottedTruncator(roomType.name, 18)
                                 : roomType.short_name}
                             </Text>
                             <Text
@@ -251,8 +281,8 @@ const ArrivalsScreen = ({
                                 marginBottom: 18,
                               }}>
                               {room
-                                ? wordTruncator(room.name, 20)
-                                : wordTruncator(roomType.name, 20)}
+                                ? dottedTruncator(room.name, 20)
+                                : dottedTruncator(roomType.name, 20)}
                             </Text>
                             <Text
                               style={[
@@ -274,6 +304,14 @@ const ArrivalsScreen = ({
           style={{
             paddingBottom: 150,
           }}
+        />
+        <HotelModal
+          visible={hotelListModalVisible}
+          onTouchOutside={toggleHotelModal}
+          onQuitPress={toggleHotelModal}
+          onHotelChosen={handleChosenHotel}
+          hotelList={hotelList}
+          chosenHotelID={hotelID}
         />
       </ScrollView>
     </SafeAreaView>
@@ -400,7 +438,7 @@ const styles = StyleSheet.create({
 function mapStateToProps({ arrivalsReducer, hotelReducer, dateReducer }) {
   const { initialLoading, arrivalsData, arrivalsType, arrivalsLength } =
     arrivalsReducer;
-  const { hotelName } = hotelReducer;
+  const { hotelName, hotelList, hotelID } = hotelReducer;
   const { chosenDay } = dateReducer;
   return {
     initialLoading,
@@ -409,6 +447,8 @@ function mapStateToProps({ arrivalsReducer, hotelReducer, dateReducer }) {
     arrivalsLength,
     hotelName,
     chosenDay,
+    hotelList,
+    hotelID,
   };
 }
 

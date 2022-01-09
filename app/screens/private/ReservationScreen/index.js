@@ -26,7 +26,7 @@ import {
 } from '../../../components/ScreenComponents/Reservation';
 // Helpers
 import {
-  wordTruncator,
+  dottedTruncator,
   numberWithSpaces,
   getMonthNameShort,
 } from '../../../helpers';
@@ -189,9 +189,11 @@ const ReservationScreen = ({
                         }}>
                         <MoonSvg />
                         <Text style={{ color: COLORS.white }}> {nights}</Text>
-                        <View style={{ marginLeft: 10 }}></View>
-                        <PersonSvg />
+                        <View style={{ marginLeft: 10 }}>
+                          <PersonSvg />
+                        </View>
                         <Text style={{ color: COLORS.white }}>
+                          {' '}
                           {total_guests}
                         </Text>
                       </View>
@@ -209,10 +211,10 @@ const ReservationScreen = ({
                     <View style={styles.cardRightSideContent}>
                       <View style={styles.guestDetailsContainer}>
                         <Text style={styles.guestName}>
-                          {wordTruncator(guest.first_name, 8)}
+                          {dottedTruncator(guest.first_name, 8)}
                         </Text>
                         <Text style={styles.guestName}>
-                          {wordTruncator(guest.last_name, 8)}
+                          {dottedTruncator(guest.last_name, 8)}
                         </Text>
                         <View>
                           <Text

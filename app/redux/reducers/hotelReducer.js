@@ -5,8 +5,8 @@ const initialState = {
   hotelList: [],
   hotelID: 48,
   hotelName: 'Выбирайте отель',
-  noHotelFoundModalVisible: false,
-  chooseHotelModalVisible: false,
+  noHotelFoundAlertVisible: false,
+  hotelModalVisible: false,
   error: null,
 };
 
@@ -32,28 +32,28 @@ const hotelReducer = (state = initialState, action) => {
     case HOTEL.MODAL_TO_CHOOSE_HOTEL_ID:
       return {
         ...state,
-        chooseHotelModalVisible: true,
+        hotelModalVisible: true,
       };
     case HOTEL.SET_USER_CHOSEN_HOTEL_ID:
       return {
         ...state,
         hotelID: action.payload.hotelID,
         hotelName: action.payload.hotelName,
-        chooseHotelModalVisible: false,
+        hotelModalVisible: false,
       };
     // If hotel is only one on the hotel list, default hotelID will be set to that hotel's ID
     case HOTEL.SET_DEFAULT_HOTEL_ID:
       return {
         ...state,
-        noHotelFoundModalVisible: false,
-        chooseHotelModalVisible: false,
+        noHotelFoundAlertVisible: false,
+        hotelModalVisible: false,
         hotelID: action.payload.hotelID,
         hotelName: action.payload.hotelName,
       };
     case HOTEL.NO_HOTEL_FOUND:
       return {
         ...state,
-        noHotelFoundModalVisible: true,
+        noHotelFoundAlertVisible: true,
       };
     default:
       return state;

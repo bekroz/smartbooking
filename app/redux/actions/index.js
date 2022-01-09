@@ -63,6 +63,14 @@ import {
   setArrivalsTypeChangeAction,
 } from './arrivalsActions';
 
+// Date actions
+import {
+  setChosenDay,
+  setChosenMonth,
+  setChosenMonthRange,
+  setChosenYear,
+} from './dateActions';
+
 export {
   // Auth
   appTokenRequestAction,
@@ -112,4 +120,9 @@ export {
   getComparisonDataRequestAction,
   getComparisonDataSuccessAction,
   getComparisonDataFailureAction,
+  // Date
+  setChosenDay,
+  setChosenMonth,
+  setChosenMonthRange,
+  setChosenYear,
 };
