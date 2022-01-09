@@ -1,17 +1,15 @@
-import HotelListBar from './HotelList';
-import HotelModalBox from './HotelModalBox';
-import EmptyRoomsCircle from './EmptyRoomsCircle';
-import PercentageCircle from './PercentageCircle';
-import DayPicker from './DayPick';
+import HotelNameBar from './HotelNameBar';
 import HotelModal from './HotelModal';
 import CalendarModal from './CalendarModal';
+import DayPicker from './DayPick';
+import EmptyRoomsCircle from './EmptyRoomsCircle';
+import PercentageCircle from './PercentageCircle';
 
 export {
-  HotelListBar,
-  HotelModalBox,
-  EmptyRoomsCircle,
-  PercentageCircle,
-  DayPicker,
+  HotelNameBar,
   HotelModal,
   CalendarModal,
+  DayPicker,
+  EmptyRoomsCircle,
+  PercentageCircle,
 };

@@ -1,70 +1,100 @@
-import React, { useState } from 'react';
-import { Button, Text, View, Dimensions } from 'react-native';
-import Modal from 'react-native-modal';
-import { useDispatch } from 'react-redux';
-import { SIZES } from '../../../../constants';
+import React from 'react';
 import {
-  getHotelDataRequestAction,
-  setUserChosenHotelIDAction,
-} from '../../../../redux/actions';
+  Modal,
+  ModalContent as LandingModalContent,
+} from 'react-native-modals';
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
+// Theme
+import { COLORS, POSITIONING, SIZES } from '../../../../constants/theme';
+// Icons
+import { CloseSvg } from '../../../../assets/icons/SvgIcons';
 
-const HotelModal = ({ chosenHotel, hotelModalVisible }) => {
-  const dispatch = useDispatch();
-  const handleHotelPress = () => {
-    // If no hotel is chosen modal won't close
-    // alert(chosenHotelID);
-    const updatedHotel = {
-      hotelID: 48,
-      hotelName: 'Kukaldosh Hotel',
-    };
-    console.log(typeof updatedHotel);
-    if (
-      updatedHotel
-      //   typeof updatedHotel.hotelID !== null &&
-      //   typeof updatedHotel.hotelID !== 'undefined'
-    ) {
-      dispatch(setUserChosenHotelIDAction(updatedHotel));
-      dispatch(getHotelDataRequestAction());
-
-      // console.log(updatedHotel);
-    } else {
-      alert('Choose hotel');
-    }
-  };
-  function toggleModal() {
-    setModalVisible(true);
-  }
-
+const HotelModal = ({
+  visible,
+  onTouchOutside,
+  onQuitPress,
+  onHotelChosen,
+  hotelList,
+  chosenHotelID,
+}) => {
   return (
-    <Modal
-      isVisible={hotelModalVisible}
-      onSwipeComplete={() => setModalVisible(false)}
-      animationIn="fadeIn"
-      animationOut="fadeOut"
-      coverScreen={true}
-      onBackdropPress={handleHotelPress}
-      propagateSwipe="true"
-      // onModalWillHide={() => alert('API call')}
-      // Android back button press event handler
-      onBackButtonPress={() => setModalVisible(false)}
-      animationInTiming={560}
-      animationOutTiming={560}>
-      <View
-        style={{
-          backgroundColor: 'red',
-          width: SIZES.width,
-          alignSelf: 'center',
-          height: 250,
-          bottom: 0,
-          justifyContent: 'flex-start',
-          // alignSelf: 'flex-start',
-        }}>
-        <Text>Hello!</Text>
+    <Modal visible={visible} onTouchOutside={onTouchOutside}>
+      <View style={styles.borderCoverUp}>
+        <LandingModalContent style={styles.landingModalContent}>
+          <View style={styles.modalBlock}>
+            <View style={{ marginBottom: 24 }}>
+              <View
+                style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <Text style={styles.optionsTopTitle}>Выберите объект</Text>
+              </View>
+              <TouchableOpacity style={styles.quitButton} onPress={onQuitPress}>
+                <CloseSvg />
+              </TouchableOpacity>
+            </View>
 
-        <Button title="Hide modal" onPress={toggleHotelModal} />
+            {hotelList?.map((hotel, index) => (
+              <View style={POSITIONING.align}>
+                <TouchableOpacity
+                  style={{ marginBottom: SIZES.base }}
+                  onPress={() => onHotelChosen(hotel)}
+                  key={index}>
+                  <Text
+                    style={
+                      chosenHotelID == hotel.id
+                        ? styles.chosenOptionStyle
+                        : styles.defaultOptionStyle
+                    }>
+                    {hotel.name}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            ))}
+          </View>
+        </LandingModalContent>
       </View>
     </Modal>
   );
 };
+
+const styles = StyleSheet.create({
+  borderCoverUp: {
+    backgroundColor: COLORS.black,
+  },
+  landingModalContent: {
+    backgroundColor: COLORS.black,
+    width: SIZES.width - 25,
+    borderRadius: 12,
+    alignItems: 'center',
+  },
+  modalBlock: {
+    width: 340,
+    height: 'auto',
+    backgroundColor: COLORS.black,
+  },
+  optionsTopTitle: {
+    color: COLORS.white,
+    fontSize: 26,
+    fontWeight: SIZES.fontWeight3,
+  },
+  quitButton: {
+    right: 5,
+    position: 'absolute',
+    padding: 5,
+    top: 5,
+  },
+  chosenOptionStyle: {
+    color: COLORS.blue,
+    fontSize: SIZES.body4,
+    fontWeight: SIZES.fontWeight2,
+  },
+  defaultOptionStyle: {
+    color: COLORS.white,
+    fontSize: SIZES.body4,
+    fontWeight: SIZES.fontWeight0,
+  },
+});
 
 export default HotelModal;

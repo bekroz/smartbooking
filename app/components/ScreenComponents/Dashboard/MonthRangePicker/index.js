@@ -4,45 +4,30 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import Calendar from '../../../Additionals/date-picker';
 // Theme
 import { COLORS, SIZES } from '../../../../constants/theme';
-import { store } from '../../../../redux/store';
+// Redux
 import { setChosenMonthRange } from '../../../../redux/actions';
-import { connect, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-const MonthRangePicker = ({ toggleCalendarModal, chosenMonthRange }) => {
-  const [updatedMonthRange, setUpdatedMonthRange] = useState(chosenMonthRange);
+const MonthRangePicker = ({ toggleCalendarModal }) => {
+  const [updatedMonthRange, setUpdatedMonthRange] = useState('');
   const [dateRangeValue, setDateRangeValue] = useState(null);
   const dispatch = useDispatch();
-  function handleAcceptButtonPress() {
-    dispatch(setChosenMonthRange(updatedMonthRange));
-    // toggleCalendarModal();
-  }
 
-  function handleClearButtonPress() {
+  const handleDateChange = range => {
+    setUpdatedMonthRange(range);
+    console.log(range);
+  };
+  const handleAcceptButtonPress = () => {
+    dispatch(setChosenMonthRange(updatedMonthRange));
+    toggleCalendarModal();
+  };
+
+  const handleClearButtonPress = () => {
     setUpdatedMonthRange({});
-  }
-  console.log('====================================');
-  console.log(store.getState().dateReducer);
-  console.log('====================================');
-  console.log('====================================');
-  console.log(updatedMonthRange);
-  console.log('====================================');
+  };
+
   return (
     <View style={styles.rangeModalContainer}>
-      <View style={styles.pickerWrapper}>
-        <DateRangePicker
-          onSelectDateRange={range => {
-            setDateRangeValue(range);
-          }}
-          blockSingleDateSelection={true}
-          responseFormat="YYYY-MM-DD"
-          selectedDateContainerStyle={styles.selectedDateContainerStyle}
-          selectedDateStyle={styles.selectedDateStyle}
-        />
-        <View style={styles.container}>
-          <Text>first date: {range.start}</Text>
-          <Text>second date: {range.end}</Text>
-        </View>
-      </View>
       <View
         style={{
           width: SIZES.width,
@@ -51,11 +36,11 @@ const MonthRangePicker = ({ toggleCalendarModal, chosenMonthRange }) => {
           format="YYYY-MM-DD"
           showControls={true}
           userColors={{ title: '#FFFFFF' }}
-          onDateChange={range => setUpdatedMonthRange(range)}
+          onDateChange={handleDateChange}
           mode="range"
           locale="ru"
           style={styles.container}
-          useNativeDriver={true}
+          // useNativeDriver={true}
         />
       </View>
       <View
@@ -77,7 +62,7 @@ const MonthRangePicker = ({ toggleCalendarModal, chosenMonthRange }) => {
             alignItems: 'center',
             justifyContent: 'center',
           }}
-          onPress={() => handleClearButtonPress()}>
+          onPress={handleClearButtonPress}>
           <Text
             style={{
               color: COLORS.blue,
@@ -89,19 +74,10 @@ const MonthRangePicker = ({ toggleCalendarModal, chosenMonthRange }) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.acceptButtonStyle}
-          onPress={handleAcceptButtonPress()}>
+          onPress={handleAcceptButtonPress}>
           <Text style={styles.acceptTextstyle}>Подтвердить</Text>
         </TouchableOpacity>
       </View>
-      {/* <View style={styles.container}>
-        <Text
-          style={{ color: COLORS.white, fontWeight: '500', marginBottom: 10 }}>
-          FIRST date: {range.start}
-        </Text>
-        <Text style={{ color: COLORS.white, fontWeight: '500' }}>
-          SECOND date: {range.end}
-        </Text>
-      </View> */}
     </View>
   );
 };
@@ -140,11 +116,11 @@ const styles = StyleSheet.create({
   },
 });
 
-function mapStateToProps({ dateReducer }) {
-  const { chosenMonthRange } = dateReducer;
-  return {
-    chosenMonthRange,
-  };
-}
+// function mapStateToProps({ dateReducer }) {
+//   const { chosenMonthRange } = dateReducer;
+//   return {
+//     chosenMonthRange,
+//   };
+// }
 
-export default connect(mapStateToProps)(MonthRangePicker);
+export default MonthRangePicker;

@@ -6,30 +6,17 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-import Calendar from '../Additionals/date-picker';
-import { COLORS, SIZES } from '../../constants/theme';
+// Theme
+import { COLORS, SIZES } from '../../../../constants';
+// Components
+import Calendar from '../../../Additionals/date-picker';
 
 const App = ({ handleAcceptButtonPress }) => {
   const [range, setRange] = useState({});
   const [dateRangeValue, setDateRangeValue] = useState(null);
-
+  console.log(range);
   return (
     <SafeAreaView style={{ backgroundColor: '#212831', borderRadius: 12 }}>
-      {/* <View style={styles.container}>
-        <DateRangePicker
-          onSelectDateRange={range => {
-            setDateRangeValue(range);
-          }}
-          blockSingleDateSelection={true}
-          responseFormat="YYYY-MM-DD"
-          selectedDateContainerStyle={styles.selectedDateContainerStyle}
-          selectedDateStyle={styles.selectedDateStyle}
-        />
-        <View style={styles.container}>
-          <Text>first date: {range.start}</Text>
-          <Text>second date: {range.end}</Text>
-        </View>
-      </View> */}
       <View
         style={{
           width: SIZES.width,
@@ -78,15 +65,6 @@ const App = ({ handleAcceptButtonPress }) => {
           <Text style={styles.acceptTextstyle}>Подтвердить</Text>
         </TouchableOpacity>
       </View>
-      {/* <View style={styles.container}>
-        <Text
-          style={{ color: COLORS.white, fontWeight: '500', marginBottom: 10 }}>
-          FIRST date: {range.start}
-        </Text>
-        <Text style={{ color: COLORS.white, fontWeight: '500' }}>
-          SECOND date: {range.end}
-        </Text>
-      </View> */}
     </SafeAreaView>
   );
 };

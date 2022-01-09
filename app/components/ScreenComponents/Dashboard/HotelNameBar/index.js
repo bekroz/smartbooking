@@ -1,9 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+// Theme
 import { COLORS, SIZES } from '../../../../constants';
+// Icons
 import { DropDownSvg } from '../../../../assets/icons/SvgIcons';
 
-export default function HotelListBar({ onPress, hotelName }) {
+export default function HotelNameBar({ onPress, hotelName }) {
   return (
     <View>
       <TouchableOpacity onPress={onPress} style={styles.hotelBarContainer}>

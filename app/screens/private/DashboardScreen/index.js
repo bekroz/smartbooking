@@ -9,7 +9,6 @@ import {
   RefreshControl,
 } from 'react-native';
 import { MultiArcCircle } from 'react-native-circles';
-import { Overlay } from 'react-native-elements';
 // Theme
 import { COLORS, POSITIONING, SIZES } from '../../../constants/theme';
 // Icons
@@ -20,13 +19,12 @@ import {
 } from '../../../assets/icons/SvgIcons';
 // Components
 import {
-  HotelListBar,
-  HotelModalBox,
+  HotelNameBar,
+  HotelModal,
+  CalendarModal,
+  DayPicker,
   PercentageCircle,
   EmptyRoomsCircle,
-  DayPicker,
-  HotelModal,
-  Calendar,
 } from '../../../components/ScreenComponents/Dashboard';
 // Redux
 import { connect, useDispatch } from 'react-redux';
@@ -40,32 +38,6 @@ import {
   getHotelsDataMiddleware,
   setHotelIDMiddleware,
 } from '../../../redux/middlewares';
-import { store } from '../../../redux/store';
-import { ARRIVALS_TYPE } from '../../../constants/dataTypes';
-import Animated, {
-  useSharedValue,
-  withTiming,
-  useAnimatedProps,
-  withDelay,
-  runOnJS,
-  useDerivedValue,
-} from 'react-native-reanimated';
-
-const useAnimatedValue = () => {
-  const initialValue = useRef(new Animated.Value(10)).current;
-  const increaseValue = () => {
-    Animated.timing(initialValue, {
-      toValue: 500,
-      duration: 5000,
-      useNativeDriver: false,
-    }).start();
-  };
-
-  useEffect(() => {
-    setTimeout(() => useAnimatedValue());
-  }, []);
-  return initialValue;
-};
 
 const DashboardScreen = ({
   navigation,
@@ -102,7 +74,11 @@ const DashboardScreen = ({
     setHotelListModalVisible(!hotelListModalVisible);
   };
 
-  function handleChosenHotel(updatedHotel) {
+  const toggleCalendarModal = () => {
+    setCalendarModalVisible(!calendarModalVisible);
+  };
+
+  const handleChosenHotel = (updatedHotel) => {
     console.log(updatedHotel);
     if (typeof updatedHotel !== 'undefined' && updatedHotel !== null) {
       dispatch(setUserChosenHotelIDAction(updatedHotel));
@@ -115,7 +91,7 @@ const DashboardScreen = ({
 
   function handleArcBarPress(arrivalsType) {
     navigation.navigate('ArrivalsScreen');
-    store.dispatch(getArrivalsDataRequestAction(arrivalsType));
+    dispatch(getArrivalsDataRequestAction(arrivalsType));
   }
 
   async function getDashboardDataOnTabPress() {
@@ -156,7 +132,6 @@ const DashboardScreen = ({
         maxPoint * (shouldArrived > 0 ? leftArrived / shouldArrived : 1),
     );
   };
-  // Kamaytirish 140 =>- currentArrivedPercentage
 
   const currentDeparturePercentage = () => {
     return Math.round(
@@ -168,97 +143,6 @@ const DashboardScreen = ({
   const currentLivingPercentage = () => {
     return Math.round(minPoint + maxPoint * (live > 0 ? live / maxRooms : 1));
   };
-  // Kamaytirish 140 =>- currentArrivedPercentage
-  // const ArcAnimatedRadius = useRef(new Animated.Value(115)).current;
-  // const [animate, setAnimate] = useState(true);
-
-  // const arcAnimatedRadiusValue = useRef(new Animated.Value(115)).current;
-  // const [clicked, setClicked] = useState(false);
-
-  // if (!percentageView) {
-  //   Animated.timing(arcAnimatedRadiusValue, {
-  //     toValue: 10,
-  //     duration: 5000,
-  //     useNativeDriver: false,
-  //   }).start();
-  // }
-  // const backgroundColor = arcAnimatedRadiusValue.interpolate({
-  //   inputRange: [0, 500],
-  //   outputRange: [0, 450],
-  // });
-
-  // console.log('====================================');
-  // console.log(arcAnimatedRadiusValue);
-  // setTimeout(() => {
-  //   console.log('CHANGE ===>');
-  //   console.log(arcAnimatedRadiusValue);
-  // }, 4000);
-  // console.log('====================================');
-
-  // if (animate) {
-  //   Animated.timing(ArcAnimatedRadius, {
-  //     toValue: 115,
-  //     duration: 300,
-  //     useNativeDriver: false,
-  //   }).start();
-  // } else {
-  //   animate
-  //     .timing(ArcAnimatedRadius, {
-  //       toValue: 300,
-  //       duration: 300,
-  //       useNativeDriver: false,
-  //     })
-  //     .start();
-  // }
-
-  // useEffect(() => {
-  //   Animated.timing(ArcAnimatedRadius, {
-  //     toValue: 78,
-  //     duration: 300,
-  //     useNativeDriver: false,
-  //   }).start();
-  // }, []);
-  // const activeStrokeWidth = 10;
-  // const inActiveStrokeWidth = 10;
-  // const radius = 60;
-
-  // const initialValue = 10;
-  // const maxValue = 280;
-
-  // const ArcAnimatedRadius = useRef(new Animated.Value(115)).current;
-  // const [animate, setAnimate] = useState(true);
-
-  // if (animate) {
-  //   Animated.timing(ArcAnimatedRadius, {
-  //     toValue: 115,
-  //     duration: 300,
-  //     useNativeDriver: false,
-  //   }).start();
-  // } else {
-  //   animate
-  //     .timing(ArcAnimatedRadius, {
-  //       toValue: 300,
-  //       duration: 300,
-  //       useNativeDriver: false,
-  //     })
-  //     .start();
-  // }
-
-  // const animatedValue = useSharedValue(initialValue);
-
-  // const animatedArcValue = useAnimatedProps(() => {
-  //   let biggestValue = Math.max(initialValue, maxValue);
-  //   biggestValue = biggestValue <= 0 ? 1 : biggestValue;
-  //   const maxPercentage = (100 * animatedValue.value) / biggestValue;
-  //   return maxPercentage;
-  // });
-
-  // useEffect(() => {
-  //   effect
-  //   return () => {
-  //     cleanup
-  //   }
-  // }, [])
 
   const [refreshing, setRefreshing] = useState(false);
   const flatListRef = useRef();
@@ -280,8 +164,8 @@ const DashboardScreen = ({
           />
         }>
         <View style={POSITIONING.center}>
-          <HotelListBar
-            onPress={() => setHotelListModalVisible(true)}
+          <HotelNameBar
+            onPress={toggleHotelModal}
             hotelName={loading ? 'Загружается...' : hotelName}
           />
         </View>
@@ -289,8 +173,7 @@ const DashboardScreen = ({
           <TouchableOpacity style={styles.arrowIconStyle}>
             <WhiteLeftArrowSvg />
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => setCalendarModalVisible(!calendarModalVisible)}>
+          <TouchableOpacity onPress={() => setCalendarModalVisible(true)}>
             <Text style={styles.dateText}>Декабрь 2021</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.arrowIconStyle}>
@@ -302,7 +185,7 @@ const DashboardScreen = ({
         </View>
         {/* Horizontal Calendar Day Picker */}
         <View style={styles.dayPickerContainer}>
-          <DayPicker />
+          <DayPicker chosenDay={chosenDay} />
         </View>
         <>
           {/* Arc Bars Container */}
@@ -546,30 +429,19 @@ const DashboardScreen = ({
           </TouchableOpacity>
         </>
       </ScrollView>
-
       {/* Calendar Modal */}
-      {calendarModalVisible && (
-        <Overlay
-          isVisible={calendarModalVisible}
-          onBackdropPress={toggleCalendarModal}
-          overlayStyle={styles.overlayStyle}>
-          <Calendar handleAcceptButtonPress={toggleCalendarModal} />
-        </Overlay>
-      )}
-
-      {/* Hotel List Modal */}
-      {hotelListModalVisible && (
-        <HotelModalBox
-          visible={hotelListModalVisible}
-          onTouchOutside={toggleHotelModal}
-          onQuitPress={toggleHotelModal}
-          onHotelChosen={handleChosenHotel}
-          hotelList={hotelList}
-          chosenHotelID={hotelID}
-          
-        />
-      )}
-      {hotelModalVisible && <HotelModal />}
+      <CalendarModal
+        isVisible={calendarModalVisible}
+        toggleCalendarModal={toggleCalendarModal}
+      />
+      <HotelModal
+        visible={hotelListModalVisible}
+        onTouchOutside={toggleHotelModal}
+        onQuitPress={toggleHotelModal}
+        onHotelChosen={handleChosenHotel}
+        hotelList={hotelList}
+        chosenHotelID={hotelID}
+      />
     </SafeAreaView>
   );
 };
@@ -724,6 +596,7 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps({ dashboardReducer, hotelReducer, dateReducer }) {
+  const { chosenDay } = dateReducer;
   const {
     loading,
     availableRooms,
@@ -747,7 +620,7 @@ function mapStateToProps({ dashboardReducer, hotelReducer, dateReducer }) {
     hotelModalVisible,
     noHotelFoundAlertVisible,
   } = hotelReducer;
-  const { chosenDay } = dateReducer;
+
   return {
     loading,
     availableRooms,
