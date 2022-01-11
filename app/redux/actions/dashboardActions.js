@@ -1,5 +1,11 @@
 import { DASHBOARD } from '../types';
 
+const dashboardDataCleanUpAction = () => {
+  return {
+    type: DASHBOARD.DATA_CLEAN_UP,
+  };
+};
+
 const getDashboardDataRequestAction = () => {
   return {
     type: DASHBOARD.DATA_REQUEST,
@@ -47,6 +53,7 @@ const getDashboardDataFailureAction = error => {
 };
 
 export {
+  dashboardDataCleanUpAction,
   getDashboardDataRequestAction,
   getDashboardDataSuccessAction,
   getDashboardDataFailureAction,

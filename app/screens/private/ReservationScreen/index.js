@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import {
   View,
   Text,
@@ -12,8 +12,9 @@ import { Card } from 'react-native-elements/dist/card/Card';
 import { Divider } from 'react-native-elements/dist/divider/Divider';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ru';
+import { connect, useDispatch } from 'react-redux';
 // Theme
-import { COLORS, SIZES } from '../../../constants/theme';
+import { COLORS, POSITIONING, SIZES } from '../../../constants';
 // Icons
 import { MoonSvg, PersonSvg } from '../../../assets/icons/SvgIcons';
 // Components
@@ -23,29 +24,20 @@ import {
   ConfirmedStatus,
   InHouseStatus,
   NoShowStatus,
-} from '../../../components/ScreenComponents/Reservation';
-// Helpers
-import {
-  dottedTruncator,
-  numberWithSpaces,
-  getMonthNameShort,
-} from '../../../helpers';
-// API
-import {
-  getHotelsDataMiddleware,
-  getReservationDataMiddleware,
-  getReservationNextPageDataMiddleware,
-  setHotelIDMiddleware,
-} from '../../../redux/middlewares';
-import {
-  NoMoreDataAlert,
-  LoadingIndicator,
   SpaceForScroll,
+  BottomLoaderButton,
+  FadeInView,
+  NoDataToShow,
 } from '../../../components';
-import { connect } from 'react-redux';
-import { LoadingCard } from '../../../components/ScreenComponents/Reservation';
-import FadeInView from '../../../components/FadeInView';
-import { NoDataToShow } from '../../../components/Alerts/UserAlerts';
+// Helpers
+import { dottedTruncator, numberWithSpaces } from '../../../helpers';
+// Redux
+
+import {
+  getReservationInitialDataMiddleware,
+  getReservationNextPageDataMiddleware,
+} from '../../../redux/middlewares';
+import { reservationDataCleanUpAction } from '../../../redux/actions';
 
 const ReservationScreen = ({
   navigation,
@@ -53,41 +45,35 @@ const ReservationScreen = ({
   nextPageLoading,
   reservationData,
   isLastPage,
-  pageIndex,
   reservationLength,
   chosenMonthRange,
   reservationStatus,
   reservationType,
 }) => {
-  async function getDetailsDataOnTabPress() {
-    try {
-      await getHotelsDataMiddleware();
-      await setHotelIDMiddleware();
-      await getReservationDataMiddleware();
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  const dispatch = useDispatch();
 
   const onPullToRefresh = useCallback(() => {
-    getDetailsDataOnTabPress();
+    getReservationInitialDataMiddleware();
   }, []);
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      getDetailsDataOnTabPress();
+    navigation.addListener('focus', () => {
+      getReservationInitialDataMiddleware();
     });
-
-    return unsubscribe;
   }, [navigation]);
 
-  const [refreshing, setRefreshing] = useState(false);
+  useEffect(() => {
+    navigation.addListener('blur', () => {
+      dispatch(reservationDataCleanUpAction());
+    });
+  }, []);
+
+  let refreshing = false;
 
   const monthStart = dayjs(chosenMonthRange.startDate)
     .locale('ru')
     .format('D MMM');
   const monthEnd = dayjs(chosenMonthRange.endDate).locale('ru').format('D MMM');
-
   return (
     <SafeAreaView style={styles.container}>
       <View>
@@ -132,145 +118,127 @@ const ReservationScreen = ({
             />
           }>
           {/* All Cards */}
-          {!initialLoading ? (
-            reservationData.map(
-              (
-                {
-                  checkin,
-                  checkout,
-                  nights,
-                  total_guests,
-                  guest,
-                  total_rooms,
-                  created_at,
-                  source_name,
-                  total_sum,
-                  status,
-                },
-                index,
-              ) => (
-                <Card key={index} containerStyle={styles.card} title="Guests">
-                  {/* LEFT Side Content */}
-                  <FadeInView>
-                    <View style={styles.cardLeftSideContent}>
-                      <View style={styles.dateContainer}>
-                        <View styles={styles.dateDescriptionContainer}>
-                          <Text style={styles.dateDescription}>
-                            Дата заезда:
-                          </Text>
-                        </View>
-                        <Text style={styles.date}>
-                          {dayjs(checkin).format('DD.MM.YYYY')}
-                        </Text>
+
+          {reservationData?.map(
+            (
+              {
+                checkin,
+                checkout,
+                nights,
+                total_guests,
+                guest,
+                total_rooms,
+                created_at,
+                source_name,
+                total_sum,
+                status,
+              },
+              index,
+            ) => (
+              <Card key={index} containerStyle={styles.card} title="Guests">
+                {/* LEFT Side Content */}
+                <FadeInView>
+                  <View style={styles.cardLeftSideContent}>
+                    <View style={styles.dateContainer}>
+                      <View styles={styles.dateDescriptionContainer}>
+                        <Text style={styles.dateDescription}>Дата заезда:</Text>
                       </View>
-                      {/* Small Divider */}
-                      <Divider
-                        orientation="vertical"
-                        width={0.5}
-                        left={45}
-                        top={45}
-                        height={12}
-                        color={COLORS.blue}
-                        position="absolute"
-                      />
-                      <View style={[styles.dateContainer, { marginTop: 10 }]}>
-                        <View styles={styles.dateDescriptionContainer}>
-                          <Text style={styles.dateDescription}>
-                            Дата выезда:
-                          </Text>
-                        </View>
-                        <Text style={styles.date}>
-                          {dayjs(checkout).format('DD.MM.YYYY')}
-                        </Text>
-                      </View>
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                        }}>
-                        <MoonSvg />
-                        <Text style={{ color: COLORS.white }}> {nights}</Text>
-                        <View style={{ marginLeft: 10 }}>
-                          <PersonSvg />
-                        </View>
-                        <Text style={{ color: COLORS.white }}>
-                          {' '}
-                          {total_guests}
-                        </Text>
-                      </View>
+                      <Text style={styles.date}>
+                        {dayjs(checkin).format('DD.MM.YYYY')}
+                      </Text>
                     </View>
-                    {/* Long divider */}
+                    {/* Small Divider */}
                     <Divider
                       orientation="vertical"
-                      leftWidth={1}
-                      left={115}
-                      height={130}
-                      color="#404040"
+                      width={0.5}
+                      left={45}
+                      top={45}
+                      height={12}
+                      color={COLORS.blue}
                       position="absolute"
                     />
-                    {/* RIGHT content */}
-                    <View style={styles.cardRightSideContent}>
-                      <View style={styles.guestDetailsContainer}>
-                        <Text style={styles.guestName}>
-                          {dottedTruncator(guest.first_name, 8)}
-                        </Text>
-                        <Text style={styles.guestName}>
-                          {dottedTruncator(guest.last_name, 8)}
-                        </Text>
-                        <View>
-                          <Text
-                            style={[
-                              styles.equalMargin,
-                              { color: COLORS.white },
-                            ]}>
-                            {total_rooms} номера
-                          </Text>
-                          <Text
-                            style={[
-                              styles.equalMargin,
-                              { color: COLORS.white },
-                            ]}>
-                            {dayjs(created_at).format('DD.MM.YYYY')}
-                          </Text>
-                          <Text
-                            style={[
-                              styles.equalMargin,
-                              { fontSize: 16, color: COLORS.white },
-                            ]}>
-                            {source_name}
-                          </Text>
-                          <Text
-                            style={[styles.greenPriceText, styles.equalMargin]}>
-                            {numberWithSpaces(total_sum)} UZS
-                          </Text>
-                        </View>
+                    <View style={[styles.dateContainer, { marginTop: 10 }]}>
+                      <View styles={styles.dateDescriptionContainer}>
+                        <Text style={styles.dateDescription}>Дата выезда:</Text>
                       </View>
-                      <View style={styles.statusContainer}>
-                        {status == 'confirmed' && <ConfirmedStatus />}
-                        {status == 'in_house' && <InHouseStatus />}
-                        {status == 'check_out' && <CheckOutStatus />}
-                        {status == 'canceled' && <CanceledStatus />}
-                        {status == 'no_show' && <NoShowStatus />}
+                      <Text style={styles.date}>
+                        {dayjs(checkout).format('DD.MM.YYYY')}
+                      </Text>
+                    </View>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                      }}>
+                      <MoonSvg />
+                      <Text style={{ color: COLORS.white }}> {nights}</Text>
+                      <View style={{ marginLeft: 10 }}>
+                        <PersonSvg />
+                      </View>
+                      <Text style={{ color: COLORS.white }}>
+                        {' '}
+                        {total_guests}
+                      </Text>
+                    </View>
+                  </View>
+                  {/* Long divider */}
+                  <Divider
+                    orientation="vertical"
+                    leftWidth={1}
+                    left={115}
+                    height={130}
+                    color="#404040"
+                    position="absolute"
+                  />
+                  {/* RIGHT content */}
+                  <View style={styles.cardRightSideContent}>
+                    <View style={styles.guestDetailsContainer}>
+                      <Text style={styles.guestName}>
+                        {dottedTruncator(guest.first_name, 8)}
+                      </Text>
+                      <Text style={styles.guestName}>
+                        {dottedTruncator(guest.last_name, 8)}
+                      </Text>
+                      <View>
+                        <Text
+                          style={[styles.equalMargin, { color: COLORS.white }]}>
+                          {total_rooms} номера
+                        </Text>
+                        <Text
+                          style={[styles.equalMargin, { color: COLORS.white }]}>
+                          {dayjs(created_at).format('DD.MM.YYYY')}
+                        </Text>
+                        <Text
+                          style={[
+                            styles.equalMargin,
+                            { fontSize: 16, color: COLORS.white },
+                          ]}>
+                          {dottedTruncator(source_name, 15)}
+                        </Text>
+                        <Text
+                          style={[styles.greenPriceText, styles.equalMargin]}>
+                          {numberWithSpaces(total_sum)} UZS
+                        </Text>
                       </View>
                     </View>
-                  </FadeInView>
-                </Card>
-              ),
-            )
-          ) : (
-            <LoadingCard />
+                    <View style={styles.statusContainer}>
+                      {status == 'confirmed' && <ConfirmedStatus />}
+                      {status == 'in_house' && <InHouseStatus />}
+                      {status == 'check_out' && <CheckOutStatus />}
+                      {status == 'canceled' && <CanceledStatus />}
+                      {status == 'no_show' && <NoShowStatus />}
+                    </View>
+                  </View>
+                </FadeInView>
+              </Card>
+            ),
           )}
-          {!initialLoading && !isLastPage ? (
-            <TouchableOpacity
-              style={styles.showMoreButton}
-              onPress={() => getReservationNextPageDataMiddleware()}>
-              {nextPageLoading ? (
-                <LoadingIndicator />
-              ) : (
-                <Text style={styles.showMoreText}>Показать ещё</Text>
-              )}
-            </TouchableOpacity>
-          ) : (
-            isLastPage && <NoMoreDataAlert />
+          {!initialLoading && reservationLength !== 0 && (
+            <BottomLoaderButton
+              initialLoading={initialLoading}
+              nextPageLoading={nextPageLoading}
+              isLastPage={isLastPage}
+              onPress={() => getReservationNextPageDataMiddleware()}
+            />
           )}
           {!initialLoading && reservationLength === 0 && <NoDataToShow />}
           <SpaceForScroll />
@@ -317,9 +285,8 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.darkBackground,
   },
   titleContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
     marginTop: 10,
+    ...POSITIONING.center,
   },
   title: {
     fontSize: 30,
@@ -327,15 +294,14 @@ const styles = StyleSheet.create({
     color: COLORS.white,
   },
   center: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    ...POSITIONING.center,
   },
   topBarButtonsContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
     margin: 10,
     height: 50,
     width: SIZES.width,
+    ...POSITIONING.justify,
   },
   topBarBtn: {
     backgroundColor: '#292F3A',
@@ -346,8 +312,7 @@ const styles = StyleSheet.create({
     width: 114,
     marginTop: 10,
     marginRight: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
+    ...POSITIONING.center,
   },
   topBarText: {
     // fontFamily: 'SF Pro Display',
@@ -409,10 +374,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#212831',
     width: SIZES.width - 20,
     height: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
     marginTop: 15,
     borderRadius: 6,
+    ...POSITIONING.center,
   },
   showMoreText: {
     color: COLORS.blue,
@@ -437,7 +401,7 @@ const styles = StyleSheet.create({
     fontWeight: SIZES.fontWeight3,
   },
   statusContainer: {
-    right: 0,
+    right: 15,
     alignSelf: 'flex-start',
   },
 });

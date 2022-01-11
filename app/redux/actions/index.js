@@ -6,6 +6,9 @@ import {
   loginRequestAction,
   loginSuccessAction,
   loginFailureAction,
+  logOutRequestAction,
+  logOutSuccessAction,
+  logOutFailureAction,
 } from './authActions';
 // Hotel actions
 import {
@@ -14,20 +17,24 @@ import {
   getHotelDataFailureAction,
   setUserChosenHotelIDAction,
   showHotelModalToChooseAction,
+  closeHotelModalAction,
   setDefaultHotelIDAction,
   noHotelFoundAction,
+  purgeHotelDataAction,
 } from './hotelActions';
 // Dashboard actions
 import {
+  dashboardDataCleanUpAction,
   getDashboardDataRequestAction,
   getDashboardDataSuccessAction,
   getDashboardDataFailureAction,
 } from './dashboardActions';
 // Reservation actions
 import {
-  getReservationDataRequestAction,
-  getReservationDataSuccessAction,
-  getReservationDataFailureAction,
+  reservationDataCleanUpAction,
+  getReservationInitialDataRequestAction,
+  getReservationInitialDataSuccessAction,
+  getReservationInitialDataFailureAction,
   getReservationNextPageDataRequestAction,
   getReservationNextPageDataSuccessAction,
   getReservationNextPageDataFailureAction,
@@ -79,6 +86,9 @@ export {
   loginRequestAction,
   loginSuccessAction,
   loginFailureAction,
+  logOutRequestAction,
+  logOutSuccessAction,
+  logOutFailureAction,
   // Hotel
   getHotelDataRequestAction,
   getHotelDataSuccessAction,
@@ -87,14 +97,18 @@ export {
   showHotelModalToChooseAction,
   setDefaultHotelIDAction,
   noHotelFoundAction,
+  purgeHotelDataAction,
+  closeHotelModalAction,
   // Dashboard
+  dashboardDataCleanUpAction,
   getDashboardDataRequestAction,
   getDashboardDataSuccessAction,
   getDashboardDataFailureAction,
   // Reservation
-  getReservationDataRequestAction,
-  getReservationDataSuccessAction,
-  getReservationDataFailureAction,
+  reservationDataCleanUpAction,
+  getReservationInitialDataRequestAction,
+  getReservationInitialDataSuccessAction,
+  getReservationInitialDataFailureAction,
   getReservationNextPageDataRequestAction,
   getReservationNextPageDataSuccessAction,
   getReservationNextPageDataFailureAction,

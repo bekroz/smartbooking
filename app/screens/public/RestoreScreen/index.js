@@ -6,7 +6,7 @@ import {
   SafeAreaView,
   StyleSheet,
 } from 'react-native';
-import { COLORS, SIZES } from '../../../constants/theme';
+import { COLORS, SIZES } from '../../../constants';
 // Icons
 import { RestoreScreenSvg } from '../../../assets/icons/SvgIcons';
 

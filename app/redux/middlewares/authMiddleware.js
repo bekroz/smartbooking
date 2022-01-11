@@ -1,5 +1,4 @@
 import { handleAppTokenizationAPI, handleUserTokenizationAPI } from '../../api';
-import { getUser } from '../../utils/useCustomAsyncStorage';
 import {
   appTokenRequestAction,
   appTokenSuccessAction,
@@ -7,6 +6,11 @@ import {
   loginRequestAction,
   loginSuccessAction,
   loginFailureAction,
+  logOutSuccessAction,
+  logOutRequestAction,
+  logOutFailureAction,
+  // HotelDataRemover
+  purgeHotelDataAction,
 } from '../actions';
 import { store } from '../store';
 
@@ -24,29 +28,49 @@ async function appTokenMiddleware() {
 }
 
 async function loginUserMiddleware(user) {
+  store.dispatch(loginRequestAction());
   try {
-    store.dispatch(loginRequestAction());
-    return await handleUserTokenizationAPI(user).then(userToken => {
-      store.dispatch(
-        loginSuccessAction({
-          user,
-          userToken,
-        }),
-      );
-      return userToken;
-    });
+    if (user) {
+      return await handleUserTokenizationAPI(user).then(userToken => {
+        if (userToken) {
+          store.dispatch(loginSuccessAction({ user, userToken }));
+          return userToken;
+        } else {
+          store.dispatch(loginFailureAction());
+        }
+      });
+    } else {
+      store.dispatch(loginFailureAction());
+      return null;
+    }
   } catch (error) {
     store.dispatch(loginFailureAction(error));
     console.error(error);
   }
 }
 
-const authMiddleware = async user => {
+const splashScreenMiddleware = async user => {
   try {
-    return await appTokenMiddleware().then(loginUserMiddleware(user));
+    await appTokenMiddleware().then(loginUserMiddleware(user));
   } catch (error) {
     console.error(error);
   }
 };
 
-export { appTokenMiddleware, loginUserMiddleware, authMiddleware };
+const logOutMiddleware = async () => {
+  store.dispatch(logOutRequestAction());
+  try {
+    store.dispatch(logOutSuccessAction());
+    store.dispatch(purgeHotelDataAction());
+  } catch (error) {
+    store.dispatch(logOutFailureAction(error));
+    console.error(error);
+  }
+};
+
+export {
+  appTokenMiddleware,
+  loginUserMiddleware,
+  splashScreenMiddleware,
+  logOutMiddleware,
+};

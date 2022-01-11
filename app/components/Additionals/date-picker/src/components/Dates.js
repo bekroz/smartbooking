@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import helper from '../helper';
 import DatesManager from '../DatesManager';
+import { POSITIONING } from '../../../../../constants';
 
 export default class {
   constructor(select, reset) {
@@ -154,8 +155,7 @@ export default class {
 const getStyles = (colors, sizes) => ({
   day: {
     width: '14.2857142857%',
-    alignItems: 'center',
-    justifyContent: 'center',
+    ...POSITIONING.center,
   },
   selectedBg: {
     position: 'absolute',
@@ -177,8 +177,7 @@ const getStyles = (colors, sizes) => ({
     width: sizes.rowHeight + sizes.rowPadding,
     height: sizes.rowHeight + sizes.rowPadding,
     borderRadius: (sizes.rowHeight + sizes.rowPadding) / 2,
-    alignItems: 'center',
-    justifyContent: 'center',
+    ...POSITIONING.center,
   },
   selected: {
     backgroundColor: colors.selectedDay,

@@ -1,8 +1,8 @@
 import { getAllReservationsDataAPI } from '../../api';
 import {
-  getReservationDataRequestAction,
-  getReservationDataSuccessAction,
-  getReservationDataFailureAction,
+  getReservationInitialDataRequestAction,
+  getReservationInitialDataSuccessAction,
+  getReservationInitialDataFailureAction,
   getReservationNextPageDataRequestAction,
   getReservationNextPageDataSuccessAction,
   getReservationNextPageDataFailureAction,
@@ -10,20 +10,22 @@ import {
 } from '../actions';
 import { store } from '../store';
 
-async function getReservationDataMiddleware() {
-  store.dispatch(getReservationDataRequestAction());
+async function getReservationInitialDataMiddleware() {
+  store.dispatch(getReservationInitialDataRequestAction());
   try {
     return await getAllReservationsDataAPI().then(response => {
-      const pageIndex = response.meta.current_page + 1;
+      if (response.meta.current_page === response.meta.last_page) {
+        store.dispatch(reservationLastPageReachedAction());
+      }
       const data = {
         reservationData: response.data,
-        pageIndex: pageIndex,
+        pageIndex: response.meta.current_page,
         reservationLength: response.meta.total,
       };
-      store.dispatch(getReservationDataSuccessAction(data));
+      store.dispatch(getReservationInitialDataSuccessAction(data));
     });
   } catch (error) {
-    store.dispatch(getReservationDataFailureAction(error));
+    store.dispatch(getReservationInitialDataFailureAction(error));
     console.error(error);
   }
 }
@@ -35,10 +37,9 @@ async function getReservationNextPageDataMiddleware() {
       if (response.meta.current_page === response.meta.last_page) {
         store.dispatch(reservationLastPageReachedAction());
       }
-      const pageIndex = response.meta.currentPage + 1;
       const data = {
         reservationData: response.data,
-        pageIndex: pageIndex,
+        pageIndex: response.meta.current_page + 1,
       };
       store.dispatch(getReservationNextPageDataSuccessAction(data));
     });
@@ -48,4 +49,7 @@ async function getReservationNextPageDataMiddleware() {
   }
 }
 
-export { getReservationDataMiddleware, getReservationNextPageDataMiddleware };
+export {
+  getReservationInitialDataMiddleware,
+  getReservationNextPageDataMiddleware,
+};

@@ -1,7 +1,8 @@
 import React from 'react';
+import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // Theme
-import { COLORS, SIZES } from '../../../constants/theme';
+import { COLORS, SIZES } from '../../../constants';
 // Screens
 import {
   DashboardScreen,
@@ -27,31 +28,19 @@ import {
 const Tab = createBottomTabNavigator();
 
 export default function TabNavigator() {
+  const AppleScreenOptions = {
+    tabBarLabelStyle: styles.tabBarLabelStyle,
+    tabBarStyle: styles.AppleTabBarStyle,
+    headerShown: false,
+    tabBarActiveTintColor: COLORS.blue,
+    tabBarInactiveTintColor: COLORS.white,
+    tabBarHideOnKeyboard: true,
+  };
+
   return (
-    <Tab.Navigator
-      screenOptions={{
-        tabBarStyle: {
-          backgroundColor: COLORS.blackBackground,
-          borderTopColor: COLORS.blackBackground,
-          height: 80,
-          position: 'absolute',
-          bottom: 0,
-          right: 0,
-          left: 0,
-          zIndex: 999,
-          paddingTop: 10,
-        },
-        headerShown: false,
-        tabBarActiveTintColor: COLORS.blue,
-        tabBarInactiveTintColor: COLORS.white,
-        tabBarHideOnKeyboard: true,
-        tabBarLabelStyle: {
-          fontWeight: SIZES.fontWeight1,
-        },
-      }}>
+    <Tab.Navigator screenOptions={AppleScreenOptions}>
       <Tab.Screen
         name="Дашборд"
-        onPress={() => alert('Pressed dashboard tab')}
         component={DashboardScreen}
         options={{
           tabBarIcon: ({ focused }) =>
@@ -93,3 +82,20 @@ export default function TabNavigator() {
     </Tab.Navigator>
   );
 }
+
+const styles = StyleSheet.create({
+  AppleTabBarStyle: {
+    backgroundColor: COLORS.blackBackground,
+    borderTopColor: COLORS.blackBackground,
+    height: 80,
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    left: 0,
+    zIndex: 999,
+    paddingTop: 10,
+  },
+  tabBarLabelStyle: {
+    fontWeight: SIZES.fontWeight1,
+  },
+});

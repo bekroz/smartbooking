@@ -1,0 +1,44 @@
+import React, { useEffect, useCallback, useState } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  SafeAreaView,
+  ScrollView,
+  RefreshControl,
+} from 'react-native';
+import { Card } from 'react-native-elements/dist/card/Card';
+import { Divider } from 'react-native-elements/dist/divider/Divider';
+import dayjs from 'dayjs';
+import 'dayjs/locale/ru';
+// Theme
+import { COLORS, POSITIONING, SIZES } from '../../../constants';
+// Icons
+import { MoonSvg, PersonSvg } from '../../../assets/icons/SvgIcons';
+// Components
+import {
+  CanceledStatus,
+  NoDataToShow,
+  SpaceForScroll,
+  CheckOutStatus,
+  // ConfirmedStatus,
+  // InHouseStatus,
+  // NoShowStatus,
+
+  // BottomLoaderButton,
+  // FadeInView,
+} from '../../../components';
+// Helpers
+import {
+  dottedTruncator,
+  numberWithSpaces,
+  getMonthNameShort,
+} from '../../../helpers';
+// Redux
+import {
+  getReservationInitialDataMiddleware,
+  getReservationNextPageDataMiddleware,
+} from '../../../redux/middlewares';
+import { reservationDataCleanUpAction } from '../../../redux/actions';
+import { connect, useDispatch } from 'react-redux';

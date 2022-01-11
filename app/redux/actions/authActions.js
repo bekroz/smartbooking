@@ -33,6 +33,19 @@ const loginFailureAction = error => ({
   payload: error,
 });
 
+const logOutRequestAction = () => ({
+  type: AUTH.LOGOUT_REQUEST,
+});
+
+const logOutSuccessAction = () => ({
+  type: AUTH.LOGOUT_SUCCESS,
+});
+
+const logOutFailureAction = error => ({
+  type: AUTH.LOGOUT_FAILURE,
+  payload: error,
+});
+
 export {
   appTokenRequestAction,
   appTokenSuccessAction,
@@ -40,58 +53,7 @@ export {
   loginRequestAction,
   loginSuccessAction,
   loginFailureAction,
+  logOutRequestAction,
+  logOutSuccessAction,
+  logOutFailureAction,
 };
-
-// import { AUTH } from '../types/index';
-
-// // APP token
-// const appTokenRequestAction = () => {
-//   return {
-//     type: AUTH.APP_TOKEN_REQUEST,
-//   };
-// };
-
-// const appTokenSuccessAction = appToken => {
-//   return {
-//     type: AUTH.APP_TOKEN_SUCCESS,
-//     payload: appToken,
-//   };
-// };
-
-// const appTokenFailureAction = error => {
-//   return {
-//     type: AUTH.DATA_FAILURE,
-//     payload: error,
-//   };
-// };
-
-// // USER token
-// const loginRequestAction = user => {
-//   return {
-//     type: AUTH.LOGIN_REQUEST,
-//     payload: user,
-//   };
-// };
-
-// const loginSuccessAction = userToken => {
-//   return {
-//     type: AUTH.LOGIN_SUCCESS,
-//     payload: userToken,
-//   };
-// };
-
-// const loginFailureAction = error => {
-//   return {
-//     type: AUTH.LOGIN_FAILURE,
-//     payload: error,
-//   };
-// };
-
-// export {
-//   appTokenRequestAction,
-//   appTokenSuccessAction,
-//   appTokenFailureAction,
-//   loginRequestAction,
-//   loginSuccessAction,
-//   loginFailureAction,
-// };

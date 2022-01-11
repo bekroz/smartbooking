@@ -1,6 +1,7 @@
 import React from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 import FusionCharts from 'react-native-fusioncharts';
+import { POSITIONING } from '../../../../constants';
 import { noDottedTruncator } from '../../../../helpers';
 
 const RevenueDonut = ({ donutData }) => {
@@ -92,11 +93,10 @@ const RevenueDonut = ({ donutData }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     top: -30,
     right: 10,
     zIndex: -1,
+    ...POSITIONING.center,
   },
 });
 

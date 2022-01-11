@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { COLORS, SIZES } from '../../../../constants/theme';
+import { COLORS, POSITIONING, SIZES } from '../../../../constants';
 
 const CanceledStatus = () => (
   <View style={styles.statusCanceledViewStyle}>
@@ -14,12 +14,11 @@ const styles = StyleSheet.create({
     height: 21,
     borderRadius: 4,
     width: 80,
-    alignItems: 'center',
-    justifyContent: 'center',
     right: -15,
     backgroundColor: '#47434B',
     alignContent: 'center',
     marginRight: 10,
+    ...POSITIONING.center,
   },
   statusCanceledTextStyle: {
     fontWeight: SIZES.fontWeight1,

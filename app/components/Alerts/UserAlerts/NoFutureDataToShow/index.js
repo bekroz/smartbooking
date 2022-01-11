@@ -1,20 +1,14 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { COLORS, SIZES } from '../../../../constants/theme';
-import FadeInView from '../../../FadeInView';
 import { NoFutureDataToShowSvg } from '../../../../assets/icons/SvgIcons';
+import { COLORS, POSITIONING, SIZES } from '../../../../constants';
+import FadeInView from '../../../FadeInView';
 
 export default function NoFutureDataToShow({ show }) {
   if (!show) {
     return (
-      <FadeInView
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-          bottom: 50,
-        }}>
-        <View style={{ marginBottom: 30 }}>
+      <FadeInView style={styles.container}>
+        <View style={styles.imageWrapper}>
           <NoFutureDataToShowSvg />
         </View>
         <Text
@@ -27,6 +21,14 @@ export default function NoFutureDataToShow({ show }) {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    bottom: 50,
+    ...POSITIONING.center,
+  },
+  imageWrapper: {
+    marginBottom: 30,
+  },
   noFutureDataToShowText: {
     color: COLORS.white,
     fontSize: SIZES.body3,

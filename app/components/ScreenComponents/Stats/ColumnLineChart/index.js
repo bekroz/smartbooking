@@ -1,16 +1,16 @@
 import React from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 import FusionCharts from 'react-native-fusioncharts';
-import { COLORS, SIZES } from '../../../../constants';
-import { getMonthNameShort } from '../../../../helpers';
-import { COLUMN_PALETTE } from '../../../../constants/theme';
-import { store } from '../../../../redux/store';
+// Theme
+import {
+  COLORS,
+  SIZES,
+  COLOR_PALETTE,
+  POSITIONING,
+} from '../../../../constants';
+
 const ColumnLineChart = ({ annualData }) => {
-  console.log('====================================');
-  // console.log(annualData[0]);
-  console.log('====================================');
   const columnData = annualData?.map(monthData => {
-    console.log(monthData);
     const { revenue } = monthData;
     return {
       // label: getMonthNameShort(month),
@@ -114,8 +114,7 @@ const ColumnLineChart = ({ annualData }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    ...POSITIONING.center,
   },
 });
 

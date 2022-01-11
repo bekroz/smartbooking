@@ -5,7 +5,7 @@ import {
 } from 'react-native-modals';
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 // Theme
-import { COLORS, POSITIONING, SIZES } from '../../../../constants/theme';
+import { COLORS, POSITIONING, SIZES } from '../../../../constants';
 // Icons
 import { CloseSvg } from '../../../../assets/icons/SvgIcons';
 
@@ -25,8 +25,7 @@ const HotelModal = ({
             <View style={{ marginBottom: 24 }}>
               <View
                 style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
+                  ...POSITIONING.center,
                 }}>
                 <Text style={styles.optionsTopTitle}>Выберите объект</Text>
               </View>
@@ -36,11 +35,10 @@ const HotelModal = ({
             </View>
 
             {hotelList?.map((hotel, index) => (
-              <View style={POSITIONING.align}>
+              <View style={POSITIONING.align} key={index}>
                 <TouchableOpacity
                   style={{ marginBottom: SIZES.base }}
-                  onPress={() => onHotelChosen(hotel)}
-                  key={index}>
+                  onPress={() => onHotelChosen(hotel)}>
                   <Text
                     style={
                       chosenHotelID == hotel.id

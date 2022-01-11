@@ -16,7 +16,7 @@ const AnimatedInput = Animated.createAnimatedComponent(TextInput);
 
 const CircularProgress: React.FC<CircularProgressProps> = ({
   value,
-  initialValue = '',
+  initialValue = 0,
   title = '',
   titleStyle = {},
   titleColor,

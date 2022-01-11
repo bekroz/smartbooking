@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import CircularProgress from 'react-native-circular-progress-indicator';
-import { COLORS, SIZES } from '../../../../constants/theme';
+import { COLORS, SIZES } from '../../../../constants';
 
 export default function PercentageCircle({ currentPercentage = 0 }) {
   return (
@@ -20,6 +20,7 @@ export default function PercentageCircle({ currentPercentage = 0 }) {
         duration={1500}
         clockwise={true}
         textStyle={{ fontWeight: SIZES.fontWeight1, fontSize: SIZES.body2 }}
+        // delay={100}
       />
     </TouchableOpacity>
   );

@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { MultiArcCircle } from 'react-native-circles';
 // Theme
-import { COLORS, POSITIONING, SIZES } from '../../../constants/theme';
+import { COLORS, POSITIONING, SIZES } from '../../../constants';
 // Icons
 import {
   WhiteLeftArrowSvg,
@@ -25,10 +25,12 @@ import {
   DayPicker,
   PercentageCircle,
   EmptyRoomsCircle,
-} from '../../../components/ScreenComponents/Dashboard';
+} from '../../../components';
 // Redux
 import { connect, useDispatch } from 'react-redux';
 import {
+  closeHotelModalAction,
+  dashboardDataCleanUpAction,
   getArrivalsDataRequestAction,
   setUserChosenHotelIDAction,
   showHotelModalToChooseAction,
@@ -63,42 +65,59 @@ const DashboardScreen = ({
   noHotelFoundAlertVisible,
 }) => {
   // View togglers
+
   const [percentageView, setPercentageView] = useState(true);
   const [calendarModalVisible, setCalendarModalVisible] = useState(false);
-  const [hotelListModalVisible, setHotelListModalVisible] = useState(false);
+  const [dataFetching, setDataFetching] = useState(false);
+
+  const dismissHotelModal = updatedHotel => {
+    if (updatedHotel) {
+      dispatch(closeHotelModalAction());
+    } else {
+      return null;
+    }
+  };
 
   // Button Press handlers
   const dispatch = useDispatch();
 
-  const toggleHotelModal = () => {
-    setHotelListModalVisible(!hotelListModalVisible);
+  const openCalendarModal = () => {
+    setCalendarModalVisible(true);
   };
-
-  const toggleCalendarModal = () => {
-    setCalendarModalVisible(!calendarModalVisible);
+  const closeCalendarModal = () => {
+    setCalendarModalVisible(false);
   };
 
   const handleChosenHotel = updatedHotel => {
-    console.log(updatedHotel);
     if (typeof updatedHotel !== 'undefined' && updatedHotel !== null) {
       dispatch(setUserChosenHotelIDAction(updatedHotel));
-      setHotelListModalVisible(false);
+      dismissHotelModal(updatedHotel);
       getDashboardDataOnTabPress();
+      setPercentageView(true);
+      setDataFetching(true);
     } else {
+      dispatch(noHotelFoundAction());
       alert('Hotel not found. Please, try again later');
     }
   };
 
   function handleArcBarPress(arrivalsType) {
-    navigation.navigate('ArrivalsScreen', {
-      hotelListModalVisible,
-      toggleHotelModal,
-      toggleHotelModal,
-      handleChosenHotel,
-      hotelList,
-      hotelID,
-    });
+    navigation.navigate('ArrivalsScreen');
     dispatch(getArrivalsDataRequestAction(arrivalsType));
+  }
+
+  const moveToReservationScreen = () => {
+    navigation.navigate('ReservationScreen');
+  };
+
+  async function updateHotelsOnPres() {
+    try {
+      return await getHotelsDataMiddleware().then(
+        setHotelIDMiddleware().then(getDashboardDataMiddleware()),
+      );
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   async function getDashboardDataOnTabPress() {
@@ -116,19 +135,27 @@ const DashboardScreen = ({
       console.error(error);
     }
   }
-  const closeHotelModal = () => {
-    dispatch(showHotelModalToChooseAction());
-  };
 
   const onPullToRefresh = useCallback(() => {
     getDashboardDataOnTabPress();
+    setPercentageView(true);
+    setDataFetching(true);
   }, []);
 
   useEffect(() => {
     navigation.addListener('focus', () => {
+      setPercentageView(true);
       getDashboardDataOnTabPress();
     });
+    setDataFetching(true);
   }, [navigation]);
+
+  useEffect(() => {
+    navigation.addListener('blur', () => {
+      setPercentageView(true);
+      dispatch(dashboardDataCleanUpAction());
+    });
+  }, []);
 
   const minPoint = -140;
   const maxPoint = 280;
@@ -151,7 +178,6 @@ const DashboardScreen = ({
     return Math.round(minPoint + maxPoint * (live > 0 ? live / maxRooms : 1));
   };
 
-  const [refreshing, setRefreshing] = useState(false);
   const flatListRef = useRef();
 
   return (
@@ -165,14 +191,14 @@ const DashboardScreen = ({
         }}
         refreshControl={
           <RefreshControl
-            refreshing={refreshing}
+            refreshing={false}
             onRefresh={onPullToRefresh}
             tintColor={COLORS.white}
           />
         }>
         <View style={POSITIONING.center}>
           <HotelNameBar
-            onPress={toggleHotelModal}
+            onPress={() => dispatch(showHotelModalToChooseAction())}
             hotelName={loading ? 'Загружается...' : hotelName}
           />
         </View>
@@ -203,18 +229,30 @@ const DashboardScreen = ({
               style={styles.arcBlock}>
               <MultiArcCircle
                 radius={50}
-                intervals={[{ start: currentArrivedPercentage(), end: 140 }]}
+                intervals={[
+                  {
+                    start: loading ? -140 : currentArrivedPercentage(),
+                    end: 140,
+                  },
+                ]}
                 color={COLORS.grayEmptyArc}
                 width={10}
               />
               <MultiArcCircle
                 radius={50}
-                intervals={[{ start: -140, end: currentArrivedPercentage() }]}
+                intervals={[
+                  {
+                    start: -140,
+                    end: loading ? -140 : currentArrivedPercentage(),
+                  },
+                ]}
                 color={COLORS.greenProgress}
                 width={10}
                 zIndex={11}
               />
-              <Text style={styles.arcBarNumber}>{leftArrived}</Text>
+              <Text style={styles.arcBarNumber}>
+                {leftArrived ? leftArrived : 0}
+              </Text>
               <View style={styles.arcBarDescContainer}>
                 <Text style={styles.arcBarDescription}>Заезд</Text>
               </View>
@@ -225,17 +263,29 @@ const DashboardScreen = ({
               style={styles.arcBlock}>
               <MultiArcCircle
                 radius={50}
-                intervals={[{ start: currentDeparturePercentage(), end: 140 }]}
+                intervals={[
+                  {
+                    start: loading ? -140 : currentDeparturePercentage(),
+                    end: 140,
+                  },
+                ]}
                 color={COLORS.grayEmptyArc}
                 width={10}
               />
               <MultiArcCircle
                 radius={50}
-                intervals={[{ start: -140, end: currentDeparturePercentage() }]}
+                intervals={[
+                  {
+                    start: -140,
+                    end: loading ? -140 : currentDeparturePercentage(),
+                  },
+                ]}
                 color={COLORS.yellow}
                 width={10}
               />
-              <Text style={styles.arcBarNumber}>{leftCheckout}</Text>
+              <Text style={styles.arcBarNumber}>
+                {leftCheckout ? leftCheckout : 0}
+              </Text>
               <View style={styles.arcBarDescContainer}>
                 <Text style={styles.arcBarDescription}>Выезд</Text>
               </View>
@@ -256,7 +306,7 @@ const DashboardScreen = ({
                 color={COLORS.blue}
                 width={10}
               />
-              <Text style={styles.arcBarNumber}>{live}</Text>
+              <Text style={styles.arcBarNumber}>{live ? live : 0}</Text>
               <View style={styles.arcBarDescContainer}>
                 <Text style={styles.arcBarDescription}>Проживают</Text>
               </View>
@@ -274,7 +324,7 @@ const DashboardScreen = ({
                         fontWeight: SIZES.fontWeight2,
                         color: COLORS.white,
                       }}>
-                      {confirmedQuantity}
+                      {confirmedQuantity ? confirmedQuantity : 0}
                     </Text>
                   </View>
                   <View>
@@ -296,7 +346,7 @@ const DashboardScreen = ({
                         fontWeight: SIZES.fontWeight0,
                         color: COLORS.grayText,
                       }}>
-                      {confirmedRevenue}
+                      {confirmedRevenue ? confirmedRevenue : 0}
                     </Text>
                   </View>
                   <View style={{ right: 5 }}>
@@ -321,7 +371,9 @@ const DashboardScreen = ({
               </View>
             </TouchableOpacity>
             {/* Second Gray Box */}
-            <TouchableOpacity style={styles.grayBlockContainer}>
+            <TouchableOpacity
+              style={styles.grayBlockContainer}
+              onPress={moveToReservationScreen}>
               <View
                 style={{
                   flexDirection: 'row',
@@ -335,7 +387,7 @@ const DashboardScreen = ({
                         fontWeight: SIZES.fontWeight2,
                         color: COLORS.blue,
                       }}>
-                      {canceledQuantity}
+                      {canceledQuantity ? canceledQuantity : 0}
                     </Text>
                   </View>
                   <View>
@@ -350,7 +402,7 @@ const DashboardScreen = ({
                         fontWeight: SIZES.fontWeight0,
                         color: COLORS.grayText,
                       }}>
-                      {canceledRevenue}
+                      {canceledRevenue ? canceledRevenue : 0}
                     </Text>
                   </View>
                   <View style={{ right: 5 }}>
@@ -422,8 +474,9 @@ const DashboardScreen = ({
               <PercentageCircle currentPercentage={currentLoad} />
             ) : (
               <EmptyRoomsCircle
-                initialValue={maxRooms}
+                maxValue={maxRooms}
                 value={availableRooms}
+                loading={loading}
               />
             )}
           </TouchableOpacity>
@@ -432,13 +485,14 @@ const DashboardScreen = ({
       {/* Modals */}
       <CalendarModal
         isVisible={calendarModalVisible}
-        toggleCalendarModal={toggleCalendarModal}
+        open={openCalendarModal}
+        close={closeCalendarModal}
       />
       <HotelModal
-        visible={hotelListModalVisible}
-        onTouchOutside={toggleHotelModal}
-        onQuitPress={toggleHotelModal}
-        onHotelChosen={handleChosenHotel}
+        visible={hotelModalVisible}
+        onTouchOutside={e => dismissHotelModal(e)}
+        onQuitPress={e => dismissHotelModal(e)}
+        onHotelChosen={e => handleChosenHotel(e)}
         hotelList={hotelList}
         chosenHotelID={hotelID}
       />
@@ -531,16 +585,14 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
     margin: 10,
+    ...POSITIONING.center,
   },
   blueTextBlock: {
     width: 32,
     height: 32,
-    alignItems: 'center',
-    justifyContent: 'center',
     margin: 10,
+    ...POSITIONING.center,
   },
   blueText: {
     fontWeight: SIZES.fontWeight2,
@@ -567,10 +619,9 @@ const styles = StyleSheet.create({
     fontWeight: SIZES.fontWeight0,
   },
   arcBlock: {
-    justifyContent: 'center',
-    alignItems: 'center',
     width: SIZES.width / 3,
     height: '100%',
+    ...POSITIONING.center,
   },
   loadDescCircleContainer: {
     flexDirection: 'row',

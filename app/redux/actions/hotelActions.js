@@ -26,6 +26,12 @@ const showHotelModalToChooseAction = () => {
   };
 };
 
+const closeHotelModalAction = () => {
+  return {
+    type: HOTEL.CLOSE_MODAL_WITH_HOTEL_ID,
+  };
+};
+
 const setUserChosenHotelIDAction = ({ id, name }) => {
   return {
     type: HOTEL.SET_USER_CHOSEN_HOTEL_ID,
@@ -52,12 +58,20 @@ const noHotelFoundAction = () => {
   };
 };
 
+const purgeHotelDataAction = () => {
+  return {
+    type: HOTEL.PURGE_ALL_DATA,
+  };
+};
+
 export {
   getHotelDataRequestAction,
   getHotelDataSuccessAction,
   getHotelDataFailureAction,
   setUserChosenHotelIDAction,
   showHotelModalToChooseAction,
+  closeHotelModalAction,
   setDefaultHotelIDAction,
   noHotelFoundAction,
+  purgeHotelDataAction,
 };

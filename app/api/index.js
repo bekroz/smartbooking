@@ -1,13 +1,22 @@
 import axios from 'axios';
 import Config from '../config/config';
 import { store } from '../redux/store';
+import {
+  appTokenFailureAction,
+  loginFailureAction,
+  getHotelDataFailureAction,
+  noHotelFoundAction,
+  getDashboardDataFailureAction,
+  getReservationInitialDataFailureAction,
+  getReservationNextPageDataFailureAction,
+  getAnnualDataFailureAction,
+  getChannelsDataFailureAction,
+  getComparisonDataFailureAction,
+  getArrivalsInitialDataFailureAction,
+  getArrivalsNextPageDataFailureAction,
+} from '../redux/actions';
 
 // #1 API => GET APP token
-const { hotelID } = store.getState().hotelReducer;
-const { chosenDay, chosenMonth, chosenMonthRange, chosenYear } =
-  store.getState().dateReducer;
-const { reservationType, reservationStatus, reservationID } =
-  store.getState().reservationReducer;
 
 const handleAppTokenizationAPI = async () => {
   try {
@@ -20,14 +29,15 @@ const handleAppTokenizationAPI = async () => {
     }).then(response => {
       return response.data.access_token;
     });
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    store.dispatch(appTokenFailureAction(error));
+    console.error(error);
   }
 };
 
 // #2 API => GET USER token
 const handleUserTokenizationAPI = async user => {
-  const { appToken } = await store.getState().authReducer;
+  const { appToken } = store.getState().authReducer;
   try {
     return await axios({
       url: `${Config.BASE_API_URL}/mobile/auth/login`,
@@ -40,14 +50,14 @@ const handleUserTokenizationAPI = async user => {
     }).then(response => {
       return response.data.access_token;
     });
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    console.error(error);
   }
 };
 
 // #3 API => GET All Hotel Properties Data of the user
 const getAllHotelPropertiesDataAPI = async () => {
-  const { userToken } = await store.getState().authReducer;
+  const { userToken } = store.getState().authReducer;
   try {
     return await axios({
       url: `${Config.BASE_API_URL}/mobile/properties`,
@@ -59,15 +69,17 @@ const getAllHotelPropertiesDataAPI = async () => {
     }).then(response => {
       return response.data.data;
     });
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    store.dispatch(getHotelDataFailureAction(error));
+    console.error(error);
   }
 };
 
 // #4 API => GET Single Hotel Detailed Data of the user
+// NOT USED yet
 const getSingleHotelDataAPI = async () => {
-  const { hotelID } = await store.getState().hotelReducer;
-  const { userToken } = await store.getState().authReducer;
+  const { hotelID } = store.getState().hotelReducer;
+  const { userToken } = store.getState().authReducer;
   try {
     return await axios({
       url: `${Config.BASE_API_URL}/mobile/properties/${hotelID}`,
@@ -77,8 +89,8 @@ const getSingleHotelDataAPI = async () => {
         'Content-Type': 'application/json',
       },
     });
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    console.error(error);
   }
 };
 
@@ -95,22 +107,22 @@ const getDashboardDataAPI = async () => {
         Authorization: `Bearer ${userToken}`,
         'Content-Type': 'application/json',
       },
-      date: '2021-01-01',
+      date: chosenDay,
     }).then(response => {
       return response.data.data;
     });
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    store.dispatch(getDashboardDataFailureAction(error));
+    console.error(error);
   }
 };
 
 // #6 API => GET All Reservations Data
 const getAllReservationsDataAPI = async () => {
-  const { hotelID } = await store.getState().hotelReducer;
-  const { userToken } = await store.getState().authReducer;
-  const { reservationType } = await store.getState().reservationReducer;
-  const { chosenMonthRange } = await store.getState().dateReducer;
-
+  const { hotelID } = store.getState().hotelReducer;
+  const { userToken } = store.getState().authReducer;
+  const { reservationType, pageIndex } = store.getState().reservationReducer;
+  const { chosenMonthRange } = store.getState().dateReducer;
   try {
     return await axios({
       url: `${Config.BASE_API_URL}/mobile/${hotelID}/reservations`,
@@ -123,20 +135,22 @@ const getAllReservationsDataAPI = async () => {
         date_range_type: reservationType,
         start_date: chosenMonthRange.startDate,
         end_date: chosenMonthRange.endDate,
+        page: pageIndex,
       },
     }).then(response => {
       return response.data;
     });
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    store.dispatch(getReservationInitialDataFailureAction(error));
+    console.error(error);
   }
 };
 
 // #7 API => GET Hotel Single Reservation Data
 const getHotelSingleReservationDataAPI = async () => {
   const { hotelID } = store.getState().hotelReducer;
-  const { userToken } = await store.getState().authReducer;
-  const { reservationID } = await store.getState().reservationReducer;
+  const { userToken } = store.getState().authReducer;
+  const { reservationID } = store.getState().reservationReducer;
   try {
     return await axios({
       url: `${Config.BASE_API_URL}/mobile/${hotelID}/reservations/${reservationID}`,
@@ -146,8 +160,8 @@ const getHotelSingleReservationDataAPI = async () => {
         'Content-Type': 'application/json',
       },
     });
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    console.error(error);
   }
 };
 
@@ -173,8 +187,9 @@ const getArrivalsDataAPI = async () => {
     }).then(response => {
       return response.data;
     });
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    store.dispatch(getArrivalsDataFailureAction(error));
+    console.error(error);
   }
 };
 
@@ -197,18 +212,20 @@ const getAnnualDataAPI = async () => {
     }).then(response => {
       return response.data.data;
     });
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    store.dispatch(getAnnualDataFailureAction(error));
+    console.error(error);
   }
 };
 
 // #10 API => GET Hotel Statistics By Channels
 const getChannelsDataAPI = async () => {
-  const { hotelID } = await store.getState().hotelReducer;
-  const { userToken } = await store.getState().authReducer;
-  const { chosenMonthRange } = await store.getState().dateReducer;
-  const { reservationType, reservationStatus } = await store.getState()
-    .reservationReducer;
+  const { hotelID } = store.getState().hotelReducer;
+  const { userToken } = store.getState().authReducer;
+  const { chosenMonthRange } = store.getState().dateReducer;
+  const { reservationType, reservationStatus } =
+    store.getState().reservationReducer;
+
   try {
     return await axios({
       url: `${Config.BASE_API_URL}/mobile/${hotelID}/statistics-by-group`,
@@ -227,6 +244,8 @@ const getChannelsDataAPI = async () => {
       return response.data;
     });
   } catch (error) {
+    store.dispatch(getChannelsDataFailureAction(error));
+    alert(error);
     console.error(error);
   }
 };
@@ -251,14 +270,16 @@ const getPropertiesComparisonDataAPI = async () => {
       return response.data.data;
     });
   } catch (error) {
+    store.dispatch(getComparisonDataFailureAction(error));
     console.error(error.message);
   }
 };
 
 // #12 API => GET Property Sources Data
+// NOT USED YET
 const getSourcesDataAPI = async () => {
-  const { hotelID } = await store.getState().hotelReducer;
-  const { userToken } = await store.getState().authReducer;
+  const { hotelID } = store.getState().hotelReducer;
+  const { userToken } = store.getState().authReducer;
   try {
     return await axios({
       url: `${Config.BASE_API_URL}/mobile/${hotelID}/sources`,
@@ -270,12 +291,13 @@ const getSourcesDataAPI = async () => {
     }).then(response => {
       return response.data;
     });
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    console.error(error);
   }
 };
 
 export {
+  // #1
   handleAppTokenizationAPI,
   // #2
   handleUserTokenizationAPI,

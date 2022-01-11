@@ -11,7 +11,7 @@ import {
 import dayjs from 'dayjs';
 import { Card } from 'react-native-elements/dist/card/Card';
 // Theme
-import { COLORS, SIZES } from '../../../../constants/theme';
+import { COLORS, POSITIONING, SIZES } from '../../../../constants';
 // Components
 import { SpaceForScroll } from '../../../../components';
 import { LineView, DotView } from '../../../ScreenComponents/Stats';
@@ -20,7 +20,7 @@ import RevenueDonut from '../RevenueDonut';
 import { getChannelsDataMiddleware } from '../../../../redux/middlewares';
 import { connect } from 'react-redux';
 import FadeInView from '../../../../components/FadeInView';
-import { numberWithSpaces } from '../../../../helpers';
+import { dottedTruncator, numberWithSpaces } from '../../../../helpers';
 import CollapseButton from '../CollapseButton';
 import WaterMarkHider from '../WaterMarkHider';
 import BarChart from '../BarChart';
@@ -45,7 +45,7 @@ const ChannelsDataShow = ({
     getChannelsDataMiddleware();
   }, []);
 
-  const [refreshing] = useState(false);
+  let refreshing = false;
 
   const monthStart = dayjs(chosenMonthRange.startDate)
     .locale('ru')
@@ -62,15 +62,7 @@ const ChannelsDataShow = ({
           tintColor={COLORS.white}
         />
       }>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginTop: 5,
-          paddingBottom: 0,
-          paddingTop: 5,
-        }}>
+      <View style={styles.monthRangeButtonContainer}>
         <TouchableOpacity
           style={[
             styles.topBarBtn,
@@ -127,14 +119,13 @@ const ChannelsDataShow = ({
                 // backgroundColor: 'yellow',
                 // height: 100,
               }}>
-              {/* <DonutView /> */}
               <RevenueDonut channelsData={channelsData} />
               {/* Color and Title */}
-              <View style={{ flex: 1, top: 15 }}>
+              <View style={{ flex: 1, top: -10, right: -25 }}>
                 {/* Dots */}
-                {channelsData.map((channel, index) => (
+                {channelsData.map(({ source_name }, index) => (
                   <View key={index}>
-                    <DotView sourceName={channel.source_name} />
+                    <DotView sourceName={dottedTruncator(source_name, 15)} />
                   </View>
                 ))}
               </View>
@@ -229,14 +220,20 @@ const styles = StyleSheet.create({
     borderColor: '#000000',
     height: 30,
     width: 114,
-    alignItems: 'center',
-    justifyContent: 'center',
+    ...POSITIONING.center,
   },
   topBarText: {
     fontWeight: SIZES.fontWeight1,
     fontSize: 14,
     textAlign: 'center',
     color: COLORS.white,
+  },
+  monthRangeButtonContainer: {
+    flexDirection: 'row',
+    marginTop: 5,
+    paddingBottom: 0,
+    paddingTop: 5,
+    ...POSITIONING.center,
   },
   card: {
     backgroundColor: COLORS.grayPlaceholder,
@@ -287,8 +284,7 @@ const styles = StyleSheet.create({
     marginRight: 50,
     marginTop: 5,
     height: 120,
-    justifyContent: 'center',
-    alignItems: 'center',
+    ...POSITIONING.center,
   },
   totalAverageSumText: {
     color: COLORS.grayText,

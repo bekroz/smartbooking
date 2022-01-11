@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { COLORS, SIZES } from '../../../../constants/theme';
+import { COLORS, POSITIONING, SIZES } from '../../../../constants';
 
 const ConfirmedStatus = () => (
   <View style={styles.statusConfirmedViewStyle}>
@@ -14,12 +14,11 @@ const styles = StyleSheet.create({
     height: 21,
     borderRadius: 4,
     width: 112,
-    alignItems: 'center',
-    justifyContent: 'center',
     right: 15,
     backgroundColor: '#2C384E',
     alignContent: 'center',
     marginRight: 30,
+    ...POSITIONING.center,
   },
   statusConfirmedTextStyle: {
     fontWeight: SIZES.fontWeight1,

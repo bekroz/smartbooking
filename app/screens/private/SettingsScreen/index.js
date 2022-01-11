@@ -10,13 +10,20 @@ import {
 import { Card } from 'react-native-elements/dist/card/Card';
 import { Divider } from 'react-native-elements';
 // Theme
-import { COLORS, POSITIONING, SIZES } from '../../../constants/theme';
+import { COLORS, POSITIONING, SIZES } from '../../../constants';
 // Util
 import { clearStorage } from '../../../utils/useCustomAsyncStorage';
-import { clearStorageMMKV } from '../../../utils/useMmkvStorage';
-import { persistor } from '../../../redux/store';
+import {
+  logOutRequestAction,
+  logOutFailureAction,
+  logOutSuccessAction,
+  purgeHotelDataAction,
+} from '../../../redux/actions';
+import { useDispatch } from 'react-redux';
 
 export default function SettingsScreen({ navigation }) {
+  const dispatch = useDispatch();
+
   function logOutButtonPress() {
     Alert.alert('Вы действительно хотите выйти из своего аккаунта?', '', [
       {
@@ -32,13 +39,15 @@ export default function SettingsScreen({ navigation }) {
   }
 
   async function handleLogOut() {
+    dispatch(logOutRequestAction());
     try {
       await clearStorage();
-      await persistor.purge();
-      clearStorageMMKV();
+      dispatch(logOutSuccessAction());
+      dispatch(purgeHotelDataAction());
       navigation.replace('LoginScreen');
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      dispatch(logOutFailureAction(err));
+      console.error(err);
     }
   }
 
@@ -66,7 +75,6 @@ export default function SettingsScreen({ navigation }) {
                 }}
                 onPress={() => navigation.navigate('ComparisonScreen')}>
                 <Text style={styles.menuOptionStyle}>Мои гостиницы</Text>
-
                 <Divider
                   orientation="horizontal"
                   width={0.7}
@@ -182,17 +190,11 @@ export default function SettingsScreen({ navigation }) {
           </View>
         </Card>
       </View>
-      <View
-        style={{
-          alignSelf: 'center',
-        }}>
+      <View style={styles.logOutButtonContainer}>
         <TouchableOpacity
-          style={styles.logOutButtonStyle}
+          style={styles.logOutButton}
           onPress={logOutButtonPress}>
-          <Text
-            style={[styles.logOutText, { alignSelf: 'flex-start', left: 15 }]}>
-            Выйти
-          </Text>
+          <Text style={styles.logOutText}>Выйти</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -207,8 +209,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   center: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    ...POSITIONING.center,
   },
   menuBlock: {
     backgroundColor: COLORS.grayPlaceholder,
@@ -220,27 +221,15 @@ const styles = StyleSheet.create({
     width: 355,
     height: 368,
   },
-  logOutButton: {
-    backgroundColor: COLORS.grayPlaceholder,
-    borderColor: COLORS.grayPlaceholder,
-    borderRadius: 6,
-    borderWidth: 0.5,
-    borderColor: '#404040',
-    height: 140,
-    width: 325,
-    height: 368,
-  },
   menuOptionStyle: {
     fontWeight: SIZES.fontWeight1,
     fontSize: SIZES.body5,
     color: COLORS.white,
   },
-  logOutButton: {
-    fontWeight: SIZES.fontWeight1,
-    fontSize: SIZES.body5,
-    color: COLORS.red,
+  logOutButtonContainer: {
+    alignSelf: 'center',
   },
-  logOutButtonStyle: {
+  logOutButton: {
     backgroundColor: COLORS.grayPlaceholder,
     borderColor: COLORS.grayPlaceholder,
     borderRadius: 6,
@@ -249,13 +238,14 @@ const styles = StyleSheet.create({
     height: 140,
     width: 355,
     height: 48,
-    justifyContent: 'center',
-    alignItems: 'center',
     marginTop: 20,
+    ...POSITIONING.center,
   },
   logOutText: {
     fontWeight: SIZES.fontWeight1,
     fontSize: SIZES.body5,
     color: COLORS.red,
+    alignSelf: 'flex-start',
+    marginLeft: 15,
   },
 });

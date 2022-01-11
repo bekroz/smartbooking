@@ -2,7 +2,7 @@ import React from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 import FusionCharts from 'react-native-fusioncharts';
 import { noDottedTruncator } from '../../../../helpers';
-import { COLOR_PALETTE } from '../../../../constants/theme';
+import { COLOR_PALETTE, POSITIONING } from '../../../../constants';
 const RevenueDonut = ({ channelsData }) => {
   const donutData = channelsData?.map(source => {
     const { source_name, revenue } = source;
@@ -78,11 +78,10 @@ const RevenueDonut = ({ channelsData }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     top: -30,
     right: 10,
     zIndex: -1,
+    ...POSITIONING.center,
   },
 });
 

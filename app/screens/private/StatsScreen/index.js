@@ -2,13 +2,13 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { SafeAreaView, View, Text, StyleSheet } from 'react-native';
 import { Divider } from 'react-native-elements/dist/divider/Divider';
 // Theme
-import { COLORS } from '../../../constants/theme';
+import { COLORS } from '../../../constants';
 // Components
 import {
   ChannelsDataShow,
   AnnualDataShow,
   StatsSegmentControl,
-} from '../../../components/ScreenComponents/Stats';
+} from '../../../components';
 
 const StatsScreen = () => {
   const [index, setIndex] = useState(0);

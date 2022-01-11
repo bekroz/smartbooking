@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, SafeAreaView } from 'react-native';
-import { COLORS, SIZES } from '../../../constants/theme';
+import { COLORS, SIZES } from '../../../constants';
 import { CalendarScreenSvg } from '../../../assets/icons/SvgIcons';
 
 export default function CalendarScreen() {

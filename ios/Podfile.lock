@@ -235,7 +235,7 @@ PODS:
   - React-jsinspector (0.66.4)
   - React-logger (0.66.4):
     - glog
-  - react-native-mmkv (1.6.2):
+  - react-native-mmkv (1.6.3):
     - MMKV
     - React-Core
   - react-native-netinfo (7.1.7):
@@ -317,7 +317,7 @@ PODS:
     - React-Core
   - RNCPicker (2.2.1):
     - React-Core
-  - RNGestureHandler (2.1.0):
+  - RNGestureHandler (2.1.1):
     - React-Core
   - RNKeychain (8.0.0):
     - React-Core
@@ -349,7 +349,7 @@ PODS:
     - React-RCTText
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNSentry (3.2.10):
+  - RNSentry (3.2.11):
     - React-Core
     - Sentry (= 7.7.0)
   - RNSVG (12.1.1):
@@ -545,7 +545,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 94ce921e1d8ce7023366873ec371f3441383b396
   React-jsinspector: d0374f7509d407d2264168b6d0fad0b54e300b85
   React-logger: 933f80c97c633ee8965d609876848148e3fef438
-  react-native-mmkv: c5adce7da6e16b9ea875180a4c9a6be958ae8a81
+  react-native-mmkv: 6d019cdfab9c197e10561a58ef4096b49bc9ecce
   react-native-netinfo: 27f287f2d191693f3b9d01a4273137fcf91c3b5d
   react-native-safe-area-context: 584dc04881deb49474363f3be89e4ca0e854c057
   react-native-segmented-control: 06607462630512ff8eef652ec560e6235a30cc3e
@@ -565,10 +565,10 @@ SPEC CHECKSUMS:
   ReactNativeART: 78edc68dd4a1e675338cd0cd113319cf3a65f2ab
   RNCAsyncStorage: ea6b5c280997b2b32a587793163b1f10e580c4f7
   RNCPicker: cb57c823d5ce8d2d0b5dfb45ad97b737260dc59e
-  RNGestureHandler: e5c7cab5f214503dcefd6b2b0cefb050e1f51c4a
+  RNGestureHandler: e1ad51d31a580755079d5124d3ab66f0fcaa8311
   RNKeychain: 4f63aada75ebafd26f4bc2c670199461eab85d94
   RNReanimated: da3860204e5660c0dd66739936732197d359d753
-  RNSentry: 04bb48bfdd435f5b218cf363f89e6419e9a2460c
+  RNSentry: 290e7375aa32c7edb44b404a5d4e480aa7be9bdc
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
   RNVectorIcons: 4143ba35feebab8fdbe6bc43d1e776b393d47ac8
   Sentry: e58e062056a061ae1145e22ad3dff6e506bff177

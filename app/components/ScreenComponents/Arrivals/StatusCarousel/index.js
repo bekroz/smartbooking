@@ -2,8 +2,12 @@ import React, { useState } from 'react';
 import { Text, View, SafeAreaView, StyleSheet } from 'react-native';
 import dayjs from 'dayjs';
 import Carousel from 'react-native-snap-carousel';
-import { RESERVATION_TYPE_CAROUSEL } from '../../../../constants/dataTypes';
-import { COLORS, SIZES } from '../../../../constants/theme';
+import {
+  COLORS,
+  POSITIONING,
+  SIZES,
+  RESERVATION_TYPE_CAROUSEL,
+} from '../../../../constants';
 
 const StatusCarousel = ({ indicatorNumber }) => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -59,10 +63,9 @@ const styles = StyleSheet.create({
     width: 22,
     height: 22,
     borderRadius: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
     right: -4,
     top: -4,
+    ...POSITIONING.center,
   },
   indicatorNumber: {
     color: COLORS.white,

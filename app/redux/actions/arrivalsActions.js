@@ -22,7 +22,7 @@ const getArrivalsDataSuccessAction = ({
   };
 };
 
-const getArrivalsDataFailureAction = error => {
+const getArrivalsInitialDataFailureAction = error => {
   return {
     type: ARRIVALS.DATA_FAILURE,
     payload: error,
@@ -78,7 +78,7 @@ const setArrivalsTypeChangeAction = arrivalsType => {
 export {
   getArrivalsDataRequestAction,
   getArrivalsDataSuccessAction,
-  getArrivalsDataFailureAction,
+  getArrivalsInitialDataFailureAction,
   getArrivalsNextPageDataRequestAction,
   getArrivalsNextPageDataSuccessAction,
   getArrivalsNextPageDataFailureAction,

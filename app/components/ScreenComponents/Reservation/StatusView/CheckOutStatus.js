@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { COLORS, SIZES } from '../../../../constants/theme';
+import { COLORS, POSITIONING, SIZES } from '../../../../constants';
 const CheckOutStatus = () => (
   <View style={styles.statusCheckOutViewStyle}>
     <Text style={styles.statusCheckOutTextStyle}>Выехал</Text>
@@ -13,12 +13,11 @@ const styles = StyleSheet.create({
     height: 21,
     borderRadius: 4,
     width: 112,
-    alignItems: 'center',
-    justifyContent: 'center',
     right: 15,
     backgroundColor: '#353B42',
     alignContent: 'center',
     marginRight: 10,
+    ...POSITIONING.center,
   },
   statusCheckOutTextStyle: {
     fontWeight: SIZES.fontWeight1,

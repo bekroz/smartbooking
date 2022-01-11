@@ -6,23 +6,21 @@ import { SIZES } from '../../../../constants';
 // Component
 import MonthRangePicker from '../MonthRangePicker';
 
-const CalendarModal = ({ isVisible, toggleCalendarModal }) => {
+const CalendarModal = ({ isVisible, open, close }) => {
   return (
     <Modal
       isVisible={isVisible}
-      onSwipeComplete={toggleCalendarModal}
+      onSwipeComplete={close}
       swipeDirection="up"
       animationIn="slideInDown"
       animationOut="slideOutUp"
       coverScreen={true}
-      onBackdropPress={toggleCalendarModal}
-      onBackButtonPress={toggleCalendarModal}
+      onBackdropPress={close}
+      onBackButtonPress={close}
       animationInTiming={600}
       animationOutTiming={600}
       animateClockwise={true}>
-      <View style={styles.calendarContainer}>
-        <MonthRangePicker toggleCalendarModal={toggleCalendarModal} />
-      </View>
+      <MonthRangePicker close={close} />
     </Modal>
   );
 };
@@ -36,5 +34,6 @@ const styles = StyleSheet.create({
     height: 'auto',
     top: 10,
     position: 'absolute',
+    backgroundColor: 'red',
   },
 });

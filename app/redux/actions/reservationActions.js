@@ -1,18 +1,24 @@
 import { RESERVATION } from '../types';
 
-const getReservationDataRequestAction = () => {
+const reservationDataCleanUpAction = () => {
   return {
-    type: RESERVATION.DATA_REQUEST,
+    type: RESERVATION.DATA_CLEANUP,
   };
 };
 
-const getReservationDataSuccessAction = ({
+const getReservationInitialDataRequestAction = () => {
+  return {
+    type: RESERVATION.INITIAL_DATA_REQUEST,
+  };
+};
+
+const getReservationInitialDataSuccessAction = ({
   reservationData,
   pageIndex,
   reservationLength,
 }) => {
   return {
-    type: RESERVATION.DATA_SUCCESS,
+    type: RESERVATION.INITIAL_DATA_SUCCESS,
     payload: {
       reservationData,
       pageIndex,
@@ -21,9 +27,9 @@ const getReservationDataSuccessAction = ({
   };
 };
 
-const getReservationDataFailureAction = error => {
+const getReservationInitialDataFailureAction = error => {
   return {
-    type: RESERVATION.DATA_FAILURE,
+    type: RESERVATION.INITIAL_DATA_FAILURE,
     payload: error,
   };
 };
@@ -75,9 +81,10 @@ const setReservationTypeChangeAction = reservationType => {
 };
 
 export {
-  getReservationDataRequestAction,
-  getReservationDataSuccessAction,
-  getReservationDataFailureAction,
+  reservationDataCleanUpAction,
+  getReservationInitialDataRequestAction,
+  getReservationInitialDataSuccessAction,
+  getReservationInitialDataFailureAction,
   getReservationNextPageDataRequestAction,
   getReservationNextPageDataSuccessAction,
   getReservationNextPageDataFailureAction,

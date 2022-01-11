@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import LottieView from 'lottie-react-native';
 // Theme
-import { COLORS } from '../../../constants/theme';
+import { COLORS, POSITIONING, SIZES } from '../../../constants';
 
 export default function TermsScreen({ navigation }) {
   return (
@@ -26,8 +26,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.darkBackground,
-    justifyContent: 'center',
-    alignItems: 'center',
+    ...POSITIONING.center,
   },
   loaderBottomText: {
     color: '#F0F0F0',
@@ -39,7 +38,7 @@ const styles = StyleSheet.create({
   },
   userAgreementText: {
     color: COLORS.blue,
-    fontWeight: '600',
+    fontWeight: SIZES.fontWeight2,
     fontSize: 14,
   },
 });

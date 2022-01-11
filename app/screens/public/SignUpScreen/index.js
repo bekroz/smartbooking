@@ -7,7 +7,7 @@ import {
   StyleSheet,
 } from 'react-native';
 // Theme
-import { COLORS, SIZES } from '../../../constants/theme';
+import { COLORS, SIZES } from '../../../constants';
 // Icons
 import { NoFoundScreenSvg } from '../../../assets/icons/SvgIcons';
 

@@ -16,10 +16,13 @@ const arrivalsReducer = (state = initialState, action) => {
   switch (action.type) {
     case ARRIVALS.DATA_REQUEST:
       return {
+        ...initialState,
+        arrivalsType: action.payload,
         ...state,
+        pageIndex: 1,
         initialLoading: true,
         nextPageLoading: false,
-        arrivalsType: action.payload,
+        isLastPage: false,
       };
     case ARRIVALS.DATA_SUCCESS:
       return {

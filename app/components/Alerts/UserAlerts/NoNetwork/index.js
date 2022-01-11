@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { COLORS, SIZES } from '../../../../constants/theme';
+import { COLORS, POSITIONING, SIZES } from '../../../../constants';
 import FadeInView from '../../../FadeInView';
 import { NoNetworkSvg } from '../../../../assets/icons/SvgIcons';
 
@@ -10,9 +10,8 @@ export default function NoNetwork({ show }) {
       <FadeInView
         style={{
           flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
           bottom: 50,
+          ...POSITIONING.center,
         }}>
         <View style={{ marginBottom: 30 }}>
           <NoNetworkSvg />

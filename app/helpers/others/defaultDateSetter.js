@@ -9,5 +9,4 @@ const monthRangeUntilToday = {
   startDate: firstDayOfMonth,
   endDate: today,
 };
-console.log(currentMonth);
 export { today, currentMonth, monthRangeUntilToday, currentYear };

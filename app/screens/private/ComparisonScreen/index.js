@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { Card } from 'react-native-elements/dist/card/Card';
 // Theme
-import { COLORS, SIZES } from '../../../constants/theme';
+import { COLORS, POSITIONING, SIZES } from '../../../constants';
 // Components
 import { SpaceForScroll, GoBackButton } from '../../../components';
 // Helpers
@@ -39,9 +39,6 @@ const ComparisonScreen = ({
   }, []);
 
   const formattedMonth = getMonthNameLong(chosenMonth);
-  console.log('====================================');
-  console.log(comparisonData);
-  console.log('====================================');
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.topBarContainer}>
@@ -183,9 +180,8 @@ const styles = StyleSheet.create({
   },
   topBarContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
     width: SIZES.width,
+    ...POSITIONING.center,
   },
   monthButton: {
     backgroundColor: '#2E3641',
@@ -194,19 +190,18 @@ const styles = StyleSheet.create({
     borderColor: '#000000',
     height: 30,
     width: 114,
-    alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: '#292F3A',
     borderColor: COLORS.blue,
     alignSelf: 'flex-start',
     height: 35,
     margin: 10,
     marginBottom: 0,
+    ...POSITIONING.center,
   },
   dateButtonContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
     paddingBottom: 15,
+    ...POSITIONING.justify,
   },
   yearButton: {
     backgroundColor: '#2E3641',
@@ -215,13 +210,12 @@ const styles = StyleSheet.create({
     borderColor: '#000000',
     height: 30,
     width: 114,
-    alignItems: 'center',
-    justifyContent: 'center',
     borderColor: COLORS.blue,
     width: 53,
     height: 35,
     margin: 10,
     marginBottom: 0,
+    ...POSITIONING.center,
   },
   dateButtonText: {
     fontWeight: SIZES.fontWeight1,

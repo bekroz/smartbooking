@@ -1,9 +1,13 @@
 import React, { useEffect } from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import { LaunchScreenSvg } from '../../../assets/icons/SvgIcons';
-import { COLORS, SIZES } from '../../../constants/theme';
+import { COLORS, SIZES } from '../../../constants';
 import { connect, useSelector } from 'react-redux';
-import { authMiddleware } from '../../../redux/middlewares';
+import {
+  authMiddleware,
+  loginUserMiddleware,
+} from '../../../redux/middlewares';
+import { store } from '../../../redux/store';
 
 const AuthLoadingScreen = ({
   navigation,
@@ -15,15 +19,16 @@ const AuthLoadingScreen = ({
 }) => {
   async function splashRefreshTokenHandler() {
     try {
-      if (user === null) {
-        navigation.navigate('AuthStack');
-      } else {
-        return await authMiddleware(user).then(userToken => {
-          navigation.navigate(userToken ? 'AppStack' : 'AuthStack');
-        });
-      }
-    } catch (error) {
-      console.error(error);
+      loginUserMiddleware(user).then(userToken => {
+        if (userToken && userLoggedIn) {
+          navigation.navigate('AppStack');
+        } else {
+          navigation.navigate('AuthStack');
+        }
+      });
+    } catch (err) {
+      console.error(err);
+      alert('Server error. Please, try again later');
     }
   }
 

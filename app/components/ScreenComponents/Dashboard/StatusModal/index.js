@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { QuitSvg } from '../../../../assets/icons/SvgIcons';
 // Theme
-import { COLORS, POSITIONING, SIZES } from '../../../../constants/theme';
+import { COLORS, POSITIONING, SIZES } from '../../../../constants';
 // Icons
-import quit from '../../images/quit.png';
 
 export default function StatusModal() {
   return (
@@ -13,10 +13,9 @@ export default function StatusModal() {
           style={{
             flexDirection: 'row',
             margin: 15,
-            alignItems: 'center',
-            justifyContent: 'center',
             marginTop: 20,
             marginBottom: 40,
+            ...POSITIONING.center,
           }}>
           <Text style={styles.optionsTopTitle}>Статус</Text>
           <TouchableOpacity
@@ -26,7 +25,7 @@ export default function StatusModal() {
               position: 'absolute',
               padding: 5,
             }}>
-            <Image source={quit} />
+            <QuitSvg />
           </TouchableOpacity>
         </View>
         <View style={{ marginLeft: 50 }}>

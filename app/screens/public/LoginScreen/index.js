@@ -10,9 +10,9 @@ import {
   Alert,
 } from 'react-native';
 // Redux
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 // Theme
-import { COLORS, POSITIONING, SIZES } from '../../../constants/theme';
+import { COLORS, POSITIONING, SIZES } from '../../../constants';
 // Icons
 import {
   ShowPasswordSvg,
@@ -24,9 +24,9 @@ import {
   appTokenMiddleware,
   loginUserMiddleware,
 } from '../../../redux/middlewares';
-// Utils
 
 const LoginScreen = ({ navigation, userLoggedIn }) => {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState({ value: '', error: '' });
   const [password, setPassword] = useState({ value: '', error: '' });
   const [secureTextEntry, setSecureTextEntry] = useState(true);
@@ -36,7 +36,6 @@ const LoginScreen = ({ navigation, userLoggedIn }) => {
   function registerButtonPress() {
     navigation.navigate('NoFoundScreen');
   }
-
   function resetPasswordButtonPress() {
     navigation.navigate('NoFoundScreen');
   }
@@ -53,7 +52,6 @@ const LoginScreen = ({ navigation, userLoggedIn }) => {
         [
           {
             text: 'Окей',
-            onPress: () => console.log('OK button Pressed'),
             style: 'cancel',
           },
         ],
@@ -75,7 +73,6 @@ const LoginScreen = ({ navigation, userLoggedIn }) => {
             [
               {
                 text: 'Окей',
-                onPress: () => console.log('OK button Pressed'),
                 style: 'cancel',
               },
             ],
@@ -114,7 +111,7 @@ const LoginScreen = ({ navigation, userLoggedIn }) => {
             />
           </View>
           <Text style={styles.password}>Пароль</Text>
-          <View style={{ justifyContent: 'center' }}>
+          <View style={{ ...POSITIONING.justify }}>
             <TextInput
               label="Пароль"
               secureTextEntry={secureTextEntry}
@@ -135,7 +132,6 @@ const LoginScreen = ({ navigation, userLoggedIn }) => {
             </TouchableOpacity>
           </View>
         </View>
-
         <TouchableOpacity
           style={POSITIONING.align}
           onPress={resetPasswordButtonPress}>
@@ -156,12 +152,6 @@ const LoginScreen = ({ navigation, userLoggedIn }) => {
             <Text style={styles.loginText}>Войти</Text>
           )}
         </TouchableOpacity>
-        {/* <AppleButton
-          buttonStyle={AppleButton.Style.WHITE}
-          buttonType={AppleButton.Type.SIGN_IN}
-          style={styles.appleButton}
-          onPress={loginButtonPress}
-        /> */}
         <View style={styles.registerTextBlock}>
           <Text style={styles.registerTextBlock}>Нет аккаунта? </Text>
           <TouchableOpacity
@@ -176,13 +166,15 @@ const LoginScreen = ({ navigation, userLoggedIn }) => {
 };
 
 function mapStateToProps({ authReducer }) {
+  const { loading, appToken, user, userToken, userLoggedIn, error } =
+    authReducer;
   return {
-    loading: authReducer.loading,
-    appToken: authReducer.appToken,
-    userToken: authReducer.userToken,
-    user: authReducer.user,
-    userLoggedIn: authReducer.userLoggedIn,
-    error: authReducer.error,
+    loading,
+    appToken,
+    user,
+    userToken,
+    userLoggedIn,
+    error,
   };
 }
 

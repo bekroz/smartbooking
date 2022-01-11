@@ -1,6 +1,7 @@
-// ANNUAL case types
-export default ANNUAL = {
+const ANNUAL = {
   DATA_REQUEST: 'ANNUAL_DATA_REQUEST',
   DATA_SUCCESS: 'ANNUAL_DATA_SUCCESS',
   DATA_FAILURE: 'ANNUAL_DATA_FAILURE',
 };
+
+export default ANNUAL;

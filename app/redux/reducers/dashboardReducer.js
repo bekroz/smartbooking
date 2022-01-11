@@ -20,9 +20,14 @@ const initialState = {
 
 const dashboardReducer = (state = initialState, action) => {
   switch (action.type) {
+    case DASHBOARD.DATA_CLEAN_UP:
+      return {
+        initialState,
+        loading: true,
+      };
     case DASHBOARD.DATA_REQUEST:
       return {
-        ...state,
+        initialState,
         loading: true,
       };
     case DASHBOARD.DATA_SUCCESS:

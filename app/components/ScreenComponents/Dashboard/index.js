@@ -1,7 +1,7 @@
 import HotelNameBar from './HotelNameBar';
 import HotelModal from './HotelModal';
 import CalendarModal from './CalendarModal';
-import DayPicker from './DayPick';
+import DayPicker from './DayPicker';
 import EmptyRoomsCircle from './EmptyRoomsCircle';
 import PercentageCircle from './PercentageCircle';
 

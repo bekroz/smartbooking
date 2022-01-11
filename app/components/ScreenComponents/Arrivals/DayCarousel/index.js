@@ -3,8 +3,11 @@ import { Text, View, SafeAreaView, StyleSheet } from 'react-native';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ru';
 import Carousel from 'react-native-snap-carousel';
-import { RESERVATION_TYPE_CAROUSEL } from '../../../../constants/dataTypes';
-import { COLORS, SIZES } from '../../../../constants/theme';
+import {
+  RESERVATION_TYPE_CAROUSEL,
+  POSITIONING,
+  SIZES,
+} from '../../../../constants';
 
 const DayCarousel = ({ showDay }) => {
   const formattedDay = dayjs(showDay).locale('ru').format('dddd, DD MMM');
@@ -47,8 +50,8 @@ const styles = StyleSheet.create({
   dateContainer: {
     paddingTop: 20,
     paddingBottom: 20,
-    justifyContent: 'center',
     alignSelf: 'flex-start',
+    ...POSITIONING.justify,
     // backgroundColor: 'red',
   },
   dateText: {

@@ -3,7 +3,7 @@ import { Platform, StyleSheet, Text, View } from 'react-native';
 import FusionCharts from 'react-native-fusioncharts';
 import { getMonthNameShort } from '../../../../helpers';
 import { COLORS, SIZES } from '../../../../constants';
-import { COLOR_PALETTE } from '../../../../constants/theme';
+import { COLOR_PALETTE } from '../../../../constants';
 
 const BarChart = ({ channelsData }) => {
   const barData = channelsData?.map(monthData => {
@@ -89,10 +89,7 @@ const BarChart = ({ channelsData }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'flex-start',
     right: 15,
-    // backgroundColor: 'yellow',
   },
 });
 

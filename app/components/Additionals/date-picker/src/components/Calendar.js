@@ -8,6 +8,7 @@ import {
   CalendarNextArrowSvg,
   CalendarPreviousArrowSvg,
 } from '../../../../../assets/icons/SvgIcons';
+import { POSITIONING } from '../../../../../constants';
 
 const rotateValues = {
   inputRange: [0, 360],
@@ -315,8 +316,7 @@ const getStyles = (colors, sizes) => ({
   },
   dayOfTheWeekWrapper: {
     width: '14.2857142857%',
-    alignItems: 'center',
-    justifyContent: 'center',
+    ...POSITIONING.center,
   },
   calendar: {
     backgroundColor: '#212831',
@@ -333,7 +333,7 @@ const getStyles = (colors, sizes) => ({
   },
   controls: {
     flex: 1,
-    justifyContent: 'center',
+    ...POSITIONING.justify,
   },
   controlsText: {},
   leftControl: {

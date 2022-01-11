@@ -1,5 +1,4 @@
-// ARRIVALS case types
-export default ARRIVALS = {
+const ARRIVALS = {
   DATA_REQUEST: 'ARRIVALS_DATA_REQUEST',
   DATA_SUCCESS: 'ARRIVALS_DATA_SUCCESS',
   DATA_FAILURE: 'ARRIVALS_DATA_FAILURE',
@@ -12,3 +11,5 @@ export default ARRIVALS = {
   // Handling search type change
   TYPE_CHANGE: 'ARRIVALS_TYPE_CHANGE',
 };
+
+export default ARRIVALS;

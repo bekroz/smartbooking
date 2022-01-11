@@ -12,13 +12,17 @@ import 'dayjs/locale/ru';
 import { Card } from 'react-native-elements/dist/card/Card';
 import { Divider } from 'react-native-elements/dist/divider/Divider';
 // Theme
-import { COLORS, SIZES } from '../../../constants/theme';
+import { COLORS, POSITIONING, SIZES } from '../../../constants';
 // Components
 import {
+  StatusCarousel,
+  DayCarousel,
+  FadeInView,
+  GoBackButton,
   HotelModal,
   HotelNameBar,
-} from '../../../components/ScreenComponents/Dashboard';
-import { NoDataToShow } from '../../../components/Alerts/UserAlerts';
+  NoDataToShow,
+} from '../../../components';
 // Helpers
 import { numberWithSpaces, dottedTruncator } from '../../../helpers';
 // Icons
@@ -29,13 +33,6 @@ import {
   GreenLineIndicatorSvg,
   BlueLineIndicatorSvg,
 } from '../../../assets/icons/SvgIcons';
-// Components
-import {
-  StatusCarousel,
-  DayCarousel,
-  FadeInView,
-  GoBackButton,
-} from '../../../components';
 // Redux
 import { connect, useDispatch } from 'react-redux';
 import {
@@ -52,27 +49,18 @@ const ArrivalsScreen = ({
   arrivalsLength,
   hotelName,
   chosenDay,
+  hotelModalVisible,
   hotelList,
   hotelID,
+  dismissHotelModal,
 }) => {
-  console.log('====================================');
-  console.log(hotelList);
-  console.log('====================================');
-
-  const [hotelListModalVisible, setHotelListModalVisible] = useState(false);
-
   // Button Press handlers
   const dispatch = useDispatch();
 
-  const toggleHotelModal = () => {
-    setHotelListModalVisible(!hotelListModalVisible);
-  };
-
   const handleChosenHotel = updatedHotel => {
-    console.log(updatedHotel);
     if (typeof updatedHotel !== 'undefined' && updatedHotel !== null) {
       dispatch(setUserChosenHotelIDAction(updatedHotel));
-      setHotelListModalVisible(false);
+      dismissHotelModal(updatedHotel);
       onPullToRefresh();
     } else {
       alert('Hotel not found. Please, try again later');
@@ -88,6 +76,7 @@ const ArrivalsScreen = ({
   }, []);
 
   let refreshing = false;
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
       <ScrollView
@@ -102,7 +91,7 @@ const ArrivalsScreen = ({
         <View style={styles.topBarContainer}>
           <GoBackButton navigation={navigation} />
           <HotelNameBar
-            onPress={toggleHotelModal}
+            onPress={e => dismissHotelModal(e)}
             hotelName={initialLoading ? 'Загружается...' : hotelName}
           />
         </View>
@@ -281,8 +270,8 @@ const ArrivalsScreen = ({
                                 marginBottom: 18,
                               }}>
                               {room
-                                ? dottedTruncator(room.name, 20)
-                                : dottedTruncator(roomType.name, 20)}
+                                ? dottedTruncator(room.name, 15)
+                                : dottedTruncator(roomType.name, 15)}
                             </Text>
                             <Text
                               style={[
@@ -306,9 +295,9 @@ const ArrivalsScreen = ({
           }}
         />
         <HotelModal
-          visible={hotelListModalVisible}
-          onTouchOutside={toggleHotelModal}
-          onQuitPress={toggleHotelModal}
+          visible={hotelModalVisible}
+          onTouchOutside={e => dismissHotelModal(e)}
+          onQuitPress={e => dismissHotelModal(e)}
           onHotelChosen={handleChosenHotel}
           hotelList={hotelList}
           chosenHotelID={hotelID}
@@ -348,10 +337,9 @@ const styles = StyleSheet.create({
     width: 22,
     height: 22,
     borderRadius: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
     right: -4,
     top: -4,
+    ...POSITIONING.center,
   },
   indicatorNumber: {
     color: COLORS.white,
@@ -362,10 +350,9 @@ const styles = StyleSheet.create({
 
   titleContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
     marginTop: 10,
     alignContent: 'center',
+    ...POSITIONING.center,
   },
   headerTitle: {
     fontSize: 30,
@@ -374,11 +361,10 @@ const styles = StyleSheet.create({
   },
   topBarContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
     top: 10,
     marginBottom: 23,
     height: 30,
+    ...POSITIONING.center,
   },
   topBarText: {
     // fontFamily: 'SF Pro Display',

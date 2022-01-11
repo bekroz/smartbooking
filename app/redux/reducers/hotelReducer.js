@@ -3,7 +3,7 @@ import { HOTEL } from '../types';
 const initialState = {
   loading: true,
   hotelList: [],
-  hotelID: 48,
+  hotelID: null,
   hotelName: 'Выбирайте отель',
   noHotelFoundAlertVisible: false,
   hotelModalVisible: false,
@@ -34,6 +34,11 @@ const hotelReducer = (state = initialState, action) => {
         ...state,
         hotelModalVisible: true,
       };
+    case HOTEL.CLOSE_MODAL_WITH_HOTEL_ID:
+      return {
+        ...state,
+        hotelModalVisible: false,
+      };
     case HOTEL.SET_USER_CHOSEN_HOTEL_ID:
       return {
         ...state,
@@ -55,6 +60,8 @@ const hotelReducer = (state = initialState, action) => {
         ...state,
         noHotelFoundAlertVisible: true,
       };
+    case HOTEL.PURGE_ALL_DATA:
+      return initialState;
     default:
       return state;
   }

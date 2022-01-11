@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
-import { SEGMENT_VALUES } from '../../../../constants/dataTypes';
-import { COLORS, SIZES } from '../../../../constants/theme';
+import { SEGMENT_VALUES } from '../../../../constants';
+import { COLORS, POSITIONING, SIZES } from '../../../../constants';
 
 export default function StatsSegmentControl({ onChange, selectedIndex }) {
   return (
@@ -22,9 +22,8 @@ export default function StatsSegmentControl({ onChange, selectedIndex }) {
 }
 const styles = StyleSheet.create({
   segmentControlTabsContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
     marginBottom: 12,
+    ...POSITIONING.center,
   },
   activeSegmentFontStyle: {
     color: COLORS.white,

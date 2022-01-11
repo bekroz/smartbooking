@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { COLORS, SIZES } from '../../../../constants';
+import { COLORS, POSITIONING, SIZES } from '../../../../constants';
 
 const CollapseButton = () => {
   return (
@@ -16,11 +16,10 @@ export default CollapseButton;
 const styles = StyleSheet.create({
   container: {
     // flex: 1,
-    justifyContent: 'center',
     alignSelf: 'center',
-    alignItems: 'center',
     width: SIZES.width - 30,
     height: 34,
+    ...POSITIONING.center,
     // backgroundColor: 'green',
     // position: 'absolute',
     // bottom: 30,

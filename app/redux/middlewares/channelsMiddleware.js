@@ -11,6 +11,7 @@ async function getChannelsDataMiddleware() {
   store.dispatch(getChannelsDataRequestAction());
   try {
     return await getChannelsDataAPI().then(response => {
+    
       let channelsData = response.data;
       let totalRevenue = response.total_revenue;
       let totalSoldNights = response.total_sold_night;

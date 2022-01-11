@@ -1,8 +1,5 @@
 import { RESERVATION } from '../types';
-import {
-  RESERVATION_STATUS,
-  RESERVATION_TYPE,
-} from '../../constants/dataTypes';
+import { RESERVATION_STATUS, RESERVATION_TYPE } from '../../constants';
 
 const initialState = {
   initialLoading: true,
@@ -13,19 +10,31 @@ const initialState = {
   isLastPage: false,
   reservationStatus: RESERVATION_STATUS.confirmed,
   reservationType: RESERVATION_TYPE.checkin,
-  noData: false,
   error: null,
 };
 
 const reservationReducer = (state = initialState, action) => {
   switch (action.type) {
-    case RESERVATION.DATA_REQUEST:
+    case RESERVATION.DATA_CLEANUP:
       return {
         ...state,
+        reservationData: [],
         initialLoading: true,
         nextPageLoading: false,
+        reservationLength: 0,
+        pageIndex: 1,
+        isLastPage: false,
+        error: null,
       };
-    case RESERVATION.DATA_SUCCESS:
+    case RESERVATION.INITIAL_DATA_REQUEST:
+      return {
+        ...state,
+        pageIndex: 1,
+        initialLoading: true,
+        nextPageLoading: false,
+        isLastPage: false,
+      };
+    case RESERVATION.INITIAL_DATA_SUCCESS:
       return {
         ...state,
         initialLoading: false,
@@ -33,7 +42,7 @@ const reservationReducer = (state = initialState, action) => {
         pageIndex: action.payload.pageIndex,
         reservationLength: action.payload.reservationLength,
       };
-    case RESERVATION.DATA_FAILURE:
+    case RESERVATION.INITIAL_DATA_FAILURE:
       return {
         ...state,
         initialLoading: false,
@@ -64,7 +73,7 @@ const reservationReducer = (state = initialState, action) => {
     case RESERVATION.LAST_PAGE_REACHED:
       return {
         ...state,
-        lastPage: true,
+        isLastPage: true,
       };
     // Reservation search status change
     case RESERVATION.STATUS_CHANGE:

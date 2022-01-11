@@ -13,7 +13,7 @@ import {
 import getDashboardDataMiddleware from './dashboardMiddleware';
 // Reservation middleware
 import {
-  getReservationDataMiddleware,
+  getReservationInitialDataMiddleware,
   getReservationNextPageDataMiddleware,
 } from './reservationMiddleware';
 // Annual middleware
@@ -37,7 +37,7 @@ export {
   // Dashboard
   getDashboardDataMiddleware,
   // Reservation
-  getReservationDataMiddleware,
+  getReservationInitialDataMiddleware,
   getReservationNextPageDataMiddleware,
   // Annual
   getAnnualDataMiddleware,

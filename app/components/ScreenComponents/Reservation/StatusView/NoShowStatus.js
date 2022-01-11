@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native';
-import { COLORS, SIZES } from '../../../../constants/theme';
+import { COLORS, POSITIONING, SIZES } from '../../../../constants';
 
 export default function NoShowStatus() {
   <View style={styles.statusNoShowViewStyle}>
@@ -12,12 +12,11 @@ const styles = StyleSheet.create({
     height: 21,
     borderRadius: 4,
     width: 80,
-    alignItems: 'center',
-    justifyContent: 'center',
     left: 15,
     backgroundColor: '#424339',
     flexWrap: 'wrap',
     alignContent: 'center',
+    ...POSITIONING.center,
   },
   statusNoShowTextStyle: {
     fontWeight: SIZES.fontWeight1,

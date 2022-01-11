@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { Switch } from 'react-native-paper';
-import { COLORS } from '../../../constants';
+import { COLORS, POSITIONING } from '../../../constants';
 
 const AppleSwitcher = () => {
   const [isSwitchOn, setIsSwitchOn] = useState(false);
@@ -9,7 +9,7 @@ const AppleSwitcher = () => {
   const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <View style={styles.container}>
       <Switch
         value={isSwitchOn}
         onValueChange={onToggleSwitch}
@@ -20,3 +20,10 @@ const AppleSwitcher = () => {
 };
 
 export default AppleSwitcher;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    ...POSITIONING.center,
+  },
+});

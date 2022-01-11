@@ -8,12 +8,13 @@ import { PersistGate } from 'redux-persist/es/integration/react';
 // Redux store
 import { store, persistor } from './app/redux/store';
 // Main container
-import AppContainer from './app/container/AppContainer';
+import AppContainer from './app/container';
 // Navigator
 import navigationService from './app/services/navigationService';
-// Crash tracker setup
+// Crash tracker
 import * as Sentry from '@sentry/react-native';
-import Test from './app/components/ScreenComponents/Dashboard/Picker';
+
+// Sentry setup
 Sentry.init({
   dsn: 'https://1329c9b248134401acc8ae1a7a34cc54@o1092790.ingest.sentry.io/6111610',
   integrations: [

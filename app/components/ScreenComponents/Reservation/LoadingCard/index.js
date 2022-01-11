@@ -1,18 +1,12 @@
 import React from 'react';
-import { Text, StyleSheet } from 'react-native';
-import { SIZES } from '../../../../constants/theme';
-import FadeInView from '../../../FadeInView';
+import { StyleSheet } from 'react-native';
+import { POSITIONING, SIZES } from '../../../../constants';
 import LoadingIndicator from '../../../Loaders/LoadingIndicator';
 import { Card } from 'react-native-elements/dist/card/Card';
 
 export default function LoadingCard() {
   return (
-    <Card
-      containerStyle={[
-        styles.card,
-        { justifyContent: 'center', alignItems: 'center' },
-      ]}
-      title="Guests">
+    <Card containerStyle={styles.card}>
       <LoadingIndicator />
     </Card>
   );
@@ -33,5 +27,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginLeft: 0,
     marginRight: 20,
+    ...POSITIONING.center,
   },
 });
