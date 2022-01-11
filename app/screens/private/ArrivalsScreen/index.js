@@ -76,7 +76,6 @@ const ArrivalsScreen = ({
   }, []);
 
   let refreshing = false;
-
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
       <ScrollView

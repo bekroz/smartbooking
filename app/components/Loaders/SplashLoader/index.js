@@ -1,7 +1,7 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import LottieView from 'lottie-react-native';
-import { COLORS, POSITIONING } from '../../../constants';
+import { COLORS } from '../../../constants/theme';
 import loader from '../../../assets/icons/splash.json';
 
 export default function SplashLoader() {
@@ -16,7 +16,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.blackBackground,
-    ...POSITIONING.center,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   loaderBottomText: {
     color: '#F0F0F0',
