@@ -11,6 +11,8 @@ import {
   currentMonth,
   monthRangeUntilToday,
   currentYear,
+  firstDayOfMonth,
+  date,
 } from './others/defaultDateSetter';
 
 import yearsArray from './others/yearArray';
@@ -29,4 +31,6 @@ export {
   monthRangeUntilToday,
   currentYear,
   yearsArray,
+  firstDayOfMonth,
+  date,
 };

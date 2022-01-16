@@ -67,16 +67,16 @@ const LoginScreen = ({ navigation, userLoggedIn }) => {
         if (userToken && userLoggedIn) {
           navigation.replace('TabNavigator');
         } else {
-          Alert.alert(
-            'Неверные данные',
-            'Такого адреса нет или неправильный пароль',
-            [
-              {
-                text: 'Окей',
-                style: 'cancel',
-              },
-            ],
-          );
+          // Alert.alert(
+          //   'Неверные данные',
+          //   'Такого адреса нет или неправильный пароль',
+          //   [
+          //     {
+          //       text: 'Окей',
+          //       style: 'cancel',
+          //     },
+          //   ],
+          // );
           setLoginRequest(false);
         }
       });

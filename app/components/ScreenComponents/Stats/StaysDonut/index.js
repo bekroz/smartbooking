@@ -1,30 +1,23 @@
 import React from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 import FusionCharts from 'react-native-fusioncharts';
-import { POSITIONING } from '../../../../constants';
+import { COLOR_PALETTE, POSITIONING } from '../../../../constants';
 import { noDottedTruncator } from '../../../../helpers';
 
-const RevenueDonut = ({ donutData }) => {
-  const filteredData = donutData?.map(source => {
-    const { source_name, revenue } = source;
-    return {
-      label: noDottedTruncator(source_name, 12),
-      value: revenue,
-      labelFontColor: '#FFFFFF',
-      toolbarButtonColor: '#FFFFFF',
-    };
-  });
+const StaysDonut = ({ staysData }) => {
+  const filteredData = staysData?.map(
+    ({ source_name, room_nights_percent }) => {
+      return {
+        label: noDottedTruncator(source_name, 12),
+        value: room_nights_percent,
+        labelFontColor: '#FFFFFF',
+        toolbarButtonColor: '#FFFFFF',
+      };
+    },
+  );
 
-  const palette = [
-    '#5B93FF',
-    '#E46B45',
-    '#E3C763',
-    '#4BBD64',
-    '#BE66D4',
-    '#E3766F',
-  ];
-  const defaultDataLabel = donutData[0]?.label;
-  const defaultDataValue = donutData[0]?.value;
+  const defaultDataLabel = filteredData[0]?.label;
+  const defaultDataValue = filteredData[0]?.value;
 
   const chartDataConfig = {
     chart: {
@@ -32,7 +25,7 @@ const RevenueDonut = ({ donutData }) => {
       // subCaption: 'Last year',
       // numberPrefix: 'UZS',
       numberSuffix: ' UZS',
-      defaultCenterLabel: `${defaultDataLabel}: ${defaultDataValue}`,
+      defaultCenterLabel: `${defaultDataLabel}: ${defaultDataValue} %`,
       centerLabel: '$label: $value',
       centerLabelColor: '#FFFFFF',
       baseFontColor: '#FFFFFF',
@@ -48,7 +41,7 @@ const RevenueDonut = ({ donutData }) => {
       enableSlicing: 1,
       bgColor: '#212831',
       doughnutRadius: '80%',
-      paletteColors: palette,
+      paletteColors: COLOR_PALETTE,
       borderThickness: 20,
       patternAngle: 120,
       enableSmartLabels: 1,
@@ -100,4 +93,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RevenueDonut;
+export default StaysDonut;

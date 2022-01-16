@@ -2,20 +2,21 @@ import { DATE } from '../types';
 import {
   today,
   currentMonth,
-  monthRangeUntilToday,
   currentYear,
+  firstDayOfMonth,
 } from '../../helpers';
 
 const initialState = {
-  chosenDay: today,
+  chosenDate: today,
   chosenMonth: currentMonth,
-  chosenMonthRange: monthRangeUntilToday,
+  chosenStartDate: firstDayOfMonth,
+  chosenEndDate: today,
   chosenYear: currentYear,
 };
 
 const dateReducer = (state = initialState, action) => {
   switch (action.type) {
-    case DATE.CHOSEN_DAY:
+    case DATE.CHOSEN_DATE:
       return {
         ...state,
         chosenDay: action.payload,
@@ -28,7 +29,8 @@ const dateReducer = (state = initialState, action) => {
     case DATE.CHOSEN_MONTH_RANGE:
       return {
         ...state,
-        chosenMonthRange: action.payload,
+        chosenStartDate: action.payload.chosenStartDate,
+        chosenEndDate: action.payload.chosenEndDate,
       };
     case DATE.CHOSEN_YEAR:
       return {

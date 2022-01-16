@@ -121,8 +121,9 @@ const getDashboardDataAPI = async () => {
 const getAllReservationsDataAPI = async () => {
   const { hotelID } = store.getState().hotelReducer;
   const { userToken } = store.getState().authReducer;
-  const { reservationType, pageIndex } = store.getState().reservationReducer;
-  const { chosenMonthRange } = store.getState().dateReducer;
+  const { reservationStatus, reservationType, pageIndex } =
+    store.getState().reservationReducer;
+  const { chosenStartDate, chosenEndDate } = store.getState().dateReducer;
   try {
     return await axios({
       url: `${Config.BASE_API_URL}/mobile/${hotelID}/reservations`,
@@ -132,9 +133,10 @@ const getAllReservationsDataAPI = async () => {
         'Content-Type': 'application/json',
       },
       data: {
-        date_range_type: reservationType,
-        start_date: chosenMonthRange.startDate,
-        end_date: chosenMonthRange.endDate,
+        status: reservationStatus.status,
+        date_range_type: reservationType.status,
+        start_date: chosenStartDate,
+        end_date: chosenEndDate,
         page: pageIndex,
       },
     }).then(response => {
@@ -169,7 +171,7 @@ const getHotelSingleReservationDataAPI = async () => {
 const getArrivalsDataAPI = async () => {
   const { hotelID } = store.getState().hotelReducer;
   const { userToken } = store.getState().authReducer;
-  const { chosenDay } = store.getState().dateReducer;
+  const { chosenDate } = store.getState().dateReducer;
   const { arrivalsType } = store.getState().arrivalsReducer;
   try {
     return await axios({
@@ -180,15 +182,15 @@ const getArrivalsDataAPI = async () => {
         'Content-Type': 'application/json',
       },
       data: {
-        type: arrivalsType,
-        from: chosenDay,
-        by: chosenDay,
+        type: arrivalsType.status,
+        from: chosenDate,
+        by: chosenDate,
       },
     }).then(response => {
       return response.data;
     });
   } catch (error) {
-    store.dispatch(getArrivalsDataFailureAction(error));
+    store.dispatch(getArrivalsInitialDataFailureAction(error));
     console.error(error);
   }
 };
@@ -198,6 +200,7 @@ const getAnnualDataAPI = async () => {
   const { hotelID } = store.getState().hotelReducer;
   const { userToken } = store.getState().authReducer;
   const { chosenYear } = store.getState().dateReducer;
+
   try {
     return await axios({
       url: `${Config.BASE_API_URL}/mobile/${hotelID}/statistics-by-year`,
@@ -222,7 +225,7 @@ const getAnnualDataAPI = async () => {
 const getChannelsDataAPI = async () => {
   const { hotelID } = store.getState().hotelReducer;
   const { userToken } = store.getState().authReducer;
-  const { chosenMonthRange } = store.getState().dateReducer;
+  const { chosenStartDate, chosenEndDate } = store.getState().dateReducer;
   const { reservationType, reservationStatus } =
     store.getState().reservationReducer;
 
@@ -235,8 +238,8 @@ const getChannelsDataAPI = async () => {
         'Content-Type': 'application/json',
       },
       data: {
-        start_date: chosenMonthRange.startDate,
-        end_date: chosenMonthRange.endDate,
+        start_date: chosenStartDate,
+        end_date: chosenEndDate,
         date_range_type: reservationType,
         status: reservationStatus,
       },
@@ -245,7 +248,6 @@ const getChannelsDataAPI = async () => {
     });
   } catch (error) {
     store.dispatch(getChannelsDataFailureAction(error));
-    alert(error);
     console.error(error);
   }
 };

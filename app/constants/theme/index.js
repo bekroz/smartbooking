@@ -89,6 +89,16 @@ const COLOR_PALETTE = [
   '#4BBD64',
   '#BE66D4',
   '#E3766F',
+  '#740DF7',
+  '#FF0000',
+  '#24A19C',
+  '#F7C9F3',
+  '#17D7A0',
+  '#FF0075',
+  '#125C13',
+  '#406882',
+  '#8E806A',
+  '#6166B3',
 ];
 
 export { COLORS, SIZES, POSITIONING, DarkTheme, COLOR_PALETTE };

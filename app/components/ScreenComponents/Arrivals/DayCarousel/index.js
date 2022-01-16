@@ -1,26 +1,52 @@
 import React, { useState } from 'react';
-import { Text, View, SafeAreaView, StyleSheet } from 'react-native';
+import {
+  Text,
+  View,
+  SafeAreaView,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ru';
 import Carousel from 'react-native-snap-carousel';
-import {
-  RESERVATION_TYPE_CAROUSEL,
-  POSITIONING,
-  SIZES,
-} from '../../../../constants';
+import { POSITIONING, SIZES, ARRIVALS_TYPE } from '../../../../constants';
 
-const DayCarousel = ({ showDay }) => {
-  const formattedDay = dayjs(showDay).locale('ru').format('dddd, DD MMM');
+const DayCarousel = ({ shownDay }) => {
+  const formattedDay = dayjs(shownDay).locale('ru').format('dddd, DD MMM');
   const [activeIndex, setActiveIndex] = useState(0);
   const dateArray = dayjs().day(0).format('dddd, DD MMM');
 
   function renderDateArray({ item, index }) {
     return (
-      <View style={styles.dateContainer}>
+      <TouchableOpacity style={styles.dateContainer} key={index}>
         <Text style={styles.dateText}>{formattedDay}</Text>
-      </View>
+      </TouchableOpacity>
     );
   }
+
+  let currentDate = dayjs().format('DD-MM-YYYY');
+  let after = 1;
+  let before = 1;
+  let size = 10;
+  let dates = [currentDate];
+
+  dates = [
+    ...Array(size * before)
+      .fill()
+      .map((_, i) =>
+        dayjs()
+          .subtract(size * before - i, 'day')
+          .format('DD-MM-YYYY'),
+      ),
+    currentDate,
+    ...Array(size * after)
+      .fill()
+      .map((_, i) =>
+        dayjs()
+          .add(i + 1, 'day')
+          .format('DD-MM-YYYY'),
+      ),
+  ];
 
   return (
     <View
@@ -32,8 +58,7 @@ const DayCarousel = ({ showDay }) => {
       }}>
       <Carousel
         layout={'default'}
-        ref={ref => (this.carousel = ref)}
-        data={RESERVATION_TYPE_CAROUSEL}
+        data={ARRIVALS_TYPE}
         sliderHeight={100}
         sliderWidth={500}
         itemWidth={250}
@@ -58,5 +83,10 @@ const styles = StyleSheet.create({
     color: '#F0F0F0',
     fontSize: SIZES.body5,
     fontWeight: '300',
+  },
+  separator: {
+    height: 40,
+    width: 20,
+    backgroundColor: 'red',
   },
 });

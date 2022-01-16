@@ -1,26 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 import FusionCharts from 'react-native-fusioncharts';
 import { noDottedTruncator } from '../../../../helpers';
 import { COLOR_PALETTE, POSITIONING } from '../../../../constants';
+
 const RevenueDonut = ({ channelsData }) => {
-  const donutData = channelsData?.map(source => {
-    const { source_name, revenue } = source;
+  const filteredData = channelsData?.map(({ source_name, revenue_percent }) => {
     return {
       label: noDottedTruncator(source_name, 12),
-      value: revenue,
+      value: revenue_percent,
       labelFontColor: '#FFFFFF',
       toolbarButtonColor: '#FFFFFF',
     };
   });
 
-  const defaultDataLabel = donutData[0]?.label;
-  const defaultDataValue = donutData[0]?.value;
+  const defaultDataLabel = filteredData[0]?.label;
+  const defaultDataValue = filteredData[0]?.value;
 
-  const chartDataConfig = {
+  const donutConfig = {
     chart: {
       numberSuffix: ' UZS',
-      defaultCenterLabel: `${defaultDataLabel}: ${defaultDataValue}`,
+      defaultCenterLabel: `${defaultDataLabel}: ${defaultDataValue} %`,
       centerLabel: '$label: $value',
       centerLabelColor: '#FFFFFF',
       baseFontColor: '#FFFFFF',
@@ -54,13 +54,14 @@ const RevenueDonut = ({ channelsData }) => {
       // legendScrollEnabled: 0,
       minimiseWrappingInLegend: 0,
     },
-    data: donutData,
+    data: filteredData,
   };
 
   const libraryPath = Platform.select({
     android: { uri: 'file:///android_asset/fusioncharts.html' },
     ios: require('../../../../../assets/fusioncharts.html'),
   });
+
   return (
     <View style={styles.container}>
       <FusionCharts
@@ -68,8 +69,8 @@ const RevenueDonut = ({ channelsData }) => {
         width={150}
         height={178}
         dataFormat="json"
-        dataSource={chartDataConfig}
-        libraryPath={libraryPath} // set the libraryPath property
+        dataSource={donutConfig}
+        libraryPath={libraryPath}
       />
     </View>
   );

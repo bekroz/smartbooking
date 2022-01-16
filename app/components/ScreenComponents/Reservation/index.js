@@ -7,6 +7,7 @@ import LoadingCard from './LoadingCard';
 import NoMoreDataAlert from './NoMoreDataAlert';
 import BottomLoaderButton from './BottomLoaderButton';
 import ShowMoreButton from './ShowMoreButton';
+import UniversalModal from './UniversalModal';
 
 export {
   CanceledStatus,
@@ -18,4 +19,5 @@ export {
   NoMoreDataAlert,
   BottomLoaderButton,
   ShowMoreButton,
+  UniversalModal,
 };

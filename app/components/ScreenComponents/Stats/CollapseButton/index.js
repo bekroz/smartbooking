@@ -3,9 +3,9 @@ import { Text, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { COLORS, POSITIONING, SIZES } from '../../../../constants';
 
-const CollapseButton = () => {
+const CollapseButton = ({ onPress }) => {
   return (
-    <TouchableOpacity style={styles.container} onPress={() => alert('Pressed')}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <Text style={styles.collapserText}>Показать еще</Text>
     </TouchableOpacity>
   );
@@ -18,14 +18,10 @@ const styles = StyleSheet.create({
     // flex: 1,
     alignSelf: 'center',
     width: SIZES.width - 30,
-    height: 34,
+    height: 50,
     ...POSITIONING.center,
-    // backgroundColor: 'green',
-    // position: 'absolute',
-    // bottom: 30,
-    // borderRadius: 6,
-    // bottom: 0,
-    // zIndex: 99,
+    backgroundColor: 'green',
+    borderRadius: 6,
   },
   collapserText: {
     color: COLORS.white,

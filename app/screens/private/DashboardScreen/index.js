@@ -10,7 +10,13 @@ import {
 } from 'react-native';
 import { MultiArcCircle } from 'react-native-circles';
 // Theme
-import { COLORS, POSITIONING, SIZES } from '../../../constants';
+import {
+  COLORS,
+  POSITIONING,
+  SIZES,
+  RESERVATION_STATUS,
+  ARRIVALS_TYPE,
+} from '../../../constants';
 // Icons
 import {
   WhiteLeftArrowSvg,
@@ -21,10 +27,11 @@ import {
 import {
   HotelNameBar,
   HotelModal,
-  CalendarModal,
-  DayPicker,
   PercentageCircle,
   EmptyRoomsCircle,
+  HorizontalDayPicker,
+  MonthYearCal,
+  MonthYearModal,
 } from '../../../components';
 // Redux
 import { connect, useDispatch } from 'react-redux';
@@ -34,12 +41,17 @@ import {
   getArrivalsDataRequestAction,
   setUserChosenHotelIDAction,
   showHotelModalToChooseAction,
+  setReservationStatusChangeAction,
+  noHotelFoundAction,
 } from '../../../redux/actions';
 import {
   getDashboardDataMiddleware,
   getHotelsDataMiddleware,
   setHotelIDMiddleware,
 } from '../../../redux/middlewares';
+import dayjs from 'dayjs';
+import 'dayjs/locale/ru';
+import { capitalize } from '../../../helpers';
 
 const DashboardScreen = ({
   navigation,
@@ -60,15 +72,14 @@ const DashboardScreen = ({
   hotelID,
   hotelList,
   hotelName,
-  chosenDay,
+  chosenDate,
   hotelModalVisible,
-  noHotelFoundAlertVisible,
 }) => {
   // View togglers
-
   const [percentageView, setPercentageView] = useState(true);
-  const [calendarModalVisible, setCalendarModalVisible] = useState(false);
-  const [dataFetching, setDataFetching] = useState(false);
+  const [monthYearModalVisible, setMonthYearModalVisible] = useState(false);
+
+  const dispatch = useDispatch();
 
   const dismissHotelModal = updatedHotel => {
     if (updatedHotel) {
@@ -77,49 +88,48 @@ const DashboardScreen = ({
       return null;
     }
   };
+  const flatListRef = useRef();
+  const displayedMonth = capitalize(
+    dayjs(chosenDate).locale('ru').format('MMMM'),
+  );
+  const displayedYear = dayjs(chosenDate).format('YYYY');
+  const displayedWeekDay = capitalize(
+    dayjs(chosenDate).locale('ru').format('dddd'),
+  );
 
   // Button Press handlers
-  const dispatch = useDispatch();
-
-  const openCalendarModal = () => {
-    setCalendarModalVisible(true);
-  };
-  const closeCalendarModal = () => {
-    setCalendarModalVisible(false);
-  };
-
   const handleChosenHotel = updatedHotel => {
     if (typeof updatedHotel !== 'undefined' && updatedHotel !== null) {
       dispatch(setUserChosenHotelIDAction(updatedHotel));
       dismissHotelModal(updatedHotel);
       getDashboardDataOnTabPress();
       setPercentageView(true);
-      setDataFetching(true);
     } else {
-      dispatch(noHotelFoundAction());
       alert('Hotel not found. Please, try again later');
     }
   };
 
-  function handleArcBarPress(arrivalsType) {
-    navigation.navigate('ArrivalsScreen');
-    dispatch(getArrivalsDataRequestAction(arrivalsType));
-  }
-
-  const moveToReservationScreen = () => {
-    navigation.navigate('ReservationScreen');
-  };
-
-  async function updateHotelsOnPres() {
-    try {
-      return await getHotelsDataMiddleware().then(
-        setHotelIDMiddleware().then(getDashboardDataMiddleware()),
-      );
-    } catch (error) {
-      console.error(error);
+  function handleArcBarPress(index) {
+    switch (index) {
+      case 0:
+        dispatch(getArrivalsDataRequestAction(ARRIVALS_TYPE[0]));
+        navigation.navigate('ArrivalsScreen'), { activeIndex: 0 };
+        break;
+      case 1:
+        dispatch(getArrivalsDataRequestAction(ARRIVALS_TYPE[1]));
+        navigation.navigate('ArrivalsScreen'), { activeIndex: 1 };
+        break;
+      case 2:
+        dispatch(getArrivalsDataRequestAction(ARRIVALS_TYPE[2]));
+        navigation.navigate('ArrivalsScreen'), { activeIndex: 2 };
+        break;
     }
   }
 
+  const moveToReservationScreen = type => {
+    dispatch(setReservationStatusChangeAction(type));
+    navigation.navigate('ReservationScreen');
+  };
   async function getDashboardDataOnTabPress() {
     try {
       return await getHotelsDataMiddleware().then(
@@ -127,7 +137,7 @@ const DashboardScreen = ({
           if (hotelID !== null) {
             getDashboardDataMiddleware();
           } else {
-            dispatch(showHotelModalToChooseAction());
+            dispatch(noHotelFoundAction());
           }
         }),
       );
@@ -139,7 +149,6 @@ const DashboardScreen = ({
   const onPullToRefresh = useCallback(() => {
     getDashboardDataOnTabPress();
     setPercentageView(true);
-    setDataFetching(true);
   }, []);
 
   useEffect(() => {
@@ -147,8 +156,7 @@ const DashboardScreen = ({
       setPercentageView(true);
       getDashboardDataOnTabPress();
     });
-    setDataFetching(true);
-  }, [navigation]);
+  }, []);
 
   useEffect(() => {
     navigation.addListener('blur', () => {
@@ -178,7 +186,12 @@ const DashboardScreen = ({
     return Math.round(minPoint + maxPoint * (live > 0 ? live / maxRooms : 1));
   };
 
-  const flatListRef = useRef();
+  const handlePreviousPress = () => {
+    alert('Previous pressed');
+  };
+  const handleNextPress = () => {
+    alert('Next pressed');
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -203,29 +216,36 @@ const DashboardScreen = ({
           />
         </View>
         <View style={styles.dateBlock}>
-          <TouchableOpacity style={styles.arrowIconStyle}>
+          <TouchableOpacity
+            style={styles.arrowIconStyle}
+            onPress={handlePreviousPress}>
             <WhiteLeftArrowSvg />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => setCalendarModalVisible(true)}>
-            <Text style={styles.dateText}>Декабрь 2021</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.arrowIconStyle}>
+          <View>
+            <Text style={styles.dateText}>
+              {displayedMonth} {displayedYear}
+            </Text>
+          </View>
+          <TouchableOpacity
+            style={styles.arrowIconStyle}
+            onPress={handleNextPress}>
             <WhiteRightArrowSvg />
           </TouchableOpacity>
         </View>
         <View style={styles.weekDayContainer}>
-          <Text style={styles.weekDayText}>Вторник</Text>
+          <Text style={styles.weekDayText}>{displayedWeekDay}</Text>
         </View>
         {/* Horizontal Calendar Day Picker */}
         <View style={styles.dayPickerContainer}>
-          <DayPicker chosenDay={chosenDay} />
+          {/* <DayPicker chosenDay={chosenDay} /> */}
+          <HorizontalDayPicker chosenDay={chosenDate} />
         </View>
         <>
           {/* Arc Bars Container */}
           <View style={styles.arcBarsContainer}>
             {/* FIRST ARC */}
             <TouchableOpacity
-              onPress={() => handleArcBarPress('arrived')}
+              onPress={() => handleArcBarPress(0)}
               style={styles.arcBlock}>
               <MultiArcCircle
                 radius={50}
@@ -259,7 +279,7 @@ const DashboardScreen = ({
             </TouchableOpacity>
             {/* SECOND ARC */}
             <TouchableOpacity
-              onPress={() => handleArcBarPress('left')}
+              onPress={() => handleArcBarPress(1)}
               style={styles.arcBlock}>
               <MultiArcCircle
                 radius={50}
@@ -292,7 +312,7 @@ const DashboardScreen = ({
             </TouchableOpacity>
             {/* THIRD ARC */}
             <TouchableOpacity
-              onPress={() => handleArcBarPress('living')}
+              onPress={() => handleArcBarPress(2)}
               style={styles.arcBlock}>
               <MultiArcCircle
                 radius={50}
@@ -315,7 +335,9 @@ const DashboardScreen = ({
           {/* GRAY Boxes container */}
           <View style={{ marginBottom: 25 }}>
             {/* First Gray Box */}
-            <TouchableOpacity style={styles.grayBlockContainer}>
+            <TouchableOpacity
+              style={styles.grayBlockContainer}
+              onPress={() => moveToReservationScreen(RESERVATION_STATUS[0])}>
               <View style={styles.grayBlock}>
                 <View style={styles.grayBlockLeftSideView}>
                   <View style={styles.blueBox}>
@@ -373,7 +395,7 @@ const DashboardScreen = ({
             {/* Second Gray Box */}
             <TouchableOpacity
               style={styles.grayBlockContainer}
-              onPress={moveToReservationScreen}>
+              onPress={() => moveToReservationScreen(RESERVATION_STATUS[3])}>
               <View
                 style={{
                   flexDirection: 'row',
@@ -482,12 +504,6 @@ const DashboardScreen = ({
           </TouchableOpacity>
         </>
       </ScrollView>
-      {/* Modals */}
-      <CalendarModal
-        isVisible={calendarModalVisible}
-        open={openCalendarModal}
-        close={closeCalendarModal}
-      />
       <HotelModal
         visible={hotelModalVisible}
         onTouchOutside={e => dismissHotelModal(e)}
@@ -495,6 +511,12 @@ const DashboardScreen = ({
         onHotelChosen={e => handleChosenHotel(e)}
         hotelList={hotelList}
         chosenHotelID={hotelID}
+      />
+      <MonthYearModal
+        isVisible={monthYearModalVisible}
+        givenDate={chosenDate}
+        close={() => setMonthYearModalVisible(false)}
+        refreshData={onPullToRefresh}
       />
     </SafeAreaView>
   );
@@ -652,7 +674,7 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps({ dashboardReducer, hotelReducer, dateReducer }) {
-  const { chosenDay } = dateReducer;
+  const { chosenDate, chosenYear, chosenMonth } = dateReducer;
   const {
     loading,
     availableRooms,
@@ -695,7 +717,9 @@ function mapStateToProps({ dashboardReducer, hotelReducer, dateReducer }) {
     hotelID,
     hotelList,
     hotelName,
-    chosenDay,
+    chosenDate,
+    chosenYear,
+    chosenMonth,
     hotelModalVisible,
     noHotelFoundAlertVisible,
   };

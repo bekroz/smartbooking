@@ -1,31 +1,73 @@
-import React, { useState } from 'react';
-import { Text, View, SafeAreaView, StyleSheet } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import {
+  Text,
+  View,
+  SafeAreaView,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 import dayjs from 'dayjs';
 import Carousel from 'react-native-snap-carousel';
+import { useDispatch } from 'react-redux';
 import {
   COLORS,
   POSITIONING,
   SIZES,
-  RESERVATION_TYPE_CAROUSEL,
+  ARRIVALS_TYPE,
 } from '../../../../constants';
+import { getArrivalsDataRequestAction } from '../../../../redux/actions';
 
-const StatusCarousel = ({ indicatorNumber }) => {
-  const [activeIndex, setActiveIndex] = useState(0);
+const StatusCarousel = ({ activeIndex, indicatorNumber, refresh }) => {
+  const dispatch = useDispatch();
+  const carouselRef = useRef(activeIndex);
+  const timeOutedCall = () => {
+    setTimeout(() => {
+      refresh();
+    }, 400);
+  };
 
-  function renderStatusArray({ item }, index) {
+  const snapHandler = index => {
+    dispatch(getArrivalsDataRequestAction(ARRIVALS_TYPE[index]));
+    timeOutedCall();
+  };
+
+  function renderStatusArray({ item, index }) {
     return (
-      <View
+      <TouchableOpacity
         key={index}
         style={{
           flexDirection: 'row',
           alignItems: 'center',
+        }}
+        onPress={() => {
+          carouselRef.current.snapToItem(index);
+          dispatch(getArrivalsDataRequestAction(item));
+          timeOutedCall();
         }}>
-        <Text style={styles.status}>{item.text}</Text>
+        <Text style={styles.status}>{item.displayName}</Text>
         <View style={[styles.indicatorContainer]}>
           <Text style={styles.indicatorNumber}>{indicatorNumber}</Text>
         </View>
-      </View>
+      </TouchableOpacity>
     );
+  }
+
+  function handleSnapToItem(index) {
+    switch (index) {
+      case 0:
+        dispatch(getArrivalsDataRequestAction(ARRIVALS_TYPE[0]));
+        timeOutedCall();
+        snapHandler(index);
+        break;
+      case 1:
+        dispatch(getArrivalsDataRequestAction(ARRIVALS_TYPE[1]));
+        timeOutedCall();
+        break;
+      case 2:
+        dispatch(getArrivalsDataRequestAction(ARRIVALS_TYPE[2]));
+        timeOutedCall();
+        break;
+    }
   }
 
   return (
@@ -37,14 +79,16 @@ const StatusCarousel = ({ indicatorNumber }) => {
         left: -120,
       }}>
       <Carousel
+        useScrollView={true}
+        ref={carouselRef}
         layout={'default'}
-        // ref={ref => (this.carousel = ref)}
-        data={RESERVATION_TYPE_CAROUSEL}
+        data={ARRIVALS_TYPE}
         sliderHeight={100}
         sliderWidth={500}
         itemWidth={250}
         renderItem={renderStatusArray}
-        onSnapToItem={index => setActiveIndex(index)}
+        // on
+        onBeforeSnapToItem={index => handleSnapToItem(index)}
         inactiveSlideOpacity={0.5}
       />
     </View>

@@ -1,9 +1,26 @@
+import { ARRIVALS_TYPE } from '../../constants';
 import { ARRIVALS } from '../types';
-
 const getArrivalsDataRequestAction = arrivalsType => {
+  let activeIndex;
+  switch (arrivalsType) {
+    case ARRIVALS_TYPE[0]:
+      activeIndex = 0;
+      break;
+    case ARRIVALS_TYPE[1]:
+      activeIndex = 1;
+      break;
+    case ARRIVALS_TYPE[2]:
+      activeIndex = 2;
+      break;
+    default:
+      return;
+  }
   return {
     type: ARRIVALS.DATA_REQUEST,
-    payload: arrivalsType,
+    payload: {
+      arrivalsType,
+      activeIndex,
+    },
   };
 };
 

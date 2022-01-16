@@ -54,30 +54,4 @@ const styles = StyleSheet.create({
   },
 });
 
-// function mapStateToProps({ channelsReducer, annualReducer, hotelReducer }) {
-//   const {
-//     loading,
-//     chosenDateRange,
-//     channelsData,
-//     totalRevenue,
-//     totalSoldNights,
-//     totalAverageSum,
-//     error,
-//   } = channelsReducer;
-//   const { chosenYear, annualData } = annualReducer;
-//   const { hotelID } = hotelReducer;
-//   return {
-//     loading,
-//     chosenDateRange,
-//     channelsData,
-//     totalRevenue,
-//     totalSoldNights,
-//     totalAverageSum,
-//     error,
-//     chosenYear,
-//     annualData,
-//     hotelID,
-//   };
-// }
-
 export default StatsScreen;

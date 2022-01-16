@@ -13,6 +13,7 @@ import AppContainer from './app/container';
 import navigationService from './app/services/navigationService';
 // Crash tracker
 import * as Sentry from '@sentry/react-native';
+// import Test from './MonthYearCal';
 
 // Sentry setup
 Sentry.init({

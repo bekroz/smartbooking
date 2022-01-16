@@ -39,6 +39,8 @@ import {
   getReservationNextPageDataSuccessAction,
   getReservationNextPageDataFailureAction,
   reservationLastPageReachedAction,
+  setReservationTypeChangeAction,
+  setReservationStatusChangeAction,
 } from './reservationActions';
 // Annual actions
 import {
@@ -62,7 +64,7 @@ import {
 import {
   getArrivalsDataRequestAction,
   getArrivalsDataSuccessAction,
-  getArrivalsDataFailureAction,
+  getArrivalsInitialDataFailureAction,
   getArrivalsNextPageDataRequestAction,
   getArrivalsNextPageDataSuccessAction,
   getArrivalsNextPageDataFailureAction,
@@ -72,7 +74,7 @@ import {
 
 // Date actions
 import {
-  setChosenDay,
+  setChosenDate,
   setChosenMonth,
   setChosenMonthRange,
   setChosenYear,
@@ -113,6 +115,8 @@ export {
   getReservationNextPageDataSuccessAction,
   getReservationNextPageDataFailureAction,
   reservationLastPageReachedAction,
+  setReservationTypeChangeAction,
+  setReservationStatusChangeAction,
   // Annual
   getAnnualDataRequestAction,
   getAnnualDataSuccessAction,
@@ -124,7 +128,7 @@ export {
   // Arrivals
   getArrivalsDataRequestAction,
   getArrivalsDataSuccessAction,
-  getArrivalsDataFailureAction,
+  getArrivalsInitialDataFailureAction,
   getArrivalsNextPageDataRequestAction,
   getArrivalsNextPageDataSuccessAction,
   getArrivalsNextPageDataFailureAction,
@@ -135,7 +139,7 @@ export {
   getComparisonDataSuccessAction,
   getComparisonDataFailureAction,
   // Date
-  setChosenDay,
+  setChosenDate,
   setChosenMonth,
   setChosenMonthRange,
   setChosenYear,

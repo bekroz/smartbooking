@@ -1,59 +1,61 @@
-const RESERVATION_STATUS = {
-  confirmed: 'confirmed',
-  inHouse: 'in_house',
-  checkOut: 'check_out',
-  canceled: 'canceled',
-  noShow: 'no_show',
-};
+import { SIZES } from '..';
 
-const RESERVATION_STATUS_LABEL = {
-  confirmed: 'Оплачено',
-  inHouse: 'В номере',
-  checkOut: 'Выехал',
-  canceled: 'Отменено',
-  noShow: 'Не заезд',
-};
-
-const RESERVATION_TYPE = {
-  checkin: 'type_checkin',
-  checkout: 'type_checkout',
-  booking: 'type_booking_date',
-  stay: 'type_stay_dates',
-};
-
-const RESERVATION_TYPE_LABEL = {
-  checkin: 'Заезд',
-  checkout: 'Выезд',
-  booking: 'Бронирование',
-  stay: 'Проживание',
-};
-
-const RESERVATION_TYPE_CAROUSEL = [
+const RESERVATION_STATUS = [
   {
-    status: 'checkins',
-    text: 'Заезды',
+    status: 'confirmed',
+    displayName: 'Оплачено',
   },
   {
-    status: 'checkouts',
-    text: 'Выезды',
+    status: 'in_house',
+    displayName: 'В номере',
   },
   {
-    status: 'stays',
-    text: 'Проживают',
+    status: 'check_out',
+    displayName: 'Выехал',
+  },
+  {
+    status: 'canceled',
+    displayName: 'Отменено',
+  },
+  {
+    status: 'no_show',
+    displayName: 'Не заезд',
   },
 ];
 
-const ARRIVALS_TYPE = {
-  arrived: 'arrived',
-  left: 'left',
-  living: 'living',
-};
+const RESERVATION_TYPE = [
+  {
+    status: 'type_checkin',
+    displayName: 'Заезд',
+  },
+  {
+    status: 'type_checkout',
+    displayName: 'Выезд',
+  },
+  {
+    status: 'type_booking_date',
+    displayName: 'Бронирование',
+  },
+  {
+    status: 'type_stay_dates',
+    displayName: 'Проживание',
+  },
+];
 
-const GUEST_TYPE = {
-  arrived: 'arrived',
-  left: 'left',
-  living: 'living',
-};
+const ARRIVALS_TYPE = [
+  {
+    status: 'arrived',
+    displayName: 'Заезды',
+  },
+  {
+    status: 'left',
+    displayName: 'Выезды',
+  },
+  {
+    status: 'living',
+    displayName: 'Проживают',
+  },
+];
 
 const SOURCE_TYPE = {
   channel: 'channel',
@@ -82,7 +84,21 @@ const COMPARISON_CARD_VALUES = [
 ];
 
 const YEARS_ARRAY = ['2019', '2020', '2021', '2022', '2023', '2024', '2025'];
-
+const WEEKDAYS_SHORT_ARRAY = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+const MONTHS_ARRAY = [
+  'Январь',
+  'Февраль',
+  'Март',
+  'Апрель',
+  'Май',
+  'Июнь',
+  'Июль',
+  'Август',
+  'Сентябрь',
+  'Октябрь',
+  'Ноябрь',
+  'Декабрь',
+];
 const SETTINGS_MENU_ARRAY = [
   'Мои гостиницы',
   'Отзывы гостей',
@@ -95,18 +111,26 @@ const SETTINGS_MENU_ARRAY = [
   'Питание',
 ];
 
+const ITEM_SIZE = 65;
+const ITEM_SPACING = (SIZES.width - ITEM_SIZE) / 2;
+const DAYS_ARRAY = [
+  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
+  23, 24, 25, 26, 27, 28, 29, 30, 31,
+];
+
 export {
   RESERVATION_TYPE,
-  RESERVATION_TYPE_LABEL,
-  RESERVATION_STATUS_LABEL,
   RESERVATION_STATUS,
   ARRIVALS_TYPE,
-  GUEST_TYPE,
   SOURCE_NAME,
   SOURCE_TYPE,
   SEGMENT_VALUES,
-  RESERVATION_TYPE_CAROUSEL,
   COMPARISON_CARD_VALUES,
   YEARS_ARRAY,
   SETTINGS_MENU_ARRAY,
+  MONTHS_ARRAY,
+  WEEKDAYS_SHORT_ARRAY,
+  ITEM_SIZE,
+  ITEM_SPACING,
+  DAYS_ARRAY,
 };

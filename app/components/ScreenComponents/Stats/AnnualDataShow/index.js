@@ -16,7 +16,7 @@ import { COLORS, POSITIONING, SIZES } from '../../../../constants';
 // Helpers
 import { numberWithSpaces } from '../../../../helpers';
 // Components
-import { SpaceForScroll } from '../../..';
+import { LoadingIndicator, SpaceForScroll } from '../../..';
 import FadeInView from '../../../FadeInView';
 import ColumnLineChart from '../ColumnLineChart';
 import YearPickerModal from '../YearPickerModal';
@@ -26,6 +26,8 @@ import { getAnnualDataMiddleware } from '../../../../redux/middlewares';
 
 const AnnualDataShow = ({ loading, annualData, chosenYear }) => {
   const [yearModalVisible, setYearModalVisible] = useState(false);
+  const [loadingFinished, setLoadingFinished] = useState(false);
+
   let refreshing = false;
   const toggleYearModal = () => {
     setYearModalVisible(!yearModalVisible);
@@ -36,9 +38,12 @@ const AnnualDataShow = ({ loading, annualData, chosenYear }) => {
   }, []);
 
   useEffect(() => {
+    setLoadingFinished(false);
     getAnnualDataMiddleware();
+    setTimeout(() => {
+      setLoadingFinished(true);
+    }, 2000);
   }, []);
-
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -65,16 +70,31 @@ const AnnualDataShow = ({ loading, annualData, chosenYear }) => {
       {/* Chart and Line Graph View */}
       <View
         style={{
+          flex: 1,
           marginBottom: 15,
-          maxWidth: SIZES.width,
+          width: SIZES.width,
           height: 140,
+          // backgroundColor: 'red',
+          opacity: 1,
+          justifyContent: 'center',
+          // alignContent: 'center',
+          // alignItems: 'center',
+          overflow: 'scroll',
+          flexGrow: 2,
+          flexWrap: 'wrap',
         }}>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          containerStyle={styles.columnLineChartScrollViewContainer}>
-          <ColumnLineChart annualData={annualData} />
-        </ScrollView>
+        <ColumnLineChart data={annualData} />
+        <View
+          style={{
+            position: 'absolute',
+            width: SIZES.width,
+            height: 140,
+            backgroundColor: COLORS.darkBackground,
+            opacity: loadingFinished ? 0 : 1,
+            justifyContent: 'center',
+          }}>
+          <ActivityIndicator top={0} />
+        </View>
       </View>
       <Divider
         orientation="horizontal"
@@ -205,6 +225,7 @@ const styles = StyleSheet.create({
   },
   columnLineChartScrollViewContainer: {
     ...POSITIONING.justify,
+    backgroundColor: 'red',
   },
   chosenYearButton: {
     backgroundColor: '#2E3641',

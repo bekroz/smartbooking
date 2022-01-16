@@ -39,7 +39,11 @@ import {
   getArrivalsDataMiddleware,
   getArrivalsNextPageDataMiddleware,
 } from '../../../redux/middlewares';
-import { setUserChosenHotelIDAction } from '../../../redux/actions';
+import {
+  closeHotelModalAction,
+  setUserChosenHotelIDAction,
+  showHotelModalToChooseAction,
+} from '../../../redux/actions';
 
 const ArrivalsScreen = ({
   navigation,
@@ -52,18 +56,17 @@ const ArrivalsScreen = ({
   hotelModalVisible,
   hotelList,
   hotelID,
-  dismissHotelModal,
+  activeIndex,
 }) => {
   // Button Press handlers
+
   const dispatch = useDispatch();
 
-  const handleChosenHotel = updatedHotel => {
-    if (typeof updatedHotel !== 'undefined' && updatedHotel !== null) {
-      dispatch(setUserChosenHotelIDAction(updatedHotel));
-      dismissHotelModal(updatedHotel);
-      onPullToRefresh();
+  const dismissHotelModal = updatedHotel => {
+    if (updatedHotel) {
+      dispatch(closeHotelModalAction());
     } else {
-      alert('Hotel not found. Please, try again later');
+      return null;
     }
   };
 
@@ -71,8 +74,14 @@ const ArrivalsScreen = ({
     getArrivalsDataMiddleware();
   }, []);
 
-  useEffect(() => {
+  const onHotelChange = updatedHotel => {
+    dispatch(setUserChosenHotelIDAction(updatedHotel));
+    dispatch(closeHotelModalAction());
     onPullToRefresh();
+  };
+
+  useEffect(() => {
+    getArrivalsDataMiddleware();
   }, []);
 
   let refreshing = false;
@@ -90,18 +99,20 @@ const ArrivalsScreen = ({
         <View style={styles.topBarContainer}>
           <GoBackButton navigation={navigation} />
           <HotelNameBar
-            onPress={e => dismissHotelModal(e)}
+            onPress={e => dispatch(showHotelModalToChooseAction())}
             hotelName={initialLoading ? 'Загружается...' : hotelName}
           />
         </View>
         <View style={styles.carouselsContainer}>
           <View style={{ backgroundColor: 'yellow', marginBottom: 40 }}>
             <StatusCarousel
+              activeIndex={activeIndex}
               indicatorNumber={initialLoading ? 0 : arrivalsLength}
+              refresh={onPullToRefresh}
             />
           </View>
           <View>
-            <DayCarousel showDay={chosenDay} />
+            <DayCarousel shownDay={chosenDay} />
           </View>
         </View>
         {/* Card Container */}
@@ -115,7 +126,7 @@ const ArrivalsScreen = ({
           contentContainerStyle={styles.list}>
           {initialLoading
             ? null
-            : arrivalsData.map(
+            : arrivalsData?.map(
                 (
                   {
                     checkin,
@@ -141,11 +152,15 @@ const ArrivalsScreen = ({
                           alignSelf: 'flex-start',
                           left: -15,
                         }}>
-                        {arrivalsType === 'arrived' && (
+                        {arrivalsType.status === 'arrived' && (
                           <GreenLineIndicatorSvg />
                         )}
-                        {arrivalsType === 'left' && <YellowLineIndicatorSvg />}
-                        {arrivalsType === 'living' && <BlueLineIndicatorSvg />}
+                        {arrivalsType.status === 'left' && (
+                          <YellowLineIndicatorSvg />
+                        )}
+                        {arrivalsType.status === 'living' && (
+                          <BlueLineIndicatorSvg />
+                        )}
                       </View>
                       <View
                         style={{
@@ -254,13 +269,13 @@ const ArrivalsScreen = ({
                                 fontWeight: SIZES.fontWeight2,
                                 marginBottom: 4,
                               }}>
-                              {guests[0].first_name} {guests[0].last_name}
+                              {guests[0]?.first_name} {guests[0]?.last_name}
                             </Text>
                             <Text
                               style={{ color: COLORS.white, marginBottom: 4 }}>
                               {room
-                                ? dottedTruncator(roomType.name, 18)
-                                : roomType.short_name}
+                                ? dottedTruncator(roomType?.name, 18)
+                                : roomType?.short_name}
                             </Text>
                             <Text
                               style={{
@@ -269,8 +284,8 @@ const ArrivalsScreen = ({
                                 marginBottom: 18,
                               }}>
                               {room
-                                ? dottedTruncator(room.name, 15)
-                                : dottedTruncator(roomType.name, 15)}
+                                ? dottedTruncator(room?.name, 15)
+                                : dottedTruncator(roomType?.name, 15)}
                             </Text>
                             <Text
                               style={[
@@ -297,7 +312,7 @@ const ArrivalsScreen = ({
           visible={hotelModalVisible}
           onTouchOutside={e => dismissHotelModal(e)}
           onQuitPress={e => dismissHotelModal(e)}
-          onHotelChosen={handleChosenHotel}
+          onHotelChosen={onHotelChange}
           hotelList={hotelList}
           chosenHotelID={hotelID}
         />
@@ -421,8 +436,13 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps({ arrivalsReducer, hotelReducer, dateReducer }) {
-  const { initialLoading, arrivalsData, arrivalsType, arrivalsLength } =
-    arrivalsReducer;
+  const {
+    initialLoading,
+    arrivalsData,
+    arrivalsType,
+    arrivalsLength,
+    activeIndex,
+  } = arrivalsReducer;
   const { hotelName, hotelList, hotelID } = hotelReducer;
   const { chosenDay } = dateReducer;
   return {
@@ -430,6 +450,7 @@ function mapStateToProps({ arrivalsReducer, hotelReducer, dateReducer }) {
     arrivalsData,
     arrivalsType,
     arrivalsLength,
+    activeIndex,
     hotelName,
     chosenDay,
     hotelList,

@@ -1,23 +1,26 @@
 import { DATE } from '../types';
 
-const setChosenDay = chosenDay => {
+const setChosenDate = chosenDate => {
   return {
-    type: DATE.CHOSEN_DAY,
-    payload: chosenDay,
+    type: DATE.CHOSEN_DATE,
+    payload: chosenDate,
   };
 };
 
 const setChosenMonth = chosenMonth => {
   return {
-    type: DATE.CHOSEN_MONTH_RANGE,
+    type: DATE.CHOSEN_MONTH,
     payload: chosenMonth,
   };
 };
 
-const setChosenMonthRange = chosenMonthRange => {
+const setChosenMonthRange = (formattedStartDate, formattedEndDate) => {
   return {
     type: DATE.CHOSEN_MONTH_RANGE,
-    payload: chosenMonthRange,
+    payload: {
+      chosenStartDate: formattedStartDate,
+      chosenEndDate: formattedEndDate,
+    },
   };
 };
 
@@ -28,4 +31,4 @@ const setChosenYear = chosenYear => {
   };
 };
 
-export { setChosenDay, setChosenMonth, setChosenMonthRange, setChosenYear };
+export { setChosenDate, setChosenMonth, setChosenMonthRange, setChosenYear };

@@ -1,36 +1,18 @@
 import React from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import FusionCharts from 'react-native-fusioncharts';
-import { getMonthNameShort } from '../../../../helpers';
+import { getMonthNameShort, numberWithSpaces } from '../../../../helpers';
 import { COLORS, SIZES } from '../../../../constants';
 import { COLOR_PALETTE } from '../../../../constants';
 
 const BarChart = ({ channelsData }) => {
   const barData = channelsData?.map(monthData => {
-    const { source_name, revenue } = monthData;
-
+    const { revenue } = monthData;
     return {
-      // label: getMonthNameShort(month),
-      // displayValue: "Year's best",
       value: revenue,
-      displayValue: `${revenue} UZS`,
-      // {numberWithSpaces(channel.average_revenue)} {channel.source_name}
+      displayValue: `${numberWithSpaces(revenue)} UZS`,
     };
   });
-
-  // {
-  //   channelsData?.map((channel, index) => (
-  //     <>
-  //       <View style={styles.dotBlock} key={index}>
-  //         {channel.source_name === 'От стойки' && <LineView lineWidth={100} />}
-
-  //         <Text style={{ color: COLORS.white }}>
-  //           {numberWithSpaces(channel.average_revenue)} {channel.source_name}
-  //         </Text>
-  //       </View>
-  //     </>
-  //   ));
-  // }
 
   const chartDataConfig = {
     chart: {
@@ -75,7 +57,7 @@ const BarChart = ({ channelsData }) => {
     <View style={styles.container}>
       <FusionCharts
         type="bar2d"
-        width={'300'}
+        width={SIZES.width}
         height={230}
         dataFormat="json"
         dataSource={chartDataConfig}
@@ -89,7 +71,7 @@ const BarChart = ({ channelsData }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    right: 15,
+    right: 10,
   },
 });
 

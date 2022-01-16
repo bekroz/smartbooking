@@ -53,6 +53,7 @@ const AuthStack = () => {
       <Stack.Screen name="TermsScreen" component={TermsScreen} />
       <Stack.Screen name="NoFoundScreen" component={NoFoundScreen} />
       <Stack.Screen name="TabNavigator" component={TabNavigator} />
+      <Stack.Screen name="ReservationScreen" component={ReservationScreen} />
     </Stack.Navigator>
   );
 };

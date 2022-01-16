@@ -1,11 +1,16 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { COLORS } from '../../../../constants';
+import { COLORS, COLOR_PALETTE } from '../../../../constants';
 
-const DotView = ({ sourceName }) => {
+const DotView = ({ sourceName, colorIndex }) => {
   return (
     <View style={styles.dotBlock}>
-      <View style={[styles.dotStyle, { backgroundColor: COLORS.blueCircle }]} />
+      <View
+        style={[
+          styles.dotStyle,
+          { backgroundColor: COLOR_PALETTE[colorIndex] },
+        ]}
+      />
       <Text style={{ color: COLORS.white }}>{sourceName}</Text>
     </View>
   );

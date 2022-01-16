@@ -19,7 +19,7 @@ async function getReservationInitialDataMiddleware() {
       }
       const data = {
         reservationData: response.data,
-        pageIndex: response.meta.current_page,
+        pageIndex: 2,
         reservationLength: response.meta.total,
       };
       store.dispatch(getReservationInitialDataSuccessAction(data));

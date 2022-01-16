@@ -1,5 +1,5 @@
 import { RESERVATION } from '../types';
-import { RESERVATION_STATUS, RESERVATION_TYPE } from '../../constants';
+import { RESERVATION_TYPE, RESERVATION_STATUS } from '../../constants';
 
 const initialState = {
   initialLoading: true,
@@ -8,8 +8,8 @@ const initialState = {
   reservationLength: 0,
   pageIndex: 1,
   isLastPage: false,
-  reservationStatus: RESERVATION_STATUS.confirmed,
-  reservationType: RESERVATION_TYPE.checkin,
+  reservationStatus: RESERVATION_STATUS[0],
+  reservationType: RESERVATION_TYPE[0],
   error: null,
 };
 
@@ -81,12 +81,12 @@ const reservationReducer = (state = initialState, action) => {
         ...state,
         reservationStatus: action.payload,
       };
-    // Reservation search type change
     case RESERVATION.TYPE_CHANGE:
       return {
         ...state,
         reservationType: action.payload,
       };
+
     default:
       return state;
   }

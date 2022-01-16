@@ -30,8 +30,9 @@ async function setHotelIDMiddleware() {
       hotelName: hotelList[0].name,
     };
     store.dispatch(setDefaultHotelIDAction(defaultHotel));
+    return hotelID;
   } else {
-    store.dispatch(noHotelFoundAction());
+    return null;
   }
 }
 

@@ -9,22 +9,22 @@ import {
   POSITIONING,
 } from '../../../../constants';
 
-const ColumnLineChart = ({ annualData }) => {
-  const columnData = annualData?.map(monthData => {
+const ColumnLineChart = ({ data }) => {
+  const columnData = data?.map(monthData => {
     const { revenue } = monthData;
     return {
       // label: getMonthNameShort(month),
       value: revenue,
     };
   });
-  const lineData = annualData?.map(anchor => {
+  const lineData = data?.map(anchor => {
     const { reserved } = anchor;
     return {
       value: reserved,
     };
   });
 
-  const months = annualData?.map(anchor => {
+  const months = data?.map(anchor => {
     const { month } = anchor;
     return {
       label: month,
@@ -66,7 +66,7 @@ const ColumnLineChart = ({ annualData }) => {
       divLineAlpha: 20,
       divLineThickness: 1,
       numDivLines: 4,
-      zeroPlaneThickness: 1,
+      zeroPlaneThickness: 10,
       scrollColor: COLORS.darkBackground,
       scrollPosition: 'top',
     },
@@ -97,25 +97,18 @@ const ColumnLineChart = ({ annualData }) => {
     ios: require('../../../../../assets/fusioncharts.html'),
   });
   return (
-    <View style={styles.container}>
-      <FusionCharts
-        type="scrollcombidy2d"
-        width={SIZES.width}
-        height={225}
-        dataFormat="json"
-        dataSource={chartDataConfig}
-        libraryPath={libraryPath} // set the libraryPath property
-        setChartData={chartDataConfig.dataset}
-      />
-    </View>
+    <FusionCharts
+      type="scrollcombidy2d"
+      width={SIZES.width}
+      height={225}
+      dataFormat="json"
+      dataSource={chartDataConfig}
+      libraryPath={libraryPath} // set the libraryPath property
+      setChartData={chartDataConfig.dataset}
+    />
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    ...POSITIONING.center,
-  },
-});
+const styles = StyleSheet.create({});
 
 export default ColumnLineChart;

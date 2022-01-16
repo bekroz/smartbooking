@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   View,
   Text,
@@ -14,7 +14,13 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/ru';
 import { connect, useDispatch } from 'react-redux';
 // Theme
-import { COLORS, POSITIONING, SIZES } from '../../../constants';
+import {
+  COLORS,
+  POSITIONING,
+  RESERVATION_STATUS,
+  RESERVATION_TYPE,
+  SIZES,
+} from '../../../constants';
 // Icons
 import { MoonSvg, PersonSvg } from '../../../assets/icons/SvgIcons';
 // Components
@@ -28,16 +34,26 @@ import {
   BottomLoaderButton,
   FadeInView,
   NoDataToShow,
+  CalendarModal,
+  UniversalModal,
 } from '../../../components';
 // Helpers
-import { dottedTruncator, numberWithSpaces } from '../../../helpers';
+import {
+  capitalize,
+  dottedTruncator,
+  numberWithSpaces,
+} from '../../../helpers';
 // Redux
 
 import {
   getReservationInitialDataMiddleware,
   getReservationNextPageDataMiddleware,
 } from '../../../redux/middlewares';
-import { reservationDataCleanUpAction } from '../../../redux/actions';
+import {
+  reservationDataCleanUpAction,
+  setReservationTypeChangeAction,
+  setReservationStatusChangeAction,
+} from '../../../redux/actions';
 
 const ReservationScreen = ({
   navigation,
@@ -46,11 +62,48 @@ const ReservationScreen = ({
   reservationData,
   isLastPage,
   reservationLength,
-  chosenMonthRange,
+  chosenStartDate,
+  chosenEndDate,
   reservationStatus,
   reservationType,
 }) => {
   const dispatch = useDispatch();
+  const [calendarModalVisible, setCalendarModalVisible] = useState(false);
+  const [statusModalVisible, setStatusModalVisible] = useState(false);
+  const [typeModalVisible, setTypeModalVisible] = useState(false);
+
+  const openCalendarModal = () => {
+    setCalendarModalVisible(true);
+  };
+  const closeCalendarModal = () => {
+    setCalendarModalVisible(false);
+  };
+
+  const openStatusModal = () => {
+    setStatusModalVisible(true);
+  };
+  const closeStatusModal = () => {
+    setStatusModalVisible(false);
+  };
+
+  const openTypeModal = () => {
+    setTypeModalVisible(true);
+  };
+  const closeTypeModal = () => {
+    setTypeModalVisible(false);
+  };
+
+  const onStatusSelection = updatedStatus => {
+    closeStatusModal();
+    dispatch(setReservationStatusChangeAction(updatedStatus));
+    getReservationInitialDataMiddleware();
+  };
+
+  const onTypeSelection = updatedType => {
+    closeTypeModal();
+    dispatch(setReservationTypeChangeAction(updatedType));
+    getReservationInitialDataMiddleware();
+  };
 
   const onPullToRefresh = useCallback(() => {
     getReservationInitialDataMiddleware();
@@ -60,7 +113,7 @@ const ReservationScreen = ({
     navigation.addListener('focus', () => {
       getReservationInitialDataMiddleware();
     });
-  }, [navigation]);
+  }, []);
 
   useEffect(() => {
     navigation.addListener('blur', () => {
@@ -70,10 +123,9 @@ const ReservationScreen = ({
 
   let refreshing = false;
 
-  const monthStart = dayjs(chosenMonthRange.startDate)
-    .locale('ru')
-    .format('D MMM');
-  const monthEnd = dayjs(chosenMonthRange.endDate).locale('ru').format('D MMM');
+  const monthStart = dayjs(chosenStartDate).locale('ru').format('D MMM');
+  const monthEnd = dayjs(chosenEndDate).locale('ru').format('D MMM');
+
   return (
     <SafeAreaView style={styles.container}>
       <View>
@@ -82,13 +134,21 @@ const ReservationScreen = ({
         </View>
         <View>
           <View style={styles.topBarButtonsContainer}>
-            <TouchableOpacity style={styles.topBarBtn}>
-              <Text style={styles.topBarText}>{reservationStatus}</Text>
+            <TouchableOpacity
+              style={styles.topBarBtn}
+              onPress={openStatusModal}>
+              <Text style={styles.topBarText}>
+                {reservationStatus.displayName}
+              </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.topBarBtn}>
-              <Text style={styles.topBarText}>{reservationType}</Text>
+            <TouchableOpacity style={styles.topBarBtn} onPress={openTypeModal}>
+              <Text style={styles.topBarText}>
+                {reservationType.displayName}
+              </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.topBarBtn}>
+            <TouchableOpacity
+              style={styles.topBarBtn}
+              onPress={openCalendarModal}>
               <Text style={styles.topBarText}>
                 {monthStart} - {monthEnd}
               </Text>
@@ -244,6 +304,32 @@ const ReservationScreen = ({
           <SpaceForScroll />
         </ScrollView>
       </View>
+      <CalendarModal
+        isVisible={calendarModalVisible}
+        open={openCalendarModal}
+        close={closeCalendarModal}
+        startDate={chosenStartDate}
+        endDate={chosenEndDate}
+        refreshData={onPullToRefresh}
+      />
+      <UniversalModal
+        visible={statusModalVisible}
+        onTouchOutside={closeStatusModal}
+        onQuitPress={closeStatusModal}
+        onItemSelection={onStatusSelection}
+        data={RESERVATION_STATUS}
+        defaultChosenItem={reservationStatus}
+        menuTitle={'Статус'}
+      />
+      <UniversalModal
+        visible={typeModalVisible}
+        onTouchOutside={closeTypeModal}
+        onQuitPress={closeTypeModal}
+        onItemSelection={onTypeSelection}
+        data={RESERVATION_TYPE}
+        defaultChosenItem={reservationType}
+        menuTitle={'Дата'}
+      />
     </SafeAreaView>
   );
 };
@@ -260,7 +346,7 @@ function mapStateToProps({ reservationReducer, hotelReducer, dateReducer }) {
     reservationType,
   } = reservationReducer;
   const { hotelList, hotelID } = hotelReducer;
-  const { chosenMonthRange } = dateReducer;
+  const { chosenStartDate, chosenEndDate } = dateReducer;
 
   return {
     initialLoading,
@@ -271,7 +357,8 @@ function mapStateToProps({ reservationReducer, hotelReducer, dateReducer }) {
     reservationLength,
     hotelList,
     hotelID,
-    chosenMonthRange,
+    chosenStartDate,
+    chosenEndDate,
     reservationStatus,
     reservationType,
   };
@@ -298,28 +385,24 @@ const styles = StyleSheet.create({
   },
   topBarButtonsContainer: {
     flexDirection: 'row',
-    margin: 10,
+    marginTop: 10,
     height: 50,
     width: SIZES.width,
-    ...POSITIONING.justify,
+    ...POSITIONING.center,
   },
   topBarBtn: {
     backgroundColor: '#292F3A',
     borderRadius: 5,
-    borderColor: '#5F85DB',
+    borderColor: COLORS.blue,
     borderWidth: 0.167,
     height: 40,
     width: 114,
-    marginTop: 10,
-    marginRight: 10,
+    margin: 5,
     ...POSITIONING.center,
   },
   topBarText: {
-    // fontFamily: 'SF Pro Display',
-    fontStyle: 'normal',
-    fontWeight: '500',
+    fontWeight: SIZES.fontWeight1,
     fontSize: 13,
-    textAlign: 'center',
     color: COLORS.white,
   },
   reservationsNumberContainer: {
@@ -331,8 +414,8 @@ const styles = StyleSheet.create({
     color: COLORS.grayText,
   },
   card: {
-    backgroundColor: '#212831',
-    borderColor: '#212831',
+    backgroundColor: COLORS.grayPlaceholder,
+    borderColor: COLORS.grayPlaceholder,
     height: 167,
     width: SIZES.width,
     flexDirection: 'row',
@@ -341,11 +424,11 @@ const styles = StyleSheet.create({
     marginRight: 20,
   },
   cardLeftSideContent: {
-    alignItems: 'center',
+    ...POSITIONING.align,
   },
   dateContainer: {
     marginBottom: 15,
-    alignItems: 'center',
+    ...POSITIONING.align,
   },
   dateDescriptionContainer: {
     marginBottom: 3,

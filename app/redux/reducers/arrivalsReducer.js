@@ -10,6 +10,7 @@ const initialState = {
   arrivalsType: null,
   noData: false,
   error: null,
+  activeIndex: 0,
 };
 
 const arrivalsReducer = (state = initialState, action) => {
@@ -17,8 +18,8 @@ const arrivalsReducer = (state = initialState, action) => {
     case ARRIVALS.DATA_REQUEST:
       return {
         ...initialState,
-        arrivalsType: action.payload,
-        ...state,
+        arrivalsType: action.payload.arrivalsType,
+        activeIndex: action.payload.activeIndex,
         pageIndex: 1,
         initialLoading: true,
         nextPageLoading: false,

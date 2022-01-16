@@ -1,7 +1,7 @@
 import {
   getArrivalsDataRequestAction,
   getArrivalsDataSuccessAction,
-  getArrivalsDataFailureAction,
+  getArrivalsInitialDataFailureAction,
   getArrivalsNextPageDataRequestAction,
   getArrivalsNextPageDataSuccessAction,
   getArrivalsNextPageDataFailureAction,
@@ -22,7 +22,7 @@ async function getArrivalsDataMiddleware() {
       store.dispatch(getArrivalsDataSuccessAction(data));
     });
   } catch (error) {
-    store.dispatch(getArrivalsDataFailureAction(error));
+    store.dispatch(getArrivalsInitialDataFailureAction(error));
     console.error(error);
   }
 }
